@@ -1,11 +1,22 @@
 <resources>
     <string name="app_name">Block</string>
     <string name="login">Login</string>
-    <string name="login_hint">Enter the username/e-mail</string>
-    <string name="password_hint">Enter the password</string>
+    <string name="login_hint">Enter username/e-mail</string>
+    <string name="password_hint">Enter password</string>
     <string name="password_visible_content_description">Hide password</string>
-    <string name="password_hidden_content_description">Show Password</string>
+    <string name="password_hidden_content_description">Show password</string>
     <string name="register_an_account">Register an account here</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="email_icon">Email-Icon</string>
+    <string name="sign_up">Sign up</string>
+    <string name="email_icon">Email Icon</string>
+    <string name="register">Register</string>
+    <string name="email_hint">Enter e-mail</string>
+    <string name="this_field_cant_be_empty">Empty input</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="clear_text">Clear text</string>
+    <string name="username_hint">Enter username</string>
+    <string name="username_too_short">Username is too short</string>
+    <string name="user_icon">User icon</string>
+    <string name="password_too_short">Password is too short</string>
+    <string name="invalid_password">Invalid password</string>
+    <string name="password_icon">Password icon</string>
 </resources>

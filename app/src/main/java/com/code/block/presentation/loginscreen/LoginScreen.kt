@@ -3,8 +3,12 @@ package com.code.block.presentation.loginscreen
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.Button
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +24,7 @@ import com.code.block.presentation.components.StandardTextField
 import com.code.block.presentation.destinations.LoginScreenDestination
 import com.code.block.presentation.destinations.MainFeedScreenDestination
 import com.code.block.presentation.destinations.RegisterScreenDestination
+import com.code.block.ui.theme.IconSizeMedium
 import com.code.block.ui.theme.SpaceLarge
 import com.code.block.ui.theme.SpaceMedium
 import com.ramcosta.composedestinations.annotation.Destination
@@ -54,6 +59,7 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(SpaceMedium))
 
+            // Username/E-mail Input
             StandardTextField(
                 text = viewModel.state.usernameText,
                 onValueChange = {
@@ -66,12 +72,21 @@ fun LoginScreen(
                         style = MaterialTheme.typography.body1
                     )
                 },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Email,
+                        contentDescription = stringResource(R.string.email_icon),
+                        tint = MaterialTheme.colors.onBackground,
+                        modifier = Modifier.size(IconSizeMedium)
+                    )
+                },
                 keyboardType = KeyboardType.Email,
                 error = viewModel.state.usernameError
             )
 
             Spacer(modifier = Modifier.height(SpaceMedium))
 
+            // Password Input
             StandardTextField(
                 text = viewModel.state.passwordText,
                 onValueChange = {
@@ -82,6 +97,14 @@ fun LoginScreen(
                     Text(
                         text = "Password",
                         style = MaterialTheme.typography.body1
+                    )
+                },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Lock,
+                        contentDescription = stringResource(R.string.password_icon),
+                        tint = MaterialTheme.colors.onBackground,
+                        modifier = Modifier.size(IconSizeMedium)
                     )
                 },
                 keyboardType = KeyboardType.Password,

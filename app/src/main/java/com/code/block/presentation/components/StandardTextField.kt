@@ -2,7 +2,6 @@ package com.code.block.presentation.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
@@ -26,7 +24,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.code.block.R
-import com.code.block.ui.theme.IconSizeMedium
+import com.code.block.utils.Constants
 import com.code.block.utils.TestTags
 
 @Composable
@@ -42,8 +40,10 @@ fun StandardTextField(
     ),
     singleLin: Boolean = true,
     maxLines: Int = 1,
-    leadingIcon: ImageVector? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
+    isRegisterPage: Boolean = Constants.LOGIN_PAGE,
     isPasswordToggleDisplayed: Boolean = keyboardType == KeyboardType.Password,
     isPasswordVisible: Boolean = false,
     onPasswordToggleClick: (Boolean) -> Unit = {},
@@ -93,27 +93,8 @@ fun StandardTextField(
                 VisualTransformation.None
             },
             singleLine = singleLin,
-            leadingIcon = if (leadingIcon == null) {
-                val icon: @Composable () -> Unit = {
-                    if (!isPasswordToggleDisplayed) {
-                        Icon(
-                            imageVector = Icons.Default.Email,
-                            contentDescription = stringResource(R.string.email_icon),
-                            tint = MaterialTheme.colors.onBackground,
-                            modifier = Modifier.size(IconSizeMedium)
-                        )
-                    } else {
-                        Icon(
-                            imageVector = Icons.Default.Lock,
-                            contentDescription = stringResource(R.string.email_icon),
-                            tint = MaterialTheme.colors.onBackground,
-                            modifier = Modifier.size(IconSizeMedium)
-                        )
-                    }
-                }
-                icon
-            } else null,
-            trailingIcon = if (isPasswordToggleDisplayed) {
+            leadingIcon = leadingIcon,
+            trailingIcon = if (isPasswordToggleDisplayed && trailingIcon == null) {
                 val icon: @Composable () -> Unit = {
                     IconButton(
                         onClick = {
@@ -140,7 +121,7 @@ fun StandardTextField(
                     }
                 }
                 icon
-            } else null,
+            } else trailingIcon,
             modifier = Modifier
                 .fillMaxWidth()
                 .semantics {
@@ -148,21 +129,23 @@ fun StandardTextField(
                 }
         )
 
-//        Text(text = "${text.length} / $maxLength",
-//            textAlign = TextAlign.End,
-//            color = MaterialTheme.colors.onBackground,
-//            style = MaterialTheme.typography.caption,
-//            modifier = Modifier.fillMaxWidth()
-//            )
+        if (isRegisterPage) {
+            Text(
+                text = "${text.length} / $maxLength",
+                textAlign = TextAlign.End,
+                color = MaterialTheme.colors.onBackground,
+                style = MaterialTheme.typography.body2,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
 
         if (error.isNotEmpty()) {
             Text(
                 text = error,
                 style = MaterialTheme.typography.body2,
                 color = MaterialTheme.colors.error,
-                textAlign = TextAlign.End,
-                modifier = Modifier
-                    .fillMaxWidth()
+                textAlign = TextAlign.Start,
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }

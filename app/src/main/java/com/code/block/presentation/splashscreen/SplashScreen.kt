@@ -49,7 +49,7 @@ fun SplashScreen(
                     }
                 )
             )
-            delay(Constants.DELAY)
+            delay(Constants.SPLASH_SCREEN_DELAY)
             navigator.navigate(LoginScreenDestination) {
                 popUpTo(SplashScreenDestination.route) {
                     inclusive = true
