@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Block</string>
+    <string name="login">Login</string>
+    <string name="login_hint">Enter the username/e-mail</string>
+    <string name="password_hint">Enter the password</string>
+    <string name="password_visible_content_description">Hide password</string>
+    <string name="password_hidden_content_description">Show Password</string>
+    <string name="register_an_account">Register an account here</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="email_icon">Email-Icon</string>
+</resources>
