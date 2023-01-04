@@ -2,13 +2,11 @@ package com.code.block.presentation.loginscreen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +34,8 @@ fun LoginScreen(
     navigator: DestinationsNavigator,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val state = viewModel.state
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -59,19 +59,29 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(SpaceMedium))
 
-            // Username/E-mail Input
+            // E-mail Input
             StandardTextField(
-                text = viewModel.state.usernameText,
+                text = state.value.emailText,
                 onValueChange = {
-                    viewModel.setUsernameText(it)
+                    viewModel.onEvent(LoginEvent.EnteredEmail(it))
                 },
-                hint = stringResource(id = R.string.login_hint),
+                hint = stringResource(id = R.string.email_hint),
                 label = {
                     Text(
-                        text = "Username/E-mail",
+                        text = stringResource(id = R.string.email_label),
                         style = MaterialTheme.typography.body1
                     )
                 },
+                error = when (state.value.emailError) {
+                    is LoginState.EmailError.FieldEmpty -> {
+                        stringResource(id = R.string.this_field_cant_be_empty)
+                    }
+                    is LoginState.EmailError.InvalidEmail -> {
+                        stringResource(id = R.string.invalid_email)
+                    }
+                    else -> ""
+                },
+                keyboardType = KeyboardType.Email,
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Email,
@@ -80,25 +90,49 @@ fun LoginScreen(
                         modifier = Modifier.size(IconSizeMedium)
                     )
                 },
-                keyboardType = KeyboardType.Email,
-                error = viewModel.state.usernameError
+                trailingIcon = {
+                    if (state.value.emailText.isNotEmpty()) {
+                        IconButton(
+                            onClick = {
+                                viewModel.onEvent(LoginEvent.ClearEmail)
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Close,
+                                contentDescription = stringResource(id = R.string.clear_text),
+                                tint = MaterialTheme.colors.onBackground,
+                                modifier = Modifier.size(IconSizeMedium)
+                            )
+                        }
+                    }
+                }
             )
 
             Spacer(modifier = Modifier.height(SpaceMedium))
 
             // Password Input
             StandardTextField(
-                text = viewModel.state.passwordText,
+                text = state.value.passwordText,
                 onValueChange = {
-                    viewModel.setPasswordText(it)
+                    viewModel.onEvent(LoginEvent.EnteredPassword(it))
                 },
                 hint = stringResource(id = R.string.password_hint),
                 label = {
                     Text(
-                        text = "Password",
+                        text = stringResource(id = R.string.password_label),
                         style = MaterialTheme.typography.body1
                     )
                 },
+                error = when (state.value.passwordError) {
+                    is LoginState.PasswordError.FieldEmpty -> {
+                        stringResource(id = R.string.this_field_cant_be_empty)
+                    }
+                    is LoginState.PasswordError.InvalidPassword -> {
+                        stringResource(id = R.string.login_invalid_password)
+                    }
+                    else -> ""
+                },
+                keyboardType = KeyboardType.Password,
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Lock,
@@ -107,11 +141,9 @@ fun LoginScreen(
                         modifier = Modifier.size(IconSizeMedium)
                     )
                 },
-                keyboardType = KeyboardType.Password,
-                error = viewModel.state.passwordError,
-                isPasswordVisible = viewModel.state.showPassword,
+                isPasswordVisible = state.value.isPasswordVisible,
                 onPasswordToggleClick = {
-                    viewModel.setShowPassword(it)
+                    viewModel.onEvent(LoginEvent.TogglePasswordVisibility)
                 }
             )
 
@@ -121,9 +153,15 @@ fun LoginScreen(
                 modifier = Modifier
                     .align(Alignment.End),
                 onClick = {
-                    navigator.navigate(MainFeedScreenDestination) {
-                        popUpTo(LoginScreenDestination.route) {
-                            inclusive = true
+                    viewModel.onEvent(LoginEvent.Login)
+                    if (
+                        state.value.passwordError == null && state.value.emailError == null &&
+                        !state.value.authError
+                    ) {
+                        navigator.navigate(MainFeedScreenDestination) {
+                            popUpTo(LoginScreenDestination.route) {
+                                inclusive = true
+                            }
                         }
                     }
                 }

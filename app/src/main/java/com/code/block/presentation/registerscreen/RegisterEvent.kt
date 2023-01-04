@@ -6,7 +6,6 @@ sealed class RegisterEvent {
     data class EnteredPassword(val password: String) : RegisterEvent()
     object ClearUsername : RegisterEvent()
     object ClearEmail : RegisterEvent()
-    object ClearPassword : RegisterEvent()
     object TogglePasswordVisibility : RegisterEvent()
     object Register : RegisterEvent()
 }

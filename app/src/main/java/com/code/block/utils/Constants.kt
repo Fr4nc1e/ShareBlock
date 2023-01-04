@@ -6,4 +6,6 @@ object Constants {
     const val MIN_PASSWORD_LENGTH = 6
     const val LOGIN_PAGE = false
     const val REGISTER_PAGE = true
+    const val TEST_EMAIL = "940567715@gmail.com"
+    const val TEST_PASSWORD = "A123456"
 }

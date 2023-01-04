@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.R
 import com.code.block.presentation.components.StandardTextField
+import com.code.block.presentation.destinations.MainFeedScreenDestination
+import com.code.block.presentation.destinations.RegisterScreenDestination
 import com.code.block.ui.theme.IconSizeMedium
 import com.code.block.ui.theme.SpaceLarge
 import com.code.block.ui.theme.SpaceMedium
@@ -62,7 +64,10 @@ fun RegisterScreen(
                 },
                 hint = stringResource(id = R.string.email_hint),
                 label = {
-                    Text(text = stringResource(id = R.string.email_hint))
+                    Text(
+                        text = stringResource(id = R.string.email_label),
+                        style = MaterialTheme.typography.body1
+                    )
                 },
                 error = when (state.value.emailError) {
                     is RegisterState.EmailError.FieldEmpty -> {
@@ -109,7 +114,7 @@ fun RegisterScreen(
                 },
                 hint = stringResource(id = R.string.username_hint),
                 label = {
-                    Text(text = stringResource(id = R.string.username_hint))
+                    Text(text = stringResource(id = R.string.username_label))
                 },
                 error = when (state.value.usernameError) {
                     is RegisterState.UsernameError.FieldEmpty -> {
@@ -120,7 +125,6 @@ fun RegisterScreen(
                     }
                     else -> ""
                 },
-                keyboardType = KeyboardType.Password,
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Person,
@@ -156,7 +160,10 @@ fun RegisterScreen(
                 },
                 hint = stringResource(id = R.string.password_hint),
                 label = {
-                    Text(text = stringResource(id = R.string.password_hint))
+                    Text(
+                        text = stringResource(id = R.string.password_label),
+                        style = MaterialTheme.typography.body1
+                    )
                 },
                 error = when (state.value.passwordError) {
                     is RegisterState.PasswordError.FieldEmpty -> {
@@ -170,6 +177,7 @@ fun RegisterScreen(
                     }
                     else -> ""
                 },
+                keyboardType = KeyboardType.Password,
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Lock,
@@ -190,6 +198,16 @@ fun RegisterScreen(
             Button(
                 onClick = {
                     viewModel.onEvent(RegisterEvent.Register)
+                    if (
+                        state.value.emailError == null && state.value.usernameError == null &&
+                        state.value.passwordError == null
+                    ) {
+                        navigator.navigate(MainFeedScreenDestination) {
+                            popUpTo(RegisterScreenDestination.route) {
+                                inclusive = true
+                            }
+                        }
+                    }
                 },
                 modifier = Modifier
                     .align(Alignment.End)

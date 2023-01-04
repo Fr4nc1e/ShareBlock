@@ -1,9 +1,20 @@
 package com.code.block.presentation.loginscreen
 
 data class LoginState(
-    val usernameText: String = "",
+    val emailText: String = "",
+    val emailError: EmailError? = null,
     val passwordText: String = "",
-    val showPassword: Boolean = false,
-    val usernameError: String = "",
-    val passwordError: String = ""
-)
+    val passwordError: PasswordError? = null,
+    val authError: Boolean = false,
+    val isPasswordVisible: Boolean = false
+) {
+    sealed class EmailError {
+        object FieldEmpty : EmailError()
+        object InvalidEmail : EmailError()
+    }
+
+    sealed class PasswordError {
+        object FieldEmpty : PasswordError()
+        object InvalidPassword : PasswordError()
+    }
+}

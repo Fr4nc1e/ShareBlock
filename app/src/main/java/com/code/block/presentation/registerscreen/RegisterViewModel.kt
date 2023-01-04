@@ -41,11 +41,6 @@ class RegisterViewModel @Inject constructor() : ViewModel() {
                     emailText = ""
                 )
             }
-            is RegisterEvent.ClearPassword -> {
-                _state.value = _state.value.copy(
-                    passwordText = ""
-                )
-            }
             is RegisterEvent.TogglePasswordVisibility -> {
                 _state.value = _state.value.copy(
                     isPasswordVisible = !state.value.isPasswordVisible
