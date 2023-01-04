@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
-    id 'com.google.devtools.ksp' version '1.6.10-1.0.2'
+    id("com.google.devtools.ksp") version "1.6.21-1.0.6"
 }
 
 kotlin {
@@ -60,7 +60,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.1.1'
+        kotlinCompilerExtensionVersion '1.2.0-rc02'
     }
     packagingOptions {
         resources {
@@ -101,8 +101,8 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.0'
 
     // Compose Nav Destinations
-    implementation 'io.github.raamcosta.compose-destinations:core:1.1.2-beta'
-    ksp 'io.github.raamcosta.compose-destinations:ksp:1.1.2-beta'
+    implementation("io.github.raamcosta.compose-destinations:core:1.6.30-beta")
+    ksp("io.github.raamcosta.compose-destinations:ksp:1.6.30-beta")
 
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'

@@ -32,4 +32,11 @@
     <string name="profile_pic">Profile picture</string>
     <string name="test_string">"Batman is a superhero appearing in American comic books published by DC Comics. The character was created by artist Bob Kane and writer Bill Finger, and debuted in the 27th issue of the comic book Detective Comics on March 30, 1939. In the DC Universe continuity, Batman is the alias of Bruce Wayne, a wealthy American playboy, philanthropist, and industrialist who resides in Gotham City."</string>
     <string name="show_less">Show Less</string>
+    <string name="home">Home</string>
+    <string name="message">Message</string>
+    <string name="activity">Activity</string>
+    <string name="profile">Profile</string>
+    <string name="post">Post</string>
+    <string name="make_post">Make a post.</string>
+    <string name="empty_nav_item">Empty bottom nav</string>
 </resources>

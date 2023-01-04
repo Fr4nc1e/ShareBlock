@@ -20,12 +20,14 @@ import com.code.block.presentation.destinations.LoginScreenDestination
 import com.code.block.presentation.destinations.SplashScreenDestination
 import com.code.block.utils.Constants
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
-@Destination(start = true)
+@RootNavGraph(start = true)
+@Destination
 @Composable
 fun SplashScreen(
     navigator: DestinationsNavigator
