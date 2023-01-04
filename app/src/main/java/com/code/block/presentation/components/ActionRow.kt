@@ -8,7 +8,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 
 @Composable
@@ -30,7 +29,6 @@ fun ActionRow(
             text = username,
             style = MaterialTheme.typography.body1,
             fontWeight = FontWeight.Bold,
-            fontStyle = FontStyle.Italic,
             color = MaterialTheme.colors.primary,
             modifier = Modifier
                 .clickable {

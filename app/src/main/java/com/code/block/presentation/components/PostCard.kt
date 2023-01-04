@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -49,10 +50,14 @@ fun PostCard(
                 }
         ) {
             Image(
-                painter = painterResource(id = R.drawable.bat_man_front),
+                painter = painterResource(id = R.drawable.hd_batman),
                 contentDescription = stringResource(
                     id = R.string.front_image_sample
-                )
+                ),
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f)
             )
 
             Column(
@@ -99,8 +104,9 @@ fun PostCard(
 
         if (showProfileImage) {
             Image(
-                painter = painterResource(id = R.drawable.bat_man_front),
+                painter = painterResource(id = R.drawable.batman_profile_image),
                 contentDescription = stringResource(R.string.profile_pic),
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(ProfilePictureSizeMedium)
                     .clip(CircleShape)

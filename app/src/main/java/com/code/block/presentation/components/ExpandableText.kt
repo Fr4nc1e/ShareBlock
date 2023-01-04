@@ -43,6 +43,7 @@ fun ExpandableText(
                                 color = HintGray
                             )
                         ) {
+                            append(" ")
                             append(showLessText)
                         }
                     } else {
