@@ -153,15 +153,20 @@ fun LoginScreen(
                 modifier = Modifier
                     .align(Alignment.End),
                 onClick = {
-                    viewModel.onEvent(LoginEvent.Login)
-                    if (
-                        state.value.passwordError == null && state.value.emailError == null &&
-                        !state.value.authError
-                    ) {
-                        navigator.navigate(MainFeedScreenDestination) {
-                            popUpTo(LoginScreenDestination.route) {
-                                inclusive = true
-                            }
+//                    viewModel.onEvent(LoginEvent.Login)
+//                    if (
+//                        state.value.passwordError == null && state.value.emailError == null &&
+//                        !state.value.authError
+//                    ) {
+//                        navigator.navigate(MainFeedScreenDestination) {
+//                            popUpTo(LoginScreenDestination.route) {
+//                                inclusive = true
+//                            }
+//                        }
+//                    }
+                    navigator.navigate(MainFeedScreenDestination) {
+                        popUpTo(LoginScreenDestination.route) {
+                            inclusive = true
                         }
                     }
                 }
