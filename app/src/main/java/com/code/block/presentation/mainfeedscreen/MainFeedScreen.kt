@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.code.block.R
 import com.code.block.domain.model.Post
+import com.code.block.domain.util.DateFormattedUtil
 import com.code.block.presentation.components.PostCard
 import com.code.block.presentation.components.StandardTopBar
 import com.code.block.presentation.destinations.PostDetailScreenDestination
@@ -59,7 +60,12 @@ fun MainFeedScreen(
                 profilePictureUrl = R.drawable.batman_profile_image,
                 description = stringResource(id = R.string.test_string),
                 likeCount = 17,
-                commentCount = 7
+                commentCount = 7,
+                formattedTime = DateFormattedUtil
+                    .timestampToFormattedString(
+                        timestamp = System.currentTimeMillis(),
+                        pattern = "MMM dd, HH:mm"
+                    )
             ),
             onPostClick = {
                 navigator.navigate(PostDetailScreenDestination)

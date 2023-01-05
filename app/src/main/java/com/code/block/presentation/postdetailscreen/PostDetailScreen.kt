@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.code.block.R
 import com.code.block.domain.model.Post
+import com.code.block.domain.util.DateFormattedUtil
 import com.code.block.presentation.components.ActionRow
 import com.code.block.presentation.components.Comment
 import com.code.block.presentation.components.InteractiveButtons
@@ -34,7 +35,12 @@ fun PostDetailScreen(
         profilePictureUrl = R.drawable.batman_profile_image,
         description = stringResource(id = R.string.test_string),
         likeCount = 17,
-        commentCount = 7
+        commentCount = 7,
+        formattedTime = DateFormattedUtil
+            .timestampToFormattedString(
+                timestamp = System.currentTimeMillis(),
+                pattern = "MMM dd, HH:mm"
+            )
     )
 ) {
     Column(
@@ -65,7 +71,7 @@ fun PostDetailScreen(
                 ) {
                     ActionRow(
                         post = post,
-                        imageSize = ProfilePictureSizeMedium,
+                        imageSize = ProfilePictureSizeSmall,
                         modifier = Modifier.fillMaxWidth()
                     )
 
@@ -124,7 +130,12 @@ fun PostDetailScreen(
                     comment = com.code.block.domain.model.Comment(
                         username = "Superman",
                         comment = stringResource(R.string.test_string_superman),
-                        profilePictureUrl = R.drawable.superman
+                        profilePictureUrl = R.drawable.superman_batman,
+                        formattedTime = DateFormattedUtil
+                            .timestampToFormattedString(
+                                timestamp = System.currentTimeMillis(),
+                                pattern = "MMM dd, HH:mm"
+                            )
                     )
                 )
             }

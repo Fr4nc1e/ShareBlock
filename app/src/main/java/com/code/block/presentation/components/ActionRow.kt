@@ -74,7 +74,7 @@ fun ActionRow(
         }
 
         Text(
-            text = "2 days ago",
+            text = post.formattedTime,
             style = MaterialTheme.typography.body2,
             modifier = Modifier
                 .align(CenterVertically)
