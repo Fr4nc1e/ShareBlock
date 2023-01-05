@@ -65,7 +65,7 @@ fun PostDetailScreen(
                 ) {
                     ActionRow(
                         post = post,
-                        imageSize = ProfilePictureSizeSmall,
+                        imageSize = ProfilePictureSizeMedium,
                         modifier = Modifier.fillMaxWidth()
                     )
 
@@ -124,7 +124,7 @@ fun PostDetailScreen(
                     comment = com.code.block.domain.model.Comment(
                         username = "Superman",
                         comment = stringResource(R.string.test_string_superman),
-                        profilePictureUrl = R.drawable.icons8_superman_144
+                        profilePictureUrl = R.drawable.superman
                     )
                 )
             }
