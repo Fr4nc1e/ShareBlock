@@ -55,8 +55,8 @@ fun MainFeedScreen(
         PostCard(
             post = Post(
                 username = "Batman",
-                imageUrl = R.drawable.batman_profile_image,
-                profilePictureUrl = "",
+                imageUrl = R.drawable.hd_batman,
+                profilePictureUrl = R.drawable.batman_profile_image,
                 description = stringResource(id = R.string.test_string),
                 likeCount = 17,
                 commentCount = 7

@@ -64,7 +64,7 @@ fun SplashScreen(
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.bat_man_front),
+            painter = painterResource(id = R.drawable.icons8_batman_144),
             contentDescription = "Logo",
             modifier = Modifier.scale(scale.value)
                 .size(200.dp)

@@ -34,9 +34,10 @@ fun PostCard(
                 .clip(MaterialTheme.shapes.medium)
                 .shadow(5.dp)
                 .background(MediumGray)
+
         ) {
             Image(
-                painter = painterResource(id = R.drawable.hd_batman),
+                painter = painterResource(id = post.imageUrl),
                 contentDescription = stringResource(
                     id = R.string.front_image_sample
                 ),
@@ -44,15 +45,15 @@ fun PostCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(16f / 9f)
-                    .clickable {
-                        onPostClick()
-                    }
             )
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(SpaceSmall)
+                    .clickable {
+                        onPostClick()
+                    }
             ) {
                 ActionRow(
                     post = post,
