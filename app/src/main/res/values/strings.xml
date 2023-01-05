@@ -39,4 +39,8 @@
     <string name="post">Post</string>
     <string name="make_post">Make a post.</string>
     <string name="empty_nav_item">Empty bottom nav</string>
+    <string name="back">Back</string>
+    <string name="your_feed">Your feed</string>
+    <string name="search">Search</string>
+    <string name="chat">Chat</string>
 </resources>

@@ -16,8 +16,6 @@ import com.code.block.utils.Constants
 
 @Composable
 fun ExpandableText(
-    modifier: Modifier = Modifier,
-    textModifier: Modifier = Modifier,
     text: String,
     collapsedMaxLine: Int = Constants.MAX_POST_DESCRIPTION_LINES
 ) {

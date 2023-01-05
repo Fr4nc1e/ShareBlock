@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.* // ktlint-disable no-wildcard-im
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -40,6 +41,7 @@ fun StandardTextField(
     ),
     singleLin: Boolean = true,
     maxLines: Int = 1,
+    focusManager: FocusManager = LocalFocusManager.current,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
@@ -49,8 +51,6 @@ fun StandardTextField(
     onPasswordToggleClick: (Boolean) -> Unit = {},
     onValueChange: (String) -> Unit
 ) {
-    val focusManager = LocalFocusManager.current
-
     Column(
         modifier = modifier
             .fillMaxWidth()
