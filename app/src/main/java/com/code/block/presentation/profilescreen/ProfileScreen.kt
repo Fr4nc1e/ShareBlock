@@ -10,10 +10,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.code.block.R
+import com.code.block.domain.model.Post
 import com.code.block.domain.model.User
+import com.code.block.domain.util.DateFormattedUtil
 import com.code.block.presentation.components.StandardTopBar
+import com.code.block.presentation.destinations.EditProfileScreenDestination
 import com.code.block.presentation.profilescreen.components.BannerSection
 import com.code.block.presentation.profilescreen.components.ProfileHeaderSection
+import com.code.block.presentation.profilescreen.components.tablayout.Tabs
+import com.code.block.presentation.profilescreen.components.tablayout.TabsContent
+import com.code.block.ui.theme.ProfilePictureSizeLarge
+import com.code.block.ui.theme.SpaceSmall
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.ramcosta.composedestinations.annotation.Destination
@@ -23,6 +30,14 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination
 @Composable
 fun ProfileScreen(
+    user: User = User(
+        profilePictureUrl = R.drawable.batman_profile_image,
+        username = "Batman",
+        description = R.string.test_description,
+        followerCount = 10,
+        followingCount = 10,
+        postCount = 10
+    ),
     navigator: DestinationsNavigator
 ) {
     val pagerState = rememberPagerState(
@@ -50,51 +65,50 @@ fun ProfileScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            BannerSection()
+            BannerSection(user = user)
 
-            ProfileHeaderSection(
-                user = User(
-                    profilePictureUrl = R.drawable.batman_profile_image,
-                    username = "Batman",
-                    description = R.string.test_description,
-                    followerCount = 10,
-                    followingCount = 10,
-                    postCount = 10
-                ),
-                isOwnProfile = true,
-                modifier = Modifier
-            )
+            Spacer(modifier = Modifier.height(ProfilePictureSizeLarge / 2f - SpaceSmall))
 
-//            LazyColumn(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//            ) {
-//                item {
-//
-//                }
-//
-//                item {
-//
-//                }
-//            }
-//            Tabs(pagerState = pagerState)
-//            TabsContent(
-//                pagerState = pagerState,
-//                post = Post(
-//                    username = "Batman",
-//                    imageUrl = R.drawable.hd_batman,
-//                    profilePictureUrl = R.drawable.batman_profile_image,
-//                    description = stringResource(id = R.string.test_string),
-//                    likeCount = 17,
-//                    commentCount = 7,
-//                    formattedTime = DateFormattedUtil
-//                        .timestampToFormattedString(
-//                            timestamp = System.currentTimeMillis(),
-//                            pattern = "MMM dd, HH:mm"
-//                        )
-//                ),
-//                navigator = navigator
-//            )
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                ProfileHeaderSection(
+                    user = user,
+                    isOwnProfile = true,
+                    modifier = Modifier,
+                    onEditClick = {
+                        navigator.navigate(EditProfileScreenDestination)
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(SpaceSmall))
+
+                Column(
+                    modifier = Modifier
+                        .height(screenHeight)
+                ) {
+                    Tabs(pagerState = pagerState)
+
+                    TabsContent(
+                        scrollState = scrollState,
+                        pagerState = pagerState,
+                        post = Post(
+                            username = "Batman",
+                            imageUrl = R.drawable.hd_batman,
+                            profilePictureUrl = R.drawable.batman_profile_image,
+                            description = stringResource(id = R.string.test_string),
+                            likeCount = 17,
+                            commentCount = 7,
+                            formattedTime = DateFormattedUtil
+                                .timestampToFormattedString(
+                                    timestamp = System.currentTimeMillis(),
+                                    pattern = "MMM dd, HH:mm"
+                                )
+                        ),
+                        navigator = navigator
+                    )
+                }
+            }
         }
     }
 }

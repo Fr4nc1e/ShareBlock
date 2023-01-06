@@ -45,6 +45,8 @@ fun Tabs(
         tabList.forEachIndexed { index, _ ->
             Tab(
                 selected = pagerState.currentPage == index,
+                selectedContentColor = MaterialTheme.colors.primary,
+                unselectedContentColor = MaterialTheme.colors.onSurface,
                 onClick = {
                     scope.launch {
                         pagerState.animateScrollToPage(index)
@@ -55,15 +57,15 @@ fun Tabs(
                         imageVector = tabList[index].second,
                         contentDescription = null
                     )
-                },
-                text = {
-                    Text(
-                        text = tabList[index].first,
-                        color = if (pagerState.currentPage == index) {
-                            MaterialTheme.colors.primary
-                        } else MaterialTheme.colors.onSurface
-                    )
                 }
+//                text = {
+//                    Text(
+//                        text = tabList[index].first,
+//                        color = if (pagerState.currentPage == index) {
+//                            MaterialTheme.colors.primary
+//                        } else MaterialTheme.colors.onSurface
+//                    )
+//                }
             )
         }
     }

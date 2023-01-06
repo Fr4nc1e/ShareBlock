@@ -47,8 +47,8 @@ fun ActivityScreen(
             items(20) {
                 ActivityItem(
                     activity = Activity(
-                        username = "The Flash",
-                        profileImageUrl = R.drawable.theflash,
+                        username = "Superman",
+                        profileImageUrl = R.drawable.superman,
                         activityType = if (Random.nextInt(2) == 0) {
                             ActivityType.LikedComment
                         } else ActivityType.CommentedOnPost,
