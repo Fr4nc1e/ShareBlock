@@ -20,10 +20,13 @@ import com.code.block.R
 import com.code.block.domain.model.Post
 import com.code.block.domain.util.DateFormattedUtil
 import com.code.block.presentation.components.ActionRow
-import com.code.block.presentation.components.Comment
 import com.code.block.presentation.components.InteractiveButtons
 import com.code.block.presentation.components.StandardTopBar
-import com.code.block.ui.theme.* // ktlint-disable no-wildcard-imports
+import com.code.block.presentation.postdetailscreen.components.Comment
+import com.code.block.ui.theme.ProfilePictureSizeSmall
+import com.code.block.ui.theme.SpaceLarge
+import com.code.block.ui.theme.SpaceMedium
+import com.code.block.ui.theme.SpaceSmall
 import com.ramcosta.composedestinations.annotation.Destination
 
 @Destination

@@ -1,4 +1,4 @@
-package com.code.block.presentation.components
+package com.code.block.presentation.postdetailscreen.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border

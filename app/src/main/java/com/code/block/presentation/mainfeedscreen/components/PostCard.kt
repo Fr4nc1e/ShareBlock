@@ -1,4 +1,4 @@
-package com.code.block.presentation.components
+package com.code.block.presentation.mainfeedscreen.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,6 +15,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.code.block.R
 import com.code.block.domain.model.Post
+import com.code.block.presentation.components.ActionRow
+import com.code.block.presentation.components.ExpandableText
+import com.code.block.presentation.components.InteractiveButtons
 import com.code.block.ui.theme.* // ktlint-disable no-wildcard-imports
 
 @Composable
@@ -24,12 +27,12 @@ fun PostCard(
     onPostClick: () -> Unit = {}
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(SpaceMedium)
+            .padding(SpaceSmall)
     ) {
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .clip(MaterialTheme.shapes.medium)
                 .shadow(5.dp)

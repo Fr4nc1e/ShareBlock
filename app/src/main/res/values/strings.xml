@@ -49,4 +49,9 @@
     <string name="followed_you">followed you</string>
     <string name="your_post">your post.</string>
     <string name="your_comment">your comment.</string>
+    <string name="banner_image">Banner image</string>
+    <string name="edit">Edit</string>
+    <string name="test_description">Official Batman.</string>
+    <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
 </resources>

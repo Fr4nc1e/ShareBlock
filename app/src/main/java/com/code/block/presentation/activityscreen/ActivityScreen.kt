@@ -13,7 +13,7 @@ import com.code.block.R
 import com.code.block.domain.model.Activity
 import com.code.block.domain.util.ActivityType
 import com.code.block.domain.util.DateFormattedUtil
-import com.code.block.presentation.components.ActivityItem
+import com.code.block.presentation.activityscreen.components.ActivityItem
 import com.code.block.presentation.components.StandardTopBar
 import com.code.block.ui.theme.SpaceMedium
 import com.code.block.ui.theme.SpaceSmall

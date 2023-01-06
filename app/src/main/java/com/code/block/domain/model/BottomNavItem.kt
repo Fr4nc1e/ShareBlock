@@ -2,10 +2,7 @@ package com.code.block.domain.model
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Message
-import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.code.block.R
 import com.code.block.presentation.destinations.* // ktlint-disable no-wildcard-imports
@@ -23,7 +20,7 @@ enum class BottomNavItem(
     ),
     Chat(
         route = ChatScreenDestination,
-        icon = Icons.Outlined.Message,
+        icon = Icons.Outlined.Chat,
         contentDescription = R.string.message,
         alertCount = 100
     ),
