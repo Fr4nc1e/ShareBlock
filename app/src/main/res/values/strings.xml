@@ -74,4 +74,5 @@
     <string name="test_des_superman">Official Superman</string>
     <string name="choose_image">Choose an image</string>
     <string name="description_hint">Description...</string>
+    <string name="liked_by">Liked by</string>
 </resources>

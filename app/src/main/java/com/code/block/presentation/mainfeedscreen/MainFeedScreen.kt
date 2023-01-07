@@ -62,6 +62,7 @@ fun MainFeedScreen(
         ) {
             items(20) {
                 PostCard(
+                    navigator = navigator,
                     post = Post(
                         username = "Batman",
                         imageUrl = R.drawable.hd_batman,

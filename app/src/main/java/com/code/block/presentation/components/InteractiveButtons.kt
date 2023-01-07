@@ -1,5 +1,6 @@
 package com.code.block.presentation.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -20,12 +21,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.code.block.R
 import com.code.block.domain.model.Post
+import com.code.block.presentation.destinations.PersonListScreenDestination
 import com.code.block.ui.theme.SpaceSmall
 import com.code.block.ui.theme.TextWhite
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 fun InteractiveButtons(
     modifier: Modifier = Modifier,
+    navigator: DestinationsNavigator,
     post: Post,
     isLiked: Boolean = false,
     iconSize: Dp = 30.dp,
@@ -68,7 +72,10 @@ fun InteractiveButtons(
                 text = "${post.likeCount}",
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
-                style = MaterialTheme.typography.h2
+                style = MaterialTheme.typography.h2,
+                modifier = Modifier.clickable {
+                    navigator.navigate(PersonListScreenDestination)
+                }
             )
         }
 

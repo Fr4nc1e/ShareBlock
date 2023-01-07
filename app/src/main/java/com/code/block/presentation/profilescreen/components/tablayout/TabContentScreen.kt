@@ -19,6 +19,7 @@ fun TabContentScreen(
     ) {
         items(6) {
             PostCard(
+                navigator = navigator,
                 post = post,
                 onPostClick = {
                     navigator.navigate(PostDetailScreenDestination)

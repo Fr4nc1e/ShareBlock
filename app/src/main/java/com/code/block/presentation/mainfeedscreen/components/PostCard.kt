@@ -19,9 +19,11 @@ import com.code.block.presentation.components.ActionRow
 import com.code.block.presentation.components.ExpandableText
 import com.code.block.presentation.components.InteractiveButtons
 import com.code.block.ui.theme.* // ktlint-disable no-wildcard-imports
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 fun PostCard(
+    navigator: DestinationsNavigator,
     post: Post,
     modifier: Modifier = Modifier,
     onPostClick: () -> Unit = {}
@@ -70,7 +72,10 @@ fun PostCard(
 
                 Spacer(modifier = Modifier.height(SpaceSmall))
 
-                InteractiveButtons(post = post)
+                InteractiveButtons(
+                    post = post,
+                    navigator = navigator
+                )
             }
         }
     }
