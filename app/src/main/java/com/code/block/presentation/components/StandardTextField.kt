@@ -39,7 +39,7 @@ fun StandardTextField(
     style: TextStyle = TextStyle(
         color = MaterialTheme.colors.onBackground
     ),
-    singleLin: Boolean = true,
+    singleLine: Boolean = true,
     maxLines: Int = 1,
     focusManager: FocusManager = LocalFocusManager.current,
     leadingIcon: @Composable (() -> Unit)? = null,
@@ -92,7 +92,7 @@ fun StandardTextField(
             } else {
                 VisualTransformation.None
             },
-            singleLine = singleLin,
+            singleLine = singleLine,
             leadingIcon = leadingIcon,
             trailingIcon = if (isPasswordToggleDisplayed && trailingIcon == null) {
                 val icon: @Composable () -> Unit = {

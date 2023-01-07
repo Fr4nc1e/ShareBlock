@@ -54,4 +54,18 @@
     <string name="test_description">Official Batman.</string>
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
+    <string name="save_changes">Save changes</string>
+    <string name="edit_your_profile">Edit your profile</string>
+    <string name="qq_hint">Please enter QQ account</string>
+    <string name="qq_label">QQ</string>
+    <string name="wechat_hint">Please enter WeChat account</string>
+    <string name="wechat_label">WeChat</string>
+    <string name="wechat_icon">Wecaht icon</string>
+    <string name="qq_icon">QQ icon</string>
+    <string name="github_hint">Please enter github account</string>
+    <string name="github_label">Github</string>
+    <string name="github_icon">Github icon</string>
+    <string name="bio_hint">Please enter bio</string>
+    <string name="bio_label">Bio</string>
+    <string name="bio_icon">Bio icon</string>
 </resources>
