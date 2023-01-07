@@ -37,7 +37,7 @@
     <string name="activity">Activity</string>
     <string name="profile">Profile</string>
     <string name="post">Post</string>
-    <string name="make_post">Make a post.</string>
+    <string name="make_post">Make a post</string>
     <string name="empty_nav_item">Empty bottom nav</string>
     <string name="back">Back</string>
     <string name="your_feed">Your feed</string>
@@ -72,4 +72,6 @@
     <string name="search_hint">Search...</string>
     <string name="search_icon">Search icon</string>
     <string name="test_des_superman">Official Superman</string>
+    <string name="choose_image">Choose an image</string>
+    <string name="description_hint">Description...</string>
 </resources>
