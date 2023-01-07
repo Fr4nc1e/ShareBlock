@@ -68,4 +68,8 @@
     <string name="bio_hint">Please enter bio</string>
     <string name="bio_label">Bio</string>
     <string name="bio_icon">Bio icon</string>
+    <string name="search_for_users">Search users</string>
+    <string name="search_hint">Search...</string>
+    <string name="search_icon">Search icon</string>
+    <string name="test_des_superman">Official Superman</string>
 </resources>

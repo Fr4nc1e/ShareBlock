@@ -45,6 +45,23 @@ fun StandardTextField(
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(
+        keyboardType = keyboardType,
+        imeAction = if (keyboardType == KeyboardType.Password) {
+            ImeAction.Done
+        } else ImeAction.Next
+    ),
+    keyboardActions: KeyboardActions = KeyboardActions(
+        onNext = {
+            focusManager.moveFocus(FocusDirection.Down)
+        },
+        onSearch = {
+            focusManager.clearFocus()
+        },
+        onDone = {
+            focusManager.clearFocus()
+        }
+    ),
     isRegisterPage: Boolean = Constants.LOGIN_PAGE,
     isPasswordToggleDisplayed: Boolean = keyboardType == KeyboardType.Password,
     isPasswordVisible: Boolean = false,
@@ -52,7 +69,7 @@ fun StandardTextField(
     onValueChange: (String) -> Unit
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
     ) {
         OutlinedTextField(
@@ -73,20 +90,8 @@ fun StandardTextField(
             textStyle = style,
             isError = error != "",
             shape = RoundedCornerShape(8.dp),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = keyboardType,
-                imeAction = if (keyboardType == KeyboardType.Password) {
-                    ImeAction.Done
-                } else ImeAction.Next
-            ),
-            keyboardActions = KeyboardActions(
-                onNext = {
-                    focusManager.moveFocus(FocusDirection.Down)
-                },
-                onDone = {
-                    focusManager.clearFocus()
-                }
-            ),
+            keyboardOptions = keyboardOptions,
+            keyboardActions = keyboardActions,
             visualTransformation = if (!isPasswordVisible && isPasswordToggleDisplayed) {
                 PasswordVisualTransformation()
             } else {
@@ -122,7 +127,7 @@ fun StandardTextField(
                 }
                 icon
             } else trailingIcon,
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .semantics {
                     testTag = TestTags.STANDARD_TEXT_FIELD
