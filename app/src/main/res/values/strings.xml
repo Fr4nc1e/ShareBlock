@@ -65,8 +65,8 @@
     <string name="github_hint">Please enter github account</string>
     <string name="github_label">Github</string>
     <string name="github_icon">Github icon</string>
-    <string name="bio_hint">Please enter bio</string>
-    <string name="bio_label">Bio</string>
+    <string name="bio_hint">Self introduction</string>
+    <string name="bio_label">Introduction</string>
     <string name="bio_icon">Bio icon</string>
     <string name="search_for_users">Search users</string>
     <string name="search_hint">Search...</string>

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.R
 import com.code.block.presentation.components.StandardTextField
@@ -222,6 +224,9 @@ fun EditTextSection(
         maxLength = 96,
         maxLines = 3,
         singleLine = false,
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done
+        ),
         hint = stringResource(id = R.string.bio_hint),
         label = {
             Text(text = stringResource(id = R.string.bio_label))

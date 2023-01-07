@@ -96,15 +96,15 @@ class RegisterViewModel @Inject constructor() : ViewModel() {
 
     private fun validatePassword(password: String) {
         val trimmedPassword = password.trim()
-        if (trimmedPassword.length < Constants.MIN_PASSWORD_LENGTH) {
-            _state.value = _state.value.copy(
-                passwordError = RegisterState.PasswordError.InputTooShort
-            )
-            return
-        }
         if (trimmedPassword.isBlank()) {
             _state.value = _state.value.copy(
                 passwordError = RegisterState.PasswordError.FieldEmpty
+            )
+            return
+        }
+        if (trimmedPassword.length < Constants.MIN_PASSWORD_LENGTH) {
+            _state.value = _state.value.copy(
+                passwordError = RegisterState.PasswordError.InputTooShort
             )
             return
         }
