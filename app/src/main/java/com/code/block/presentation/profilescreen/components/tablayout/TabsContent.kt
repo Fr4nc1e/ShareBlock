@@ -48,15 +48,15 @@ fun TabsContent(
             )
     ) { page ->
         when (page) {
-            0 -> TabContentScreen(
+            0 -> ProfilePostScreen(
                 post = post,
                 navigator = navigator
             )
-            1 -> TabContentScreen(
+            1 -> ProfileCommentScreen(
                 post = post,
                 navigator = navigator
             )
-            2 -> TabContentScreen(
+            2 -> ProfilePostScreen(
                 post = post,
                 navigator = navigator
             )

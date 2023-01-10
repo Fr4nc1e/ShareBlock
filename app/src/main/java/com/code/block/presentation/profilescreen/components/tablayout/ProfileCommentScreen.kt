@@ -10,7 +10,7 @@ import com.code.block.presentation.mainfeedscreen.components.PostCard
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
-fun TabContentScreen(
+fun ProfileCommentScreen(
     post: Post,
     navigator: DestinationsNavigator
 ) {
@@ -21,6 +21,7 @@ fun TabContentScreen(
             PostCard(
                 navigator = navigator,
                 post = post,
+                isProfileCommentScreen = true,
                 onPostClick = {
                     navigator.navigate(PostDetailScreenDestination)
                 }
