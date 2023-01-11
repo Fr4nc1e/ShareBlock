@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.* // ktlint-disable no-wildcard-imports
@@ -34,6 +35,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 fun PostCard(
+    modifier: Modifier = Modifier,
     navigator: DestinationsNavigator,
     post: Post,
     comment: Comment = Comment(
@@ -43,7 +45,6 @@ fun PostCard(
         formattedTime = System.currentTimeMillis().toString()
     ),
     isProfileCommentScreen: Boolean = false,
-    modifier: Modifier = Modifier,
     onPostClick: () -> Unit = {}
 ) {
     Box(
@@ -98,10 +99,18 @@ fun PostCard(
                 if (isProfileCommentScreen) {
                     Box(
                         modifier = Modifier
-                            .padding(SpaceSmall)
+                            .padding(
+                                horizontal = SpaceSmall
+                            )
                             .fillMaxWidth()
                             .background(MaterialTheme.colors.surface)
                     ) {
+                        Divider(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = MaterialTheme.colors.onSurface,
+                            thickness = 2.dp
+                        )
+
                         Row(
                             modifier = Modifier.fillMaxSize(),
                             verticalAlignment = Alignment.CenterVertically

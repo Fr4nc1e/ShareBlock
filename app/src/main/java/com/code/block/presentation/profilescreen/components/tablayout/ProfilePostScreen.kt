@@ -12,8 +12,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun ProfilePostScreen(
     post: Post,
-    navigator: DestinationsNavigator,
-    content: @Composable () -> Unit = {}
+    navigator: DestinationsNavigator
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
