@@ -16,11 +16,11 @@ import com.code.block.core.domain.util.DateFormattedUtil
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeLarge
 import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.feature.destinations.EditProfileScreenDestination
 import com.code.block.feature.profile.presentation.profilescreen.components.BannerSection
 import com.code.block.feature.profile.presentation.profilescreen.components.ProfileHeaderSection
 import com.code.block.feature.profile.presentation.profilescreen.components.tablayout.Tabs
 import com.code.block.feature.profile.presentation.profilescreen.components.tablayout.TabsContent
-import com.code.block.presentation.destinations.EditProfileScreenDestination
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.ramcosta.composedestinations.annotation.Destination

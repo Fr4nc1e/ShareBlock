@@ -23,7 +23,7 @@ import com.code.block.R
 import com.code.block.core.domain.model.Post
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.presentation.ui.theme.TextWhite
-import com.code.block.presentation.destinations.PersonListScreenDestination
+import com.code.block.feature.destinations.PersonListScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable

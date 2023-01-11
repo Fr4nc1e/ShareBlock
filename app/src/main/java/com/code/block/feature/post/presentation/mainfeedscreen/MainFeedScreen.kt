@@ -18,9 +18,9 @@ import com.code.block.R
 import com.code.block.core.domain.model.Post
 import com.code.block.core.domain.util.DateFormattedUtil
 import com.code.block.core.presentation.components.StandardTopBar
+import com.code.block.feature.destinations.PostDetailScreenDestination
+import com.code.block.feature.destinations.SearchScreenDestination
 import com.code.block.feature.post.presentation.mainfeedscreen.components.PostCard
-import com.code.block.presentation.destinations.PostDetailScreenDestination
-import com.code.block.presentation.destinations.SearchScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 

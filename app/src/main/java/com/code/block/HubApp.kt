@@ -7,8 +7,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.code.block.core.presentation.components.StandardScaffold
-import com.code.block.presentation.NavGraphs
-import com.code.block.presentation.destinations.* // ktlint-disable no-wildcard-imports
+import com.code.block.feature.NavGraphs
+import com.code.block.feature.destinations.* // ktlint-disable no-wildcard-imports
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.rememberNavHostEngine

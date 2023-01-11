@@ -17,8 +17,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.code.block.R
 import com.code.block.core.utils.Constants
-import com.code.block.presentation.destinations.LoginScreenDestination
-import com.code.block.presentation.destinations.SplashScreenDestination
+import com.code.block.feature.destinations.LoginScreenDestination
+import com.code.block.feature.destinations.SplashScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator

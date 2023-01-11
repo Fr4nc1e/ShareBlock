@@ -20,8 +20,8 @@ import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.utils.Constants
-import com.code.block.presentation.destinations.MainFeedScreenDestination
-import com.code.block.presentation.destinations.RegisterScreenDestination
+import com.code.block.feature.destinations.MainFeedScreenDestination
+import com.code.block.feature.destinations.RegisterScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
