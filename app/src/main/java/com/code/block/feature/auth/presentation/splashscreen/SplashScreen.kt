@@ -15,22 +15,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.R
-import com.code.block.core.utils.Constants
-import com.code.block.feature.destinations.LoginScreenDestination
 import com.code.block.feature.destinations.SplashScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.withContext
 
 @RootNavGraph(start = true)
 @Destination
 @Composable
 fun SplashScreen(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    viewModel: SplashScreenViewModel = hiltViewModel()
 ) {
     val scale = remember {
         Animatable(0f)
@@ -51,10 +51,17 @@ fun SplashScreen(
                     }
                 )
             )
-            delay(Constants.SPLASH_SCREEN_DELAY)
-            navigator.navigate(LoginScreenDestination) {
-                popUpTo(SplashScreenDestination.route) {
-                    inclusive = true
+        }
+    }
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvent.Navigate -> {
+                    navigator.navigate(event.route) {
+                        popUpTo(SplashScreenDestination.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
         }

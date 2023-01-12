@@ -5,6 +5,7 @@ import com.code.block.feature.auth.data.remote.request.CreateAccountRequest
 import com.code.block.feature.auth.data.remote.request.LoginRequest
 import com.code.block.feature.auth.data.remote.response.AuthResponse
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface AuthApi {
@@ -19,7 +20,10 @@ interface AuthApi {
         @Body request: LoginRequest
     ): BasicApiResponse<AuthResponse>
 
+    @GET("/api/user/authenticate")
+    suspend fun authenticate()
+
     companion object {
-        const val BASE_URL = "http://10.0.2.2:8081/"
+        const val BASE_URL = "http://172.28.211.51:8081/"
     }
 }

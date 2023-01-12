@@ -25,6 +25,7 @@ import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.utils.Constants
 import com.code.block.core.utils.asString
 import com.code.block.feature.auth.presentation.util.AuthError
+import com.code.block.feature.destinations.RegisterScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
@@ -32,8 +33,8 @@ import kotlinx.coroutines.flow.collectLatest
 @Destination
 @Composable
 fun RegisterScreen(
-    navigator: DestinationsNavigator,
     scaffoldState: ScaffoldState,
+    navigator: DestinationsNavigator,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val usernameState = viewModel.usernameState.value
@@ -43,13 +44,20 @@ fun RegisterScreen(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = true) {
-        viewModel.snackBarEventFlow.collectLatest { event ->
+        viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is UiEvent.SnackBarEvent -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         event.uiText.asString(context),
                         duration = SnackbarDuration.Long
                     )
+                }
+                is UiEvent.Navigate -> {
+                    navigator.navigate(event.route) {
+                        popUpTo(RegisterScreenDestination.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
         }
@@ -220,7 +228,6 @@ fun RegisterScreen(
             Button(
                 onClick = {
                     viewModel.onEvent(RegisterEvent.Register)
-                    navigator.navigateUp()
                 },
                 enabled = !registerState.isLoading,
                 modifier = Modifier

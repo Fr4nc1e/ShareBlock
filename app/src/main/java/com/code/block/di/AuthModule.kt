@@ -4,12 +4,14 @@ import android.content.SharedPreferences
 import com.code.block.feature.auth.data.remote.AuthApi
 import com.code.block.feature.auth.data.repository.AuthRepositoryImpl
 import com.code.block.feature.auth.domain.repository.AuthRepository
+import com.code.block.feature.auth.domain.usecase.AuthenticateUseCase
 import com.code.block.feature.auth.domain.usecase.LoginUseCase
 import com.code.block.feature.auth.domain.usecase.RegisterUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -20,9 +22,10 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideAuthApi(): AuthApi {
+    fun provideAuthApi(client: OkHttpClient): AuthApi {
         return Retrofit.Builder()
             .baseUrl(AuthApi.BASE_URL)
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(AuthApi::class.java)
@@ -50,5 +53,11 @@ object AuthModule {
     @Singleton
     fun provideLoginUseCase(repository: AuthRepository): LoginUseCase {
         return LoginUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthenticateUseCase(repository: AuthRepository): AuthenticateUseCase {
+        return AuthenticateUseCase(repository)
     }
 }

@@ -76,4 +76,15 @@ class AuthRepositoryImpl(
             Resource.Error(uiText = UiText.StringResource(R.string.fail_to_connect))
         }
     }
+
+    override suspend fun authenticate(): SimpleResource {
+        return try {
+            api.authenticate()
+            Resource.Success(uiText = null)
+        } catch (e: IOException) {
+            Resource.Error(uiText = UiText.StringResource(R.string.read_write_error))
+        } catch (e: HttpException) {
+            Resource.Error(uiText = UiText.StringResource(R.string.fail_to_connect))
+        }
+    }
 }

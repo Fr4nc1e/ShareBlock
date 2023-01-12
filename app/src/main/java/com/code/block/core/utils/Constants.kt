@@ -1,7 +1,7 @@
 package com.code.block.core.utils
 
 object Constants {
-    const val SPLASH_SCREEN_DELAY = 0L
+    const val SPLASH_SCREEN_DELAY = 2000L
     const val MIN_USERNAME_LENGTH = 3
     const val MIN_PASSWORD_LENGTH = 3
     const val MAX_POST_DESCRIPTION_LINES = 3

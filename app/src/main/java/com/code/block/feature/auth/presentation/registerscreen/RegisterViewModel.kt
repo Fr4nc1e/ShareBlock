@@ -4,12 +4,12 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.code.block.R
 import com.code.block.core.domain.state.PasswordTextFieldState
 import com.code.block.core.domain.state.TextFieldState
 import com.code.block.core.utils.Resource
 import com.code.block.core.utils.UiText
 import com.code.block.feature.auth.domain.usecase.RegisterUseCase
+import com.code.block.feature.destinations.LoginScreenDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -33,8 +33,8 @@ class RegisterViewModel @Inject constructor(
     private val _registerState = mutableStateOf(RegisterState())
     val registerState: State<RegisterState> = _registerState
 
-    private val _snackBarEventFlow = MutableSharedFlow<UiEvent>()
-    val snackBarEventFlow = _snackBarEventFlow.asSharedFlow()
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     fun onEvent(event: RegisterEvent) {
         when (event) {
@@ -96,10 +96,8 @@ class RegisterViewModel @Inject constructor(
                 }
                 when (registerResult.result) {
                     is Resource.Success -> {
-                        _snackBarEventFlow.emit(
-                            UiEvent.SnackBarEvent(
-                                uiText = UiText.StringResource(R.string.register_successfully)
-                            )
+                        _eventFlow.emit(
+                            UiEvent.Navigate(LoginScreenDestination.route)
                         )
                         _registerState.value = _registerState.value
                             .copy(isLoading = false)
@@ -108,7 +106,7 @@ class RegisterViewModel @Inject constructor(
                         _passwordState.value = PasswordTextFieldState()
                     }
                     is Resource.Error -> {
-                        _snackBarEventFlow.emit(
+                        _eventFlow.emit(
                             UiEvent.SnackBarEvent(
                                 uiText = registerResult.result.uiText ?: UiText.unknownError()
                             )
