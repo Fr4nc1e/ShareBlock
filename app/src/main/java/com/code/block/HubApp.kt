@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.code.block.core.presentation.components.StandardScaffold
 import com.code.block.feature.NavGraphs
+import com.code.block.feature.auth.presentation.loginscreen.LoginScreen
 import com.code.block.feature.auth.presentation.registerscreen.RegisterScreen
 import com.code.block.feature.destinations.* // ktlint-disable no-wildcard-imports
 import com.ramcosta.composedestinations.DestinationsNavHost
@@ -47,6 +48,12 @@ fun HubApp() {
         ) {
             composable(RegisterScreenDestination) {
                 RegisterScreen(
+                    navigator = destinationsNavigator,
+                    scaffoldState = scaffoldState
+                )
+            }
+            composable(LoginScreenDestination) {
+                LoginScreen(
                     navigator = destinationsNavigator,
                     scaffoldState = scaffoldState
                 )

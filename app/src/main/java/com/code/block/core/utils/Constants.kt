@@ -9,4 +9,6 @@ object Constants {
     const val REGISTER_PAGE = true
     const val TEST_EMAIL = "940567715@gmail.com"
     const val TEST_PASSWORD = "A123456"
+    const val JWT_TOKEN = "jwt-token"
+    const val SHARED_PREF_NAME = "shared_pref"
 }

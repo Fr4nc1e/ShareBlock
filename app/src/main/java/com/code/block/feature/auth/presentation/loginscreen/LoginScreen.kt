@@ -8,8 +8,10 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -22,19 +24,44 @@ import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
+import com.code.block.core.utils.asString
+import com.code.block.feature.auth.presentation.util.AuthError
 import com.code.block.feature.destinations.LoginScreenDestination
-import com.code.block.feature.destinations.MainFeedScreenDestination
 import com.code.block.feature.destinations.RegisterScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.collectLatest
 
 @Destination
 @Composable
 fun LoginScreen(
     navigator: DestinationsNavigator,
+    scaffoldState: ScaffoldState,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state
+    val loginState = viewModel.loginState
+    val emailState = viewModel.emailState
+    val passwordState = viewModel.passwordState
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = true) {
+        viewModel.snackBarEventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvent.SnackBarEvent -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.uiText.asString(context)
+                    )
+                }
+                is UiEvent.Navigate -> {
+                    navigator.navigate(event.route) {
+                        popUpTo(LoginScreenDestination.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -61,7 +88,7 @@ fun LoginScreen(
 
             // E-mail Input
             StandardTextField(
-                text = state.value.emailText,
+                text = emailState.value.text,
                 onValueChange = {
                     viewModel.onEvent(LoginEvent.EnteredEmail(it))
                 },
@@ -72,12 +99,9 @@ fun LoginScreen(
                         style = MaterialTheme.typography.body1
                     )
                 },
-                error = when (state.value.emailError) {
-                    is LoginState.EmailError.FieldEmpty -> {
+                error = when (emailState.value.error) {
+                    is AuthError.FieldEmpty -> {
                         stringResource(id = R.string.this_field_cant_be_empty)
-                    }
-                    is LoginState.EmailError.InvalidEmail -> {
-                        stringResource(id = R.string.invalid_email)
                     }
                     else -> ""
                 },
@@ -91,7 +115,7 @@ fun LoginScreen(
                     )
                 },
                 trailingIcon = {
-                    if (state.value.emailText.isNotEmpty()) {
+                    if (emailState.value.text.isNotEmpty()) {
                         IconButton(
                             onClick = {
                                 viewModel.onEvent(LoginEvent.ClearEmail)
@@ -112,7 +136,7 @@ fun LoginScreen(
 
             // Password Input
             StandardTextField(
-                text = state.value.passwordText,
+                text = passwordState.value.text,
                 onValueChange = {
                     viewModel.onEvent(LoginEvent.EnteredPassword(it))
                 },
@@ -123,11 +147,11 @@ fun LoginScreen(
                         style = MaterialTheme.typography.body1
                     )
                 },
-                error = when (state.value.passwordError) {
-                    is LoginState.PasswordError.FieldEmpty -> {
+                error = when (passwordState.value.error) {
+                    is AuthError.FieldEmpty -> {
                         stringResource(id = R.string.this_field_cant_be_empty)
                     }
-                    is LoginState.PasswordError.InvalidPassword -> {
+                    is AuthError.InvalidPassword -> {
                         stringResource(id = R.string.login_invalid_password)
                     }
                     else -> ""
@@ -141,7 +165,7 @@ fun LoginScreen(
                         modifier = Modifier.size(IconSizeMedium)
                     )
                 },
-                isPasswordVisible = state.value.isPasswordVisible,
+                isPasswordVisible = loginState.value.isPasswordVisible,
                 onPasswordToggleClick = {
                     viewModel.onEvent(LoginEvent.TogglePasswordVisibility)
                 }
@@ -153,22 +177,7 @@ fun LoginScreen(
                 modifier = Modifier
                     .align(Alignment.End),
                 onClick = {
-//                    viewModel.onEvent(LoginEvent.Login)
-//                    if (
-//                        state.value.passwordError == null && state.value.emailError == null &&
-//                        !state.value.authError
-//                    ) {
-//                        navigator.navigate(MainFeedScreenDestination) {
-//                            popUpTo(LoginScreenDestination.route) {
-//                                inclusive = true
-//                            }
-//                        }
-//                    }
-                    navigator.navigate(MainFeedScreenDestination) {
-                        popUpTo(LoginScreenDestination.route) {
-                            inclusive = true
-                        }
-                    }
+                    viewModel.onEvent(LoginEvent.Login)
                 }
             ) {
                 Text(

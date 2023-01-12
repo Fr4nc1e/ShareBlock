@@ -220,11 +220,7 @@ fun RegisterScreen(
             Button(
                 onClick = {
                     viewModel.onEvent(RegisterEvent.Register)
-//                    navigator.navigate(MainFeedScreenDestination) {
-//                        popUpTo(RegisterScreenDestination.route) {
-//                            inclusive = true
-//                        }
-//                    }
+                    navigator.navigateUp()
                 },
                 enabled = !registerState.isLoading,
                 modifier = Modifier

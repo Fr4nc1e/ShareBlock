@@ -1,84 +1,100 @@
 package com.code.block.feature.auth.presentation.loginscreen
 
-import android.util.Patterns
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.code.block.core.utils.Constants
+import androidx.lifecycle.viewModelScope
+import com.code.block.core.domain.state.PasswordTextFieldState
+import com.code.block.core.domain.state.TextFieldState
+import com.code.block.core.utils.Resource
+import com.code.block.core.utils.UiText
+import com.code.block.feature.auth.domain.usecase.LoginUseCase
+import com.code.block.feature.destinations.MainFeedScreenDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val loginUseCase: LoginUseCase
+) : ViewModel() {
 
-    private val _state = mutableStateOf(LoginState())
-    val state: State<LoginState> = _state
+    private val _emailState = mutableStateOf(TextFieldState())
+    val emailState: State<TextFieldState> = _emailState
+
+    private val _passwordState = mutableStateOf(PasswordTextFieldState())
+    val passwordState: State<PasswordTextFieldState> = _passwordState
+
+    private val _loginState = mutableStateOf(LoginState())
+    val loginState: State<LoginState> = _loginState
+
+    private val _snackBarEventFlow = MutableSharedFlow<UiEvent>()
+    val snackBarEventFlow = _snackBarEventFlow.asSharedFlow()
 
     fun onEvent(event: LoginEvent) {
         when (event) {
             is LoginEvent.EnteredEmail -> {
-                _state.value = _state.value.copy(
-                    emailText = event.email
+                _emailState.value = emailState.value.copy(
+                    text = event.email
                 )
             }
             is LoginEvent.EnteredPassword -> {
-                _state.value = _state.value.copy(
-                    passwordText = event.password
+                _passwordState.value = passwordState.value.copy(
+                    text = event.password
                 )
             }
             is LoginEvent.ClearEmail -> {
-                _state.value = _state.value.copy(
-                    emailText = ""
-                )
+                _emailState.value = TextFieldState()
             }
             is LoginEvent.TogglePasswordVisibility -> {
-                _state.value = _state.value.copy(
-                    isPasswordVisible = !state.value.isPasswordVisible
+                _loginState.value = loginState.value.copy(
+                    isPasswordVisible = !loginState.value.isPasswordVisible
                 )
             }
             is LoginEvent.Login -> {
-                checkEmailAndPassword(
-                    email = state.value.emailText,
-                    password = state.value.passwordText
-                )
+                viewModelScope.launch {
+                    _loginState.value = loginState.value.copy(
+                        isLoading = true
+                    )
+
+                    val loginResult = loginUseCase(
+                        email = emailState.value.text,
+                        password = passwordState.value.text
+                    ).also { loginResult ->
+                        loginResult.emailError?.let {
+                            _emailState.value = emailState.value.copy(
+                                error = loginResult.emailError
+                            )
+                        }
+                        loginResult.passwordError?.let {
+                            _passwordState.value = _passwordState.value.copy(
+                                error = loginResult.passwordError
+                            )
+                        }
+                    }
+
+                    when (loginResult.result) {
+                        is Resource.Success -> {
+                            _snackBarEventFlow.emit(
+                                UiEvent.Navigate(MainFeedScreenDestination.route)
+                            )
+                        }
+                        is Resource.Error -> {
+                            _snackBarEventFlow.emit(
+                                UiEvent.SnackBarEvent(
+                                    loginResult.result.uiText ?: UiText.unknownError()
+                                )
+                            )
+                        }
+                        null -> {
+                            _loginState.value = _loginState.value
+                                .copy(isLoading = false)
+                        }
+                    }
+                }
             }
         }
-    }
-
-    private fun checkEmailAndPassword(email: String, password: String) {
-        val trimmedEmail = email.trim()
-        val trimmedPassword = password.trim()
-
-        if (trimmedEmail.isBlank()) {
-            _state.value = _state.value.copy(
-                emailError = LoginState.EmailError.FieldEmpty
-            )
-            return
-        }
-        if (trimmedPassword.isBlank()) {
-            _state.value = _state.value.copy(
-                passwordError = LoginState.PasswordError.FieldEmpty
-            )
-            return
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _state.value = _state.value.copy(
-                emailError = LoginState.EmailError.InvalidEmail
-            )
-            return
-        }
-        if (trimmedPassword != Constants.TEST_PASSWORD || trimmedEmail != Constants.TEST_EMAIL) {
-            _state.value = _state.value.copy(
-                authError = true,
-                passwordError = LoginState.PasswordError.InvalidPassword
-            )
-            return
-        }
-
-        _state.value = _state.value.copy(
-            emailError = null,
-            passwordError = null,
-            authError = false
-        )
     }
 }
