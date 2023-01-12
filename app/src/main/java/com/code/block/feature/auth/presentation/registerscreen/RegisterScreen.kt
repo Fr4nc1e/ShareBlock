@@ -8,8 +8,11 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -20,18 +23,37 @@ import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.utils.Constants
-import com.code.block.feature.destinations.MainFeedScreenDestination
-import com.code.block.feature.destinations.RegisterScreenDestination
+import com.code.block.core.utils.asString
+import com.code.block.feature.auth.presentation.util.AuthError
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.collectLatest
 
 @Destination
 @Composable
 fun RegisterScreen(
     navigator: DestinationsNavigator,
+    scaffoldState: ScaffoldState,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state
+    val usernameState = viewModel.usernameState.value
+    val emailState = viewModel.emailState.value
+    val passwordState = viewModel.passwordState.value
+    val registerState = viewModel.registerState.value
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = true) {
+        viewModel.snackBarEventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvent.SnackBarEvent -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        event.uiText.asString(context),
+                        duration = SnackbarDuration.Long
+                    )
+                }
+            }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -58,7 +80,7 @@ fun RegisterScreen(
 
             // E-mail input
             StandardTextField(
-                text = state.value.emailText,
+                text = emailState.text,
                 onValueChange = {
                     viewModel.onEvent(RegisterEvent.EnteredEmail(it))
                 },
@@ -69,11 +91,11 @@ fun RegisterScreen(
                         style = MaterialTheme.typography.body1
                     )
                 },
-                error = when (state.value.emailError) {
-                    is RegisterState.EmailError.FieldEmpty -> {
+                error = when (emailState.error) {
+                    is AuthError.FieldEmpty -> {
                         stringResource(id = R.string.this_field_cant_be_empty)
                     }
-                    is RegisterState.EmailError.InvalidEmail -> {
+                    is AuthError.InvalidEmail -> {
                         stringResource(id = R.string.invalid_email)
                     }
                     else -> ""
@@ -88,7 +110,7 @@ fun RegisterScreen(
                     )
                 },
                 trailingIcon = {
-                    if (state.value.emailText.isNotEmpty()) {
+                    if (emailState.text.isNotEmpty()) {
                         IconButton(
                             onClick = {
                                 viewModel.onEvent(RegisterEvent.ClearEmail)
@@ -108,7 +130,7 @@ fun RegisterScreen(
 
             // Username input
             StandardTextField(
-                text = state.value.usernameText,
+                text = usernameState.text,
                 onValueChange = {
                     viewModel.onEvent(RegisterEvent.EnteredUsername(it))
                 },
@@ -116,11 +138,11 @@ fun RegisterScreen(
                 label = {
                     Text(text = stringResource(id = R.string.username_label))
                 },
-                error = when (state.value.usernameError) {
-                    is RegisterState.UsernameError.FieldEmpty -> {
+                error = when (usernameState.error) {
+                    is AuthError.FieldEmpty -> {
                         stringResource(id = R.string.this_field_cant_be_empty)
                     }
-                    is RegisterState.UsernameError.InputTooShort -> {
+                    is AuthError.InputTooShort -> {
                         stringResource(id = R.string.username_too_short)
                     }
                     else -> ""
@@ -134,7 +156,7 @@ fun RegisterScreen(
                     )
                 },
                 trailingIcon = {
-                    if (state.value.usernameText.isNotEmpty()) {
+                    if (usernameState.text.isNotEmpty()) {
                         IconButton(
                             onClick = {
                                 viewModel.onEvent(RegisterEvent.ClearUsername)
@@ -154,7 +176,7 @@ fun RegisterScreen(
 
             // Password input
             StandardTextField(
-                text = state.value.passwordText,
+                text = passwordState.text,
                 onValueChange = {
                     viewModel.onEvent(RegisterEvent.EnteredPassword(it))
                 },
@@ -165,14 +187,14 @@ fun RegisterScreen(
                         style = MaterialTheme.typography.body1
                     )
                 },
-                error = when (state.value.passwordError) {
-                    is RegisterState.PasswordError.FieldEmpty -> {
+                error = when (passwordState.error) {
+                    is AuthError.FieldEmpty -> {
                         stringResource(id = R.string.this_field_cant_be_empty)
                     }
-                    is RegisterState.PasswordError.InputTooShort -> {
+                    is AuthError.InputTooShort -> {
                         stringResource(id = R.string.password_too_short)
                     }
-                    is RegisterState.PasswordError.InvalidPassword -> {
+                    is AuthError.InvalidPassword -> {
                         stringResource(id = R.string.invalid_password)
                     }
                     else -> ""
@@ -186,7 +208,7 @@ fun RegisterScreen(
                         modifier = Modifier.size(IconSizeMedium)
                     )
                 },
-                isPasswordVisible = state.value.isPasswordVisible,
+                isPasswordVisible = passwordState.isPasswordVisible,
                 onPasswordToggleClick = {
                     viewModel.onEvent(RegisterEvent.TogglePasswordVisibility)
                 },
@@ -198,23 +220,25 @@ fun RegisterScreen(
             Button(
                 onClick = {
                     viewModel.onEvent(RegisterEvent.Register)
-                    if (
-                        state.value.emailError == null && state.value.usernameError == null &&
-                        state.value.passwordError == null
-                    ) {
-                        navigator.navigate(MainFeedScreenDestination) {
-                            popUpTo(RegisterScreenDestination.route) {
-                                inclusive = true
-                            }
-                        }
-                    }
+//                    navigator.navigate(MainFeedScreenDestination) {
+//                        popUpTo(RegisterScreenDestination.route) {
+//                            inclusive = true
+//                        }
+//                    }
                 },
+                enabled = !registerState.isLoading,
                 modifier = Modifier
                     .align(Alignment.End)
             ) {
                 Text(
                     text = stringResource(id = R.string.register),
                     color = MaterialTheme.colors.onPrimary
+                )
+            }
+
+            if (registerState.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(CenterHorizontally)
                 )
             }
         }

@@ -75,4 +75,8 @@
     <string name="choose_image">Choose an image</string>
     <string name="description_hint">Description...</string>
     <string name="liked_by">Liked by</string>
+    <string name="unknown_error">Unknown error.</string>
+    <string name="read_write_error">Read or write data error.</string>
+    <string name="fail_to_connect">Fail to connect.</string>
+    <string name="register_successfully">Register successfully.</string>
 </resources>

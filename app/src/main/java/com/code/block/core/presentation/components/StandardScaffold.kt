@@ -15,6 +15,7 @@ fun StandardScaffold(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     showBottomBar: Boolean = true,
+    state: ScaffoldState,
     onFabClick: () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -38,6 +39,7 @@ fun StandardScaffold(
                 }
             }
         },
+        scaffoldState = state,
         isFloatingActionButtonDocked = true,
         floatingActionButtonPosition = FabPosition.Center,
         modifier = modifier

@@ -1,5 +1,7 @@
 package com.code.block.feature.auth.presentation.registerscreen
 
+import com.code.block.core.utils.UiText
+
 sealed class RegisterEvent {
     data class EnteredUsername(val username: String) : RegisterEvent()
     data class EnteredEmail(val email: String) : RegisterEvent()
@@ -8,4 +10,8 @@ sealed class RegisterEvent {
     object ClearEmail : RegisterEvent()
     object TogglePasswordVisibility : RegisterEvent()
     object Register : RegisterEvent()
+}
+
+sealed class UiEvent {
+    data class SnackBarEvent(val uiText: UiText) : UiEvent()
 }

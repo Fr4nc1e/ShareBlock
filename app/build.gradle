@@ -5,6 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
     id("com.google.devtools.ksp") version "1.6.21-1.0.6"
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.21'
 }
 
 kotlin {
@@ -74,6 +75,7 @@ android {
             }
         }
     }
+    kapt { generateStubs = true }
 }
 
 dependencies {
@@ -121,7 +123,7 @@ dependencies {
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation "com.squareup.okhttp3:okhttp:5.0.0-alpha.3"
     implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3"
 
@@ -132,7 +134,11 @@ dependencies {
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.4.3"
 
+    // Serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+
+    // Gson
+    implementation("com.google.code.gson:gson:2.10.1")
 
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
 }
