@@ -12,6 +12,7 @@ import com.code.block.feature.NavGraphs
 import com.code.block.feature.auth.presentation.loginscreen.LoginScreen
 import com.code.block.feature.auth.presentation.registerscreen.RegisterScreen
 import com.code.block.feature.destinations.* // ktlint-disable no-wildcard-imports
+import com.code.block.feature.post.presentation.homescreen.HomeScreen
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.navigation.navigate
@@ -28,7 +29,7 @@ fun HubApp() {
     StandardScaffold(
         navController = navController,
         showBottomBar = navBackStackEntry?.destination?.route in listOf(
-            MainFeedScreenDestination.route,
+            HomeScreenDestination.route,
             ChatScreenDestination.route,
             ActivityScreenDestination.route,
             ProfileScreenDestination.route
@@ -54,6 +55,12 @@ fun HubApp() {
             }
             composable(LoginScreenDestination) {
                 LoginScreen(
+                    navigator = destinationsNavigator,
+                    scaffoldState = scaffoldState
+                )
+            }
+            composable(HomeScreenDestination) {
+                HomeScreen(
                     navigator = destinationsNavigator,
                     scaffoldState = scaffoldState
                 )

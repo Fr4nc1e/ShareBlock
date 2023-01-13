@@ -43,7 +43,7 @@ fun ActionRow(
                 }
         ) {
             Image(
-                painter = painterResource(id = post.profilePictureUrl),
+                painter = painterResource(id = R.drawable.batman_profile_image),
                 contentDescription = stringResource(R.string.profile_pic),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -74,7 +74,7 @@ fun ActionRow(
         }
 
         Text(
-            text = post.formattedTime,
+            text = post.timestamp.toString(),
             style = MaterialTheme.typography.body2,
             modifier = Modifier
                 .align(CenterVertically)

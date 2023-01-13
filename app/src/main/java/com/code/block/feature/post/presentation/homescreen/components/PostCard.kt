@@ -1,4 +1,4 @@
-package com.code.block.feature.post.presentation.mainfeedscreen.components
+package com.code.block.feature.post.presentation.homescreen.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -61,7 +61,7 @@ fun PostCard(
 
         ) {
             Image(
-                painter = painterResource(id = post.imageUrl),
+                painter = painterResource(R.drawable.hd_batman),
                 contentDescription = stringResource(
                     id = R.string.front_image_sample
                 ),

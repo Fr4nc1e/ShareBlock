@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.code.block.core.domain.model.Post
 import com.code.block.feature.destinations.PostDetailScreenDestination
-import com.code.block.feature.post.presentation.mainfeedscreen.components.PostCard
+import com.code.block.feature.post.presentation.homescreen.components.PostCard
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable

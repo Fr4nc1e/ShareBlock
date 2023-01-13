@@ -14,7 +14,7 @@ enum class BottomNavItem(
     val alertCount: Int? = null
 ) {
     MainFeed(
-        route = MainFeedScreenDestination,
+        route = HomeScreenDestination,
         icon = Icons.Outlined.Home,
         contentDescription = R.string.home
     ),

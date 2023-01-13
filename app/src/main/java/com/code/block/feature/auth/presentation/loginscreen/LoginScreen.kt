@@ -185,6 +185,9 @@ fun LoginScreen(
                     text = stringResource(id = R.string.login),
                     color = MaterialTheme.colors.onPrimary
                 )
+                if (loginState.value.isLoading) {
+                    CircularProgressIndicator()
+                }
             }
         }
         Text(

@@ -9,4 +9,5 @@ object Constants {
     const val REGISTER_PAGE = true
     const val JWT_TOKEN = "jwt-token"
     const val SHARED_PREF_NAME = "shared_pref"
+    const val PAGE_SIZE_POSTS = 20
 }

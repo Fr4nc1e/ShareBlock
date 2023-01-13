@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.code.block.core.utils.Resource
 import com.code.block.core.utils.UiEvent
 import com.code.block.feature.auth.domain.usecase.AuthenticateUseCase
+import com.code.block.feature.destinations.HomeScreenDestination
 import com.code.block.feature.destinations.LoginScreenDestination
-import com.code.block.feature.destinations.MainFeedScreenDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -26,7 +26,7 @@ class SplashScreenViewModel @Inject constructor(
             when (authenticateUseCase()) {
                 is Resource.Success -> {
                     _eventFlow.emit(
-                        UiEvent.Navigate(MainFeedScreenDestination.route)
+                        UiEvent.Navigate(HomeScreenDestination.route)
                     )
                 }
                 is Resource.Error -> {

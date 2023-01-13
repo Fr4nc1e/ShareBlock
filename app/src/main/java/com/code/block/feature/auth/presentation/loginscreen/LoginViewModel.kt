@@ -10,7 +10,7 @@ import com.code.block.core.utils.Resource
 import com.code.block.core.utils.UiEvent
 import com.code.block.core.utils.UiText
 import com.code.block.feature.auth.domain.usecase.LoginUseCase
-import com.code.block.feature.destinations.MainFeedScreenDestination
+import com.code.block.feature.destinations.HomeScreenDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -83,7 +83,7 @@ class LoginViewModel @Inject constructor(
                 when (loginResult.result) {
                     is Resource.Success -> {
                         _eventFlow.emit(
-                            UiEvent.Navigate(MainFeedScreenDestination.route)
+                            UiEvent.Navigate(HomeScreenDestination.route)
                         )
                     }
                     is Resource.Error -> {

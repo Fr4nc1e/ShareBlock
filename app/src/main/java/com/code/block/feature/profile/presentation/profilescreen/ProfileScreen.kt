@@ -12,7 +12,6 @@ import androidx.compose.ui.text.font.FontWeight
 import com.code.block.R
 import com.code.block.core.domain.model.Post
 import com.code.block.core.domain.model.User
-import com.code.block.core.domain.util.DateFormattedUtil
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeLarge
 import com.code.block.core.presentation.ui.theme.SpaceSmall
@@ -94,16 +93,12 @@ fun ProfileScreen(
                         pagerState = pagerState,
                         post = Post(
                             username = "Batman",
-                            imageUrl = R.drawable.hd_batman,
-                            profilePictureUrl = R.drawable.batman_profile_image,
+                            imageUrl = "",
+                            profilePictureUrl = "",
                             description = stringResource(id = R.string.test_string),
                             likeCount = 17,
                             commentCount = 7,
-                            formattedTime = DateFormattedUtil
-                                .timestampToFormattedString(
-                                    timestamp = System.currentTimeMillis(),
-                                    pattern = "MMM dd, HH:mm"
-                                )
+                            timestamp = 0
                         ),
                         navigator = navigator
                     )

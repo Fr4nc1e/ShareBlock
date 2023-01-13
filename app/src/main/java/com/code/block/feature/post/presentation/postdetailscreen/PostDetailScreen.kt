@@ -36,16 +36,12 @@ fun PostDetailScreen(
     navigator: DestinationsNavigator,
     post: Post = Post(
         username = "Batman",
-        imageUrl = R.drawable.hd_batman,
-        profilePictureUrl = R.drawable.batman_profile_image,
+        imageUrl = "R.drawable.hd_batman",
+        profilePictureUrl = "R.drawable.batman_profile_image",
         description = stringResource(id = R.string.test_string),
         likeCount = 17,
         commentCount = 7,
-        formattedTime = DateFormattedUtil
-            .timestampToFormattedString(
-                timestamp = System.currentTimeMillis(),
-                pattern = "MMM dd, HH:mm"
-            )
+        timestamp = 0
     )
 ) {
     Column(
@@ -54,7 +50,7 @@ fun PostDetailScreen(
         StandardTopBar(
             title = {
                 Text(
-                    text = stringResource(R.string.your_feed),
+                    text = stringResource(R.string.home),
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colors.onBackground
                 )
@@ -95,7 +91,7 @@ fun PostDetailScreen(
                         Spacer(modifier = Modifier.height(SpaceMedium))
 
                         Image(
-                            painter = painterResource(id = post.imageUrl),
+                            painter = painterResource(id = R.drawable.hd_batman),
                             contentDescription = stringResource(id = R.string.post),
                             modifier = Modifier
                                 .fillMaxWidth()
