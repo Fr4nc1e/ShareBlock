@@ -1,10 +1,9 @@
 package com.code.block.feature.auth.domain.model
 
-import com.code.block.core.utils.SimpleResource
-import com.code.block.feature.auth.presentation.util.AuthError
+import com.code.block.core.utils.LoginResource
+import com.code.block.feature.auth.domain.error.LoginError
 
 data class LoginResult(
-    val emailError: AuthError? = null,
-    val passwordError: AuthError? = null,
-    val result: SimpleResource? = null
+    val loginError: LoginError? = null,
+    val result: LoginResource? = null
 )

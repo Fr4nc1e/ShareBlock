@@ -1,11 +1,42 @@
 package com.code.block.core.utils
 
 import android.util.Patterns
-import com.code.block.feature.auth.presentation.util.AuthError
+import com.code.block.feature.auth.domain.error.AuthError
+import com.code.block.feature.auth.domain.error.LoginError
+import com.code.block.feature.auth.domain.error.RegisterError
 
 object Validation {
 
-    fun validateEmail(email: String): AuthError? {
+    fun checkRegister(
+        email: String,
+        username: String,
+        password: String
+    ): RegisterError {
+        val usernameError = validateUsername(username)
+        val emailError = validateEmail(email)
+        val passwordError = validatePassword(password)
+
+        return RegisterError(
+            emailError = emailError,
+            usernameError = usernameError,
+            passwordError = passwordError
+        )
+    }
+
+    fun checkLogin(
+        email: String,
+        password: String
+    ): LoginError {
+        val emailError = validateEmail(email)
+        val passwordError = validatePassword(password)
+
+        return LoginError(
+            emailError = emailError,
+            passwordError = passwordError
+        )
+    }
+
+    private fun validateEmail(email: String): AuthError? {
         val trimmedEmail = email.trim()
 
         if (trimmedEmail.isBlank()) {
@@ -18,7 +49,7 @@ object Validation {
         return null
     }
 
-    fun validateUsername(username: String): AuthError? {
+    private fun validateUsername(username: String): AuthError? {
         val trimmedUsername = username.trim()
 
         if (trimmedUsername.isBlank()) {
@@ -31,7 +62,7 @@ object Validation {
         return null
     }
 
-    fun validatePassword(password: String): AuthError? {
+    private fun validatePassword(password: String): AuthError? {
         val trimmedPassword = password.trim()
         if (trimmedPassword.isBlank()) {
             return AuthError.FieldEmpty

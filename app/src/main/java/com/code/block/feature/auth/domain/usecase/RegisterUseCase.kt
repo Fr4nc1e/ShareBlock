@@ -13,18 +13,18 @@ class RegisterUseCase(
         username: String,
         password: String
     ): RegisterResult {
-        val usernameError = Validation.validateUsername(username)
-        val emailError = Validation.validateEmail(email)
-        val passwordError = Validation.validatePassword(password)
-
-        if (emailError != null ||
-            usernameError != null ||
-            passwordError != null
-        ) return RegisterResult(
-            emailError,
-            usernameError,
-            passwordError
-        )
+        Validation.checkRegister(
+            email = email,
+            username = username,
+            password = password
+        ).also {
+            if (it.emailError != null ||
+                it.usernameError != null ||
+                it.passwordError != null
+            ) return RegisterResult(
+                registerError = it
+            )
+        }
 
         val result = repository.register(
             email.trim(),

@@ -50,8 +50,8 @@ class LoginViewModel @Inject constructor(
                 _emailState.value = TextFieldState()
             }
             is LoginEvent.TogglePasswordVisibility -> {
-                _loginState.value = loginState.value.copy(
-                    isPasswordVisible = !loginState.value.isPasswordVisible
+                _passwordState.value = passwordState.value.copy(
+                    isPasswordVisible = !passwordState.value.isPasswordVisible
                 )
             }
             is LoginEvent.Login -> {
@@ -70,21 +70,24 @@ class LoginViewModel @Inject constructor(
                 email = emailState.value.text,
                 password = passwordState.value.text
             ).also { loginResult ->
-                loginResult.emailError?.let {
-                    _emailState.value = emailState.value.copy(
-                        error = loginResult.emailError
-                    )
-                }
-                loginResult.passwordError?.let {
-                    _passwordState.value = _passwordState.value.copy(
-                        error = loginResult.passwordError
-                    )
+                loginResult.loginError?.let {
+                    it.emailError?.let {
+                        _emailState.value = emailState.value.copy(
+                            error = loginResult.loginError.emailError
+                        )
+                    }
+                    it.passwordError?.let {
+                        _passwordState.value = _passwordState.value.copy(
+                            error = loginResult.loginError.passwordError
+                        )
+                    }
                 }
                 when (loginResult.result) {
                     is Resource.Success -> {
                         _eventFlow.emit(
                             UiEvent.Navigate(HomeScreenDestination.route)
                         )
+                        initial()
                     }
                     is Resource.Error -> {
                         _eventFlow.emit(
@@ -100,5 +103,12 @@ class LoginViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun initial() {
+        _loginState.value = _loginState.value
+            .copy(isLoading = false)
+        _emailState.value = TextFieldState()
+        _passwordState.value = PasswordTextFieldState()
     }
 }

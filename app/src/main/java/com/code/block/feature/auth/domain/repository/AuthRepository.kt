@@ -1,6 +1,8 @@
 package com.code.block.feature.auth.domain.repository
 
-import com.code.block.core.utils.SimpleResource
+import com.code.block.core.utils.AuthenticationResource
+import com.code.block.core.utils.LoginResource
+import com.code.block.core.utils.RegisterResource
 
 interface AuthRepository {
 
@@ -8,12 +10,12 @@ interface AuthRepository {
         email: String,
         username: String,
         password: String
-    ): SimpleResource
+    ): RegisterResource
 
     suspend fun login(
         email: String,
         password: String
-    ): SimpleResource
+    ): LoginResource
 
-    suspend fun authenticate(): SimpleResource
+    suspend fun authenticate(): AuthenticationResource
 }

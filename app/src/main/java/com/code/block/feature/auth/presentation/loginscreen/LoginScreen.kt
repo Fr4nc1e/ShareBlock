@@ -26,7 +26,7 @@ import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.utils.UiEvent
 import com.code.block.core.utils.asString
-import com.code.block.feature.auth.presentation.util.AuthError
+import com.code.block.feature.auth.domain.error.AuthError
 import com.code.block.feature.destinations.LoginScreenDestination
 import com.code.block.feature.destinations.RegisterScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
@@ -166,7 +166,7 @@ fun LoginScreen(
                         modifier = Modifier.size(IconSizeMedium)
                     )
                 },
-                isPasswordVisible = loginState.value.isPasswordVisible,
+                isPasswordVisible = passwordState.value.isPasswordVisible,
                 onPasswordToggleClick = {
                     viewModel.onEvent(LoginEvent.TogglePasswordVisibility)
                 }

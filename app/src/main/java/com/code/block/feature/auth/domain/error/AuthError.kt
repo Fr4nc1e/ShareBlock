@@ -1,4 +1,4 @@
-package com.code.block.feature.auth.presentation.util
+package com.code.block.feature.auth.domain.error
 
 import com.code.block.core.utils.Error
 

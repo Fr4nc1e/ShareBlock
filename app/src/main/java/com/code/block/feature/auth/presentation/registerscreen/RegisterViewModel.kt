@@ -80,31 +80,29 @@ class RegisterViewModel @Inject constructor(
                 username = usernameState.value.text,
                 password = passwordState.value.text
             ).also { registerResult ->
-                registerResult.emailError?.let {
-                    _emailState.value = emailState.value.copy(
-                        error = registerResult.emailError
-                    )
-                }
-                registerResult.usernameError?.let {
-                    _usernameState.value = _usernameState.value.copy(
-                        error = registerResult.usernameError
-                    )
-                }
-                registerResult.passwordError?.let {
-                    _passwordState.value = _passwordState.value.copy(
-                        error = registerResult.passwordError
-                    )
+                registerResult.registerError?.let {
+                    it.emailError?.let {
+                        _emailState.value = emailState.value.copy(
+                            error = registerResult.registerError.emailError
+                        )
+                    }
+                    it.usernameError?.let {
+                        _usernameState.value = _usernameState.value.copy(
+                            error = registerResult.registerError.usernameError
+                        )
+                    }
+                    it.passwordError?.let {
+                        _passwordState.value = _passwordState.value.copy(
+                            error = registerResult.registerError.passwordError
+                        )
+                    }
                 }
                 when (registerResult.result) {
                     is Resource.Success -> {
                         _eventFlow.emit(
                             UiEvent.Navigate(LoginScreenDestination.route)
                         )
-                        _registerState.value = _registerState.value
-                            .copy(isLoading = false)
-                        _emailState.value = TextFieldState()
-                        _usernameState.value = TextFieldState()
-                        _passwordState.value = PasswordTextFieldState()
+                        initial()
                     }
                     is Resource.Error -> {
                         _eventFlow.emit(
@@ -122,5 +120,13 @@ class RegisterViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun initial() {
+        _registerState.value = _registerState.value
+            .copy(isLoading = false)
+        _emailState.value = TextFieldState()
+        _usernameState.value = TextFieldState()
+        _passwordState.value = PasswordTextFieldState()
     }
 }

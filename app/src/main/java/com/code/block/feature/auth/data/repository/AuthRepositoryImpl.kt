@@ -2,10 +2,7 @@ package com.code.block.feature.auth.data.repository
 
 import android.content.SharedPreferences
 import com.code.block.R
-import com.code.block.core.utils.Constants
-import com.code.block.core.utils.Resource
-import com.code.block.core.utils.SimpleResource
-import com.code.block.core.utils.UiText
+import com.code.block.core.utils.* // ktlint-disable no-wildcard-imports
 import com.code.block.feature.auth.data.remote.AuthApi
 import com.code.block.feature.auth.data.remote.request.CreateAccountRequest
 import com.code.block.feature.auth.data.remote.request.LoginRequest
@@ -23,7 +20,7 @@ class AuthRepositoryImpl(
         email: String,
         username: String,
         password: String
-    ): SimpleResource {
+    ): RegisterResource {
         val request = CreateAccountRequest(
             email = email,
             username = username,
@@ -35,7 +32,7 @@ class AuthRepositoryImpl(
             if (response.successful) {
                 response.message?.let {
                     Resource.Success(uiText = UiText.CallResponseText(it))
-                } ?: Resource.Success(uiText = null)
+                } ?: Resource.Success(uiText = UiText.StringResource(R.string.register_successfully))
             } else {
                 response.message?.let {
                     Resource.Error(uiText = UiText.CallResponseText(it))
@@ -52,22 +49,20 @@ class AuthRepositoryImpl(
     override suspend fun login(
         email: String,
         password: String
-    ): SimpleResource {
+    ): LoginResource {
         val request = LoginRequest(
             email = email,
             password = password
         )
-
         return try {
             val response = api.login(request)
-
             if (response.successful) {
                 response.data?.token?.let { token ->
                     sharedPreferences.edit()
                         .putString(Constants.JWT_TOKEN, token)
                         .apply()
                 }
-                Resource.Success(uiText = null)
+                Resource.Success(uiText = UiText.StringResource(R.string.login_successfully))
             } else {
                 response.message?.let { message ->
                     Resource.Error(uiText = UiText.CallResponseText(message))
@@ -81,7 +76,7 @@ class AuthRepositoryImpl(
     }
 
     // Authentication
-    override suspend fun authenticate(): SimpleResource {
+    override suspend fun authenticate(): AuthenticationResource {
         return try {
             api.authenticate()
             Resource.Success(uiText = null)

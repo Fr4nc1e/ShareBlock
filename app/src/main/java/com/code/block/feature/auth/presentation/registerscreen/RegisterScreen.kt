@@ -25,7 +25,7 @@ import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.utils.Constants
 import com.code.block.core.utils.UiEvent
 import com.code.block.core.utils.asString
-import com.code.block.feature.auth.presentation.util.AuthError
+import com.code.block.feature.auth.domain.error.AuthError
 import com.code.block.feature.destinations.RegisterScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
