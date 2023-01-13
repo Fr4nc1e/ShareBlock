@@ -17,15 +17,17 @@ class AuthRepositoryImpl(
     private val api: AuthApi,
     private val sharedPreferences: SharedPreferences
 ) : AuthRepository {
+
+    // Register
     override suspend fun register(
         email: String,
         username: String,
         password: String
     ): SimpleResource {
         val request = CreateAccountRequest(
-            email,
-            username,
-            password
+            email = email,
+            username = username,
+            password = password
         )
 
         return try {
@@ -40,12 +42,13 @@ class AuthRepositoryImpl(
                 } ?: Resource.Error(uiText = UiText.StringResource(R.string.unknown_error))
             }
         } catch (e: IOException) {
-            Resource.Error(uiText = UiText.StringResource(R.string.read_write_error))
+            Resource.Error(uiText = UiText.StringResource(R.string.fail_to_connect))
         } catch (e: HttpException) {
             Resource.Error(uiText = UiText.StringResource(R.string.fail_to_connect))
         }
     }
 
+    // Login
     override suspend fun login(
         email: String,
         password: String
@@ -71,18 +74,19 @@ class AuthRepositoryImpl(
                 } ?: Resource.Error(uiText = UiText.StringResource(R.string.unknown_error))
             }
         } catch (e: IOException) {
-            Resource.Error(uiText = UiText.StringResource(R.string.read_write_error))
+            Resource.Error(uiText = UiText.StringResource(R.string.fail_to_connect))
         } catch (e: HttpException) {
             Resource.Error(uiText = UiText.StringResource(R.string.fail_to_connect))
         }
     }
 
+    // Authentication
     override suspend fun authenticate(): SimpleResource {
         return try {
             api.authenticate()
             Resource.Success(uiText = null)
         } catch (e: IOException) {
-            Resource.Error(uiText = UiText.StringResource(R.string.read_write_error))
+            Resource.Error(uiText = UiText.StringResource(R.string.fail_to_connect))
         } catch (e: HttpException) {
             Resource.Error(uiText = UiText.StringResource(R.string.fail_to_connect))
         }

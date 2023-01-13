@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.R
+import com.code.block.core.utils.UiEvent
 import com.code.block.feature.destinations.SplashScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -63,6 +64,7 @@ fun SplashScreen(
                         }
                     }
                 }
+                else -> Unit
             }
         }
     }

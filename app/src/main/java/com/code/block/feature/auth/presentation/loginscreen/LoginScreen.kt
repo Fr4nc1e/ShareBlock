@@ -24,6 +24,7 @@ import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
+import com.code.block.core.utils.UiEvent
 import com.code.block.core.utils.asString
 import com.code.block.feature.auth.presentation.util.AuthError
 import com.code.block.feature.destinations.LoginScreenDestination
@@ -45,7 +46,7 @@ fun LoginScreen(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = true) {
-        viewModel.snackBarEventFlow.collectLatest { event ->
+        viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is UiEvent.SnackBarEvent -> {
                     scaffoldState.snackbarHostState.showSnackbar(

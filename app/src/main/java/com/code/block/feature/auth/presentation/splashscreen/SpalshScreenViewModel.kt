@@ -3,6 +3,7 @@ package com.code.block.feature.auth.presentation.splashscreen // ktlint-disable 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.code.block.core.utils.Resource
+import com.code.block.core.utils.UiEvent
 import com.code.block.feature.auth.domain.usecase.AuthenticateUseCase
 import com.code.block.feature.destinations.LoginScreenDestination
 import com.code.block.feature.destinations.MainFeedScreenDestination
@@ -22,7 +23,7 @@ class SplashScreenViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            when (val result = authenticateUseCase()) {
+            when (authenticateUseCase()) {
                 is Resource.Success -> {
                     _eventFlow.emit(
                         UiEvent.Navigate(MainFeedScreenDestination.route)

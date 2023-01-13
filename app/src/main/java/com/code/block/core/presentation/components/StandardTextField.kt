@@ -15,8 +15,6 @@ import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -26,7 +24,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.code.block.R
 import com.code.block.core.utils.Constants
-import com.code.block.core.utils.TestTags
 
 @Composable
 fun StandardTextField(
@@ -104,17 +101,13 @@ fun StandardTextField(
                     IconButton(
                         onClick = {
                             onPasswordToggleClick(!isPasswordVisible)
-                        },
-                        modifier = Modifier
-                            .semantics {
-                                testTag = TestTags.PASSWORD_TOGGLE
-                            }
+                        }
                     ) {
                         Icon(
                             imageVector = if (isPasswordVisible) {
-                                Icons.Filled.VisibilityOff
-                            } else {
                                 Icons.Filled.Visibility
+                            } else {
+                                Icons.Filled.VisibilityOff
                             },
                             tint = Color.White,
                             contentDescription = if (isPasswordVisible) {
@@ -129,9 +122,6 @@ fun StandardTextField(
             } else trailingIcon,
             modifier = modifier
                 .fillMaxWidth()
-                .semantics {
-                    testTag = TestTags.STANDARD_TEXT_FIELD
-                }
         )
 
         if (isRegisterPage) {

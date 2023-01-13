@@ -20,7 +20,9 @@ class LoginUseCase(
             AuthError.FieldEmpty
         } else null
 
-        if (emailError != null || passwordError != null) return LoginResult(
+        if (emailError != null ||
+            passwordError != null
+        ) return LoginResult(
             emailError = emailError,
             passwordError = passwordError
         )

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.code.block.core.domain.state.PasswordTextFieldState
 import com.code.block.core.domain.state.TextFieldState
 import com.code.block.core.utils.Resource
+import com.code.block.core.utils.UiEvent
 import com.code.block.core.utils.UiText
 import com.code.block.feature.auth.domain.usecase.RegisterUseCase
 import com.code.block.feature.destinations.LoginScreenDestination
