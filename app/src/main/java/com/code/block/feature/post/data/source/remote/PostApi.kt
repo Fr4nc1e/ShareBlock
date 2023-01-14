@@ -1,4 +1,4 @@
-package com.code.block.feature.post.data.remote
+package com.code.block.feature.post.data.source.remote
 
 import com.code.block.core.domain.model.Post
 import retrofit2.http.GET

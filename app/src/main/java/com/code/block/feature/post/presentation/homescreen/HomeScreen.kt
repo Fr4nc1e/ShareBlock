@@ -1,14 +1,15 @@
 package com.code.block.feature.post.presentation.homescreen
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,10 +21,14 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.code.block.R
 import com.code.block.core.domain.model.Post
+import com.code.block.core.presentation.components.PostCard
 import com.code.block.core.presentation.components.StandardTopBar
+import com.code.block.core.presentation.ui.theme.IconSizeLarge
+import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.feature.destinations.PostDetailScreenDestination
 import com.code.block.feature.destinations.SearchScreenDestination
-import com.code.block.feature.post.presentation.homescreen.components.PostCard
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
@@ -37,90 +42,128 @@ fun HomeScreen(
 ) {
     val posts = viewModel.posts.collectAsLazyPagingItems()
     val state = viewModel.state.value
+    val listState = rememberLazyListState()
+    val refreshState = rememberSwipeRefreshState(isRefreshing = false)
     val scope = rememberCoroutineScope()
+    val firstVisibleItem = remember {
+        derivedStateOf {
+            listState.firstVisibleItemIndex
+        }
+    }
 
-    Column(
-        modifier = Modifier.fillMaxWidth()
+    SwipeRefresh(
+        state = refreshState,
+        onRefresh = {
+            posts.refresh()
+        }
     ) {
-        StandardTopBar(
-            title = {
-                Text(
-                    text = stringResource(R.string.home),
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.onBackground
-                )
-            },
-            modifier = Modifier.fillMaxWidth(),
-            navActions = {
-                IconButton(
-                    onClick = {
-                        navigator.navigate(SearchScreenDestination)
-                    }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = stringResource(R.string.search),
-                        tint = MaterialTheme.colors.onBackground
+        Column(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            StandardTopBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.home),
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colors.onBackground
                     )
-                }
-            }
-        )
-
-        Box(modifier = Modifier.fillMaxSize()) {
-            if (state.isLoadingFirstTime) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                items(posts) { post ->
-                    PostCard(
-                        navigator = navigator,
-                        post = Post(
-                            username = post?.username ?: "",
-                            imageUrl = post?.imageUrl ?: "",
-                            profilePictureUrl = post?.profilePictureUrl ?: "",
-                            description = post?.description ?: "",
-                            likeCount = post?.likeCount ?: 0,
-                            commentCount = post?.commentCount ?: 0,
-                            timestamp = post?.timestamp ?: 0
-                        ),
-                        onPostClick = {
-                            navigator.navigate(PostDetailScreenDestination)
+                },
+                modifier = Modifier.fillMaxWidth(),
+                navActions = {
+                    IconButton(
+                        onClick = {
+                            navigator.navigate(SearchScreenDestination)
                         }
-                    )
-                }
-
-                item {
-                    if (state.isLoadingNewPosts) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.align(Alignment.BottomCenter)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = stringResource(R.string.search),
+                            tint = MaterialTheme.colors.onBackground
                         )
                     }
                 }
+            )
 
-                posts.apply {
-                    when {
-                        loadState.refresh !is LoadState.Loading -> {
-                            viewModel.onEvent(HomeEvent.LoadPage)
+            Box(modifier = Modifier.fillMaxSize()) {
+                if (state.isLoadingFirstTime) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    state = listState
+                ) {
+                    items(posts) { post ->
+                        PostCard(
+                            navigator = navigator,
+                            post = Post(
+                                username = post?.username ?: "Batman",
+                                imageUrl = post?.imageUrl ?: "",
+                                profilePictureUrl = post?.profilePictureUrl ?: "",
+                                description = post?.description ?: "",
+                                likeCount = post?.likeCount ?: 0,
+                                commentCount = post?.commentCount ?: 0,
+                                timestamp = post?.timestamp ?: 0
+                            ),
+                            onPostClick = {
+                                navigator.navigate(PostDetailScreenDestination)
+                            }
+                        )
+                    }
+
+                    item {
+                        if (state.isLoadingNewPosts) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.align(Alignment.BottomCenter)
+                            )
                         }
-                        loadState.append is LoadState.Loading -> {
-                            viewModel.onEvent(HomeEvent.LoadPosts)
-                        }
-                        loadState.append is LoadState.NotLoading -> {
-                            viewModel.onEvent(HomeEvent.LoadPage)
-                        }
-                        loadState.append is LoadState.Error -> {
-                            scope.launch {
-                                scaffoldState.snackbarHostState.showSnackbar(
-                                    message = "Error"
-                                )
+                    }
+
+                    posts.apply {
+                        when {
+                            loadState.refresh !is LoadState.Loading -> {
+                                viewModel.onEvent(HomeEvent.LoadPage)
+                            }
+                            loadState.append is LoadState.Loading -> {
+                                viewModel.onEvent(HomeEvent.LoadPosts)
+                            }
+                            loadState.append is LoadState.NotLoading -> {
+                                viewModel.onEvent(HomeEvent.LoadPage)
+                            }
+                            loadState.append is LoadState.Error -> {
+                                scope.launch {
+                                    scaffoldState.snackbarHostState.showSnackbar(
+                                        message = "Error"
+                                    )
+                                }
                             }
                         }
+                    }
+                }
+
+                if (firstVisibleItem.value > 0) {
+                    FloatingActionButton(
+                        onClick = {
+                            scope.launch {
+                                listState.animateScrollToItem(index = 0)
+                            }
+                        },
+                        backgroundColor = MaterialTheme.colors.surface,
+                        contentColor = MaterialTheme.colors.onSurface,
+                        modifier = Modifier.size(IconSizeLarge)
+                            .align(Alignment.BottomEnd)
+                            .padding(
+                                end = SpaceSmall,
+                                bottom = SpaceSmall
+                            )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowUpward,
+                            contentDescription = "Back to top."
+                        )
                     }
                 }
             }

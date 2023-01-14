@@ -35,7 +35,10 @@ object AppModule {
         return OkHttpClient.Builder()
             .addInterceptor {
                 val modifiedRequest = it.request().newBuilder()
-                    .addHeader("Authorization", "Bearer $token")
+                    .addHeader(
+                        "Authorization",
+                        "Bearer $token"
+                    )
                     .build()
                 it.proceed(modifiedRequest)
             }

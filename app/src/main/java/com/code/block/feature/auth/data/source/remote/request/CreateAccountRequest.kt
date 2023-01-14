@@ -1,4 +1,4 @@
-package com.code.block.feature.auth.data.remote.request
+package com.code.block.feature.auth.data.source.remote.request
 
 data class CreateAccountRequest(
     val email: String,

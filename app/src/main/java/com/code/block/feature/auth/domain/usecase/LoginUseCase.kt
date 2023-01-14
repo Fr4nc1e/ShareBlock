@@ -15,11 +15,11 @@ class LoginUseCase(
             email = email,
             password = password
         ).also {
-            if (it.emailError != null ||
-                it.passwordError != null
-            ) return LoginResult(
-                loginError = it
-            )
+            if (it.emailError != null || it.passwordError != null) {
+                return LoginResult(
+                    loginError = it
+                )
+            }
         }
 
         return LoginResult(

@@ -16,11 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.code.block.R
 import com.code.block.core.domain.model.Post
+import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.presentation.ui.theme.TextWhite
 import com.code.block.feature.destinations.PersonListScreenDestination
@@ -32,7 +31,6 @@ fun InteractiveButtons(
     navigator: DestinationsNavigator,
     post: Post,
     isLiked: Boolean = false,
-    iconSize: Dp = 30.dp,
     onLikeClick: (Boolean) -> Unit = {},
     onCommentClick: () -> Unit = {},
     onShareClick: () -> Unit = {}
@@ -49,7 +47,7 @@ fun InteractiveButtons(
                 onClick = {
                     onLikeClick(!isLiked)
                 },
-                modifier = Modifier.size(iconSize)
+                modifier = Modifier.size(IconSizeMedium)
             ) {
                 Icon(
                     imageVector = Icons.Filled.Favorite,
@@ -86,7 +84,7 @@ fun InteractiveButtons(
                 onClick = {
                     onCommentClick()
                 },
-                modifier = Modifier.size(iconSize)
+                modifier = Modifier.size(IconSizeMedium)
             ) {
                 Icon(
                     imageVector = Icons.Filled.Comment,
@@ -111,7 +109,7 @@ fun InteractiveButtons(
                 onClick = {
                     onShareClick()
                 },
-                modifier = Modifier.size(iconSize)
+                modifier = Modifier.size(IconSizeMedium)
             ) {
                 Icon(
                     imageVector = Icons.Filled.Share,

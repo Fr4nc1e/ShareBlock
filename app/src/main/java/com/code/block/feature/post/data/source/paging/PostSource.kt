@@ -1,10 +1,10 @@
-package com.code.block.feature.post.data.paging
+package com.code.block.feature.post.data.source.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.code.block.core.domain.model.Post
 import com.code.block.core.utils.Constants
-import com.code.block.feature.post.data.remote.PostApi
+import com.code.block.feature.post.data.source.remote.PostApi
 import retrofit2.HttpException
 import java.io.IOException
 

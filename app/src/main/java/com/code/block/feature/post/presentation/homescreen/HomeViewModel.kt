@@ -32,6 +32,8 @@ class HomeViewModel @Inject constructor(
                     isLoadingNewPosts = true
                 )
             }
+            HomeEvent.Refresh -> {
+            }
         }
     }
 }

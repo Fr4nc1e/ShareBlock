@@ -3,9 +3,9 @@ package com.code.block.feature.auth.data.repository
 import android.content.SharedPreferences
 import com.code.block.R
 import com.code.block.core.utils.* // ktlint-disable no-wildcard-imports
-import com.code.block.feature.auth.data.remote.AuthApi
-import com.code.block.feature.auth.data.remote.request.CreateAccountRequest
-import com.code.block.feature.auth.data.remote.request.LoginRequest
+import com.code.block.feature.auth.data.source.remote.AuthApi
+import com.code.block.feature.auth.data.source.remote.request.CreateAccountRequest
+import com.code.block.feature.auth.data.source.remote.request.LoginRequest
 import com.code.block.feature.auth.domain.repository.AuthRepository
 import retrofit2.HttpException
 import java.io.IOException

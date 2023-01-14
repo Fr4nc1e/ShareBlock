@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 class GetPostsForFollowUseCase(
     private val repository: PostRepository
 ) {
-
     operator fun invoke(): Flow<PagingData<Post>> {
         return repository.posts
     }

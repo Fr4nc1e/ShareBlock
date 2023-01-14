@@ -17,6 +17,7 @@ import com.code.block.core.utils.Constants
 @Composable
 fun ExpandableText(
     text: String,
+    modifier: Modifier = Modifier,
     collapsedMaxLine: Int = Constants.MAX_POST_DESCRIPTION_LINES
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -24,7 +25,7 @@ fun ExpandableText(
     var lastCharIndex by remember { mutableStateOf(0) }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .clickable(clickable) {
                 isExpanded = !isExpanded
             }
@@ -65,7 +66,7 @@ fun ExpandableText(
                     append(text)
                 }
             },
-            style = MaterialTheme.typography.body2,
+            style = MaterialTheme.typography.body1,
             maxLines = if (isExpanded) Int.MAX_VALUE else collapsedMaxLine,
             onTextLayout = {
                 if (!isExpanded && it.hasVisualOverflow) {

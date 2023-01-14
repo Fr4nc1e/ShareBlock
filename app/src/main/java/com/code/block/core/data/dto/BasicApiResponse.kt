@@ -1,6 +1,6 @@
 package com.code.block.core.data.dto
 
-import com.code.block.feature.auth.data.remote.response.AuthResponse
+import com.code.block.feature.auth.data.source.remote.response.AuthResponse
 
 data class BasicApiResponse<T>(
     val successful: Boolean,

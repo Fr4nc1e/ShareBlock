@@ -1,7 +1,7 @@
 package com.code.block.di
 
-import com.code.block.feature.post.data.remote.PostApi
 import com.code.block.feature.post.data.repository.PostRepositoryImpl
+import com.code.block.feature.post.data.source.remote.PostApi
 import com.code.block.feature.post.domain.repository.PostRepository
 import com.code.block.feature.post.domain.usecase.GetPostsForFollowUseCase
 import com.code.block.feature.post.domain.usecase.PostUseCases
@@ -20,11 +20,11 @@ object PostModule {
 
     @Provides
     @Singleton
-    fun ProvidePostApi(client: OkHttpClient): PostApi {
+    fun providePostApi(client: OkHttpClient): PostApi {
         return Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(PostApi.BASE_URL)
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(PostApi::class.java)
     }
@@ -37,9 +37,7 @@ object PostModule {
 
     @Provides
     @Singleton
-    fun providePostUseCases(
-        repository: PostRepository
-    ): PostUseCases {
+    fun providePostUseCases(repository: PostRepository): PostUseCases {
         return PostUseCases(
             getPostsForFollowUseCase = GetPostsForFollowUseCase(
                 repository = repository
