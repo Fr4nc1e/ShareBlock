@@ -11,3 +11,4 @@ sealed class Resource<T>(
 typealias RegisterResource = Resource<Unit>
 typealias LoginResource = Resource<Unit>
 typealias AuthenticationResource = Resource<Unit>
+typealias CreatePostResource = Resource<Unit>

@@ -1,7 +1,11 @@
 package com.code.block.feature.post.presentation.createpostscreen
 
+import android.net.Uri
+
 sealed class CreatePostEvent {
     data class EnteredDescription(val description: String) : CreatePostEvent()
-    data class InputPicture(val imageUrl: String) : CreatePostEvent()
+    data class InputContent(val contentUri: Uri?) : CreatePostEvent()
+
+    data class CropImage(val contentUri: Uri?) : CreatePostEvent()
     object Post : CreatePostEvent()
 }

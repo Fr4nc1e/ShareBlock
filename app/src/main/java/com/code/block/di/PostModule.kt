@@ -3,8 +3,10 @@ package com.code.block.di
 import com.code.block.feature.post.data.repository.PostRepositoryImpl
 import com.code.block.feature.post.data.source.remote.PostApi
 import com.code.block.feature.post.domain.repository.PostRepository
+import com.code.block.feature.post.domain.usecase.CreatePostUseCase
 import com.code.block.feature.post.domain.usecase.GetPostsForFollowUseCase
 import com.code.block.feature.post.domain.usecase.PostUseCases
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,8 +33,14 @@ object PostModule {
 
     @Provides
     @Singleton
-    fun providePostRepository(api: PostApi): PostRepository {
-        return PostRepositoryImpl(api = api)
+    fun providePostRepository(
+        api: PostApi,
+        gson: Gson
+    ): PostRepository {
+        return PostRepositoryImpl(
+            api = api,
+            gson = gson
+        )
     }
 
     @Provides
@@ -40,6 +48,9 @@ object PostModule {
     fun providePostUseCases(repository: PostRepository): PostUseCases {
         return PostUseCases(
             getPostsForFollowUseCase = GetPostsForFollowUseCase(
+                repository = repository
+            ),
+            createPostUseCase = CreatePostUseCase(
                 repository = repository
             )
         )
