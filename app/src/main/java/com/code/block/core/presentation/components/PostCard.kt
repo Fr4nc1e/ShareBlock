@@ -16,16 +16,19 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.code.block.R
 import com.code.block.core.domain.model.Comment
 import com.code.block.core.domain.model.Post
-import com.code.block.core.presentation.ui.theme.* // ktlint-disable no-wildcard-imports
+import com.code.block.core.presentation.ui.theme.ProfilePictureSizeExtraSmall
+import com.code.block.core.presentation.ui.theme.ProfilePictureSizeSmall
+import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.core.presentation.ui.theme.quicksand
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
@@ -74,10 +77,8 @@ fun PostCard(
             Spacer(modifier = Modifier.height(SpaceSmall))
 
             Image(
-                painter = painterResource(R.drawable.hd_batman),
-                contentDescription = stringResource(
-                    id = R.string.front_image_sample
-                ),
+                painter = rememberAsyncImagePainter(post.contentUrl),
+                contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .padding(horizontal = SpaceSmall)

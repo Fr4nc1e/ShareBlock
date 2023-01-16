@@ -101,7 +101,7 @@ fun HomeScreen(
                             navigator = navigator,
                             post = Post(
                                 username = post?.username ?: "Batman",
-                                imageUrl = post?.imageUrl ?: "",
+                                contentUrl = "http://172.28.211.51:8081/post_contents/" + post?.contentUrl?.takeLastWhile { it != '/' },
                                 profilePictureUrl = post?.profilePictureUrl ?: "",
                                 description = post?.description ?: "",
                                 likeCount = post?.likeCount ?: 0,

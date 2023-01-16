@@ -93,7 +93,7 @@ fun ProfileScreen(
                         pagerState = pagerState,
                         post = Post(
                             username = "Batman",
-                            imageUrl = "",
+                            contentUrl = "",
                             profilePictureUrl = "",
                             description = stringResource(id = R.string.test_string),
                             likeCount = 17,

@@ -36,7 +36,7 @@ fun PostDetailScreen(
     navigator: DestinationsNavigator,
     post: Post = Post(
         username = "Batman",
-        imageUrl = "R.drawable.hd_batman",
+        contentUrl = "R.drawable.hd_batman",
         profilePictureUrl = "R.drawable.batman_profile_image",
         description = stringResource(id = R.string.test_string),
         likeCount = 17,
