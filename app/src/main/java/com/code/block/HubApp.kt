@@ -12,6 +12,7 @@ import com.code.block.feature.NavGraphs
 import com.code.block.feature.auth.presentation.loginscreen.LoginScreen
 import com.code.block.feature.auth.presentation.registerscreen.RegisterScreen
 import com.code.block.feature.destinations.* // ktlint-disable no-wildcard-imports
+import com.code.block.feature.post.presentation.createpostscreen.CreatePostScreen
 import com.code.block.feature.post.presentation.homescreen.HomeScreen
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
@@ -61,6 +62,12 @@ fun HubApp() {
             }
             composable(HomeScreenDestination) {
                 HomeScreen(
+                    navigator = destinationsNavigator,
+                    scaffoldState = scaffoldState
+                )
+            }
+            composable(CreatePostScreenDestination) {
+                CreatePostScreen(
                     navigator = destinationsNavigator,
                     scaffoldState = scaffoldState
                 )

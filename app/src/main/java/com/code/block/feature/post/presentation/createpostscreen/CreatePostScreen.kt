@@ -7,15 +7,15 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -33,13 +33,18 @@ import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.utils.CropActivityResultContract
+import com.code.block.core.utils.UiEvent
+import com.code.block.core.utils.asString
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Destination
 @Composable
 fun CreatePostScreen(
     navigator: DestinationsNavigator,
+    scaffoldState: ScaffoldState,
     viewModel: CreatePostViewModel = hiltViewModel()
 ) {
     val imageUri = viewModel.chosenContentUri.value
@@ -55,6 +60,26 @@ fun CreatePostScreen(
         contract = ActivityResultContracts.GetContent(),
         onResult = {
             cropActivityLauncher.launch(it)
+        }
+    )
+
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(
+        key1 = true,
+        block = {
+            viewModel.eventFlow.collectLatest {
+                when (it) {
+                    is UiEvent.Navigate -> Unit
+                    is UiEvent.NavigateUp -> navigator.navigateUp()
+                    is UiEvent.SnackBarEvent -> scope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            message = it.uiText.asString(context)
+                        )
+                    }
+                }
+            }
         }
     )
 
@@ -132,6 +157,7 @@ fun CreatePostScreen(
 
             Button(
                 onClick = { viewModel.onEvent(CreatePostEvent.Post) },
+                enabled = !viewModel.isLoading.value,
                 modifier = Modifier.align(Alignment.End)
             ) {
                 Text(
@@ -139,6 +165,14 @@ fun CreatePostScreen(
                     color = MaterialTheme.colors.onPrimary
                 )
                 Spacer(modifier = Modifier.width(SpaceSmall))
+                if (viewModel.isLoading.value) {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colors.onPrimary,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .align(CenterVertically)
+                    )
+                }
                 Icon(
                     imageVector = Icons.Default.Send,
                     contentDescription = null

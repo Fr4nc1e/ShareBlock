@@ -5,9 +5,15 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.code.block.R
 import com.code.block.core.domain.state.TextFieldState
+import com.code.block.core.utils.Resource
+import com.code.block.core.utils.UiEvent
+import com.code.block.core.utils.UiText
 import com.code.block.feature.post.domain.usecase.PostUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,6 +27,12 @@ class CreatePostViewModel @Inject constructor(
 
     private val _chosenContentUri = mutableStateOf<Uri?>(null)
     val chosenContentUri: State<Uri?> = _chosenContentUri
+
+    private val _isLoading = mutableStateOf(false)
+    val isLoading: State<Boolean> = _isLoading
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     fun onEvent(event: CreatePostEvent) {
         when (event) {
@@ -39,10 +51,29 @@ class CreatePostViewModel @Inject constructor(
             is CreatePostEvent.Post -> {
                 chosenContentUri.value?.let {
                     viewModelScope.launch {
-                        postUseCases.createPostUseCase(
+                        _isLoading.value = true
+                        val result = postUseCases.createPostUseCase(
                             description = descriptionState.value.text,
-                            contentUri = it
+                            contentUri = chosenContentUri.value
                         )
+                        when (result) {
+                            is Resource.Success -> {
+                                _eventFlow.emit(
+                                    UiEvent.SnackBarEvent(
+                                        uiText = UiText.StringResource(R.string.post_created)
+                                    )
+                                )
+                                _eventFlow.emit(UiEvent.NavigateUp)
+                            }
+                            is Resource.Error -> {
+                                _eventFlow.emit(
+                                    UiEvent.SnackBarEvent(
+                                        result.uiText ?: UiText.unknownError()
+                                    )
+                                )
+                            }
+                        }
+                        _isLoading.value = false
                     }
                 }
             }

@@ -62,7 +62,7 @@ class PostRepositoryImpl(
 
             if (response.successful) {
                 response.message?.let {
-                    Resource.Success(uiText = UiText.CallResponseText(it))
+                    Resource.Success(message = it, uiText = null)
                 } ?: Resource.Success(uiText = null)
             } else {
                 response.message?.let {

@@ -79,4 +79,7 @@
     <string name="fail_to_connect">Fail to connect.</string>
     <string name="register_successfully">Register successfully.</string>
     <string name="login_successfully">Login successfully!</string>
+    <string name="no_content_picked">No content picked.</string>
+    <string name="no_des_input">Description is null.</string>
+    <string name="post_created">Create post successfully.</string>
 </resources>
