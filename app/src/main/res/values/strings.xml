@@ -82,4 +82,6 @@
     <string name="no_content_picked">No content picked.</string>
     <string name="no_des_input">Description is null.</string>
     <string name="post_created">Create post successfully.</string>
+    <string name="test_comment">actually we have credit card etc information that we want to store and use them in espresso tests. As its critical information, we neither want it to be stored in the main project file nor want to delete it every time when we build a release build apk</string>
+    <string name="choose_video">Choose video.</string>
 </resources>

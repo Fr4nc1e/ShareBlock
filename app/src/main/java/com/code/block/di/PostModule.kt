@@ -1,5 +1,6 @@
 package com.code.block.di
 
+import android.content.Context
 import com.code.block.feature.post.data.repository.PostRepositoryImpl
 import com.code.block.feature.post.data.source.remote.PostApi
 import com.code.block.feature.post.domain.repository.PostRepository
@@ -10,6 +11,7 @@ import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -35,11 +37,13 @@ object PostModule {
     @Singleton
     fun providePostRepository(
         api: PostApi,
-        gson: Gson
+        gson: Gson,
+        @ApplicationContext appContext: Context
     ): PostRepository {
         return PostRepositoryImpl(
             api = api,
-            gson = gson
+            gson = gson,
+            appContext = appContext
         )
     }
 

@@ -1,8 +1,8 @@
 package com.code.block.feature.post.data.repository
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.net.Uri
-import androidx.core.net.toFile
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -10,6 +10,7 @@ import com.code.block.R
 import com.code.block.core.domain.model.Post
 import com.code.block.core.utils.Constants
 import com.code.block.core.utils.CreatePostResource
+import com.code.block.core.utils.FileNameReader.getFileName
 import com.code.block.core.utils.Resource
 import com.code.block.core.utils.UiText
 import com.code.block.feature.post.data.source.paging.PostSource
@@ -17,15 +18,21 @@ import com.code.block.feature.post.data.source.remote.CreatePostRequest
 import com.code.block.feature.post.data.source.remote.PostApi
 import com.code.block.feature.post.domain.repository.PostRepository
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.io.IOException
 
 class PostRepositoryImpl(
     private val api: PostApi,
-    private val gson: Gson
+    private val gson: Gson,
+    private val appContext: Context
 ) : PostRepository {
 
     override val posts: Flow<PagingData<Post>>
@@ -45,7 +52,20 @@ class PostRepositoryImpl(
     ): CreatePostResource {
         val request = CreatePostRequest(description)
 
-        val file = contentUri.toFile()
+        val file = withContext(Dispatchers.IO) {
+            appContext.contentResolver.openFileDescriptor(contentUri, "r")?.let { fd ->
+                val inputStream = FileInputStream(fd.fileDescriptor)
+                val file = File(
+                    appContext.cacheDir,
+                    appContext.contentResolver.getFileName(contentUri)
+                )
+                val outputStream = FileOutputStream(file)
+                inputStream.copyTo(outputStream)
+                file
+            }
+        } ?: return Resource.Error(
+            uiText = UiText.StringResource(R.string.unknown_error)
+        )
 
         return try {
             val response = api.createPost(
@@ -61,9 +81,7 @@ class PostRepositoryImpl(
             )
 
             if (response.successful) {
-                response.message?.let {
-                    Resource.Success(message = it, uiText = null)
-                } ?: Resource.Success(uiText = null)
+                Resource.Success(uiText = null)
             } else {
                 response.message?.let {
                     Resource.Error(uiText = UiText.CallResponseText(it))

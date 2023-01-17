@@ -1,5 +1,6 @@
 package com.code.block.feature.post.presentation.createpostscreen
 
+import android.webkit.MimeTypeMap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -9,12 +10,13 @@ import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-import
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Photo
 import androidx.compose.material.icons.filled.Send
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.icons.filled.VideoFile
+import androidx.compose.runtime.* // ktlint-disable no-wildcard-imports
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterEnd
+import androidx.compose.ui.Alignment.Companion.CenterStart
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,14 +28,17 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.CropImageContractOptions
+import com.canhub.cropper.CropImageOptions
 import com.code.block.R
 import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
-import com.code.block.core.utils.CropActivityResultContract
 import com.code.block.core.utils.UiEvent
+import com.code.block.core.utils.VideoPlayer
 import com.code.block.core.utils.asString
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -47,24 +52,32 @@ fun CreatePostScreen(
     scaffoldState: ScaffoldState,
     viewModel: CreatePostViewModel = hiltViewModel()
 ) {
-    val imageUri = viewModel.chosenContentUri.value
-
-    val cropActivityLauncher = rememberLauncherForActivityResult(
-        contract = CropActivityResultContract(),
-        onResult = {
-            viewModel.onEvent(CreatePostEvent.CropImage(it))
-        }
-    )
-
-    val galleryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent(),
-        onResult = {
-            cropActivityLauncher.launch(it)
-        }
-    )
-
+    val contentUri = viewModel.chosenContentUri.value
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    val cropActivityLauncher =
+        rememberLauncherForActivityResult(
+            contract = CropImageContract(),
+            onResult = {
+                viewModel.onEvent(CreatePostEvent.CropImage(it.uriContent))
+            }
+        )
+    val imageLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent(),
+            onResult = {
+                val cropOptions = CropImageContractOptions(it, CropImageOptions())
+                cropActivityLauncher.launch(cropOptions)
+            }
+        )
+
+    val videoLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent(),
+            onResult = {
+                viewModel.onEvent(CreatePostEvent.InputContent(it))
+            }
+        )
 
     LaunchedEffect(
         key1 = true,
@@ -112,27 +125,53 @@ fun CreatePostScreen(
                         color = MaterialTheme.colors.onBackground,
                         shape = MaterialTheme.shapes.medium
                     )
-                    .clickable {
-                        galleryLauncher.launch("image/*")
-                    },
-                contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.Default.Add,
+                    imageVector = Icons.Default.Photo,
                     contentDescription = stringResource(R.string.choose_image),
-                    tint = MaterialTheme.colors.onBackground
+                    tint = MaterialTheme.colors.onBackground,
+                    modifier = Modifier
+                        .align(CenterStart)
+                        .padding(start = SpaceLarge)
+                        .clickable {
+                            imageLauncher.launch("image/*")
+                        }
                 )
 
-                imageUri?.let {
-                    Image(
-                        painter = rememberAsyncImagePainter(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(it)
-                                .build()
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier.matchParentSize()
-                    )
+                Spacer(modifier = Modifier.width(SpaceLarge))
+
+                Icon(
+                    imageVector = Icons.Default.VideoFile,
+                    contentDescription = stringResource(R.string.choose_video),
+                    tint = MaterialTheme.colors.onBackground,
+                    modifier = Modifier
+                        .align(CenterEnd)
+                        .padding(end = SpaceLarge)
+                        .clickable {
+                            videoLauncher.launch("video/mp4")
+                        }
+                )
+
+                contentUri?.let { uri ->
+                    val fileExtension = MimeTypeMap
+                        .getFileExtensionFromUrl(uri.toString())
+                    val mimeType = MimeTypeMap
+                        .getSingleton()
+                        .getMimeTypeFromExtension(fileExtension)
+
+                    if (mimeType != null && !mimeType.contains("video")) {
+                        Image(
+                            painter = rememberAsyncImagePainter(
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(uri)
+                                    .build()
+                            ),
+                            contentDescription = null,
+                            modifier = Modifier.matchParentSize()
+                        )
+                    } else {
+                        VideoPlayer(uri = contentUri)
+                    }
                 }
             }
 
@@ -156,7 +195,9 @@ fun CreatePostScreen(
             Spacer(modifier = Modifier.height(SpaceLarge))
 
             Button(
-                onClick = { viewModel.onEvent(CreatePostEvent.Post) },
+                onClick = {
+                    viewModel.onEvent(CreatePostEvent.Post)
+                },
                 enabled = !viewModel.isLoading.value,
                 modifier = Modifier.align(Alignment.End)
             ) {

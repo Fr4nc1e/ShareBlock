@@ -1,5 +1,6 @@
 package com.code.block.core.presentation.components
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -29,6 +31,7 @@ import com.code.block.core.presentation.ui.theme.ProfilePictureSizeExtraSmall
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.presentation.ui.theme.quicksand
+import com.code.block.core.utils.VideoPlayer
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
@@ -38,7 +41,7 @@ fun PostCard(
     post: Post,
     comment: Comment = Comment(
         username = "test",
-        comment = "actually we have credit card etc information that we want to store and use them in espresso tests. As its critical information, we neither want it to be stored in the main project file nor want to delete it every time when we build a release build apk",
+        comment = stringResource(R.string.test_comment),
         profilePictureUrl = R.drawable.icons8_superman_144,
         formattedTime = System.currentTimeMillis().toString()
     ),
@@ -76,16 +79,20 @@ fun PostCard(
 
             Spacer(modifier = Modifier.height(SpaceSmall))
 
-            Image(
-                painter = rememberAsyncImagePainter(post.contentUrl),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .padding(horizontal = SpaceSmall)
-                    .fillMaxWidth()
-                    .aspectRatio(16f / 9f)
-                    .clip(RoundedCornerShape(10.dp))
-            )
+            if (post.contentUrl.takeLastWhile { it != '.' } != "mp4") {
+                Image(
+                    painter = rememberAsyncImagePainter(post.contentUrl),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .padding(horizontal = SpaceSmall)
+                        .fillMaxWidth()
+                        .aspectRatio(16f / 9f)
+                        .clip(RoundedCornerShape(10.dp))
+                )
+            } else {
+                VideoPlayer(uri = Uri.parse(post.contentUrl))
+            }
 
             Column(
                 modifier = Modifier
