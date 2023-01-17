@@ -2,22 +2,22 @@ package com.code.block.feature.post.presentation.homescreen
 
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.runtime.* // ktlint-disable no-wildcard-imports
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
-import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import com.code.block.R
 import com.code.block.core.domain.model.Post
@@ -27,35 +27,34 @@ import com.code.block.core.presentation.ui.theme.IconSizeLarge
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.feature.destinations.PostDetailScreenDestination
 import com.code.block.feature.destinations.SearchScreenDestination
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Destination
 @Composable
 fun HomeScreen(
     navigator: DestinationsNavigator,
     scaffoldState: ScaffoldState,
+    lazyListState: LazyListState,
+    posts: LazyPagingItems<Post>,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val posts = viewModel.posts.collectAsLazyPagingItems()
     val state = viewModel.state.value
-    val listState = rememberLazyListState()
-    val refreshState = rememberSwipeRefreshState(isRefreshing = false)
     val scope = rememberCoroutineScope()
-    val firstVisibleItem = remember {
-        derivedStateOf {
-            listState.firstVisibleItemIndex
-        }
-    }
-
-    SwipeRefresh(
-        state = refreshState,
+    val refreshing by viewModel.isRefreshing.collectAsState()
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = refreshing,
         onRefresh = {
-            posts.refresh()
+            viewModel.refresh {
+                posts.refresh()
+            }
         }
+    )
+
+    Box(
+        Modifier.pullRefresh(pullRefreshState)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
@@ -94,14 +93,15 @@ fun HomeScreen(
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize(),
-                    state = listState
+                    state = lazyListState
                 ) {
                     items(posts) { post ->
                         PostCard(
                             navigator = navigator,
                             post = Post(
                                 username = post?.username ?: "Batman",
-                                contentUrl = "http://172.28.211.51:8081/post_contents/" + post?.contentUrl?.takeLastWhile { it != '/' },
+                                contentUrl = "http://172.28.211.51:8081/post_contents/" +
+                                    post?.contentUrl?.takeLastWhile { it != '/' },
                                 profilePictureUrl = post?.profilePictureUrl ?: "",
                                 description = post?.description ?: "",
                                 likeCount = post?.likeCount ?: 0,
@@ -144,16 +144,17 @@ fun HomeScreen(
                     }
                 }
 
-                if (firstVisibleItem.value > 0) {
+                if (remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }.value > 0) {
                     FloatingActionButton(
                         onClick = {
                             scope.launch {
-                                listState.animateScrollToItem(index = 0)
+                                lazyListState.animateScrollToItem(index = 0)
                             }
                         },
                         backgroundColor = MaterialTheme.colors.surface,
                         contentColor = MaterialTheme.colors.onSurface,
-                        modifier = Modifier.size(IconSizeLarge)
+                        modifier = Modifier
+                            .size(IconSizeLarge)
                             .align(Alignment.BottomEnd)
                             .padding(
                                 end = SpaceSmall,
@@ -168,5 +169,10 @@ fun HomeScreen(
                 }
             }
         }
+        PullRefreshIndicator(
+            refreshing = refreshing,
+            state = pullRefreshState,
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
     }
 }
