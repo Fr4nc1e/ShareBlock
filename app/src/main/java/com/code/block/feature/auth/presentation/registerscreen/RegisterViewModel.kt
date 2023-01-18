@@ -7,10 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.code.block.core.domain.state.PasswordTextFieldState
 import com.code.block.core.domain.state.TextFieldState
 import com.code.block.core.utils.Resource
+import com.code.block.core.utils.Screen
 import com.code.block.core.utils.UiEvent
 import com.code.block.core.utils.UiText
 import com.code.block.feature.auth.domain.usecase.RegisterUseCase
-import com.code.block.feature.destinations.LoginScreenDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -100,7 +100,7 @@ class RegisterViewModel @Inject constructor(
                 when (registerResult.result) {
                     is Resource.Success -> {
                         _eventFlow.emit(
-                            UiEvent.Navigate(LoginScreenDestination.route)
+                            UiEvent.Navigate(Screen.LoginScreen.route)
                         )
                         initial()
                     }

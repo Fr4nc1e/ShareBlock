@@ -19,26 +19,23 @@ import com.code.block.core.domain.model.User
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeLarge
 import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.core.utils.Screen
 import com.code.block.core.utils.UiEvent
 import com.code.block.core.utils.asString
-import com.code.block.feature.destinations.EditProfileScreenDestination
 import com.code.block.feature.profile.presentation.profilescreen.components.BannerSection
 import com.code.block.feature.profile.presentation.profilescreen.components.ProfileHeaderSection
 import com.code.block.feature.profile.presentation.profilescreen.components.tablayout.Tabs
 import com.code.block.feature.profile.presentation.profilescreen.components.tablayout.TabsContent
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalPagerApi::class)
-@Destination
 @Composable
 fun ProfileScreen(
-    navigator: DestinationsNavigator,
+    userId: String?,
+    onNavigate: (String) -> Unit = {},
     scaffoldState: ScaffoldState,
-    userId: String,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val pagerState = rememberPagerState(
@@ -107,7 +104,7 @@ fun ProfileScreen(
                         isOwnProfile = true,
                         modifier = Modifier,
                         onEditClick = {
-                            navigator.navigate(EditProfileScreenDestination)
+                            onNavigate(Screen.EditProfileScreen.route)
                         }
                     )
                 }
@@ -132,7 +129,7 @@ fun ProfileScreen(
                             commentCount = 7,
                             timestamp = 0
                         ),
-                        navigator = navigator
+                        onNavigate = onNavigate
                     )
                 }
             }

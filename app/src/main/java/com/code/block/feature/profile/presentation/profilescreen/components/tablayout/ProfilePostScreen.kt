@@ -6,23 +6,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.code.block.core.domain.model.Post
 import com.code.block.core.presentation.components.PostCard
-import com.code.block.feature.destinations.PostDetailScreenDestination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.code.block.core.utils.Screen
 
 @Composable
 fun ProfilePostScreen(
     post: Post,
-    navigator: DestinationsNavigator
+    onNavigate: (String) -> Unit = {}
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
         items(6) {
             PostCard(
-                navigator = navigator,
+                onNavigate = onNavigate,
                 post = post,
                 onPostClick = {
-                    navigator.navigate(PostDetailScreenDestination)
+                    onNavigate(Screen.PostDetailScreen.route)
                 }
             )
         }

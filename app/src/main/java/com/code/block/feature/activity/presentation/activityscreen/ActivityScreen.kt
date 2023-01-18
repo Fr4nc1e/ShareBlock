@@ -17,10 +17,8 @@ import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.feature.activity.presentation.activityscreen.components.ActivityItem
-import com.ramcosta.composedestinations.annotation.Destination
 import kotlin.random.Random
 
-@Destination
 @Composable
 fun ActivityScreen(
     viewModel: ActivityViewModel = hiltViewModel()

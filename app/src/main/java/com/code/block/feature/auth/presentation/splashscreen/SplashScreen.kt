@@ -18,19 +18,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.R
 import com.code.block.core.utils.UiEvent
-import com.code.block.feature.destinations.SplashScreenDestination
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.withContext
 
-@RootNavGraph(start = true)
-@Destination
 @Composable
 fun SplashScreen(
-    navigator: DestinationsNavigator,
+    onPopBackStack: () -> Unit = {},
+    onNavigate: (String) -> Unit = {},
     viewModel: SplashScreenViewModel = hiltViewModel()
 ) {
     val scale = remember {
@@ -58,11 +53,8 @@ fun SplashScreen(
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is UiEvent.Navigate -> {
-                    navigator.navigate(event.route) {
-                        popUpTo(SplashScreenDestination.route) {
-                            inclusive = true
-                        }
-                    }
+                    onPopBackStack()
+                    onNavigate(event.route)
                 }
                 else -> Unit
             }

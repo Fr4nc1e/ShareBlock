@@ -24,19 +24,16 @@ import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
+import com.code.block.core.utils.Screen
 import com.code.block.core.utils.UiEvent
 import com.code.block.core.utils.asString
 import com.code.block.feature.auth.domain.error.AuthError
-import com.code.block.feature.destinations.LoginScreenDestination
-import com.code.block.feature.destinations.RegisterScreenDestination
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
 
-@Destination
 @Composable
 fun LoginScreen(
-    navigator: DestinationsNavigator,
+    onNavigate: (String) -> Unit = {},
+    onLogin: () -> Unit = {},
     scaffoldState: ScaffoldState,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
@@ -54,11 +51,10 @@ fun LoginScreen(
                     )
                 }
                 is UiEvent.Navigate -> {
-                    navigator.navigate(event.route) {
-                        popUpTo(LoginScreenDestination.route) {
-                            inclusive = true
-                        }
-                    }
+                    onNavigate(event.route)
+                }
+                is UiEvent.OnLogin -> {
+                    onLogin()
                 }
             }
         }
@@ -207,7 +203,7 @@ fun LoginScreen(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .clickable {
-                    navigator.navigate(RegisterScreenDestination)
+                    onNavigate(Screen.RegisterScreen.route)
                 }
         )
     }

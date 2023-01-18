@@ -18,14 +18,9 @@ import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.feature.profile.presentation.searchscreen.components.SearchResultItem
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@Destination
 @Composable
-fun PersonListScreen(
-    navigator: DestinationsNavigator
-) {
+fun PersonListScreen() {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {

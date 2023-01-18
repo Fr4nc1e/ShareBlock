@@ -13,7 +13,6 @@ import com.code.block.core.domain.model.Post
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -21,7 +20,7 @@ fun TabsContent(
     scrollState: ScrollState,
     pagerState: PagerState,
     post: Post,
-    navigator: DestinationsNavigator
+    onNavigate: (String) -> Unit = {}
 ) {
     HorizontalPager(
         state = pagerState,
@@ -50,15 +49,15 @@ fun TabsContent(
         when (page) {
             0 -> ProfilePostScreen(
                 post = post,
-                navigator = navigator
+                onNavigate = onNavigate
             )
             1 -> ProfileCommentScreen(
                 post = post,
-                navigator = navigator
+                onNavigate = onNavigate
             )
             2 -> ProfilePostScreen(
                 post = post,
-                navigator = navigator
+                onNavigate = onNavigate
             )
         }
     }

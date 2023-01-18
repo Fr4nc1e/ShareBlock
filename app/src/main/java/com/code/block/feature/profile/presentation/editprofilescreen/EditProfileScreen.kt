@@ -23,14 +23,11 @@ import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.feature.profile.presentation.editprofilescreen.components.BannerEditSection
 import com.code.block.feature.profile.presentation.editprofilescreen.components.ChipContent
 import com.code.block.feature.profile.presentation.editprofilescreen.components.EditTextSection
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlin.random.Random
 
-@Destination
 @Composable
 fun EditProfileScreen(
-    navController: DestinationsNavigator,
+    onNavigateUp: () -> Unit = {},
     viewModel: EditProfileViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
@@ -47,7 +44,7 @@ fun EditProfileScreen(
                             state.value.usernameError == null && state.value.qqError == null && state.value.weChatError == null && state.value.gitHubError == null &&
                             state.value.bioError == null
                         ) {
-                            navController.navigateUp()
+                            onNavigateUp()
                         }
                     }
                 ) {

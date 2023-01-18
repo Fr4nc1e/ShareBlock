@@ -9,17 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.code.block.core.domain.model.BottomNavItem
-import com.code.block.feature.NavGraphs
-import com.ramcosta.composedestinations.navigation.navigate
-import com.ramcosta.composedestinations.navigation.popBackStack
-import com.ramcosta.composedestinations.navigation.popUpTo
-import com.ramcosta.composedestinations.utils.isRouteOnBackStack
 
 @Composable
 fun StandardBottomBar(
-    navController: NavHostController,
+    navController: NavController,
     showBottomBar: Boolean = true
 ) {
     if (showBottomBar) {
@@ -30,31 +25,19 @@ fun StandardBottomBar(
             elevation = 5.dp
         ) {
             BottomNavigation {
-                BottomNavItem.values().forEach {
-                    val isCurrentDestinationOnBackStack = navController
-                        .isRouteOnBackStack(route = it.route)
+                BottomNavItem.values().forEachIndexed { _, bottomNavItem ->
                     StandardBottomNavItem(
-                        icon = it.icon,
-                        contentDescription = stringResource(id = it.contentDescription),
-                        selected = isCurrentDestinationOnBackStack,
-                        alertCount = it.alertCount,
-                        enabled = it.icon != null,
-                        onClick = {
-                            if (isCurrentDestinationOnBackStack) {
-                                navController.popBackStack(it.route, false)
-                                return@StandardBottomNavItem
-                            }
-
-                            navController.navigate(it.route) {
-                                popUpTo(NavGraphs.root) {
-                                    saveState = true
-                                }
-
-                                launchSingleTop = true
-                                restoreState = true
-                            }
+                        icon = bottomNavItem.icon,
+                        contentDescription = stringResource(id = bottomNavItem.contentDescription),
+                        selected = navController.currentDestination?.route?.startsWith(bottomNavItem.route) == true,
+                        alertCount = bottomNavItem.alertCount,
+                        enabled = bottomNavItem.icon != null
+                    ) {
+                        if (navController.currentDestination?.route != bottomNavItem.route) {
+                            navController.popBackStack()
+                            navController.navigate(bottomNavItem.route)
                         }
-                    )
+                    }
                 }
             }
         }

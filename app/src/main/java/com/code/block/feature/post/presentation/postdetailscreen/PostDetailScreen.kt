@@ -27,13 +27,10 @@ import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.feature.post.presentation.postdetailscreen.components.Comment
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@Destination
 @Composable
 fun PostDetailScreen(
-    navigator: DestinationsNavigator,
+    onNavigate: (String) -> Unit = {},
     post: Post = Post(
         username = "Batman",
         contentUrl = "R.drawable.hd_batman",
@@ -110,7 +107,7 @@ fun PostDetailScreen(
 
                         InteractiveButtons(
                             post = post,
-                            navigator = navigator
+                            onNavigate = onNavigate
                         )
 
                         Spacer(modifier = Modifier.height(SpaceSmall))

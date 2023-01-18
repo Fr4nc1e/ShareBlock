@@ -17,25 +17,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.code.block.R
 import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.utils.Constants
+import com.code.block.core.utils.Screen
 import com.code.block.core.utils.UiEvent
 import com.code.block.core.utils.asString
 import com.code.block.feature.auth.domain.error.AuthError
-import com.code.block.feature.destinations.RegisterScreenDestination
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
 
-@Destination
 @Composable
 fun RegisterScreen(
+    navController: NavController,
     scaffoldState: ScaffoldState,
-    navigator: DestinationsNavigator,
+    onPopBackStack: () -> Unit,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val usernameState = viewModel.usernameState.value
@@ -54,8 +53,8 @@ fun RegisterScreen(
                     )
                 }
                 is UiEvent.Navigate -> {
-                    navigator.navigate(event.route) {
-                        popUpTo(RegisterScreenDestination.route) {
+                    navController.navigate(event.route) {
+                        popUpTo(Screen.RegisterScreen.route) {
                             inclusive = true
                         }
                     }

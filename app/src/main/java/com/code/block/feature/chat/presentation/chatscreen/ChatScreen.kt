@@ -9,9 +9,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.code.block.R
 import com.code.block.core.presentation.components.StandardTopBar
-import com.ramcosta.composedestinations.annotation.Destination
 
-@Destination
 @Composable
 fun ChatScreen() {
     StandardTopBar(

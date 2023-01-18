@@ -25,18 +25,14 @@ import com.code.block.core.presentation.components.PostCard
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.IconSizeLarge
 import com.code.block.core.presentation.ui.theme.SpaceSmall
-import com.code.block.feature.destinations.PostDetailScreenDestination
-import com.code.block.feature.destinations.SearchScreenDestination
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.code.block.core.utils.Screen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
-@Destination
 @Composable
 fun HomeScreen(
-    navigator: DestinationsNavigator,
     scaffoldState: ScaffoldState,
+    onNavigate: (String) -> Unit = {},
     lazyListState: LazyListState,
     posts: LazyPagingItems<Post>,
     viewModel: HomeViewModel = hiltViewModel()
@@ -71,7 +67,7 @@ fun HomeScreen(
                 navActions = {
                     IconButton(
                         onClick = {
-                            navigator.navigate(SearchScreenDestination)
+                            onNavigate(Screen.SearchScreen.route)
                         }
                     ) {
                         Icon(
@@ -97,7 +93,7 @@ fun HomeScreen(
                 ) {
                     items(posts) { post ->
                         PostCard(
-                            navigator = navigator,
+                            onNavigate = onNavigate,
                             post = Post(
                                 username = post?.username ?: "Batman",
                                 contentUrl = "http://172.28.211.51:8081/post_contents/" +
@@ -109,7 +105,7 @@ fun HomeScreen(
                                 timestamp = post?.timestamp ?: 0
                             ),
                             onPostClick = {
-                                navigator.navigate(PostDetailScreenDestination)
+                                onNavigate(Screen.ProfileScreen.route)
                             }
                         )
                     }

@@ -22,13 +22,12 @@ import com.code.block.core.domain.model.Post
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.presentation.ui.theme.TextWhite
-import com.code.block.feature.destinations.PersonListScreenDestination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.code.block.core.utils.Screen
 
 @Composable
 fun InteractiveButtons(
     modifier: Modifier = Modifier,
-    navigator: DestinationsNavigator,
+    onNavigate: (String) -> Unit = {},
     post: Post,
     isLiked: Boolean = false,
     onLikeClick: (Boolean) -> Unit = {},
@@ -72,7 +71,7 @@ fun InteractiveButtons(
                 fontSize = 16.sp,
                 style = MaterialTheme.typography.h2,
                 modifier = Modifier.clickable {
-                    navigator.navigate(PersonListScreenDestination)
+                    onNavigate(Screen.PersonListScreen.route)
                 }
             )
         }

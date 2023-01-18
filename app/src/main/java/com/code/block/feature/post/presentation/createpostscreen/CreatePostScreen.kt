@@ -40,15 +40,12 @@ import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.utils.UiEvent
 import com.code.block.core.utils.VideoPlayer
 import com.code.block.core.utils.asString
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@Destination
 @Composable
 fun CreatePostScreen(
-    navigator: DestinationsNavigator,
+    onNavigateUp: () -> Unit = {},
     scaffoldState: ScaffoldState,
     viewModel: CreatePostViewModel = hiltViewModel()
 ) {
@@ -84,13 +81,13 @@ fun CreatePostScreen(
         block = {
             viewModel.eventFlow.collectLatest {
                 when (it) {
-                    is UiEvent.Navigate -> Unit
-                    is UiEvent.NavigateUp -> navigator.navigateUp()
+                    is UiEvent.NavigateUp -> onNavigateUp()
                     is UiEvent.SnackBarEvent -> scope.launch {
                         scaffoldState.snackbarHostState.showSnackbar(
                             message = it.uiText.asString(context)
                         )
                     }
+                    else -> Unit
                 }
             }
         }

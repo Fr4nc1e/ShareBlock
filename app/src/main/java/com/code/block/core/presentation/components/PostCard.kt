@@ -32,12 +32,10 @@ import com.code.block.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.presentation.ui.theme.quicksand
 import com.code.block.core.utils.VideoPlayer
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-
 @Composable
 fun PostCard(
     modifier: Modifier = Modifier,
-    navigator: DestinationsNavigator,
+    onNavigate: (String) -> Unit = {},
     post: Post,
     comment: Comment = Comment(
         username = "test",
@@ -103,7 +101,7 @@ fun PostCard(
 
                 InteractiveButtons(
                     post = post,
-                    navigator = navigator
+                    onNavigate = onNavigate
                 )
 
                 if (isProfileCommentScreen) {

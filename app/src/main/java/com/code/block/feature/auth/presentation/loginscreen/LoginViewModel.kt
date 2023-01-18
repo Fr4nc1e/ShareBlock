@@ -10,7 +10,6 @@ import com.code.block.core.utils.Resource
 import com.code.block.core.utils.UiEvent
 import com.code.block.core.utils.UiText
 import com.code.block.feature.auth.domain.usecase.LoginUseCase
-import com.code.block.feature.destinations.HomeScreenDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -62,9 +61,7 @@ class LoginViewModel @Inject constructor(
 
     private fun login() {
         viewModelScope.launch {
-            _loginState.value = loginState.value.copy(
-                isLoading = true
-            )
+            _loginState.value = loginState.value.copy(isLoading = true)
 
             loginUseCase(
                 email = emailState.value.text,
@@ -85,7 +82,7 @@ class LoginViewModel @Inject constructor(
                 when (loginResult.result) {
                     is Resource.Success -> {
                         _eventFlow.emit(
-                            UiEvent.Navigate(HomeScreenDestination.route)
+                            UiEvent.OnLogin
                         )
                         initial()
                     }
