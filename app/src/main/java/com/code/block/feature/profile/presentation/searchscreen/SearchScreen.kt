@@ -116,9 +116,10 @@ fun SearchScreen(
                 items(10) {
                     SearchResultItem(
                         user = User(
-                            profilePictureUrl = R.drawable.superman,
+                            userId = "63be76372aad4d229d997a3a",
+                            profilePictureUrl = "",
                             username = "Superman",
-                            description = R.string.test_des_superman,
+                            description = "",
                             followerCount = 10,
                             followingCount = 10,
                             postCount = 10

@@ -9,19 +9,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.code.block.R
-import com.code.block.core.domain.model.User
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeLarge
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 
 @Composable
 fun BannerSection(
-    user: User,
     modifier: Modifier = Modifier,
+    bannerUrl: String? = null,
+    profilePictureUrl: String? = null,
     imageModifier: Modifier = Modifier
 ) {
     Box(
@@ -29,7 +29,7 @@ fun BannerSection(
     ) {
         Column {
             Image(
-                painter = painterResource(id = R.drawable.hd_batman),
+                painter = rememberAsyncImagePainter(bannerUrl),
                 contentDescription = stringResource(R.string.banner_image),
                 contentScale = ContentScale.Crop,
                 modifier = imageModifier
@@ -39,7 +39,7 @@ fun BannerSection(
         }
 
         Image(
-            painter = painterResource(id = user.profilePictureUrl),
+            painter = rememberAsyncImagePainter(profilePictureUrl),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier

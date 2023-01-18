@@ -45,9 +45,10 @@ fun PersonListScreen(
             items(10) {
                 SearchResultItem(
                     user = User(
-                        profilePictureUrl = R.drawable.superman,
+                        userId = "63c0e5a1b01a287e31cd1cd1",
+                        profilePictureUrl = "",
                         username = "Superman",
-                        description = R.string.test_des_superman,
+                        description = "",
                         followerCount = 10,
                         followingCount = 10,
                         postCount = 10

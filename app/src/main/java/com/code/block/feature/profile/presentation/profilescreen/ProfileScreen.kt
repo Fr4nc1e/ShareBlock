@@ -4,17 +4,23 @@ import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-import
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.R
 import com.code.block.core.domain.model.Post
 import com.code.block.core.domain.model.User
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeLarge
 import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.core.utils.UiEvent
+import com.code.block.core.utils.asString
 import com.code.block.feature.destinations.EditProfileScreenDestination
 import com.code.block.feature.profile.presentation.profilescreen.components.BannerSection
 import com.code.block.feature.profile.presentation.profilescreen.components.ProfileHeaderSection
@@ -24,25 +30,46 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalPagerApi::class)
 @Destination
 @Composable
 fun ProfileScreen(
-    user: User = User(
-        profilePictureUrl = R.drawable.batman_profile_image,
-        username = "Batman",
-        description = R.string.test_description,
-        followerCount = 10,
-        followingCount = 10,
-        postCount = 10
-    ),
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    scaffoldState: ScaffoldState,
+    userId: String,
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val pagerState = rememberPagerState(
         initialPage = 0,
         pageCount = 3
     )
+    val state = viewModel.state.value
+    val context = LocalContext.current
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest {
+            when (it) {
+                is UiEvent.SnackBarEvent -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = it.uiText.asString(context)
+                    )
+                }
+                else -> Unit
+            }
+        }
+    }
+    val user = state.profile?.let { profile ->
+        User(
+            userId = profile.userId,
+            profilePictureUrl = profile.profilePictureUrl,
+            username = profile.username,
+            description = profile.bio,
+            followerCount = profile.followerCount,
+            followingCount = profile.followingCount,
+            postCount = profile.postCount
+        )
+    }
 
     BoxWithConstraints {
         val screenHeight = maxHeight
@@ -64,21 +91,26 @@ fun ProfileScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            BannerSection(user = user)
+            BannerSection(
+                bannerUrl = state.profile?.bannerUrl,
+                profilePictureUrl = state.profile?.profilePictureUrl
+            )
 
             Spacer(modifier = Modifier.height(ProfilePictureSizeLarge / 2f - SpaceSmall))
 
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                ProfileHeaderSection(
-                    user = user,
-                    isOwnProfile = true,
-                    modifier = Modifier,
-                    onEditClick = {
-                        navigator.navigate(EditProfileScreenDestination)
-                    }
-                )
+                user?.let {
+                    ProfileHeaderSection(
+                        user = it,
+                        isOwnProfile = true,
+                        modifier = Modifier,
+                        onEditClick = {
+                            navigator.navigate(EditProfileScreenDestination)
+                        }
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(SpaceSmall))
 

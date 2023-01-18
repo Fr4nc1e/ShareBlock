@@ -45,10 +45,12 @@ fun ProfileHeaderSection(
 
             Spacer(modifier = Modifier.height(SpaceSmall))
 
-            Text(
-                text = stringResource(id = user.description),
-                style = MaterialTheme.typography.body2
-            )
+            if (user.description.isNotBlank()) {
+                Text(
+                    text = user.description,
+                    style = MaterialTheme.typography.body2
+                )
+            }
 
             Spacer(modifier = Modifier.height(SpaceSmall))
 
