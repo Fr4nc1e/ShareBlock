@@ -2,9 +2,9 @@ package com.code.block.feature.post.domain.usecase
 
 import android.net.Uri
 import com.code.block.R
-import com.code.block.core.utils.CreatePostResource
-import com.code.block.core.utils.Resource
-import com.code.block.core.utils.UiText
+import com.code.block.core.domain.util.CreatePostResource
+import com.code.block.core.domain.util.Resource
+import com.code.block.core.util.UiText
 import com.code.block.feature.post.domain.repository.PostRepository
 
 class CreatePostUseCase(

@@ -22,7 +22,6 @@ import com.code.block.core.domain.model.Post
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.presentation.ui.theme.TextWhite
-import com.code.block.core.utils.Screen
 
 @Composable
 fun InteractiveButtons(

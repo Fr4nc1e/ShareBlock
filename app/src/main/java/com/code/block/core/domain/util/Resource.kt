@@ -1,6 +1,7 @@
-package com.code.block.core.utils
+package com.code.block.core.domain.util
 
 import com.code.block.core.domain.model.Profile
+import com.code.block.core.util.UiText
 
 sealed class Resource<T>(
     val data: T? = null,
@@ -15,3 +16,4 @@ typealias LoginResource = Resource<Unit>
 typealias AuthenticationResource = Resource<Unit>
 typealias CreatePostResource = Resource<Unit>
 typealias ProfileResource = Resource<Profile>
+typealias UpdateProfileResource = Resource<Unit>

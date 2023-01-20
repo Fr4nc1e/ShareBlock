@@ -1,7 +1,7 @@
 package com.code.block.core.domain.usecase
 
 import android.content.SharedPreferences
-import com.code.block.core.utils.Constants
+import com.code.block.core.util.Constants
 
 class GetOwnUserIdUseCase(
     private val sharedPreferences: SharedPreferences

@@ -12,7 +12,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import com.code.block.R
 import com.code.block.core.presentation.ui.theme.HintGray
-import com.code.block.core.utils.Constants
+import com.code.block.core.util.Constants
 
 @Composable
 fun ExpandableText(

@@ -22,10 +22,10 @@ import androidx.paging.compose.items
 import com.code.block.R
 import com.code.block.core.domain.model.Post
 import com.code.block.core.presentation.components.PostCard
+import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.IconSizeLarge
 import com.code.block.core.presentation.ui.theme.SpaceSmall
-import com.code.block.core.utils.Screen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)

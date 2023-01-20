@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.code.block.core.domain.usecase.GetOwnUserIdUseCase
-import com.code.block.core.utils.Constants
+import com.code.block.core.util.Constants
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides

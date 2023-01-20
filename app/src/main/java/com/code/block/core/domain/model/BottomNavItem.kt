@@ -5,7 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.* // ktlint-disable no-wildcard-imports
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.code.block.R
-import com.code.block.core.utils.Screen
+import com.code.block.core.presentation.components.Screen
 
 enum class BottomNavItem(
     val route: String,

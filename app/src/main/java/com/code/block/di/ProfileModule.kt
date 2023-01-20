@@ -5,6 +5,8 @@ import com.code.block.feature.profile.data.source.ProfileApi
 import com.code.block.feature.profile.domain.repository.ProfileRepository
 import com.code.block.feature.profile.domain.usecase.GetProfileUseCase
 import com.code.block.feature.profile.domain.usecase.ProfileUseCases
+import com.code.block.feature.profile.domain.usecase.UpdateProfileUseCase
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,15 +32,16 @@ object ProfileModule {
 
     @Provides
     @Singleton
-    fun provideProfileRepository(api: ProfileApi): ProfileRepository {
-        return ProfileRepositoryImpl(api)
+    fun provideProfileRepository(api: ProfileApi, gson: Gson): ProfileRepository {
+        return ProfileRepositoryImpl(api, gson)
     }
 
     @Provides
     @Singleton
     fun provideProfileUseCases(repository: ProfileRepository): ProfileUseCases {
         return ProfileUseCases(
-            getProfileUseCase = GetProfileUseCase(repository)
+            getProfileUseCase = GetProfileUseCase(repository),
+            updateProfileUseCase = UpdateProfileUseCase(repository)
         )
     }
 }

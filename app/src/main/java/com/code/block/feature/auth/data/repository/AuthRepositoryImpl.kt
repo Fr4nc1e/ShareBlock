@@ -2,7 +2,11 @@ package com.code.block.feature.auth.data.repository
 
 import android.content.SharedPreferences
 import com.code.block.R
-import com.code.block.core.utils.* // ktlint-disable no-wildcard-imports
+import com.code.block.core.domain.util.AuthenticationResource
+import com.code.block.core.domain.util.LoginResource
+import com.code.block.core.domain.util.RegisterResource
+import com.code.block.core.domain.util.Resource
+import com.code.block.core.util.* // ktlint-disable no-wildcard-imports
 import com.code.block.feature.auth.data.source.remote.AuthApi
 import com.code.block.feature.auth.data.source.remote.request.CreateAccountRequest
 import com.code.block.feature.auth.data.source.remote.request.LoginRequest

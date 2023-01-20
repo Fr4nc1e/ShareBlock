@@ -25,30 +25,29 @@ import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.IconSizeSmall
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.feature.profile.presentation.editprofilescreen.EditProfileEvent
-import com.code.block.feature.profile.presentation.editprofilescreen.EditProfileState
 import com.code.block.feature.profile.presentation.editprofilescreen.EditProfileViewModel
+import com.code.block.feature.profile.presentation.util.EditProfileError
 
 @Composable
 fun EditTextSection(
     viewModel: EditProfileViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state
+    val usernameState = viewModel.usernameState.value
+    val qqTextState = viewModel.qqTextFieldState.value
+    val weChatTextState = viewModel.weChatTextFieldState.value
+    val gitHubTextState = viewModel.githubTextFieldState.value
+    val bioState = viewModel.bioState.value
 
     StandardTextField(
         modifier = Modifier
             .fillMaxWidth(),
-        text = state.value.usernameText,
+        text = usernameState.text,
         hint = stringResource(id = R.string.username_hint),
         label = {
             Text(text = stringResource(id = R.string.username_label))
         },
-        error = when (state.value.usernameError) {
-            is EditProfileState.UsernameError.FieldEmpty -> {
-                stringResource(id = R.string.this_field_cant_be_empty)
-            }
-            is EditProfileState.UsernameError.InputTooShort -> {
-                stringResource(id = R.string.username_too_short)
-            }
+        error = when (viewModel.usernameState.value.error) {
+            is EditProfileError.FieldEmpty -> stringResource(id = R.string.this_field_cant_be_empty)
             else -> ""
         },
         leadingIcon = {
@@ -60,7 +59,7 @@ fun EditTextSection(
             )
         },
         trailingIcon = {
-            if (state.value.usernameText.isNotEmpty()) {
+            if (usernameState.text.isNotEmpty()) {
                 IconButton(
                     onClick = {
                         viewModel.onEvent(EditProfileEvent.ClearUsername)
@@ -85,13 +84,13 @@ fun EditTextSection(
     StandardTextField(
         modifier = Modifier
             .fillMaxWidth(),
-        text = state.value.qqText,
+        text = qqTextState.text,
         hint = stringResource(id = R.string.qq_hint),
         label = {
             Text(text = stringResource(id = R.string.qq_label))
         },
-        error = when (state.value.qqError) {
-            is EditProfileState.QqError.FieldEmpty -> {
+        error = when (qqTextState.error) {
+            is EditProfileError.FieldEmpty -> {
                 stringResource(id = R.string.this_field_cant_be_empty)
             }
             else -> ""
@@ -105,7 +104,7 @@ fun EditTextSection(
             )
         },
         trailingIcon = {
-            if (state.value.qqText.isNotEmpty()) {
+            if (qqTextState.text.isNotEmpty()) {
                 IconButton(
                     onClick = {
                         viewModel.onEvent(EditProfileEvent.ClearQq)
@@ -130,13 +129,13 @@ fun EditTextSection(
     StandardTextField(
         modifier = Modifier
             .fillMaxWidth(),
-        text = state.value.weChatText,
+        text = weChatTextState.text,
         hint = stringResource(id = R.string.wechat_hint),
         label = {
             Text(text = stringResource(id = R.string.wechat_label))
         },
-        error = when (state.value.weChatError) {
-            is EditProfileState.WeChatError.FieldEmpty -> {
+        error = when (weChatTextState.error) {
+            is EditProfileError.FieldEmpty -> {
                 stringResource(id = R.string.this_field_cant_be_empty)
             }
             else -> ""
@@ -150,7 +149,7 @@ fun EditTextSection(
             )
         },
         trailingIcon = {
-            if (state.value.weChatText.isNotEmpty()) {
+            if (weChatTextState.text.isNotEmpty()) {
                 IconButton(
                     onClick = {
                         viewModel.onEvent(EditProfileEvent.ClearWeChat)
@@ -175,13 +174,13 @@ fun EditTextSection(
     StandardTextField(
         modifier = Modifier
             .fillMaxWidth(),
-        text = state.value.gitHubText,
+        text = gitHubTextState.text,
         hint = stringResource(id = R.string.github_hint),
         label = {
             Text(text = stringResource(id = R.string.github_label))
         },
-        error = when (state.value.gitHubError) {
-            is EditProfileState.GitHubError.FieldEmpty -> {
+        error = when (gitHubTextState.error) {
+            is EditProfileError.FieldEmpty -> {
                 stringResource(id = R.string.this_field_cant_be_empty)
             }
             else -> ""
@@ -195,7 +194,7 @@ fun EditTextSection(
             )
         },
         trailingIcon = {
-            if (state.value.gitHubText.isNotEmpty()) {
+            if (gitHubTextState.text.isNotEmpty()) {
                 IconButton(
                     onClick = {
                         viewModel.onEvent(EditProfileEvent.ClearGitHub)
@@ -220,7 +219,7 @@ fun EditTextSection(
     StandardTextField(
         modifier = Modifier
             .fillMaxWidth(),
-        text = state.value.bioText,
+        text = bioState.text,
         maxLength = 96,
         maxLines = 3,
         singleLine = false,
@@ -231,8 +230,8 @@ fun EditTextSection(
         label = {
             Text(text = stringResource(id = R.string.bio_label))
         },
-        error = when (state.value.bioError) {
-            is EditProfileState.BioError.FieldEmpty -> {
+        error = when (bioState.error) {
+            is EditProfileError.FieldEmpty -> {
                 stringResource(id = R.string.this_field_cant_be_empty)
             }
             else -> ""
@@ -246,7 +245,7 @@ fun EditTextSection(
             )
         },
         trailingIcon = {
-            if (state.value.bioText.isNotEmpty()) {
+            if (bioState.text.isNotEmpty()) {
                 IconButton(
                     onClick = {
                         viewModel.onEvent(EditProfileEvent.ClearBio)

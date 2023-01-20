@@ -2,9 +2,9 @@ package com.code.block.feature.auth.presentation.splashscreen // ktlint-disable 
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.code.block.core.utils.Resource
-import com.code.block.core.utils.Screen
-import com.code.block.core.utils.UiEvent
+import com.code.block.core.domain.util.Resource
+import com.code.block.core.presentation.components.Screen
+import com.code.block.core.util.UiEvent
 import com.code.block.feature.auth.domain.usecase.AuthenticateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

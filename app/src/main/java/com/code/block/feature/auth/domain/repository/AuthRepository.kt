@@ -1,8 +1,8 @@
 package com.code.block.feature.auth.domain.repository
 
-import com.code.block.core.utils.AuthenticationResource
-import com.code.block.core.utils.LoginResource
-import com.code.block.core.utils.RegisterResource
+import com.code.block.core.domain.util.AuthenticationResource
+import com.code.block.core.domain.util.LoginResource
+import com.code.block.core.domain.util.RegisterResource
 
 interface AuthRepository {
 

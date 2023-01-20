@@ -1,6 +1,6 @@
 package com.code.block.feature.auth.domain.usecase
 
-import com.code.block.core.utils.Validation
+import com.code.block.core.util.Validation
 import com.code.block.feature.auth.domain.model.LoginResult
 import com.code.block.feature.auth.domain.repository.AuthRepository
 

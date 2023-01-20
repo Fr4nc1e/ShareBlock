@@ -1,36 +1,82 @@
 package com.code.block.feature.profile.presentation.editprofilescreen
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.code.block.R
+import com.code.block.core.domain.util.CropActivityResultContract
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.core.util.UiEvent
+import com.code.block.core.util.asString
 import com.code.block.feature.profile.presentation.editprofilescreen.components.BannerEditSection
-import com.code.block.feature.profile.presentation.editprofilescreen.components.ChipContent
 import com.code.block.feature.profile.presentation.editprofilescreen.components.EditTextSection
-import kotlin.random.Random
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun EditProfileScreen(
     onNavigateUp: () -> Unit = {},
+    onNavigate: (String) -> Unit = {},
+    scaffoldState: ScaffoldState,
     viewModel: EditProfileViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state
+    val profileState = viewModel.profileState.value
+    val bannerUri = viewModel.bannerUri.value
+    val profilePicUri = viewModel.profilePictureUri.value
+
+    val cropProfilePictureLauncher = rememberLauncherForActivityResult(
+        contract = CropActivityResultContract(1f, 1f)
+    ) {
+        viewModel.onEvent(EditProfileEvent.CropProfilePicture(it))
+    }
+    val cropBannerImageLauncher = rememberLauncherForActivityResult(
+        contract = CropActivityResultContract(5f, 2f)
+    ) {
+        viewModel.onEvent(EditProfileEvent.CropBannerImage(it))
+    }
+    val profilePictureGalleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) {
+        cropProfilePictureLauncher.launch(it)
+    }
+    val bannerImageGalleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) {
+        cropBannerImageLauncher.launch(it)
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvent.SnackBarEvent -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.uiText.asString(context)
+                    )
+                }
+                is UiEvent.NavigateUp -> {
+                    onNavigateUp()
+                }
+                else -> Unit
+            }
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -40,12 +86,6 @@ fun EditProfileScreen(
                 IconButton(
                     onClick = {
                         viewModel.onEvent(EditProfileEvent.EditionCompleted)
-                        if (
-                            state.value.usernameError == null && state.value.qqError == null && state.value.weChatError == null && state.value.gitHubError == null &&
-                            state.value.bioError == null
-                        ) {
-                            onNavigateUp()
-                        }
                     }
                 ) {
                     Icon(
@@ -70,8 +110,34 @@ fun EditProfileScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             BannerEditSection(
-                bannerImage = painterResource(id = R.drawable.hd_batman),
-                profileImage = painterResource(id = R.drawable.batman_profile_image)
+                bannerImage = rememberAsyncImagePainter(
+                    ImageRequest.Builder(LocalContext.current)
+                        .data(
+                            data = bannerUri ?: profileState.profile?.bannerUrl
+                        )
+                        .apply(
+                            block = fun ImageRequest.Builder.() {
+                                crossfade(true)
+                            }
+                        ).build()
+                ),
+                profileImage = rememberAsyncImagePainter(
+                    ImageRequest.Builder(LocalContext.current)
+                        .data(
+                            data = profilePicUri ?: profileState.profile?.profilePictureUrl
+                        )
+                        .apply(
+                            block = fun ImageRequest.Builder.() {
+                                crossfade(true)
+                            }
+                        ).build()
+                ),
+                onBannerClick = {
+                    bannerImageGalleryLauncher.launch("image/*")
+                },
+                onProfileImageClick = {
+                    profilePictureGalleryLauncher.launch("image/*")
+                }
             )
 
             Column(
@@ -84,20 +150,6 @@ fun EditProfileScreen(
                 EditTextSection()
 
                 Spacer(modifier = Modifier.height(SpaceMedium))
-
-                ChipContent(
-                    list = listOf(
-                        "Movie",
-                        "Basketball",
-                        "Music",
-                        "Rock",
-                        "Classic",
-                        "80's Music",
-                        "Comics"
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                    selected = Random.nextInt(2) == 0
-                )
             }
         }
     }

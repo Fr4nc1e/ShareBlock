@@ -18,7 +18,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.code.block.R
 import com.code.block.core.domain.model.Post
-import com.code.block.core.domain.util.DateFormattedUtil
 import com.code.block.core.presentation.components.ActionRow
 import com.code.block.core.presentation.components.InteractiveButtons
 import com.code.block.core.presentation.components.StandardTopBar
@@ -26,6 +25,7 @@ import com.code.block.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.core.util.DateFormattedUtil
 import com.code.block.feature.post.presentation.postdetailscreen.components.Comment
 
 @Composable

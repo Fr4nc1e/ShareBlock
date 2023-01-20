@@ -6,9 +6,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.code.block.core.domain.usecase.GetOwnUserIdUseCase
-import com.code.block.core.utils.Resource
-import com.code.block.core.utils.UiEvent
-import com.code.block.core.utils.UiText
+import com.code.block.core.domain.util.Resource
+import com.code.block.core.util.UiEvent
+import com.code.block.core.util.UiText
 import com.code.block.feature.profile.domain.usecase.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

@@ -1,4 +1,4 @@
-package com.code.block.core.utils
+package com.code.block.core.util
 
 import android.content.res.Resources
 import android.util.TypedValue

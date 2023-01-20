@@ -1,6 +1,6 @@
 package com.code.block.feature.auth.domain.usecase
 
-import com.code.block.core.utils.AuthenticationResource
+import com.code.block.core.domain.util.AuthenticationResource
 import com.code.block.feature.auth.domain.repository.AuthRepository
 
 class AuthenticateUseCase(

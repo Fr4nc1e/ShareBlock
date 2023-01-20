@@ -1,5 +1,7 @@
 package com.code.block.feature.profile.presentation.editprofilescreen
 
+import android.net.Uri
+
 sealed class EditProfileEvent {
     data class EnteredUsername(val username: String) : EditProfileEvent()
     data class EnteredQq(val qq: String) : EditProfileEvent()
@@ -11,5 +13,7 @@ sealed class EditProfileEvent {
     object ClearWeChat : EditProfileEvent()
     object ClearGitHub : EditProfileEvent()
     object ClearBio : EditProfileEvent()
+    data class CropProfilePicture(val uri: Uri?) : EditProfileEvent()
+    data class CropBannerImage(val uri: Uri?) : EditProfileEvent()
     object EditionCompleted : EditProfileEvent()
 }

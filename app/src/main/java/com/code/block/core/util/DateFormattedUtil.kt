@@ -1,4 +1,4 @@
-package com.code.block.core.domain.util
+package com.code.block.core.util
 
 import java.text.SimpleDateFormat
 import java.util.*

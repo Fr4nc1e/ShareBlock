@@ -12,10 +12,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.R
 import com.code.block.core.domain.model.Activity
 import com.code.block.core.domain.util.ActivityType
-import com.code.block.core.domain.util.DateFormattedUtil
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.core.util.DateFormattedUtil
 import com.code.block.feature.activity.presentation.activityscreen.components.ActivityItem
 import kotlin.random.Random
 

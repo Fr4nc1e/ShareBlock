@@ -3,7 +3,7 @@ package com.code.block.feature.post.domain.repository
 import android.net.Uri
 import androidx.paging.PagingData
 import com.code.block.core.domain.model.Post
-import com.code.block.core.utils.CreatePostResource
+import com.code.block.core.domain.util.CreatePostResource
 import kotlinx.coroutines.flow.Flow
 
 interface PostRepository {

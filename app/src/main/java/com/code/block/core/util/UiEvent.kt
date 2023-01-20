@@ -1,4 +1,4 @@
-package com.code.block.core.utils
+package com.code.block.core.util
 
 sealed class UiEvent {
     data class Navigate(val route: String) : UiEvent()

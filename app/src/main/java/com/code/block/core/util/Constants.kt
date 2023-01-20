@@ -1,4 +1,4 @@
-package com.code.block.core.utils
+package com.code.block.core.util
 
 object Constants {
     const val MIN_USERNAME_LENGTH = 3

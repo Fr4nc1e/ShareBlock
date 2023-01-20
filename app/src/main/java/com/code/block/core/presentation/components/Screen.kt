@@ -1,4 +1,4 @@
-package com.code.block.core.utils
+package com.code.block.core.presentation.components
 
 sealed class Screen(val route: String) {
     object SplashScreen : Screen("splash_screen")

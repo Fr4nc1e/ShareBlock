@@ -1,4 +1,4 @@
-package com.code.block.core.utils
+package com.code.block.core.util
 
 import android.net.Uri
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT

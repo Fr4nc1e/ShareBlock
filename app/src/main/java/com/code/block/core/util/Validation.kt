@@ -1,4 +1,4 @@
-package com.code.block.core.utils
+package com.code.block.core.util
 
 import android.util.Patterns
 import com.code.block.feature.auth.domain.error.AuthError

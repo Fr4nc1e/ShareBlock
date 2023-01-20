@@ -8,11 +8,11 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.code.block.R
 import com.code.block.core.domain.model.Post
-import com.code.block.core.utils.Constants
-import com.code.block.core.utils.CreatePostResource
-import com.code.block.core.utils.FileNameReader.getFileName
-import com.code.block.core.utils.Resource
-import com.code.block.core.utils.UiText
+import com.code.block.core.domain.util.CreatePostResource
+import com.code.block.core.domain.util.Resource
+import com.code.block.core.util.Constants
+import com.code.block.core.util.FileNameReader.getFileName
+import com.code.block.core.util.UiText
 import com.code.block.feature.post.data.source.paging.PostSource
 import com.code.block.feature.post.data.source.remote.CreatePostRequest
 import com.code.block.feature.post.data.source.remote.PostApi

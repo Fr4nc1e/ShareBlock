@@ -16,8 +16,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardScaffold
-import com.code.block.core.utils.Screen
 import com.code.block.feature.activity.presentation.activityscreen.ActivityScreen
 import com.code.block.feature.auth.presentation.loginscreen.LoginScreen
 import com.code.block.feature.auth.presentation.registerscreen.RegisterScreen
@@ -112,14 +112,25 @@ fun Hub() {
                 )
             ) { backStackEntry ->
                 ProfileScreen(
-                    userId = backStackEntry.arguments?.getString("userId"),
+                    userId = backStackEntry.arguments?.getString("userId") ?: "",
                     onNavigate = navController::navigate,
                     scaffoldState = scaffoldState
                 )
             }
 
-            composable(Screen.EditProfileScreen.route) {
-                EditProfileScreen(onNavigateUp = navController::navigateUp)
+            composable(
+                Screen.EditProfileScreen.route + "/{userId}",
+                arguments = listOf(
+                    navArgument(name = "userId") {
+                        type = NavType.StringType
+                    }
+                )
+            ) {
+                EditProfileScreen(
+                    onNavigateUp = navController::navigateUp,
+                    onNavigate = navController::navigate,
+                    scaffoldState = scaffoldState
+                )
             }
 
             composable(Screen.CreatePostScreen.route) {

@@ -1,9 +1,10 @@
 package com.code.block.feature.profile.data.source
 
 import com.code.block.core.data.dto.BasicApiResponse
+import com.code.block.core.data.dto.UpdateProfileResponse
 import com.code.block.feature.profile.data.source.response.ProfileResponse
-import retrofit2.http.GET
-import retrofit2.http.Query
+import okhttp3.MultipartBody
+import retrofit2.http.* // ktlint-disable no-wildcard-imports
 
 interface ProfileApi {
 
@@ -11,6 +12,14 @@ interface ProfileApi {
     suspend fun getUserProfile(
         @Query("userId") userId: String
     ): BasicApiResponse<ProfileResponse>
+
+    @Multipart
+    @PUT("/api/user/update")
+    suspend fun updateProfile(
+        @Part bannerImage: MultipartBody.Part?,
+        @Part profilePicture: MultipartBody.Part?,
+        @Part updateProfileData: MultipartBody.Part
+    ): UpdateProfileResponse
 
     companion object {
         const val BASE_URL = "http://172.28.211.51:8081/"

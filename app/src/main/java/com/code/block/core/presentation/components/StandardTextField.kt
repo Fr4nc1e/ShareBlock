@@ -23,7 +23,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.code.block.R
-import com.code.block.core.utils.Constants
+import com.code.block.core.util.Constants
 
 @Composable
 fun StandardTextField(

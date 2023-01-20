@@ -19,14 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.code.block.R
+import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
-import com.code.block.core.utils.Constants
-import com.code.block.core.utils.Screen
-import com.code.block.core.utils.UiEvent
-import com.code.block.core.utils.asString
+import com.code.block.core.util.Constants
+import com.code.block.core.util.UiEvent
+import com.code.block.core.util.asString
 import com.code.block.feature.auth.domain.error.AuthError
 import kotlinx.coroutines.flow.collectLatest
 

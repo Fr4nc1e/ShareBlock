@@ -24,12 +24,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.R
 import com.code.block.core.domain.model.User
+import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceMedium
-import com.code.block.core.utils.Screen
 import com.code.block.feature.profile.presentation.searchscreen.components.SearchResultItem
+
 @Composable
 fun SearchScreen(
     onNavigate: (String) -> Unit = {},
@@ -130,7 +131,7 @@ fun SearchScreen(
                             )
                         },
                         onItemClick = {
-                            onNavigate(Screen.ProfileScreen.route + "?userId=63c0e5a1b01a287e31cd1cd1")
+                            onNavigate(Screen.ProfileScreen.route + "?userId=63ca0e2a3c66b97823d2952b")
                         }
                     )
                     Spacer(modifier = Modifier.height(SpaceMedium))

@@ -9,7 +9,6 @@ data class Profile(
     val postCount: Int,
     val profilePictureUrl: String,
     val bannerUrl: String,
-    val topHobbyUrls: List<String>,
     val gitHubUrl: String?,
     val qqUrl: String?,
     val weChatUrl: String?,

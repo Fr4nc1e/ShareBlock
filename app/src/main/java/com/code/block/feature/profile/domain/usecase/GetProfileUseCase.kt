@@ -1,6 +1,6 @@
 package com.code.block.feature.profile.domain.usecase
 
-import com.code.block.core.utils.ProfileResource
+import com.code.block.core.domain.util.ProfileResource
 import com.code.block.feature.profile.domain.repository.ProfileRepository
 
 class GetProfileUseCase(

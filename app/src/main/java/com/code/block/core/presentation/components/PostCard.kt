@@ -31,7 +31,7 @@ import com.code.block.core.presentation.ui.theme.ProfilePictureSizeExtraSmall
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.presentation.ui.theme.quicksand
-import com.code.block.core.utils.VideoPlayer
+import com.code.block.core.util.VideoPlayer
 @Composable
 fun PostCard(
     modifier: Modifier = Modifier,

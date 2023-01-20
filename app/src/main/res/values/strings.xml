@@ -84,4 +84,8 @@
     <string name="post_created">Create post successfully.</string>
     <string name="test_comment">actually we have credit card etc information that we want to store and use them in espresso tests. As its critical information, we neither want it to be stored in the main project file nor want to delete it every time when we build a release build apk</string>
     <string name="choose_video">Choose video.</string>
+    <string name="error_username_empty">Empty username.</string>
+    <string name="error_couldnt_load_profile">Can not load the profile.</string>
+    <string name="updated_profile">Update profile successfully.</string>
+    <string name="error_invalid_github_url">Wrong GitHub Url</string>
 </resources>

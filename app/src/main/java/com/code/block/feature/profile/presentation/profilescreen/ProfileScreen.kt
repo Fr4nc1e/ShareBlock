@@ -16,12 +16,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.R
 import com.code.block.core.domain.model.Post
 import com.code.block.core.domain.model.User
+import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeLarge
 import com.code.block.core.presentation.ui.theme.SpaceSmall
-import com.code.block.core.utils.Screen
-import com.code.block.core.utils.UiEvent
-import com.code.block.core.utils.asString
+import com.code.block.core.util.UiEvent
+import com.code.block.core.util.asString
 import com.code.block.feature.profile.presentation.profilescreen.components.BannerSection
 import com.code.block.feature.profile.presentation.profilescreen.components.ProfileHeaderSection
 import com.code.block.feature.profile.presentation.profilescreen.components.tablayout.Tabs
@@ -103,7 +103,7 @@ fun ProfileScreen(
                         isOwnProfile = profile.isOwnProfile,
                         modifier = Modifier,
                         onEditClick = {
-                            onNavigate(Screen.EditProfileScreen.route)
+                            onNavigate(Screen.EditProfileScreen.route + "/${profile.userId}")
                         }
                     )
                 }
