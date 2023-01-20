@@ -3,6 +3,7 @@ package com.code.block.di
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import com.code.block.core.domain.usecase.GetOwnUserIdUseCase
 import com.code.block.core.utils.Constants
 import com.google.gson.Gson
 import dagger.Module
@@ -27,7 +28,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideJwtToken(sharedPreferences: SharedPreferences): String {
-        return sharedPreferences.getString(Constants.JWT_TOKEN, "") ?: ""
+        return sharedPreferences.getString(Constants.KEY_JWT_TOKEN, "") ?: ""
     }
 
     @Provides
@@ -50,5 +51,11 @@ object AppModule {
     @Singleton
     fun provideGson(): Gson {
         return Gson()
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetOwnUserIdUseCase(sharedPreferences: SharedPreferences): GetOwnUserIdUseCase {
+        return GetOwnUserIdUseCase(sharedPreferences)
     }
 }

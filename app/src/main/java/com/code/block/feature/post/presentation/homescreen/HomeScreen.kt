@@ -105,7 +105,7 @@ fun HomeScreen(
                                 timestamp = post?.timestamp ?: 0
                             ),
                             onPostClick = {
-                                onNavigate(Screen.ProfileScreen.route)
+                                onNavigate(Screen.PostDetailScreen.route)
                             }
                         )
                     }

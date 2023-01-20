@@ -28,9 +28,11 @@ import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceMedium
+import com.code.block.core.utils.Screen
 import com.code.block.feature.profile.presentation.searchscreen.components.SearchResultItem
 @Composable
 fun SearchScreen(
+    onNavigate: (String) -> Unit = {},
     viewModel: SearchScreeViewModel = hiltViewModel()
 ) {
     val state = viewModel.state
@@ -111,8 +113,8 @@ fun SearchScreen(
                 items(10) {
                     SearchResultItem(
                         user = User(
-                            userId = "63be76372aad4d229d997a3a",
-                            profilePictureUrl = "",
+                            userId = "63c0e5a1b01a287e31cd1cd1",
+                            profilePictureUrl = "http://172.28.211.51:8081/profile_pictures/b295fa5e-f2af-420c-be16-3fa266f02fc1.png",
                             username = "Superman",
                             description = "",
                             followerCount = 10,
@@ -126,6 +128,9 @@ fun SearchScreen(
                                 tint = MaterialTheme.colors.onBackground,
                                 modifier = Modifier.size(IconSizeMedium)
                             )
+                        },
+                        onItemClick = {
+                            onNavigate(Screen.ProfileScreen.route + "?userId=63c0e5a1b01a287e31cd1cd1")
                         }
                     )
                     Spacer(modifier = Modifier.height(SpaceMedium))

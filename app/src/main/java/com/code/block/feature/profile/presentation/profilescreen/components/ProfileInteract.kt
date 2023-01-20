@@ -40,7 +40,7 @@ fun ProfileInteract(
             Box(
                 modifier = Modifier
                     .offset(
-                        x = if (isFollowing) SpaceLarge * 6f - SpaceSmall else SpaceLarge * 6f,
+                        x = if (!isFollowing) SpaceLarge * 6f - SpaceSmall else SpaceLarge * 6f,
                         y = -SpaceMedium
                     )
             ) {
@@ -49,7 +49,7 @@ fun ProfileInteract(
                         onFollowClick()
                     },
                     colors = ButtonDefaults.buttonColors(
-                        backgroundColor = if (isFollowing) {
+                        backgroundColor = if (!isFollowing) {
                             MaterialTheme.colors.surface
                         } else {
                             MaterialTheme.colors.primary
@@ -58,12 +58,12 @@ fun ProfileInteract(
                     shape = RoundedCornerShape(50)
                 ) {
                     Text(
-                        text = if (isFollowing) {
+                        text = if (!isFollowing) {
                             stringResource(R.string.unfollow)
                         } else {
                             stringResource(R.string.follow)
                         },
-                        color = if (isFollowing) {
+                        color = if (!isFollowing) {
                             MaterialTheme.colors.background
                         } else MaterialTheme.colors.onPrimary
                     )

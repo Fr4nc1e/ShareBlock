@@ -110,9 +110,9 @@ fun Hub() {
                         defaultValue = null
                     }
                 )
-            ) {
+            ) { backStackEntry ->
                 ProfileScreen(
-                    userId = it.arguments?.getString("userId"),
+                    userId = backStackEntry.arguments?.getString("userId"),
                     onNavigate = navController::navigate,
                     scaffoldState = scaffoldState
                 )
@@ -130,7 +130,7 @@ fun Hub() {
             }
 
             composable(Screen.SearchScreen.route) {
-                SearchScreen()
+                SearchScreen(onNavigate = navController::navigate)
             }
 
             composable(Screen.PostDetailScreen.route) {

@@ -33,7 +33,7 @@ import kotlinx.coroutines.flow.collectLatest
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun ProfileScreen(
-    userId: String?,
+    userId: String? = null,
     onNavigate: (String) -> Unit = {},
     scaffoldState: ScaffoldState,
     viewModel: ProfileViewModel = hiltViewModel()
@@ -44,7 +44,9 @@ fun ProfileScreen(
     )
     val state = viewModel.state.value
     val context = LocalContext.current
+
     LaunchedEffect(key1 = true) {
+        viewModel.getProfile(userId)
         viewModel.eventFlow.collectLatest {
             when (it) {
                 is UiEvent.SnackBarEvent -> {
@@ -55,17 +57,6 @@ fun ProfileScreen(
                 else -> Unit
             }
         }
-    }
-    val user = state.profile?.let { profile ->
-        User(
-            userId = profile.userId,
-            profilePictureUrl = profile.profilePictureUrl,
-            username = profile.username,
-            description = profile.bio,
-            followerCount = profile.followerCount,
-            followingCount = profile.followingCount,
-            postCount = profile.postCount
-        )
     }
 
     BoxWithConstraints {
@@ -98,10 +89,18 @@ fun ProfileScreen(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                user?.let {
+                state.profile?.let { profile ->
                     ProfileHeaderSection(
-                        user = it,
-                        isOwnProfile = true,
+                        user = User(
+                            userId = profile.userId,
+                            profilePictureUrl = profile.profilePictureUrl,
+                            username = profile.username,
+                            description = profile.bio,
+                            followerCount = profile.followerCount,
+                            followingCount = profile.followingCount,
+                            postCount = profile.postCount
+                        ),
+                        isOwnProfile = profile.isOwnProfile,
                         modifier = Modifier,
                         onEditClick = {
                             onNavigate(Screen.EditProfileScreen.route)

@@ -27,16 +27,14 @@ fun BannerSection(
     Box(
         modifier = modifier
     ) {
-        Column {
-            Image(
-                painter = rememberAsyncImagePainter(bannerUrl),
-                contentDescription = stringResource(R.string.banner_image),
-                contentScale = ContentScale.Crop,
-                modifier = imageModifier
-                    .fillMaxSize()
-                    .aspectRatio(2.5f)
-            )
-        }
+        Image(
+            painter = rememberAsyncImagePainter(bannerUrl),
+            contentDescription = stringResource(R.string.banner_image),
+            contentScale = ContentScale.Crop,
+            modifier = imageModifier
+                .fillMaxSize()
+                .aspectRatio(2.5f)
+        )
 
         Image(
             painter = rememberAsyncImagePainter(profilePictureUrl),

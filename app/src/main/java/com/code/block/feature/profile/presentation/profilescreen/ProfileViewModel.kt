@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.code.block.core.domain.usecase.GetOwnUserIdUseCase
 import com.code.block.core.utils.Resource
 import com.code.block.core.utils.UiEvent
 import com.code.block.core.utils.UiText
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val profileUseCases: ProfileUseCases,
+    private val getOwnUserIdUseCase: GetOwnUserIdUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -41,26 +43,23 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getProfile(userId: String) {
+    fun getProfile(userId: String?) {
         viewModelScope.launch {
-            _state.value = _state.value.copy(
-                isLoading = true
-            )
-
-            profileUseCases.getProfileUseCase(userId).apply {
+            _state.value = _state.value.copy(isLoading = true)
+            profileUseCases.getProfileUseCase(
+                userId ?: getOwnUserIdUseCase()
+            ).apply {
                 when (this) {
-                    is Resource.Error -> {
-                        _state.value = _state.value.copy(
-                            isLoading = false
-                        )
-                        _eventFlow.emit(
-                            UiEvent.SnackBarEvent(this.uiText ?: UiText.unknownError())
-                        )
-                    }
                     is Resource.Success -> {
                         _state.value = _state.value.copy(
                             profile = this.data,
                             isLoading = false
+                        )
+                    }
+                    is Resource.Error -> {
+                        _state.value = _state.value.copy(isLoading = false)
+                        _eventFlow.emit(
+                            UiEvent.SnackBarEvent(this.uiText ?: UiText.unknownError())
                         )
                     }
                 }
