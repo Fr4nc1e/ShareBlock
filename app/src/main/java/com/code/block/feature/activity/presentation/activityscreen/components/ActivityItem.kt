@@ -2,6 +2,7 @@ package com.code.block.feature.activity.presentation.activityscreen.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
@@ -14,7 +15,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.code.block.R
 import com.code.block.core.domain.model.Activity
 import com.code.block.core.domain.util.ActivityType
@@ -32,9 +33,13 @@ import com.code.block.core.presentation.ui.theme.quicksand
 @Composable
 fun ActivityItem(
     activity: Activity,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onUserClick: () -> Unit = {},
+    onActivityClick: () -> Unit = {}
 ) {
     Card(
+        modifier = modifier
+            .clickable { onActivityClick() },
         shape = MaterialTheme.shapes.medium,
         backgroundColor = MaterialTheme.colors.surface,
         elevation = 5.dp
@@ -48,7 +53,7 @@ fun ActivityItem(
         ) {
             Row {
                 Image(
-                    painter = painterResource(id = activity.profileImageUrl),
+                    painter = rememberAsyncImagePainter(activity.profileImageUrl),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -66,6 +71,9 @@ fun ActivityItem(
                             shape = CircleShape
                         )
                         .align(Alignment.CenterVertically)
+                        .clickable {
+                            onUserClick()
+                        }
                 )
 
                 Spacer(modifier = Modifier.width(SpaceSmall))
@@ -74,14 +82,14 @@ fun ActivityItem(
                     val fillerText = when (activity.activityType) {
                         is ActivityType.LikedPost, ActivityType.LikedComment -> stringResource(R.string.liked)
                         is ActivityType.CommentedOnPost -> stringResource(R.string.commented_on)
-                        is ActivityType.FollowedYou -> stringResource(R.string.followed_you)
+                        is ActivityType.FollowedUser -> stringResource(R.string.followed_you)
                     }
 
                     val actionText = when (activity.activityType) {
                         is ActivityType.LikedPost -> stringResource(id = R.string.your_post)
                         is ActivityType.LikedComment -> stringResource(R.string.your_comment)
                         is ActivityType.CommentedOnPost -> stringResource(R.string.your_post)
-                        is ActivityType.FollowedYou -> ""
+                        is ActivityType.FollowedUser -> ""
                     }
 
                     Text(
@@ -118,4 +126,6 @@ fun ActivityItem(
             )
         }
     }
+
+    Spacer(modifier = Modifier.height(SpaceSmall))
 }

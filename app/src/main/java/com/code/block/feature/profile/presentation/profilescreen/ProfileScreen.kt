@@ -105,13 +105,14 @@ fun ProfileScreen(
                         isOwnProfile = profile.isOwnProfile,
                         isFollowing = profile.isFollowing,
                         modifier = Modifier,
+                        onFollowClick = {},
+                        onFollowingClick = {},
+                        onFollowerClick = {},
                         onEditClick = {
                             onNavigate(Screen.EditProfileScreen.route + "/${profile.userId}")
                         }
                     )
                 }
-
-                Spacer(modifier = Modifier.height(SpaceSmall))
 
                 Column(
                     modifier = Modifier

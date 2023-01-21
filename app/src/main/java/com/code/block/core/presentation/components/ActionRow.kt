@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush.Companion.horizontalGradient
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -31,7 +31,7 @@ fun ActionRow(
     modifier: Modifier = Modifier,
     post: Post,
     imageSize: Dp = ProfilePictureSizeExtraSmall,
-    onUserClick: (Post) -> Unit = {}
+    onUserClick: (String) -> Unit = {}
 ) {
     Row(
         modifier = modifier,
@@ -41,7 +41,7 @@ fun ActionRow(
         Row(
             modifier = Modifier
                 .clickable {
-                    onUserClick(post)
+                    onUserClick(Screen.ProfileScreen.route + "?userId=${post.userId}")
                 }
         ) {
             Image(
@@ -63,11 +63,16 @@ fun ActionRow(
                     .clip(CircleShape)
                     .border(
                         width = 1.dp,
-                        brush = horizontalGradient(
+                        brush = Brush.sweepGradient(
                             listOf(
-                                Color.Green,
-                                Color.Blue,
-                                Color.Transparent
+                                Color(0xFF9575CD),
+                                Color(0xFFBA68C8),
+                                Color(0xFFE57373),
+                                Color(0xFFFFB74D),
+                                Color(0xFFFFF176),
+                                Color(0xFFAED581),
+                                Color(0xFF4DD0E1),
+                                Color(0xFF9575CD)
                             )
                         ),
                         shape = CircleShape

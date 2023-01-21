@@ -11,7 +11,7 @@ import com.code.block.core.presentation.components.PostCard
 import com.code.block.core.presentation.components.Screen
 
 @Composable
-fun ProfilePostScreen(
+fun ProfileOwnPostsScreen(
     posts: LazyPagingItems<Post>,
     onNavigate: (String) -> Unit = {}
 ) {
@@ -22,6 +22,7 @@ fun ProfilePostScreen(
             PostCard(
                 onNavigate = onNavigate,
                 post = Post(
+                    userId = post?.userId ?: "",
                     username = post?.username ?: "",
                     contentUrl = "http://172.28.211.51:8081/post_contents/" +
                         post?.contentUrl?.takeLastWhile { it != '/' },
@@ -31,9 +32,7 @@ fun ProfilePostScreen(
                     commentCount = post?.commentCount ?: 0,
                     timestamp = post?.timestamp ?: 0
                 ),
-                onPostClick = {
-                    onNavigate(Screen.PostDetailScreen.route)
-                }
+                onPostClick = { onNavigate(Screen.PostDetailScreen.route + "/${post?.id}") }
             )
         }
     }

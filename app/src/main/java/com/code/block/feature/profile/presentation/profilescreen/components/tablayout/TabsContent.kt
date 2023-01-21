@@ -49,15 +49,15 @@ fun TabsContent(
             )
     ) { page ->
         when (page) {
-            0 -> ProfilePostScreen(
+            0 -> ProfileOwnPostsScreen(
                 posts = ownPosts,
                 onNavigate = onNavigate
             )
-            1 -> ProfileCommentScreen(
+            1 -> ProfileCommentPostsScreen(
                 posts = ownPosts,
                 onNavigate = onNavigate
             )
-            2 -> ProfilePostScreen(
+            2 -> ProfileLikedPostsScreen(
                 posts = likedPosts,
                 onNavigate = onNavigate
             )

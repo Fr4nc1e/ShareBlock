@@ -98,7 +98,9 @@ fun Hub() {
             }
 
             composable(Screen.ActivityScreen.route) {
-                ActivityScreen()
+                ActivityScreen(
+                    onNavigate = navController::navigate
+                )
             }
 
             composable(
@@ -144,7 +146,16 @@ fun Hub() {
                 SearchScreen(onNavigate = navController::navigate)
             }
 
-            composable(Screen.PostDetailScreen.route) {
+            composable(
+                route = Screen.PostDetailScreen.route + "/{postId}",
+                arguments = listOf(
+                    navArgument(
+                        name = "postId"
+                    ) {
+                        type = NavType.StringType
+                    }
+                )
+            ) {
                 PostDetailScreen(onNavigate = navController::navigate)
             }
 

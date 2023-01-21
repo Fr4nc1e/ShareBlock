@@ -67,7 +67,8 @@ fun PostCard(
             ActionRow(
                 post = post,
                 modifier = Modifier.fillMaxWidth(),
-                imageSize = ProfilePictureSizeSmall
+                imageSize = ProfilePictureSizeSmall,
+                onUserClick = onNavigate
             )
 
             Spacer(modifier = Modifier.height(SpaceSmall))
