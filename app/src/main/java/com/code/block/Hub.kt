@@ -112,7 +112,7 @@ fun Hub() {
                 )
             ) { backStackEntry ->
                 ProfileScreen(
-                    userId = backStackEntry.arguments?.getString("userId") ?: "",
+                    userId = backStackEntry.arguments?.getString("userId"),
                     onNavigate = navController::navigate,
                     scaffoldState = scaffoldState
                 )
