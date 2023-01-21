@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.code.block.R
 import com.code.block.core.domain.model.Comment
 import com.code.block.core.domain.model.Post
@@ -79,7 +81,17 @@ fun PostCard(
 
             if (post.contentUrl.takeLastWhile { it != '.' } != "mp4") {
                 Image(
-                    painter = rememberAsyncImagePainter(post.contentUrl),
+                    painter = rememberAsyncImagePainter(
+                        ImageRequest.Builder(LocalContext.current)
+                            .data(
+                                data = post.contentUrl
+                            )
+                            .apply(
+                                block = fun ImageRequest.Builder.() {
+                                    crossfade(true)
+                                }
+                            ).build()
+                    ),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier

@@ -4,12 +4,14 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.code.block.core.domain.model.Post
 import com.code.block.core.util.Constants
+import com.code.block.feature.post.data.model.Source
 import com.code.block.feature.post.data.source.remote.PostApi
 import retrofit2.HttpException
 import java.io.IOException
 
 class PostSource(
-    private val api: PostApi
+    private val api: PostApi,
+    private val source: Source
 ) : PagingSource<Int, Post>() {
     private var currentPage = 0
 
@@ -20,10 +22,29 @@ class PostSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Post> {
         return try {
             val nextPage = params.key ?: currentPage
-            val posts = api.getPostForFollows(
-                page = nextPage,
-                pageSize = Constants.PAGE_SIZE_POSTS
-            )
+            val posts = when (source) {
+                is Source.CommentedPosts -> TODO()
+                is Source.LikedPosts -> {
+                    api.getPostsForLike(
+                        userId = source.userId,
+                        page = nextPage,
+                        pageSize = Constants.PAGE_SIZE_POSTS
+                    )
+                }
+                is Source.OwnPosts -> {
+                    api.getPostsForProfile(
+                        userId = source.userId,
+                        page = nextPage,
+                        pageSize = Constants.PAGE_SIZE_POSTS
+                    )
+                }
+                Source.PostsForFollow -> {
+                    api.getPostForFollows(
+                        page = nextPage,
+                        pageSize = Constants.PAGE_SIZE_POSTS
+                    )
+                }
+            }
 
             LoadResult.Page(
                 data = posts,

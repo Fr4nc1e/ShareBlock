@@ -95,7 +95,7 @@ fun HomeScreen(
                         PostCard(
                             onNavigate = onNavigate,
                             post = Post(
-                                username = post?.username ?: "Batman",
+                                username = post?.username ?: "",
                                 contentUrl = "http://172.28.211.51:8081/post_contents/" +
                                     post?.contentUrl?.takeLastWhile { it != '/' },
                                 profilePictureUrl = post?.profilePictureUrl ?: "",

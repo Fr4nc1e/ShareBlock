@@ -13,8 +13,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.code.block.R
-import com.code.block.core.domain.model.Post
 import com.code.block.core.domain.model.User
 import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTopBar
@@ -38,6 +38,8 @@ fun ProfileScreen(
     scaffoldState: ScaffoldState,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val ownPosts = viewModel.ownPosts.collectAsLazyPagingItems()
+    val likedPosts = viewModel.likedPosts.collectAsLazyPagingItems()
     val pagerState = rememberPagerState(
         initialPage = 0,
         pageCount = 3
@@ -119,15 +121,8 @@ fun ProfileScreen(
                     TabsContent(
                         scrollState = scrollState,
                         pagerState = pagerState,
-                        post = Post(
-                            username = "Batman",
-                            contentUrl = "",
-                            profilePictureUrl = "",
-                            description = stringResource(id = R.string.test_string),
-                            likeCount = 17,
-                            commentCount = 7,
-                            timestamp = 0
-                        ),
+                        ownPosts = ownPosts,
+                        likedPosts = likedPosts,
                         onNavigate = onNavigate
                     )
                 }

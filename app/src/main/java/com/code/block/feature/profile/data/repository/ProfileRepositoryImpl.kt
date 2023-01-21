@@ -2,27 +2,37 @@ package com.code.block.feature.profile.data.repository
 
 import android.net.Uri
 import androidx.core.net.toFile
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.code.block.R
+import com.code.block.core.domain.model.Post
 import com.code.block.core.domain.util.ProfileResource
 import com.code.block.core.domain.util.Resource
 import com.code.block.core.domain.util.UpdateProfileResource
+import com.code.block.core.util.Constants
 import com.code.block.core.util.UiText
+import com.code.block.feature.post.data.model.Source
+import com.code.block.feature.post.data.source.paging.PostSource
+import com.code.block.feature.post.data.source.remote.PostApi
 import com.code.block.feature.profile.data.source.ProfileApi
 import com.code.block.feature.profile.domain.model.UpdateProfileData
 import com.code.block.feature.profile.domain.repository.ProfileRepository
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
 import java.io.IOException
 
 class ProfileRepositoryImpl(
-    private val api: ProfileApi,
+    private val profileApi: ProfileApi,
+    private val postApi: PostApi,
     private val gson: Gson
 ) : ProfileRepository {
     override suspend fun getProfile(userId: String): ProfileResource {
         return try {
-            val response = api.getUserProfile(userId)
+            val response = profileApi.getUserProfile(userId)
             if (response.successful) {
                 Resource.Success(data = response.data?.toProfile(), uiText = null)
             } else {
@@ -50,7 +60,7 @@ class ProfileRepositoryImpl(
         val profilePictureFile = profilePictureUri?.toFile()
 
         return try {
-            val response = api.updateProfile(
+            val response = profileApi.updateProfile(
                 bannerImage = bannerFile?.let {
                     MultipartBody.Part
                         .createFormData(
@@ -89,5 +99,17 @@ class ProfileRepositoryImpl(
                 uiText = UiText.StringResource(R.string.fail_to_connect)
             )
         }
+    }
+
+    override fun getOwnPagedPosts(userId: String): Flow<PagingData<Post>> {
+        return Pager(PagingConfig(pageSize = Constants.PAGE_SIZE_POSTS)) {
+            PostSource(postApi, Source.OwnPosts(userId))
+        }.flow
+    }
+
+    override fun getLikedPosts(userId: String): Flow<PagingData<Post>> {
+        return Pager(PagingConfig(pageSize = Constants.PAGE_SIZE_POSTS)) {
+            PostSource(postApi, Source.LikedPosts(userId))
+        }.flow
     }
 }

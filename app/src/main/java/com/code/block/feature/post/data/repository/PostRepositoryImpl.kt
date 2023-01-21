@@ -13,6 +13,7 @@ import com.code.block.core.domain.util.Resource
 import com.code.block.core.util.Constants
 import com.code.block.core.util.FileNameReader.getFileName
 import com.code.block.core.util.UiText
+import com.code.block.feature.post.data.model.Source
 import com.code.block.feature.post.data.source.paging.PostSource
 import com.code.block.feature.post.data.source.remote.CreatePostRequest
 import com.code.block.feature.post.data.source.remote.PostApi
@@ -41,7 +42,7 @@ class PostRepositoryImpl(
                 pageSize = Constants.PAGE_SIZE_POSTS
             ),
             pagingSourceFactory = {
-                PostSource(api)
+                PostSource(api, Source.PostsForFollow)
             }
         ).flow
 

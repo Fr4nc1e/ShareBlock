@@ -1,7 +1,6 @@
 package com.code.block.feature.profile.domain.usecase
 
 import android.net.Uri
-import android.util.Patterns
 import com.code.block.R
 import com.code.block.core.domain.util.Resource
 import com.code.block.core.domain.util.UpdateProfileResource
@@ -22,18 +21,14 @@ class UpdateProfileUseCase(
                 uiText = UiText.StringResource(R.string.error_username_empty)
             )
         }
-        val isValidGithubUrl =
-            Patterns.WEB_URL.matcher(updateProfileData.gitHubUrl).matches() &&
-                (
-                    updateProfileData.gitHubUrl.startsWith("https://github.com") ||
-                        updateProfileData.gitHubUrl.startsWith("http://github.com") ||
-                        updateProfileData.gitHubUrl.startsWith("github.com")
-                    )
-        if (!isValidGithubUrl) {
-            return Resource.Error(
-                uiText = UiText.StringResource(R.string.error_invalid_github_url)
-            )
-        }
+//        val isValidGithubUrl = "(https://)?(www\\.)?github\\.com/[A-z0-9_-]+/?"
+//            .toRegex()
+//            .matches(updateProfileData.gitHubUrl)
+//        if (!isValidGithubUrl) {
+//            return Resource.Error(
+//                uiText = UiText.StringResource(R.string.error_invalid_github_url)
+//            )
+//        }
         return repository.updateProfile(
             updateProfileData = updateProfileData,
             profilePictureUri = profilePictureUri,

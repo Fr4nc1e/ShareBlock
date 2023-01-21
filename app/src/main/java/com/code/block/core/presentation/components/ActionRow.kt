@@ -14,11 +14,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush.Companion.horizontalGradient
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.code.block.R
 import com.code.block.core.domain.model.Post
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeExtraSmall
@@ -43,7 +45,17 @@ fun ActionRow(
                 }
         ) {
             Image(
-                painter = painterResource(id = R.drawable.batman_profile_image),
+                painter = rememberAsyncImagePainter(
+                    ImageRequest.Builder(LocalContext.current)
+                        .data(
+                            data = post.profilePictureUrl
+                        )
+                        .apply(
+                            block = fun ImageRequest.Builder.() {
+                                crossfade(true)
+                            }
+                        ).build()
+                ),
                 contentDescription = stringResource(R.string.profile_pic),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier

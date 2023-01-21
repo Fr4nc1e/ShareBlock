@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.code.block.core.domain.usecase.GetOwnUserIdUseCase
 import com.code.block.core.domain.util.Resource
 import com.code.block.core.util.UiEvent
@@ -29,11 +30,13 @@ class ProfileViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    init {
-        savedStateHandle.get<String>("userId")?.let {
-            getProfile(it)
-        }
-    }
+    val ownPosts = profileUseCases.getOwnPostsProfileUseCase(
+        savedStateHandle.get<String>("userId") ?: getOwnUserIdUseCase()
+    ).cachedIn(viewModelScope)
+
+    val likedPosts = profileUseCases.getLikedPostsProfileUseCase(
+        savedStateHandle.get<String>("userId") ?: getOwnUserIdUseCase()
+    ).cachedIn(viewModelScope)
 
     fun onEvent(event: ProfileEvent) {
         when (event) {

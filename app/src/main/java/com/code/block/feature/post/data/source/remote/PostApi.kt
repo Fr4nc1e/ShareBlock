@@ -17,6 +17,20 @@ interface PostApi {
         @Query("pageSize") pageSize: Int
     ): List<Post>
 
+    @GET("/api/user/post")
+    suspend fun getPostsForProfile(
+        @Query("userId") userId: String,
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int
+    ): List<Post>
+
+    @GET("/api/post/like/get")
+    suspend fun getPostsForLike(
+        @Query("userId") userId: String,
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int
+    ): List<Post>
+
     @Multipart
     @POST("/api/post/create")
     suspend fun createPost(

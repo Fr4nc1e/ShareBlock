@@ -9,6 +9,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.paging.compose.LazyPagingItems
 import com.code.block.core.domain.model.Post
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -19,7 +20,8 @@ import com.google.accompanist.pager.PagerState
 fun TabsContent(
     scrollState: ScrollState,
     pagerState: PagerState,
-    post: Post,
+    ownPosts: LazyPagingItems<Post>,
+    likedPosts: LazyPagingItems<Post>,
     onNavigate: (String) -> Unit = {}
 ) {
     HorizontalPager(
@@ -48,15 +50,15 @@ fun TabsContent(
     ) { page ->
         when (page) {
             0 -> ProfilePostScreen(
-                post = post,
+                posts = ownPosts,
                 onNavigate = onNavigate
             )
             1 -> ProfileCommentScreen(
-                post = post,
+                posts = ownPosts,
                 onNavigate = onNavigate
             )
             2 -> ProfilePostScreen(
-                post = post,
+                posts = likedPosts,
                 onNavigate = onNavigate
             )
         }
