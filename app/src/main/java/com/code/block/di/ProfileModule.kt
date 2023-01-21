@@ -46,7 +46,9 @@ object ProfileModule {
             getProfileUseCase = GetProfileUseCase(repository),
             updateProfileUseCase = UpdateProfileUseCase(repository),
             getOwnPostsProfileUseCase = GetOwnPostsProfileUseCase(repository),
-            getLikedPostsProfileUseCase = GetLikedPostsProfileUseCase(repository)
+            getLikedPostsProfileUseCase = GetLikedPostsProfileUseCase(repository),
+            searchUseCase = SearchUseCase(repository),
+            followUserUseCase = FollowUserUseCase(repository)
         )
     }
 }

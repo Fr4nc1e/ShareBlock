@@ -2,10 +2,10 @@ package com.code.block.feature.profile.data.source.response
 
 import com.code.block.feature.profile.domain.model.UserItem
 
-data class UserResponse(
+data class UserItemDto(
     val userId: String,
     val username: String,
-    val profilePictureUrl: String,
+    val profileImageUrl: String,
     val bio: String,
     val isFollowing: Boolean
 ) {
@@ -13,7 +13,7 @@ data class UserResponse(
         return UserItem(
             userId = userId,
             username = username,
-            profilePictureUrl = profilePictureUrl,
+            profileImageUrl = profileImageUrl,
             bio = bio,
             isFollowing = isFollowing
         )

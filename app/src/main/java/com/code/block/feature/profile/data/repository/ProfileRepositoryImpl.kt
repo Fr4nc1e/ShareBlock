@@ -7,15 +7,14 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.code.block.R
 import com.code.block.core.domain.model.Post
-import com.code.block.core.domain.util.ProfileResource
-import com.code.block.core.domain.util.Resource
-import com.code.block.core.domain.util.UpdateProfileResource
+import com.code.block.core.domain.util.* // ktlint-disable no-wildcard-imports
 import com.code.block.core.util.Constants
 import com.code.block.core.util.UiText
 import com.code.block.feature.post.data.model.Source
 import com.code.block.feature.post.data.source.paging.PostSource
 import com.code.block.feature.post.data.source.remote.PostApi
 import com.code.block.feature.profile.data.source.ProfileApi
+import com.code.block.feature.profile.data.source.request.FollowUpdateRequest
 import com.code.block.feature.profile.domain.model.UpdateProfileData
 import com.code.block.feature.profile.domain.repository.ProfileRepository
 import com.google.gson.Gson
@@ -111,5 +110,67 @@ class ProfileRepositoryImpl(
         return Pager(PagingConfig(pageSize = Constants.PAGE_SIZE_POSTS)) {
             PostSource(postApi, Source.LikedPosts(userId))
         }.flow
+    }
+
+    override suspend fun searchUser(query: String): SearchResource {
+        return try {
+            val response = profileApi.searchUser(query)
+            Resource.Success(
+                data = response.map {
+                    it.toUserItem()
+                },
+                uiText = null
+            )
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
+    }
+
+    override suspend fun followUser(userId: String): FollowUpdateResource {
+        return try {
+            val response = profileApi.followUser(FollowUpdateRequest(userId))
+            if (response.successful) {
+                Resource.Success(uiText = null)
+            } else {
+                response.message?.let {
+                    Resource.Error(uiText = UiText.CallResponseText(value = it))
+                } ?: Resource.Error(uiText = UiText.StringResource(R.string.unknown_error))
+            }
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
+    }
+
+    override suspend fun unfollowUser(userId: String): FollowUpdateResource {
+        return try {
+            val response = profileApi.unfollowUser(FollowUpdateRequest(userId))
+            if (response.successful) {
+                Resource.Success(uiText = null)
+            } else {
+                response.message?.let { msg ->
+                    Resource.Error(uiText = UiText.CallResponseText(msg))
+                } ?: Resource.Error(uiText = UiText.StringResource(R.string.unknown_error))
+            }
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
     }
 }

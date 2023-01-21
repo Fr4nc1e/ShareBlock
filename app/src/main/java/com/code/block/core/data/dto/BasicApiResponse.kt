@@ -12,3 +12,4 @@ typealias RegisterResponse = BasicApiResponse<Unit>
 typealias LoginResponse = BasicApiResponse<AuthResponse>
 typealias CreatePostResponse = BasicApiResponse<Unit>
 typealias UpdateProfileResponse = BasicApiResponse<Unit>
+typealias FollowUpdateResponse = BasicApiResponse<Unit>
