@@ -37,9 +37,9 @@ import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
-import com.code.block.core.util.UiEvent
 import com.code.block.core.util.VideoPlayer
-import com.code.block.core.util.asString
+import com.code.block.core.util.ui.UiEvent
+import com.code.block.core.util.ui.asString
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

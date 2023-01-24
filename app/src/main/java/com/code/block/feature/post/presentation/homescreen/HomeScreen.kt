@@ -26,7 +26,7 @@ import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.IconSizeLarge
 import com.code.block.core.presentation.ui.theme.SpaceSmall
-import com.code.block.core.util.UiEvent
+import com.code.block.core.util.ui.UiEvent
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

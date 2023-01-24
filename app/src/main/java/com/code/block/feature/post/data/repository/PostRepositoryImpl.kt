@@ -8,10 +8,11 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.code.block.R
 import com.code.block.core.domain.model.Post
+import com.code.block.core.domain.resource.* // ktlint-disable no-wildcard-imports
 import com.code.block.core.domain.util.* // ktlint-disable no-wildcard-imports
 import com.code.block.core.util.Constants
 import com.code.block.core.util.FileNameReader.getFileName
-import com.code.block.core.util.UiText
+import com.code.block.core.util.ui.UiText
 import com.code.block.feature.post.data.model.Source
 import com.code.block.feature.post.data.source.PostApi
 import com.code.block.feature.post.data.source.paging.PostSource

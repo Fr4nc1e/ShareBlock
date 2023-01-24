@@ -23,8 +23,8 @@ import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
-import com.code.block.core.util.UiEvent
-import com.code.block.core.util.asString
+import com.code.block.core.util.ui.UiEvent
+import com.code.block.core.util.ui.asString
 import com.code.block.feature.profile.presentation.editprofilescreen.components.BannerEditSection
 import com.code.block.feature.profile.presentation.editprofilescreen.components.EditTextSection
 import kotlinx.coroutines.flow.collectLatest
@@ -32,7 +32,6 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun EditProfileScreen(
     onNavigateUp: () -> Unit = {},
-    onNavigate: (String) -> Unit = {},
     scaffoldState: ScaffoldState,
     viewModel: EditProfileViewModel = hiltViewModel()
 ) {
@@ -53,11 +52,17 @@ fun EditProfileScreen(
     val profilePictureGalleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) {
+        if (it == null) {
+            return@rememberLauncherForActivityResult
+        }
         cropProfilePictureLauncher.launch(it)
     }
     val bannerImageGalleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) {
+        if (it == null) {
+            return@rememberLauncherForActivityResult
+        }
         cropBannerImageLauncher.launch(it)
     }
 

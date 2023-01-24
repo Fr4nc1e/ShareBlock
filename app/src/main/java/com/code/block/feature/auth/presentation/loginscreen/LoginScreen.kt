@@ -25,8 +25,8 @@ import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
-import com.code.block.core.util.UiEvent
-import com.code.block.core.util.asString
+import com.code.block.core.util.ui.UiEvent
+import com.code.block.core.util.ui.asString
 import com.code.block.feature.auth.domain.error.AuthError
 import kotlinx.coroutines.flow.collectLatest
 
@@ -56,6 +56,7 @@ fun LoginScreen(
                 is UiEvent.OnLogin -> {
                     onLogin()
                 }
+                else -> Unit
             }
         }
     }

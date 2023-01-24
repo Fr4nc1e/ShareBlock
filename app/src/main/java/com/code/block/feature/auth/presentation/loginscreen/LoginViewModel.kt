@@ -4,12 +4,12 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.code.block.core.domain.resource.Resource
 import com.code.block.core.domain.state.PasswordTextFieldState
 import com.code.block.core.domain.state.TextFieldState
-import com.code.block.core.domain.util.Resource
-import com.code.block.core.util.UiEvent
-import com.code.block.core.util.UiText
-import com.code.block.feature.auth.domain.usecase.LoginUseCase
+import com.code.block.core.util.ui.UiEvent
+import com.code.block.core.util.ui.UiText
+import com.code.block.usecase.auth.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

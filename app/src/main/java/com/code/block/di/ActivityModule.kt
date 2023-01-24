@@ -3,7 +3,7 @@ package com.code.block.di
 import com.code.block.feature.activity.data.repository.ActivityRepositoryImpl
 import com.code.block.feature.activity.data.source.ActivityApi
 import com.code.block.feature.activity.domain.repository.ActivityRepository
-import com.code.block.feature.activity.domain.usecase.GetActivitiesUseCase
+import com.code.block.usecase.activity.GetActivitiesUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

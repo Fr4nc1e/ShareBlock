@@ -13,15 +13,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.code.block.R
 import com.code.block.core.domain.model.User
 import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeLarge
 import com.code.block.core.presentation.ui.theme.SpaceSmall
-import com.code.block.core.util.UiEvent
-import com.code.block.core.util.asString
+import com.code.block.core.util.ui.UiEvent
+import com.code.block.core.util.ui.asString
 import com.code.block.feature.profile.presentation.profilescreen.components.BannerSection
 import com.code.block.feature.profile.presentation.profilescreen.components.ProfileHeaderSection
 import com.code.block.feature.profile.presentation.profilescreen.components.tablayout.Tabs
@@ -38,8 +37,8 @@ fun ProfileScreen(
     scaffoldState: ScaffoldState,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
-    val ownPosts = viewModel.ownPosts.collectAsLazyPagingItems()
-    val likedPosts = viewModel.likedPosts.collectAsLazyPagingItems()
+    val ownPagingState = viewModel.ownPagingState.value
+    val likePagingState = viewModel.likePagingState.value
     val pagerState = rememberPagerState(
         initialPage = 0,
         pageCount = 3
@@ -57,8 +56,6 @@ fun ProfileScreen(
                     )
                 }
                 UiEvent.OnLikeParent -> {
-                    ownPosts.refresh()
-                    likedPosts.refresh()
                 }
                 else -> Unit
             }
@@ -127,8 +124,8 @@ fun ProfileScreen(
                     TabsContent(
                         scrollState = scrollState,
                         pagerState = pagerState,
-                        ownPosts = ownPosts,
-                        likedPosts = likedPosts,
+                        ownPagingState = ownPagingState,
+                        likedPagingState = likePagingState,
                         onNavigate = onNavigate
                     )
                 }

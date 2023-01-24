@@ -1,7 +1,7 @@
 package com.code.block.feature.auth.data.source.remote
 
-import com.code.block.core.data.dto.LoginResponse
-import com.code.block.core.data.dto.RegisterResponse
+import com.code.block.core.data.source.response.LoginResponse
+import com.code.block.core.data.source.response.RegisterResponse
 import com.code.block.feature.auth.data.source.remote.request.CreateAccountRequest
 import com.code.block.feature.auth.data.source.remote.request.LoginRequest
 import retrofit2.http.Body

@@ -9,19 +9,20 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.paging.compose.LazyPagingItems
 import com.code.block.core.domain.model.Post
+import com.code.block.core.domain.state.PageState
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 
+@Suppress("OPT_IN_IS_NOT_ENABLED")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun TabsContent(
     scrollState: ScrollState,
     pagerState: PagerState,
-    ownPosts: LazyPagingItems<Post>,
-    likedPosts: LazyPagingItems<Post>,
+    ownPagingState: PageState<Post>,
+    likedPagingState: PageState<Post>,
     onNavigate: (String) -> Unit = {}
 ) {
     HorizontalPager(
@@ -50,15 +51,15 @@ fun TabsContent(
     ) { page ->
         when (page) {
             0 -> ProfileOwnPostsScreen(
-                posts = ownPosts,
+                ownPagingState = ownPagingState,
                 onNavigate = onNavigate
             )
             1 -> ProfileCommentPostsScreen(
-                posts = ownPosts,
+                ownPagingState = ownPagingState,
                 onNavigate = onNavigate
             )
             2 -> ProfileLikedPostsScreen(
-                posts = likedPosts,
+                likedPagingState = likedPagingState,
                 onNavigate = onNavigate
             )
         }

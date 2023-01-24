@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.code.block.R
 import com.code.block.core.domain.model.Activity
-import com.code.block.core.domain.util.ActivityType
+import com.code.block.core.domain.type.ActivityType
 import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeExtraSmall
 import com.code.block.core.presentation.ui.theme.SpaceSmall

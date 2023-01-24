@@ -129,7 +129,6 @@ fun Hub() {
             ) {
                 EditProfileScreen(
                     onNavigateUp = navController::navigateUp,
-                    onNavigate = navController::navigate,
                     scaffoldState = scaffoldState
                 )
             }

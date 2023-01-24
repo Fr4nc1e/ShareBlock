@@ -4,7 +4,7 @@ import com.code.block.feature.post.data.source.PostApi
 import com.code.block.feature.profile.data.repository.ProfileRepositoryImpl
 import com.code.block.feature.profile.data.source.ProfileApi
 import com.code.block.feature.profile.domain.repository.ProfileRepository
-import com.code.block.feature.profile.domain.usecase.* // ktlint-disable no-wildcard-imports
+import com.code.block.usecase.profile.* // ktlint-disable no-wildcard-imports
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides

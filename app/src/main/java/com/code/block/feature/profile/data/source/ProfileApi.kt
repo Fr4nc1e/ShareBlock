@@ -1,8 +1,8 @@
 package com.code.block.feature.profile.data.source
 
-import com.code.block.core.data.dto.BasicApiResponse
-import com.code.block.core.data.dto.FollowUpdateResponse
-import com.code.block.core.data.dto.UpdateProfileResponse
+import com.code.block.core.data.source.response.BasicApiResponse
+import com.code.block.core.data.source.response.FollowUpdateResponse
+import com.code.block.core.data.source.response.UpdateProfileResponse
 import com.code.block.feature.profile.data.source.request.FollowUpdateRequest
 import com.code.block.feature.profile.data.source.response.ProfileResponse
 import com.code.block.feature.profile.data.source.response.UserItemDto

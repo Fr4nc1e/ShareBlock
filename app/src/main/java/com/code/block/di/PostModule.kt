@@ -4,7 +4,7 @@ import android.content.Context
 import com.code.block.feature.post.data.repository.PostRepositoryImpl
 import com.code.block.feature.post.data.source.PostApi
 import com.code.block.feature.post.domain.repository.PostRepository
-import com.code.block.feature.post.domain.usecase.* // ktlint-disable no-wildcard-imports
+import com.code.block.usecase.post.* // ktlint-disable no-wildcard-imports
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides

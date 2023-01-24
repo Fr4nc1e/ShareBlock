@@ -36,9 +36,9 @@ import com.code.block.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
-import com.code.block.core.util.UiEvent
 import com.code.block.core.util.VideoPlayer
-import com.code.block.core.util.asString
+import com.code.block.core.util.ui.UiEvent
+import com.code.block.core.util.ui.asString
 import com.code.block.feature.post.presentation.postdetailscreen.components.CommentItem
 import kotlinx.coroutines.flow.collectLatest
 
@@ -146,7 +146,6 @@ fun PostDetailScreen(
                             InteractiveButtons(
                                 post = it,
                                 onNavigate = onNavigate,
-                                isLiked = state.post.isLiked,
                                 onLikeClick = {
                                     viewModel.onEvent(PostDetailEvent.LikePost)
                                 }

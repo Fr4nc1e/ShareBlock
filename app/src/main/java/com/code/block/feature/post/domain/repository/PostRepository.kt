@@ -3,7 +3,7 @@ package com.code.block.feature.post.domain.repository
 import android.net.Uri
 import androidx.paging.PagingData
 import com.code.block.core.domain.model.Post
-import com.code.block.core.domain.util.* // ktlint-disable no-wildcard-imports
+import com.code.block.core.domain.resource.* // ktlint-disable no-wildcard-imports
 import kotlinx.coroutines.flow.Flow
 
 interface PostRepository {

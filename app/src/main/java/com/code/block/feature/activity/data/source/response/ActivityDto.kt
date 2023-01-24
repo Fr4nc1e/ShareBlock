@@ -1,8 +1,7 @@
 package com.code.block.feature.activity.data.source.response
 
 import com.code.block.core.domain.model.Activity
-import com.code.block.core.domain.util.ActivityType
-import java.lang.String.format
+import com.code.block.core.domain.type.ActivityType
 import java.text.SimpleDateFormat
 import java.util.*
 

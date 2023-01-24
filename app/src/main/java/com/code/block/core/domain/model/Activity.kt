@@ -1,6 +1,6 @@
 package com.code.block.core.domain.model
 
-import com.code.block.core.domain.util.ActivityType
+import com.code.block.core.domain.type.ActivityType
 
 data class Activity(
     val userId: String,

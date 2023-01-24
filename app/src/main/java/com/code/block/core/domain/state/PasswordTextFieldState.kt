@@ -1,6 +1,6 @@
 package com.code.block.core.domain.state
 
-import com.code.block.core.domain.util.Error
+import com.code.block.core.domain.parent.Error
 
 data class PasswordTextFieldState(
     val text: String = "",

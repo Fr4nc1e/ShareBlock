@@ -4,9 +4,9 @@ import android.content.SharedPreferences
 import com.code.block.feature.auth.data.repository.AuthRepositoryImpl
 import com.code.block.feature.auth.data.source.remote.AuthApi
 import com.code.block.feature.auth.domain.repository.AuthRepository
-import com.code.block.feature.auth.domain.usecase.AuthenticateUseCase
-import com.code.block.feature.auth.domain.usecase.LoginUseCase
-import com.code.block.feature.auth.domain.usecase.RegisterUseCase
+import com.code.block.usecase.auth.AuthenticateUseCase
+import com.code.block.usecase.auth.LoginUseCase
+import com.code.block.usecase.auth.RegisterUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

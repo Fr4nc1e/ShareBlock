@@ -4,11 +4,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.code.block.core.domain.resource.Resource
 import com.code.block.core.domain.state.TextFieldState
-import com.code.block.core.domain.util.Resource
-import com.code.block.core.util.UiEvent
-import com.code.block.core.util.UiText
-import com.code.block.feature.profile.domain.usecase.ProfileUseCases
+import com.code.block.core.util.ui.UiEvent
+import com.code.block.core.util.ui.UiText
+import com.code.block.usecase.profile.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

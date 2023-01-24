@@ -1,6 +1,6 @@
 package com.code.block.feature.post.data.source
 
-import com.code.block.core.data.dto.* // ktlint-disable no-wildcard-imports
+import com.code.block.core.data.source.response.* // ktlint-disable no-wildcard-imports
 import com.code.block.feature.post.data.source.request.CreateCommentRequest
 import com.code.block.feature.post.data.source.request.LikeUpdateRequest
 import com.code.block.feature.post.data.source.response.PostDto

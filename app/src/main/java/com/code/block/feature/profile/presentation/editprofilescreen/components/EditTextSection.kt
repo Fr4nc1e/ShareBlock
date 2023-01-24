@@ -24,9 +24,9 @@ import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.IconSizeSmall
 import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.feature.profile.domain.error.EditProfileError
 import com.code.block.feature.profile.presentation.editprofilescreen.EditProfileEvent
 import com.code.block.feature.profile.presentation.editprofilescreen.EditProfileViewModel
-import com.code.block.feature.profile.presentation.util.EditProfileError
 
 @Composable
 fun EditTextSection(

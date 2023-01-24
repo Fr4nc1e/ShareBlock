@@ -1,19 +1,22 @@
 package com.code.block.feature.profile.domain.repository
 
 import android.net.Uri
-import androidx.paging.PagingData
-import com.code.block.core.domain.model.Post
-import com.code.block.core.domain.util.FollowUpdateResource
-import com.code.block.core.domain.util.ProfileResource
-import com.code.block.core.domain.util.SearchResource
-import com.code.block.core.domain.util.UpdateProfileResource
+import com.code.block.core.domain.resource.* // ktlint-disable no-wildcard-imports
+import com.code.block.core.util.Constants
 import com.code.block.feature.profile.domain.model.UpdateProfileData
-import kotlinx.coroutines.flow.Flow
 
 interface ProfileRepository {
     suspend fun getProfile(userId: String): ProfileResource
-    fun getOwnPagedPosts(userId: String): Flow<PagingData<Post>>
-    fun getLikedPosts(userId: String): Flow<PagingData<Post>>
+    suspend fun getOwnPagedPosts(
+        userId: String,
+        page: Int,
+        pageSize: Int = Constants.PAGE_SIZE_POSTS
+    ): ProfileOwnPostResource
+    suspend fun getLikedPosts(
+        userId: String,
+        page: Int,
+        pageSize: Int = Constants.PAGE_SIZE_POSTS
+    ): ProfileLikedPostResource
     suspend fun updateProfile(
         updateProfileData: UpdateProfileData,
         bannerImageUri: Uri?,

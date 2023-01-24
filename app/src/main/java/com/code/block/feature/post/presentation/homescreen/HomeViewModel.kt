@@ -5,10 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.code.block.core.domain.util.ParentType
-import com.code.block.core.domain.util.Resource
-import com.code.block.core.util.UiEvent
-import com.code.block.feature.post.domain.usecase.PostUseCases
+import com.code.block.core.domain.resource.Resource
+import com.code.block.core.domain.type.ParentType
+import com.code.block.core.util.ui.UiEvent
+import com.code.block.usecase.post.PostUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.* // ktlint-disable no-wildcard-imports

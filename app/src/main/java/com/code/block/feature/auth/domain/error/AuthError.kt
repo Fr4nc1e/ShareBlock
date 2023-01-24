@@ -1,6 +1,6 @@
 package com.code.block.feature.auth.domain.error
 
-import com.code.block.core.domain.util.Error
+import com.code.block.core.domain.parent.Error
 
 sealed class AuthError : Error() {
     object FieldEmpty : AuthError()

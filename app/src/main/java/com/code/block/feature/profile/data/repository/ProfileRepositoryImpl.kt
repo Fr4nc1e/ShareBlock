@@ -2,23 +2,15 @@ package com.code.block.feature.profile.data.repository
 
 import android.net.Uri
 import androidx.core.net.toFile
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import com.code.block.R
-import com.code.block.core.domain.model.Post
-import com.code.block.core.domain.util.* // ktlint-disable no-wildcard-imports
-import com.code.block.core.util.Constants
-import com.code.block.core.util.UiText
-import com.code.block.feature.post.data.model.Source
+import com.code.block.core.domain.resource.* // ktlint-disable no-wildcard-imports
+import com.code.block.core.util.ui.UiText
 import com.code.block.feature.post.data.source.PostApi
-import com.code.block.feature.post.data.source.paging.PostSource
 import com.code.block.feature.profile.data.source.ProfileApi
 import com.code.block.feature.profile.data.source.request.FollowUpdateRequest
 import com.code.block.feature.profile.domain.model.UpdateProfileData
 import com.code.block.feature.profile.domain.repository.ProfileRepository
 import com.google.gson.Gson
-import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
@@ -100,16 +92,56 @@ class ProfileRepositoryImpl(
         }
     }
 
-    override fun getOwnPagedPosts(userId: String): Flow<PagingData<Post>> {
-        return Pager(PagingConfig(pageSize = Constants.PAGE_SIZE_POSTS)) {
-            PostSource(postApi, Source.OwnPosts(userId))
-        }.flow
+    override suspend fun getOwnPagedPosts(
+        userId: String,
+        page: Int,
+        pageSize: Int
+    ): ProfileOwnPostResource {
+        return try {
+            val response = postApi.getPostsForProfile(
+                userId = userId,
+                page = page,
+                pageSize = pageSize
+            )
+            Resource.Success(
+                data = response.map { it.toPost() },
+                uiText = null
+            )
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
     }
 
-    override fun getLikedPosts(userId: String): Flow<PagingData<Post>> {
-        return Pager(PagingConfig(pageSize = Constants.PAGE_SIZE_POSTS)) {
-            PostSource(postApi, Source.LikedPosts(userId))
-        }.flow
+    override suspend fun getLikedPosts(
+        userId: String,
+        page: Int,
+        pageSize: Int
+    ): ProfileLikedPostResource {
+        return try {
+            val response = postApi.getPostsForLike(
+                userId = userId,
+                page = page,
+                pageSize = pageSize
+            )
+            Resource.Success(
+                data = response.map { it.toPost() },
+                uiText = null
+            )
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
     }
 
     override suspend fun searchUser(query: String): SearchResource {
