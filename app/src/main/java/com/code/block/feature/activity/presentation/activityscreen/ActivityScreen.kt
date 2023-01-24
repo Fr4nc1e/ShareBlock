@@ -21,7 +21,6 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.code.block.R
 import com.code.block.core.domain.model.Activity
-import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.feature.activity.presentation.activityscreen.components.ActivityItem
@@ -79,16 +78,8 @@ fun ActivityScreen(
                                 parentId = activity.parentId,
                                 formattedTime = activity.formattedTime
                             ),
-                            onUserClick = {
-                                onNavigate(
-                                    Screen.ProfileScreen.route + "?userId=${activity.userId}"
-                                )
-                            },
-                            onActivityClick = {
-                                onNavigate(
-                                    Screen.PostDetailScreen.route + "/${activity.parentId}"
-                                )
-                            }
+                            onUserClick = onNavigate,
+                            onActivityClick = onNavigate
                         )
                     }
                 }

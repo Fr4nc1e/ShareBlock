@@ -1,11 +1,12 @@
 package com.code.block.core.domain.model
 
 data class Comment(
-    val commentId: Int = -1,
-    val username: String = "",
-    val profilePictureUrl: Int,
+    val id: String,
+    val userId: String,
+    val username: String,
+    val profilePictureUrl: String,
     val formattedTime: String,
-    val comment: String = "",
-    val isLiked: Boolean = false,
-    val likeCount: Int = 12
+    val comment: String,
+    val isLiked: Boolean,
+    val likeCount: Int
 )

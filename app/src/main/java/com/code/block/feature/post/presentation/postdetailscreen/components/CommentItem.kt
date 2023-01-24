@@ -18,7 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -26,17 +26,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 import com.code.block.core.domain.model.Comment
-import com.code.block.core.presentation.ui.theme.ProfilePictureSizeSmall
-import com.code.block.core.presentation.ui.theme.SpaceSmall
-import com.code.block.core.presentation.ui.theme.TextWhite
-import com.code.block.core.presentation.ui.theme.quicksand
+import com.code.block.core.presentation.components.Screen
+import com.code.block.core.presentation.ui.theme.* // ktlint-disable no-wildcard-imports
 
 @Composable
-fun Comment(
+fun CommentItem(
     modifier: Modifier = Modifier,
     comment: Comment,
-    onLikeClick: (Boolean) -> Unit = {}
+    onLikeClick: (Boolean) -> Unit = {},
+    onUserClick: (String) -> Unit = {}
 ) {
     Card(
         modifier = modifier,
@@ -52,10 +53,18 @@ fun Comment(
             Box(
                 modifier = Modifier
                     .align(Alignment.Top)
-                    .clickable { }
+                    .clickable {
+                        onUserClick(Screen.ProfileScreen.route + "?userId=${comment.userId}")
+                    }
             ) {
                 Image(
-                    painter = painterResource(id = comment.profilePictureUrl),
+                    painter = rememberAsyncImagePainter(
+                        ImageRequest.Builder(LocalContext.current)
+                            .data(data = comment.profilePictureUrl)
+                            .apply(
+                                block = fun ImageRequest.Builder.() { crossfade(true) }
+                            ).build()
+                    ),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -63,11 +72,16 @@ fun Comment(
                         .clip(CircleShape)
                         .border(
                             width = 1.dp,
-                            brush = Brush.horizontalGradient(
+                            brush = Brush.sweepGradient(
                                 listOf(
-                                    Color.Green,
-                                    Color.Blue,
-                                    Color.Transparent
+                                    Color(0xFF9575CD),
+                                    Color(0xFFBA68C8),
+                                    Color(0xFFE57373),
+                                    Color(0xFFFFB74D),
+                                    Color(0xFFFFF176),
+                                    Color(0xFFAED581),
+                                    Color(0xFF4DD0E1),
+                                    Color(0xFF9575CD)
                                 )
                             ),
                             shape = CircleShape
@@ -85,6 +99,7 @@ fun Comment(
                             style = SpanStyle(
                                 fontFamily = quicksand,
                                 fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp,
                                 color = MaterialTheme.colors.primary
                             )
                         ) {
@@ -92,7 +107,7 @@ fun Comment(
                         }
                         append("    " + comment.comment)
                     },
-                    style = MaterialTheme.typography.body2,
+                    style = MaterialTheme.typography.body1,
                     color = MaterialTheme.colors.onBackground
                 )
 
@@ -110,7 +125,7 @@ fun Comment(
                             onClick = {
                                 onLikeClick(comment.isLiked)
                             },
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(IconSizeSmall)
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Favorite,
@@ -132,8 +147,7 @@ fun Comment(
                         Text(
                             text = "${comment.likeCount}",
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
-                            style = MaterialTheme.typography.h2
+                            style = MaterialTheme.typography.body2
                         )
                     }
 

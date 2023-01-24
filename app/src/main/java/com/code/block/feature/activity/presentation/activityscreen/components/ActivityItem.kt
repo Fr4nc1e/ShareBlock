@@ -26,6 +26,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.code.block.R
 import com.code.block.core.domain.model.Activity
 import com.code.block.core.domain.util.ActivityType
+import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeExtraSmall
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.presentation.ui.theme.quicksand
@@ -34,12 +35,12 @@ import com.code.block.core.presentation.ui.theme.quicksand
 fun ActivityItem(
     activity: Activity,
     modifier: Modifier = Modifier,
-    onUserClick: () -> Unit = {},
-    onActivityClick: () -> Unit = {}
+    onUserClick: (String) -> Unit = {},
+    onActivityClick: (String) -> Unit = {}
 ) {
     Card(
         modifier = modifier
-            .clickable { onActivityClick() },
+            .clickable { onActivityClick(Screen.PostDetailScreen.route + "/${activity.parentId}") },
         shape = MaterialTheme.shapes.medium,
         backgroundColor = MaterialTheme.colors.surface,
         elevation = 5.dp
@@ -72,7 +73,7 @@ fun ActivityItem(
                         )
                         .align(Alignment.CenterVertically)
                         .clickable {
-                            onUserClick()
+                            onUserClick(Screen.ProfileScreen.route + "?userId=${activity.userId}")
                         }
                 )
 

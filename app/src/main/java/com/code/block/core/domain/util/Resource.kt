@@ -1,5 +1,7 @@
 package com.code.block.core.domain.util
 
+import com.code.block.core.domain.model.Comment
+import com.code.block.core.domain.model.Post
 import com.code.block.core.domain.model.Profile
 import com.code.block.core.util.UiText
 import com.code.block.feature.profile.domain.model.UserItem
@@ -20,3 +22,6 @@ typealias ProfileResource = Resource<Profile>
 typealias UpdateProfileResource = Resource<Unit>
 typealias SearchResource = Resource<List<UserItem>>
 typealias FollowUpdateResource = Resource<Unit>
+typealias PostDetailResource = Resource<Post>
+typealias CommentsForPostResource = Resource<List<Comment>>
+typealias CreateCommentResource = Resource<Unit>

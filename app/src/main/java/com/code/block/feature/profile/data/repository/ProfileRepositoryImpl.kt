@@ -11,8 +11,8 @@ import com.code.block.core.domain.util.* // ktlint-disable no-wildcard-imports
 import com.code.block.core.util.Constants
 import com.code.block.core.util.UiText
 import com.code.block.feature.post.data.model.Source
+import com.code.block.feature.post.data.source.PostApi
 import com.code.block.feature.post.data.source.paging.PostSource
-import com.code.block.feature.post.data.source.remote.PostApi
 import com.code.block.feature.profile.data.source.ProfileApi
 import com.code.block.feature.profile.data.source.request.FollowUpdateRequest
 import com.code.block.feature.profile.domain.model.UpdateProfileData

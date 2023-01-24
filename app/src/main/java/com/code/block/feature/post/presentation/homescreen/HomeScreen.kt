@@ -95,16 +95,19 @@ fun HomeScreen(
                         PostCard(
                             onNavigate = onNavigate,
                             post = Post(
+                                id = post?.id ?: "",
                                 userId = post?.userId ?: "",
                                 username = post?.username ?: "",
-                                contentUrl = "http://172.28.211.51:8081/post_contents/" +
-                                    post?.contentUrl?.takeLastWhile { it != '/' },
+                                contentUrl = post?.contentUrl ?: "",
                                 profilePictureUrl = post?.profilePictureUrl ?: "",
                                 description = post?.description ?: "",
                                 likeCount = post?.likeCount ?: 0,
                                 commentCount = post?.commentCount ?: 0,
-                                timestamp = post?.timestamp ?: 0
+                                timestamp = (post?.timestamp ?: 0) as String,
+                                isLiked = post?.isLiked ?: true,
+                                isOwnPost = post?.isOwnPost ?: true
                             ),
+                            comment = null,
                             onPostClick = { onNavigate(Screen.PostDetailScreen.route + "/${post?.id}") }
                         )
                     }

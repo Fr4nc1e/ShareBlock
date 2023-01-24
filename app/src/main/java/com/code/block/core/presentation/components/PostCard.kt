@@ -17,8 +17,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -26,7 +24,6 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.code.block.R
 import com.code.block.core.domain.model.Comment
 import com.code.block.core.domain.model.Post
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeExtraSmall
@@ -39,12 +36,7 @@ fun PostCard(
     modifier: Modifier = Modifier,
     onNavigate: (String) -> Unit = {},
     post: Post,
-    comment: Comment = Comment(
-        username = "test",
-        comment = stringResource(R.string.test_comment),
-        profilePictureUrl = R.drawable.icons8_superman_144,
-        formattedTime = System.currentTimeMillis().toString()
-    ),
+    comment: Comment?,
     isProfileCommentScreen: Boolean = false,
     onPostClick: () -> Unit = {}
 ) {
@@ -129,44 +121,52 @@ fun PostCard(
                             modifier = Modifier.fillMaxSize(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Image(
-                                painter = painterResource(id = comment.profilePictureUrl),
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .size(ProfilePictureSizeExtraSmall)
-                                    .clip(CircleShape)
-                                    .border(
-                                        width = 1.dp,
-                                        brush = Brush.horizontalGradient(
-                                            listOf(
-                                                Color.Green,
-                                                Color.Blue,
-                                                Color.Transparent
-                                            )
-                                        ),
-                                        shape = CircleShape
-                                    )
-                            )
-
-                            Spacer(modifier = Modifier.width(SpaceSmall))
-
-                            Text(
-                                text = buildAnnotatedString {
-                                    withStyle(
-                                        style = SpanStyle(
-                                            fontFamily = quicksand,
-                                            fontWeight = FontWeight.Bold,
-                                            color = MaterialTheme.colors.primary
+                            comment?.let {
+                                Image(
+                                    painter = rememberAsyncImagePainter(
+                                        ImageRequest.Builder(LocalContext.current)
+                                            .data(data = it.profilePictureUrl)
+                                            .apply(
+                                                block = fun ImageRequest.Builder.() { crossfade(true) }
+                                            ).build()
+                                    ),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = Modifier
+                                        .size(ProfilePictureSizeExtraSmall)
+                                        .clip(CircleShape)
+                                        .border(
+                                            width = 1.dp,
+                                            brush = Brush.horizontalGradient(
+                                                listOf(
+                                                    Color.Green,
+                                                    Color.Blue,
+                                                    Color.Transparent
+                                                )
+                                            ),
+                                            shape = CircleShape
                                         )
-                                    ) {
-                                        append(comment.username)
-                                    }
-                                    append("    " + comment.comment)
-                                },
-                                style = MaterialTheme.typography.body2,
-                                color = MaterialTheme.colors.onBackground
-                            )
+                                )
+
+                                Spacer(modifier = Modifier.width(SpaceSmall))
+
+                                Text(
+                                    text = buildAnnotatedString {
+                                        withStyle(
+                                            style = SpanStyle(
+                                                fontFamily = quicksand,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colors.primary
+                                            )
+                                        ) {
+                                            append(it.username)
+                                        }
+                                        append("    " + it.comment)
+                                    },
+                                    style = MaterialTheme.typography.body2,
+                                    color = MaterialTheme.colors.onBackground
+                                )
+                            }
                         }
                     }
                 }

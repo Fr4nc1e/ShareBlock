@@ -88,4 +88,6 @@
     <string name="error_couldnt_load_profile">Can not load the profile.</string>
     <string name="updated_profile">Update profile successfully.</string>
     <string name="error_invalid_github_url">Wrong GitHub Url</string>
+    <string name="comment_created">Create comment successfully.</string>
+    <string name="send_comment">Send comment</string>
 </resources>

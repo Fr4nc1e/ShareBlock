@@ -8,9 +8,7 @@ import androidx.paging.cachedIn
 import com.code.block.feature.activity.domain.usecase.GetActivitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.* // ktlint-disable no-wildcard-imports
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,8 +29,6 @@ class ActivityViewModel @Inject constructor(
 
     fun onEvent(event: ActivityEvent) {
         when (event) {
-            is ActivityEvent.ClickedOnUser -> TODO()
-            is ActivityEvent.ClickedOnParent -> TODO()
             ActivityEvent.Refresh -> {
                 refresh()
             }

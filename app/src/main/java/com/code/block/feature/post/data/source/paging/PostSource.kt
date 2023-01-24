@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.code.block.core.domain.model.Post
 import com.code.block.core.util.Constants
 import com.code.block.feature.post.data.model.Source
-import com.code.block.feature.post.data.source.remote.PostApi
+import com.code.block.feature.post.data.source.PostApi
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -44,6 +44,8 @@ class PostSource(
                         pageSize = Constants.PAGE_SIZE_POSTS
                     )
                 }
+            }.map {
+                it.toPost()
             }
 
             LoadResult.Page(

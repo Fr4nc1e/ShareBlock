@@ -2,11 +2,9 @@ package com.code.block.di
 
 import android.content.Context
 import com.code.block.feature.post.data.repository.PostRepositoryImpl
-import com.code.block.feature.post.data.source.remote.PostApi
+import com.code.block.feature.post.data.source.PostApi
 import com.code.block.feature.post.domain.repository.PostRepository
-import com.code.block.feature.post.domain.usecase.CreatePostUseCase
-import com.code.block.feature.post.domain.usecase.GetPostsForFollowUseCase
-import com.code.block.feature.post.domain.usecase.PostUseCases
+import com.code.block.feature.post.domain.usecase.* // ktlint-disable no-wildcard-imports
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -56,6 +54,15 @@ object PostModule {
             ),
             createPostUseCase = CreatePostUseCase(
                 repository = repository
+            ),
+            getCommentsForPostUseCase = GetCommentsForPostUseCase(
+                repository = repository
+            ),
+            getPostDetailUseCase = GetPostDetailUseCase(
+                repository = repository
+            ),
+            createCommentUseCase = CreateCommentUseCase(
+                postRepository = repository
             )
         )
     }

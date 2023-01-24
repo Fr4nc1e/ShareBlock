@@ -1,6 +1,6 @@
 package com.code.block.di
 
-import com.code.block.feature.post.data.source.remote.PostApi
+import com.code.block.feature.post.data.source.PostApi
 import com.code.block.feature.profile.data.repository.ProfileRepositoryImpl
 import com.code.block.feature.profile.data.source.ProfileApi
 import com.code.block.feature.profile.domain.repository.ProfileRepository

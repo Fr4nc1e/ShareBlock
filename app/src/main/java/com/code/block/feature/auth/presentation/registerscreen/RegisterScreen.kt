@@ -34,7 +34,6 @@ import kotlinx.coroutines.flow.collectLatest
 fun RegisterScreen(
     navController: NavController,
     scaffoldState: ScaffoldState,
-    onPopBackStack: () -> Unit,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val usernameState = viewModel.usernameState.value
@@ -59,6 +58,7 @@ fun RegisterScreen(
                         }
                     }
                 }
+                else -> Unit
             }
         }
     }

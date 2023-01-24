@@ -33,9 +33,7 @@ fun StandardTextField(
     label: @Composable (() -> Unit)? = null,
     maxLength: Int = 32,
     error: String = "",
-    style: TextStyle = TextStyle(
-        color = MaterialTheme.colors.onBackground
-    ),
+    style: TextStyle = TextStyle(color = MaterialTheme.colors.onBackground),
     singleLine: Boolean = true,
     maxLines: Int = 1,
     focusManager: FocusManager = LocalFocusManager.current,
@@ -120,8 +118,7 @@ fun StandardTextField(
                 }
                 icon
             } else trailingIcon,
-            modifier = modifier
-                .fillMaxWidth()
+            modifier = modifier.fillMaxWidth()
         )
 
         if (isRegisterPage) {

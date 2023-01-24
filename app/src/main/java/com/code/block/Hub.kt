@@ -79,8 +79,7 @@ fun Hub() {
             composable(Screen.RegisterScreen.route) {
                 RegisterScreen(
                     navController = navController,
-                    scaffoldState = scaffoldState,
-                    onPopBackStack = navController::popBackStack
+                    scaffoldState = scaffoldState
                 )
             }
 
@@ -156,7 +155,10 @@ fun Hub() {
                     }
                 )
             ) {
-                PostDetailScreen(onNavigate = navController::navigate)
+                PostDetailScreen(
+                    onNavigate = navController::navigate,
+                    scaffoldState = scaffoldState
+                )
             }
 
             composable(Screen.PersonListScreen.route) {

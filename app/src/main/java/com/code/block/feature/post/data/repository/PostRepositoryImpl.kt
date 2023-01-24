@@ -8,15 +8,15 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.code.block.R
 import com.code.block.core.domain.model.Post
-import com.code.block.core.domain.util.CreatePostResource
-import com.code.block.core.domain.util.Resource
+import com.code.block.core.domain.util.* // ktlint-disable no-wildcard-imports
 import com.code.block.core.util.Constants
 import com.code.block.core.util.FileNameReader.getFileName
 import com.code.block.core.util.UiText
 import com.code.block.feature.post.data.model.Source
+import com.code.block.feature.post.data.source.PostApi
 import com.code.block.feature.post.data.source.paging.PostSource
-import com.code.block.feature.post.data.source.remote.CreatePostRequest
-import com.code.block.feature.post.data.source.remote.PostApi
+import com.code.block.feature.post.data.source.request.CreateCommentRequest
+import com.code.block.feature.post.data.source.request.CreatePostRequest
 import com.code.block.feature.post.domain.repository.PostRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -92,6 +92,82 @@ class PostRepositoryImpl(
             Resource.Error(uiText = UiText.StringResource(R.string.fail_to_connect))
         } catch (e: HttpException) {
             Resource.Error(uiText = UiText.StringResource(R.string.fail_to_connect))
+        }
+    }
+
+    override suspend fun getPostDetail(postId: String): PostDetailResource {
+        return try {
+            val response = api.getPostDetails(postId = postId)
+            if (response.successful) {
+                Resource.Success(
+                    data = response.data?.toPost(),
+                    uiText = null
+                )
+            } else {
+                response.message?.let { msg ->
+                    Resource.Error(uiText = UiText.CallResponseText(msg))
+                } ?: Resource.Error(uiText = UiText.StringResource(R.string.unknown_error))
+            }
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
+    }
+
+    override suspend fun getCommentsForPost(postId: String): CommentsForPostResource {
+        return try {
+            val response = api.getCommentsForPost(postId = postId)
+            if (response.successful) {
+                Resource.Success(
+                    data = response.data?.map { it.toComment() },
+                    uiText = null
+                )
+            } else {
+                response.message?.let { msg ->
+                    Resource.Error(uiText = UiText.CallResponseText(msg))
+                } ?: Resource.Error(uiText = UiText.StringResource(R.string.unknown_error))
+            }
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
+    }
+
+    override suspend fun createComment(
+        comment: String,
+        postId: String
+    ): CreateCommentResource {
+        return try {
+            val request = CreateCommentRequest(
+                comment = comment,
+                postId = postId
+            )
+            val response = api.createComment(request)
+            if (response.successful) {
+                Resource.Success(uiText = null)
+            } else {
+                response.message?.let { msg ->
+                    Resource.Error(uiText = UiText.CallResponseText(msg))
+                } ?: Resource.Error(uiText = UiText.StringResource(R.string.unknown_error))
+            }
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
         }
     }
 }

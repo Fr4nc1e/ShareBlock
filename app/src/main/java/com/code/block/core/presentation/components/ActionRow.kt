@@ -91,7 +91,7 @@ fun ActionRow(
         }
 
         Text(
-            text = post.timestamp.toString(),
+            text = post.timestamp,
             style = MaterialTheme.typography.body2,
             modifier = Modifier
                 .align(CenterVertically)
