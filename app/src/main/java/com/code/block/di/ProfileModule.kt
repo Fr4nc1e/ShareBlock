@@ -51,4 +51,10 @@ object ProfileModule {
             followUserUseCase = FollowUserUseCase(repository)
         )
     }
+
+    @Provides
+    @Singleton
+    fun provideFollowUserUseCase(repository: ProfileRepository): FollowUserUseCase {
+        return FollowUserUseCase(repository)
+    }
 }

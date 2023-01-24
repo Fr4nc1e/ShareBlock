@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -29,7 +28,7 @@ fun InteractiveButtons(
     onNavigate: (String) -> Unit = {},
     post: Post,
     isLiked: Boolean = false,
-    onLikeClick: (Boolean) -> Unit = {},
+    onLikeClick: () -> Unit = {},
     onCommentClick: () -> Unit = {},
     onShareClick: () -> Unit = {}
 ) {
@@ -43,7 +42,7 @@ fun InteractiveButtons(
         ) {
             IconButton(
                 onClick = {
-                    onLikeClick(!isLiked)
+                    onLikeClick()
                 },
                 modifier = Modifier.size(IconSizeMedium)
             ) {
@@ -55,7 +54,7 @@ fun InteractiveButtons(
                         stringResource(R.string.like)
                     },
                     tint = if (isLiked) {
-                        Color.Red
+                        MaterialTheme.colors.primary
                     } else {
                         TextWhite
                     }
@@ -70,7 +69,7 @@ fun InteractiveButtons(
                 fontSize = 16.sp,
                 style = MaterialTheme.typography.h2,
                 modifier = Modifier.clickable {
-                    onNavigate(Screen.PersonListScreen.route)
+                    onNavigate(Screen.PersonListScreen.route + "/${post.id}")
                 }
             )
         }

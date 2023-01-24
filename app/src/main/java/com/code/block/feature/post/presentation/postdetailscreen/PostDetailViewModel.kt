@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.code.block.R
 import com.code.block.core.domain.state.TextFieldState
+import com.code.block.core.domain.util.ParentType
 import com.code.block.core.domain.util.Resource
 import com.code.block.core.util.UiEvent
 import com.code.block.core.util.UiText
@@ -14,7 +15,6 @@ import com.code.block.feature.post.domain.usecase.PostUseCases
 import com.code.block.feature.post.presentation.postdetailscreen.components.CommentError
 import com.code.block.feature.post.presentation.postdetailscreen.components.CommentState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -47,6 +47,12 @@ class PostDetailViewModel @Inject constructor(
     fun onEvent(event: PostDetailEvent) {
         when (event) {
             is PostDetailEvent.LikePost -> {
+                val isLiked = state.value.post?.isLiked == true
+                likeParent(
+                    parentId = state.value.post?.id ?: return,
+                    parentType = ParentType.Post.type,
+                    isLiked = isLiked
+                )
             }
             is PostDetailEvent.Comment -> {
                 createComment(
@@ -55,6 +61,14 @@ class PostDetailViewModel @Inject constructor(
                 )
             }
             is PostDetailEvent.LikeComment -> {
+                val isLiked = state.value.comments.find {
+                    it.id == event.commentId
+                }?.isLiked == true
+                likeParent(
+                    parentId = event.commentId,
+                    parentType = ParentType.Comment.type,
+                    isLiked = isLiked
+                )
             }
             is PostDetailEvent.SharePost -> {
             }
@@ -67,12 +81,66 @@ class PostDetailViewModel @Inject constructor(
         }
     }
 
+    private fun likeParent(
+        parentId: String,
+        parentType: Int,
+        isLiked: Boolean
+    ) {
+        viewModelScope.launch {
+            when (parentType) {
+                ParentType.Post.type -> {
+                    _state.value = state.value.copy(
+                        post = state.value.post?.copy(
+                            isLiked = !isLiked
+                        )
+                    )
+                }
+                ParentType.Comment.type -> {
+                    _state.value = state.value.copy(
+                        comments = state.value.comments.map {
+                            if (it.id == parentId) {
+                                it.copy(isLiked = !isLiked)
+                            } else it
+                        }
+                    )
+                }
+            }
+            val result = postUseCases.likeParentUseCase(
+                parentId = parentId,
+                parentType = parentType,
+                isLiked = isLiked
+            )
+            when (result) {
+                is Resource.Success -> Unit
+                is Resource.Error -> {
+                    when (parentType) {
+                        ParentType.Post.type -> {
+                            _state.value = state.value.copy(
+                                post = state.value.post?.copy(
+                                    isLiked = isLiked
+                                )
+                            )
+                        }
+                        ParentType.Comment.type -> {
+                            _state.value = state.value.copy(
+                                comments = state.value.comments.map {
+                                    if (it.id == parentId) {
+                                        it.copy(isLiked = isLiked)
+                                    } else it
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun createComment(postId: String, comment: String) {
         viewModelScope.launch {
             _commentState.value = _commentState.value.copy(
                 isLoading = true
             )
-            delay(500L)
             postUseCases.createCommentUseCase(
                 postId = postId,
                 comment = comment

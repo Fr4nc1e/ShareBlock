@@ -3,6 +3,7 @@ package com.code.block.core.data.dto
 import com.code.block.feature.auth.data.source.remote.response.AuthResponse
 import com.code.block.feature.post.data.source.response.CommentDto
 import com.code.block.feature.post.data.source.response.PostDto
+import com.code.block.feature.profile.data.source.response.UserItemDto
 
 data class BasicApiResponse<T>(
     val successful: Boolean,
@@ -18,3 +19,5 @@ typealias FollowUpdateResponse = BasicApiResponse<Unit>
 typealias PostDetailResponse = BasicApiResponse<PostDto>
 typealias CommentsForPostResponse = BasicApiResponse<List<CommentDto>>
 typealias CreateCommentResponse = BasicApiResponse<Unit>
+typealias LikeUpdateResponse = BasicApiResponse<Unit>
+typealias LikedUsersResponse = BasicApiResponse<List<UserItemDto>>

@@ -7,7 +7,7 @@ import com.code.block.core.util.UiText
 import com.code.block.feature.post.domain.repository.PostRepository
 
 class CreateCommentUseCase(
-    private val postRepository: PostRepository
+    private val repository: PostRepository
 ) {
     suspend operator fun invoke(
         postId: String,
@@ -19,7 +19,7 @@ class CreateCommentUseCase(
         if (postId.isBlank()) {
             return Resource.Error(uiText = UiText.unknownError())
         }
-        return postRepository.createComment(
+        return repository.createComment(
             comment = comment,
             postId = postId
         )

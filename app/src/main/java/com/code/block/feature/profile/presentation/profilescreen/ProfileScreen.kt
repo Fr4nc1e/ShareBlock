@@ -56,6 +56,10 @@ fun ProfileScreen(
                         message = it.uiText.asString(context)
                     )
                 }
+                UiEvent.OnLikeParent -> {
+                    ownPosts.refresh()
+                    likedPosts.refresh()
+                }
                 else -> Unit
             }
         }

@@ -62,7 +62,13 @@ object PostModule {
                 repository = repository
             ),
             createCommentUseCase = CreateCommentUseCase(
-                postRepository = repository
+                repository = repository
+            ),
+            likeParentUseCase = LikeParentUseCase(
+                repository = repository
+            ),
+            getLikedUsersForParent = GetLikedUsersForParent(
+                repository = repository
             )
         )
     }

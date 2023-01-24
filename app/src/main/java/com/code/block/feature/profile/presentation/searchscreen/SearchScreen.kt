@@ -22,12 +22,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.R
-import com.code.block.core.domain.model.User
 import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceMedium
-import com.code.block.feature.profile.presentation.searchscreen.components.SearchResultItem
+import com.code.block.feature.profile.presentation.searchscreen.components.UserProfileItem
 
 @Composable
 fun SearchScreen(
@@ -102,16 +101,8 @@ fun SearchScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     items(state.value.userItems) {
-                        SearchResultItem(
-                            user = User(
-                                userId = it.userId,
-                                profilePictureUrl = it.profileImageUrl,
-                                username = it.username,
-                                description = it.bio,
-                                followerCount = 0,
-                                followingCount = 0,
-                                postCount = 0
-                            ),
+                        UserProfileItem(
+                            user = it,
                             actionIcon = {
                                 IconButton(
                                     onClick = {

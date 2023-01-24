@@ -5,21 +5,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.code.block.core.domain.util.ParentType
+import com.code.block.core.domain.util.Resource
+import com.code.block.core.util.UiEvent
 import com.code.block.feature.post.domain.usecase.PostUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.* // ktlint-disable no-wildcard-imports
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    postUseCases: PostUseCases
+    private val postUseCases: PostUseCases
 ) : ViewModel() {
     private val _state = mutableStateOf(HomeState())
     val state: State<HomeState> = _state
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     val posts = postUseCases.getPostsForFollowUseCase()
         .cachedIn(viewModelScope)
@@ -44,6 +48,31 @@ class HomeViewModel @Inject constructor(
             HomeEvent.Refresh -> {
                 refresh()
             }
+            is HomeEvent.LikedParent -> {
+                likeParent(
+                    parentId = event.postId,
+                    isLiked = true
+                )
+            }
+        }
+    }
+
+    private fun likeParent(
+        parentId: String,
+        isLiked: Boolean
+    ) {
+        viewModelScope.launch {
+            val result = postUseCases.likeParentUseCase(
+                parentId = parentId,
+                parentType = ParentType.Post.type,
+                isLiked = isLiked
+            )
+            when (result) {
+                is Resource.Success -> {
+                    _eventFlow.emit(UiEvent.OnLikeParent)
+                }
+                is Resource.Error -> {}
+            }
         }
     }
 
@@ -52,7 +81,7 @@ class HomeViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             _isRefreshing.emit(true)
-            delay(500)
+            delay(500L)
             onRefresh()
             _isRefreshing.emit(false)
         }

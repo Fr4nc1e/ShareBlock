@@ -38,7 +38,10 @@ fun PostCard(
     post: Post,
     comment: Comment?,
     isProfileCommentScreen: Boolean = false,
-    onPostClick: () -> Unit = {}
+    onPostClick: () -> Unit = {},
+    onLikeClick: () -> Unit = {},
+    onCommentClick: () -> Unit = {},
+    onShareClick: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
@@ -106,7 +109,10 @@ fun PostCard(
 
                 InteractiveButtons(
                     post = post,
-                    onNavigate = onNavigate
+                    onNavigate = onNavigate,
+                    onLikeClick = onLikeClick,
+                    onCommentClick = onCommentClick,
+                    onShareClick = onShareClick
                 )
 
                 if (isProfileCommentScreen) {

@@ -3,10 +3,7 @@ package com.code.block.feature.post.domain.repository
 import android.net.Uri
 import androidx.paging.PagingData
 import com.code.block.core.domain.model.Post
-import com.code.block.core.domain.util.CommentsForPostResource
-import com.code.block.core.domain.util.CreateCommentResource
-import com.code.block.core.domain.util.CreatePostResource
-import com.code.block.core.domain.util.PostDetailResource
+import com.code.block.core.domain.util.* // ktlint-disable no-wildcard-imports
 import kotlinx.coroutines.flow.Flow
 
 interface PostRepository {
@@ -25,4 +22,18 @@ interface PostRepository {
         comment: String,
         postId: String
     ): CreateCommentResource
+
+    suspend fun likeParent(
+        parentId: String,
+        parentType: Int
+    ): LikeUpdateResource
+
+    suspend fun unlikeParent(
+        parentId: String,
+        parentType: Int
+    ): LikeUpdateResource
+
+    suspend fun getLikedUsers(
+        parentId: String
+    ): LikedUsersResource
 }

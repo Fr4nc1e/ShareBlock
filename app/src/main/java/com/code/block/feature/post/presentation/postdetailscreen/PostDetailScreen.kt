@@ -145,7 +145,11 @@ fun PostDetailScreen(
 
                             InteractiveButtons(
                                 post = it,
-                                onNavigate = onNavigate
+                                onNavigate = onNavigate,
+                                isLiked = state.post.isLiked,
+                                onLikeClick = {
+                                    viewModel.onEvent(PostDetailEvent.LikePost)
+                                }
                             )
 
                             Spacer(modifier = Modifier.height(SpaceSmall))
@@ -159,7 +163,7 @@ fun PostDetailScreen(
                 }
             }
 
-            items(state.comments) {
+            items(state.comments) { comment ->
                 CommentItem(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -167,8 +171,11 @@ fun PostDetailScreen(
                             horizontal = SpaceLarge,
                             vertical = SpaceSmall
                         ),
-                    comment = it,
-                    onUserClick = onNavigate
+                    comment = comment,
+                    onUserClick = onNavigate,
+                    onLikeClick = {
+                        viewModel.onEvent(PostDetailEvent.LikeComment(commentId = comment.id))
+                    }
                 )
             }
         }

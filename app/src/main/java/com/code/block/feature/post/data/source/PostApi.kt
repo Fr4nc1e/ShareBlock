@@ -1,13 +1,12 @@
 package com.code.block.feature.post.data.source
 
-import com.code.block.core.data.dto.CommentsForPostResponse
-import com.code.block.core.data.dto.CreateCommentResponse
-import com.code.block.core.data.dto.CreatePostResponse
-import com.code.block.core.data.dto.PostDetailResponse
+import com.code.block.core.data.dto.* // ktlint-disable no-wildcard-imports
 import com.code.block.feature.post.data.source.request.CreateCommentRequest
+import com.code.block.feature.post.data.source.request.LikeUpdateRequest
 import com.code.block.feature.post.data.source.response.PostDto
 import okhttp3.MultipartBody
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -57,6 +56,22 @@ interface PostApi {
     suspend fun createComment(
         @Body createRequest: CreateCommentRequest
     ): CreateCommentResponse
+
+    @POST("api/like")
+    suspend fun likeParent(
+        @Body likeUpdateRequest: LikeUpdateRequest
+    ): LikeUpdateResponse
+
+    @DELETE("api/unlike")
+    suspend fun unlikeParent(
+        @Query("parentId") parentId: String,
+        @Query("parentType") parentType: Int
+    ): LikeUpdateResponse
+
+    @GET("/api/like/parent")
+    suspend fun getLikedUsers(
+        @Query("parentId") parentId: String
+    ): LikedUsersResponse
 
     companion object {
         const val BASE_URL = "http://172.28.211.51:8081/"

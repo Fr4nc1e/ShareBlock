@@ -26,8 +26,11 @@ import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.IconSizeLarge
 import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.core.util.UiEvent
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@Suppress("OPT_IN_IS_NOT_ENABLED")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(
@@ -48,6 +51,15 @@ fun HomeScreen(
             }
         }
     )
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                UiEvent.OnLikeParent -> viewModel.onEvent(HomeEvent.Refresh)
+                else -> Unit
+            }
+        }
+    }
 
     Box(
         Modifier.pullRefresh(pullRefreshState)
@@ -108,7 +120,16 @@ fun HomeScreen(
                                 isOwnPost = post?.isOwnPost ?: true
                             ),
                             comment = null,
-                            onPostClick = { onNavigate(Screen.PostDetailScreen.route + "/${post?.id}") }
+                            onPostClick = {
+                                onNavigate(Screen.PostDetailScreen.route + "/${post?.id}")
+                            },
+                            onLikeClick = {
+                                viewModel.onEvent(
+                                    HomeEvent.LikedParent(
+                                        post?.id ?: ""
+                                    )
+                                )
+                            }
                         )
                     }
 

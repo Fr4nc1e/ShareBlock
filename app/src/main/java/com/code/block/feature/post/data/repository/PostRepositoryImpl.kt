@@ -17,6 +17,7 @@ import com.code.block.feature.post.data.source.PostApi
 import com.code.block.feature.post.data.source.paging.PostSource
 import com.code.block.feature.post.data.source.request.CreateCommentRequest
 import com.code.block.feature.post.data.source.request.CreatePostRequest
+import com.code.block.feature.post.data.source.request.LikeUpdateRequest
 import com.code.block.feature.post.domain.repository.PostRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -160,6 +161,78 @@ class PostRepositoryImpl(
                     Resource.Error(uiText = UiText.CallResponseText(msg))
                 } ?: Resource.Error(uiText = UiText.StringResource(R.string.unknown_error))
             }
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
+    }
+
+    override suspend fun likeParent(
+        parentId: String,
+        parentType: Int
+    ): LikeUpdateResource {
+        return try {
+            val request = LikeUpdateRequest(
+                parentId = parentId,
+                parentType = parentType
+            )
+            val response = api.likeParent(request)
+            if (response.successful) {
+                Resource.Success(uiText = null)
+            } else {
+                response.message?.let { msg ->
+                    Resource.Error(uiText = UiText.CallResponseText(msg))
+                } ?: Resource.Error(uiText = UiText.StringResource(R.string.unknown_error))
+            }
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
+    }
+
+    override suspend fun unlikeParent(
+        parentId: String,
+        parentType: Int
+    ): LikeUpdateResource {
+        return try {
+            val response = api.unlikeParent(
+                parentId = parentId,
+                parentType = parentType
+            )
+            if (response.successful) {
+                Resource.Success(uiText = null)
+            } else {
+                response.message?.let { msg ->
+                    Resource.Error(uiText = UiText.CallResponseText(msg))
+                } ?: Resource.Error(uiText = UiText.StringResource(R.string.unknown_error))
+            }
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
+    }
+
+    override suspend fun getLikedUsers(parentId: String): LikedUsersResource {
+        return try {
+            Resource.Success(
+                data = api.getLikedUsers(parentId).data?.map { it.toUserItem() },
+                uiText = null
+            )
         } catch (e: IOException) {
             Resource.Error(
                 uiText = UiText.StringResource(R.string.fail_to_connect)

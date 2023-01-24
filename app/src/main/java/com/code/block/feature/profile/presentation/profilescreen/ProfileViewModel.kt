@@ -7,9 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.code.block.core.domain.usecase.GetOwnUserIdUseCase
+import com.code.block.core.domain.util.ParentType
 import com.code.block.core.domain.util.Resource
 import com.code.block.core.util.UiEvent
 import com.code.block.core.util.UiText
+import com.code.block.feature.post.domain.usecase.PostUseCases
 import com.code.block.feature.profile.domain.usecase.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val profileUseCases: ProfileUseCases,
+    private val postUseCases: PostUseCases,
     private val getOwnUserIdUseCase: GetOwnUserIdUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -42,6 +45,33 @@ class ProfileViewModel @Inject constructor(
         when (event) {
             is ProfileEvent.GetProfile -> {
                 getProfile(userId = event.userId)
+            }
+            is ProfileEvent.LikePost -> {
+                viewModelScope.launch {
+                    likeParent(
+                        parentId = event.postId,
+                        isLiked = false
+                    )
+                }
+            }
+        }
+    }
+
+    private fun likeParent(
+        parentId: String,
+        isLiked: Boolean
+    ) {
+        viewModelScope.launch {
+            val result = postUseCases.likeParentUseCase(
+                parentId = parentId,
+                parentType = ParentType.Post.type,
+                isLiked = isLiked
+            )
+            when (result) {
+                is Resource.Success -> {
+                    _eventFlow.emit(UiEvent.OnLikeParent)
+                }
+                is Resource.Error -> Unit
             }
         }
     }

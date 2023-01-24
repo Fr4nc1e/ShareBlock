@@ -13,17 +13,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.code.block.core.domain.model.User
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.feature.profile.domain.model.UserItem
 
+@Suppress("OPT_IN_IS_NOT_ENABLED")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SearchResultItem(
-    user: User,
+fun UserProfileItem(
+    user: UserItem,
     modifier: Modifier = Modifier,
+    ownUserId: String = "",
     actionIcon: @Composable () -> Unit = {},
     onItemClick: () -> Unit = {},
     onActionItemClick: () -> Unit = {}
@@ -45,7 +47,7 @@ fun SearchResultItem(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Image(
-                painter = rememberAsyncImagePainter(user.profilePictureUrl),
+                painter = rememberAsyncImagePainter(user.profileImageUrl),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -68,21 +70,22 @@ fun SearchResultItem(
 
                 Spacer(modifier = Modifier.height(SpaceSmall))
 
-                if (user.description.isNotBlank()) {
+                if (user.bio.isNotBlank()) {
                     Text(
-                        text = user.description,
+                        text = user.bio,
                         style = MaterialTheme.typography.body2,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 2
                     )
                 }
             }
-            IconButton(
-                onClick = onActionItemClick,
-                modifier = Modifier.size(IconSizeMedium)
-
-            ) {
-                actionIcon()
+            if (ownUserId != user.userId) {
+                IconButton(
+                    onClick = onActionItemClick,
+                    modifier = Modifier.size(IconSizeMedium)
+                ) {
+                    actionIcon()
+                }
             }
         }
     }
