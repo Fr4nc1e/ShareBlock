@@ -48,7 +48,8 @@ object ProfileModule {
             getOwnPostsProfileUseCase = GetOwnPostsProfileUseCase(repository),
             getLikedPostsProfileUseCase = GetLikedPostsProfileUseCase(repository),
             searchUseCase = SearchUseCase(repository),
-            followUserUseCase = FollowUserUseCase(repository)
+            followUserUseCase = FollowUserUseCase(repository),
+            commentsUseCase = GetCommentsUseCase(repository)
         )
     }
 

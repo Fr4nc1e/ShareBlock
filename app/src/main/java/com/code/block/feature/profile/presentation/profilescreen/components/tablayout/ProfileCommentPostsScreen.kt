@@ -3,21 +3,23 @@ package com.code.block.feature.profile.presentation.profilescreen.components.tab
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.code.block.core.domain.model.Post
+import com.code.block.core.domain.model.Comment
 import com.code.block.core.domain.state.PageState
-import com.code.block.core.presentation.components.PostCard
 import com.code.block.core.presentation.components.Screen
+import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.feature.post.presentation.postdetailscreen.components.CommentItem
 import com.code.block.feature.profile.presentation.profilescreen.ProfileEvent
 import com.code.block.feature.profile.presentation.profilescreen.ProfileViewModel
 
 @Composable
 fun ProfileCommentPostsScreen(
-    ownPagingState: PageState<Post>,
+    commentPagingState: PageState<Comment>,
     onNavigate: (String) -> Unit = {}
 ) {
     val profileViewModel = hiltViewModel<ProfileViewModel>()
@@ -25,27 +27,24 @@ fun ProfileCommentPostsScreen(
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
-        items(ownPagingState.items.size) { i ->
-            val post = ownPagingState.items[i]
-            if (i >= ownPagingState.items.size - 1 &&
-                !ownPagingState.endReached &&
-                !ownPagingState.isLoading
+        items(commentPagingState.items.size) { i ->
+            val comment = commentPagingState.items[i]
+            if (i >= commentPagingState.items.size - 1 &&
+                !commentPagingState.endReached &&
+                !commentPagingState.isLoading
             ) {
-                profileViewModel.loadOwnPosts()
+                profileViewModel.loadComments()
             }
-            PostCard(
-                onNavigate = onNavigate,
-                post = post,
-                onPostClick = { onNavigate(Screen.PostDetailScreen.route + "/${post.id}") },
+            CommentItem(
+                comment = comment,
+                modifier = Modifier.padding(SpaceSmall),
+                onUserClick = onNavigate,
                 onLikeClick = {
-                    profileViewModel.onEvent(ProfileEvent.OwnPageLikePost(postId = post.id))
+                    profileViewModel.onEvent(ProfileEvent.LikeComment(commentId = comment.id))
                 },
-                onCommentClick = {
-                    onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
-                },
-                onShareClick = {},
-                comment = null,
-                isProfileCommentScreen = true
+                onItemClick = {
+                    onNavigate(Screen.PostDetailScreen.route + "/${comment.postId}")
+                }
             )
         }
         item {

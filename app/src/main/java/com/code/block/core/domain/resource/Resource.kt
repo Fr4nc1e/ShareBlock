@@ -26,6 +26,7 @@ typealias PostDetailResource = Resource<Post>
 typealias ProfileOwnPostResource = Resource<List<Post>>
 typealias ProfileLikedPostResource = Resource<List<Post>>
 typealias CommentsForPostResource = Resource<List<Comment>>
+typealias CommentsForUserResource = Resource<List<Comment>>
 typealias CreateCommentResource = Resource<Unit>
 typealias LikeUpdateResource = Resource<Unit>
 typealias LikedUsersResource = Resource<List<UserItem>>

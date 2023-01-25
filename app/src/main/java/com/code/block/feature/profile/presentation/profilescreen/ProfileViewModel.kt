@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.code.block.core.domain.model.Comment
 import com.code.block.core.domain.model.Post
 import com.code.block.core.domain.resource.Resource
 import com.code.block.core.domain.state.PageState
@@ -42,6 +43,32 @@ class ProfileViewModel @Inject constructor(
 
     private val _likePagingState = mutableStateOf<PageState<Post>>(PageState())
     val likePagingState: State<PageState<Post>> = _likePagingState
+
+    private val _commentPagingState = mutableStateOf<PageState<Comment>>(PageState())
+    val commentPagingState: State<PageState<Comment>> = _commentPagingState
+
+    private val commentPaginator = PaginatorImpl(
+        onLoadUpdated = { isLoading ->
+            _commentPagingState.value = commentPagingState.value.copy(
+                isLoading = isLoading
+            )
+        },
+        onRequest = { page ->
+            profileUseCases.commentsUseCase(
+                page = page
+            )
+        },
+        onSuccess = { comments ->
+            _commentPagingState.value = commentPagingState.value.copy(
+                items = commentPagingState.value.items + comments,
+                endReached = comments.isEmpty(),
+                isLoading = false
+            )
+        },
+        onError = { uiText ->
+            _eventFlow.emit(UiEvent.SnackBarEvent(uiText))
+        }
+    )
 
     private val ownPaginator = PaginatorImpl(
         onLoadUpdated = { isLoading ->
@@ -96,6 +123,7 @@ class ProfileViewModel @Inject constructor(
     init {
         loadOwnPosts()
         loadLikedPosts()
+        loadComments()
     }
 
     fun loadOwnPosts() {
@@ -107,6 +135,12 @@ class ProfileViewModel @Inject constructor(
     fun loadLikedPosts() {
         viewModelScope.launch {
             likePaginator.loadNextItems()
+        }
+    }
+
+    fun loadComments() {
+        viewModelScope.launch {
+            commentPaginator.loadNextItems()
         }
     }
 
@@ -126,6 +160,60 @@ class ProfileViewModel @Inject constructor(
                 viewModelScope.launch {
                     likeLikeParent(
                         parentId = event.postId
+                    )
+                }
+            }
+            is ProfileEvent.LikeComment -> {
+                viewModelScope.launch {
+                    likeComment(event.commentId)
+                }
+            }
+            is ProfileEvent.FollowMotion -> {
+                followUser(event.userId)
+            }
+        }
+    }
+
+    private fun likeComment(
+        parentId: String
+    ) {
+        viewModelScope.launch {
+            val comments = commentPagingState.value.items
+            val comment = comments.find { it.id == parentId }
+            val currentlyLiked = comment?.isLiked == true
+            val currentLikeCount = comment?.likeCount ?: 0
+            val newComments = comments.map { comment1 ->
+                if (comment1.id == parentId) {
+                    comment1.copy(
+                        isLiked = !comment1.isLiked,
+                        likeCount = if (currentlyLiked) {
+                            comment1.likeCount - 1
+                        } else comment1.likeCount + 1
+                    )
+                } else comment1
+            }
+            _commentPagingState.value = _commentPagingState.value.copy(
+                items = newComments
+            )
+            when (
+                postUseCases.likeParentUseCase(
+                    parentId = parentId,
+                    parentType = ParentType.Comment.type,
+                    isLiked = currentlyLiked
+                )
+            ) {
+                is Resource.Success -> Unit
+                is Resource.Error -> {
+                    val oldComments = comments.map { comment2 ->
+                        if (comment2.id == parentId) {
+                            comment2.copy(
+                                isLiked = currentlyLiked,
+                                likeCount = currentLikeCount
+                            )
+                        } else comment2
+                    }
+                    _commentPagingState.value = _commentPagingState.value.copy(
+                        items = oldComments
                     )
                 }
             }
@@ -195,6 +283,33 @@ class ProfileViewModel @Inject constructor(
                         _state.value = _state.value.copy(isLoading = false)
                         _eventFlow.emit(
                             UiEvent.SnackBarEvent(this.uiText ?: UiText.unknownError())
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun followUser(userId: String) {
+        viewModelScope.launch {
+            val isFollowing = state.value.profile?.isFollowing == true
+
+            _state.value = _state.value.copy(
+                profile = state.value.profile?.copy(isFollowing = !isFollowing)
+            )
+
+            profileUseCases.followUserUseCase(
+                userId = userId,
+                isFollowing = isFollowing
+            ).apply {
+                when (this) {
+                    is Resource.Success -> Unit
+                    is Resource.Error -> {
+                        _state.value = _state.value.copy(
+                            profile = state.value.profile?.copy(isFollowing = isFollowing)
+                        )
+                        _eventFlow.emit(
+                            UiEvent.SnackBarEvent(uiText = this.uiText ?: UiText.unknownError())
                         )
                     }
                 }

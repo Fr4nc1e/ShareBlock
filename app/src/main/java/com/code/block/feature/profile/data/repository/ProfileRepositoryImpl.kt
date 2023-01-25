@@ -205,4 +205,34 @@ class ProfileRepositoryImpl(
             )
         }
     }
+
+    override suspend fun getComments(
+        page: Int,
+        pageSize: Int
+    ): CommentsForUserResource {
+        return try {
+            val response = profileApi.getComments(
+                page = page,
+                pageSize = pageSize
+            )
+            if (response.successful) {
+                Resource.Success(
+                    data = response.data?.map { it.toComment() } ?: emptyList(),
+                    uiText = null
+                )
+            } else {
+                response.message?.let { msg ->
+                    Resource.Error(uiText = UiText.CallResponseText(msg))
+                } ?: Resource.Error(uiText = UiText.StringResource(R.string.unknown_error))
+            }
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
+    }
 }

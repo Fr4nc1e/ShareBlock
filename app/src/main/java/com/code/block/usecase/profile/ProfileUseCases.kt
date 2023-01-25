@@ -6,5 +6,6 @@ data class ProfileUseCases(
     val getOwnPostsProfileUseCase: GetOwnPostsProfileUseCase,
     val getLikedPostsProfileUseCase: GetLikedPostsProfileUseCase,
     val searchUseCase: SearchUseCase,
-    val followUserUseCase: FollowUserUseCase
+    val followUserUseCase: FollowUserUseCase,
+    val commentsUseCase: GetCommentsUseCase
 )

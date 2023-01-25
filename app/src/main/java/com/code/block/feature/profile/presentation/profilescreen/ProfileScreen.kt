@@ -40,6 +40,7 @@ fun ProfileScreen(
 ) {
     val ownPagingState = viewModel.ownPagingState.value
     val likePagingState = viewModel.likePagingState.value
+    val commentPagingState = viewModel.commentPagingState.value
     val pagerState = rememberPagerState(
         initialPage = 0,
         pageCount = 3
@@ -103,7 +104,9 @@ fun ProfileScreen(
                         isOwnProfile = profile.isOwnProfile,
                         isFollowing = profile.isFollowing,
                         modifier = Modifier,
-                        onFollowClick = {},
+                        onFollowClick = {
+                            viewModel.onEvent(ProfileEvent.FollowMotion(profile.userId))
+                        },
                         onFollowingClick = {},
                         onFollowerClick = {},
                         onEditClick = {
@@ -119,6 +122,7 @@ fun ProfileScreen(
                         pagerState = pagerState,
                         ownPagingState = ownPagingState,
                         likedPagingState = likePagingState,
+                        commentPagingState = commentPagingState,
                         onNavigate = onNavigate
                     )
                 }

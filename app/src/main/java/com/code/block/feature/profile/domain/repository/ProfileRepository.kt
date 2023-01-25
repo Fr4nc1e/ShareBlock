@@ -25,4 +25,8 @@ interface ProfileRepository {
     suspend fun searchUser(query: String): SearchResource
     suspend fun followUser(userId: String): FollowUpdateResource
     suspend fun unfollowUser(userId: String): FollowUpdateResource
+    suspend fun getComments(
+        page: Int,
+        pageSize: Int = Constants.PAGE_SIZE_POSTS
+    ): CommentsForUserResource
 }

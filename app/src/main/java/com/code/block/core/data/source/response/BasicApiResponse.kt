@@ -18,6 +18,7 @@ typealias UpdateProfileResponse = BasicApiResponse<Unit>
 typealias FollowUpdateResponse = BasicApiResponse<Unit>
 typealias PostDetailResponse = BasicApiResponse<PostDto>
 typealias CommentsForPostResponse = BasicApiResponse<List<CommentDto>>
+typealias CommentsForUserResponse = BasicApiResponse<List<CommentDto>>
 typealias CreateCommentResponse = BasicApiResponse<Unit>
 typealias LikeUpdateResponse = BasicApiResponse<Unit>
 typealias LikedUsersResponse = BasicApiResponse<List<UserItemDto>>

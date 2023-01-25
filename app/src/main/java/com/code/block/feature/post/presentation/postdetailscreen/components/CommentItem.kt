@@ -37,10 +37,11 @@ fun CommentItem(
     modifier: Modifier = Modifier,
     comment: Comment,
     onLikeClick: (Boolean) -> Unit = {},
-    onUserClick: (String) -> Unit = {}
+    onUserClick: (String) -> Unit = {},
+    onItemClick: () -> Unit = {}
 ) {
     Card(
-        modifier = modifier,
+        modifier = modifier.clickable { onItemClick() },
         elevation = 5.dp,
         shape = RoundedCornerShape(10.dp),
         backgroundColor = MaterialTheme.colors.surface

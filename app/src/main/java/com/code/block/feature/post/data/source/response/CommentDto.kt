@@ -7,6 +7,7 @@ import java.util.*
 data class CommentDto(
     val id: String,
     val userId: String,
+    val postId: String,
     val username: String,
     val profilePictureUrl: String,
     val timestamp: Long,
@@ -18,6 +19,7 @@ data class CommentDto(
         return Comment(
             id = id,
             userId = userId,
+            postId = postId,
             username = username,
             profilePictureUrl = profilePictureUrl,
             formattedTime = SimpleDateFormat(

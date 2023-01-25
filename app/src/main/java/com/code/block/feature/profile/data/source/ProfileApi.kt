@@ -1,6 +1,7 @@
 package com.code.block.feature.profile.data.source
 
 import com.code.block.core.data.source.response.BasicApiResponse
+import com.code.block.core.data.source.response.CommentsForUserResponse
 import com.code.block.core.data.source.response.FollowUpdateResponse
 import com.code.block.core.data.source.response.UpdateProfileResponse
 import com.code.block.feature.profile.data.source.request.FollowUpdateRequest
@@ -34,10 +35,16 @@ interface ProfileApi {
         @Body request: FollowUpdateRequest
     ): FollowUpdateResponse
 
-    @DELETE("/api/following/unfollow")
+    @HTTP(method = "DELETE", path = "/api/following/unfollow", hasBody = true)
     suspend fun unfollowUser(
         @Body request: FollowUpdateRequest
     ): FollowUpdateResponse
+
+    @GET("api/comment/user/get")
+    suspend fun getComments(
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int
+    ): CommentsForUserResponse
 
     companion object {
         const val BASE_URL = "http://172.28.211.51:8081/"
