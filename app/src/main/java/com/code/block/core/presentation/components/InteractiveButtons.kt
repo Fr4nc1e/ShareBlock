@@ -27,6 +27,7 @@ fun InteractiveButtons(
     modifier: Modifier = Modifier,
     onNavigate: (String) -> Unit = {},
     post: Post,
+    isLiked: Boolean,
     onLikeClick: () -> Unit = {},
     onCommentClick: () -> Unit = {},
     onShareClick: () -> Unit = {}
@@ -47,12 +48,12 @@ fun InteractiveButtons(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Favorite,
-                    contentDescription = if (post.isLiked) {
+                    contentDescription = if (isLiked) {
                         stringResource(R.string.unlike)
                     } else {
                         stringResource(R.string.like)
                     },
-                    tint = if (post.isLiked) {
+                    tint = if (isLiked) {
                         MaterialTheme.colors.primary
                     } else {
                         TextWhite

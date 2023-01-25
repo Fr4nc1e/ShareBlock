@@ -29,6 +29,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.flow.collectLatest
 
+@Suppress("OPT_IN_IS_NOT_ENABLED")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun ProfileScreen(
@@ -54,8 +55,6 @@ fun ProfileScreen(
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = it.uiText.asString(context)
                     )
-                }
-                UiEvent.OnLikeParent -> {
                 }
                 else -> Unit
             }
@@ -89,9 +88,7 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(ProfilePictureSizeLarge / 2f - SpaceSmall))
 
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
+            Column(modifier = Modifier.fillMaxSize()) {
                 state.profile?.let { profile ->
                     ProfileHeaderSection(
                         user = User(
@@ -115,12 +112,8 @@ fun ProfileScreen(
                     )
                 }
 
-                Column(
-                    modifier = Modifier
-                        .height(screenHeight)
-                ) {
+                Column(modifier = Modifier.height(screenHeight)) {
                     Tabs(pagerState = pagerState)
-
                     TabsContent(
                         scrollState = scrollState,
                         pagerState = pagerState,

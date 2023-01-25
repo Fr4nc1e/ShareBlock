@@ -4,10 +4,12 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.cachedIn
-import com.code.block.core.domain.resource.Resource
+import com.code.block.core.domain.model.Post
+import com.code.block.core.domain.state.PageState
 import com.code.block.core.domain.type.ParentType
 import com.code.block.core.util.ui.UiEvent
+import com.code.block.core.util.ui.liker.Liker
+import com.code.block.core.util.ui.paging.PaginatorImpl
 import com.code.block.usecase.post.PostUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -17,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val postUseCases: PostUseCases
+    private val postUseCases: PostUseCases,
+    private val liker: Liker
 ) : ViewModel() {
     private val _state = mutableStateOf(HomeState())
     val state: State<HomeState> = _state
@@ -25,64 +28,87 @@ class HomeViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    val posts = postUseCases.getPostsForFollowUseCase()
-        .cachedIn(viewModelScope)
+    private val _pagingState = mutableStateOf<PageState<Post>>(PageState())
+    val pagingState: State<PageState<Post>> = _pagingState
 
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean>
         get() = _isRefreshing.asStateFlow()
 
+    private val paginator = PaginatorImpl(
+        onLoadUpdated = { isLoading ->
+            _pagingState.value = _pagingState.value.copy(
+                isLoading = isLoading
+            )
+        },
+        onRequest = { page ->
+            postUseCases.getPostsForFollowUseCase(page)
+        },
+        onSuccess = { posts ->
+            _pagingState.value = _pagingState.value.copy(
+                items = pagingState.value.items + posts,
+                endReached = posts.isEmpty(),
+                isLoading = false
+            )
+        },
+        onError = { uiText ->
+            _eventFlow.emit(UiEvent.SnackBarEvent(uiText = uiText))
+        }
+    )
+
+    init {
+        loadNextPosts()
+    }
+
     fun onEvent(event: HomeEvent) {
         when (event) {
-            HomeEvent.LoadPage -> {
-                _state.value = _state.value.copy(
-                    isLoadingFirstTime = false,
-                    isLoadingNewPosts = false
-                )
-            }
-            HomeEvent.LoadPosts -> {
-                _state.value = _state.value.copy(
-                    isLoadingNewPosts = true
-                )
+            is HomeEvent.LikedParent -> {
+                likeParent(parentId = event.postId)
             }
             HomeEvent.Refresh -> {
                 refresh()
             }
-            is HomeEvent.LikedParent -> {
-                likeParent(
-                    parentId = event.postId,
-                    isLiked = true
-                )
-            }
+        }
+    }
+
+    fun loadNextPosts() {
+        viewModelScope.launch {
+            paginator.loadNextItems()
         }
     }
 
     private fun likeParent(
-        parentId: String,
-        isLiked: Boolean
+        parentId: String
     ) {
         viewModelScope.launch {
-            val result = postUseCases.likeParentUseCase(
+            liker.clickLike(
+                posts = pagingState.value.items,
                 parentId = parentId,
-                parentType = ParentType.Post.type,
-                isLiked = isLiked
-            )
-            when (result) {
-                is Resource.Success -> {
-                    _eventFlow.emit(UiEvent.OnLikeParent)
+                onRequest = { isLiked ->
+                    postUseCases.likeParentUseCase(
+                        parentId = parentId,
+                        parentType = ParentType.Post.type,
+                        isLiked = isLiked
+                    )
+                },
+                onStateUpdate = { posts ->
+                    _pagingState.value = _pagingState.value.copy(
+                        items = posts
+                    )
                 }
-                is Resource.Error -> {}
-            }
+            )
         }
     }
 
-    fun refresh(
-        onRefresh: () -> Unit = {}
-    ) {
+    private fun refresh() {
         viewModelScope.launch {
             _isRefreshing.emit(true)
             delay(500L)
-            onRefresh()
+            paginator.page = 0
+            _pagingState.value = _pagingState.value.copy(
+                items = emptyList()
+            )
+            loadNextPosts()
             _isRefreshing.emit(false)
         }
     }

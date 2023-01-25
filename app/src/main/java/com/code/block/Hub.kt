@@ -7,7 +7,6 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,7 +14,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardScaffold
 import com.code.block.feature.activity.presentation.activityscreen.ActivityScreen
@@ -25,7 +23,6 @@ import com.code.block.feature.auth.presentation.splashscreen.SplashScreen
 import com.code.block.feature.chat.presentation.chatscreen.ChatScreen
 import com.code.block.feature.post.presentation.createpostscreen.CreatePostScreen
 import com.code.block.feature.post.presentation.homescreen.HomeScreen
-import com.code.block.feature.post.presentation.homescreen.HomeViewModel
 import com.code.block.feature.post.presentation.personlistscreen.PersonListScreen
 import com.code.block.feature.post.presentation.postdetailscreen.PostDetailScreen
 import com.code.block.feature.profile.presentation.editprofilescreen.EditProfileScreen
@@ -38,8 +35,6 @@ fun Hub() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val scaffoldState = rememberScaffoldState()
     val lazyListState = rememberLazyListState()
-    val homeViewModel = hiltViewModel<HomeViewModel>()
-    val posts = homeViewModel.posts.collectAsLazyPagingItems()
 
     StandardScaffold(
         navController = navController,
@@ -86,9 +81,8 @@ fun Hub() {
             composable(Screen.HomeScreen.route) {
                 HomeScreen(
                     onNavigate = navController::navigate,
-                    scaffoldState = scaffoldState,
                     lazyListState = lazyListState,
-                    posts = posts
+                    scaffoldState = scaffoldState
                 )
             }
 
@@ -145,18 +139,26 @@ fun Hub() {
             }
 
             composable(
-                route = Screen.PostDetailScreen.route + "/{postId}",
+                route = Screen.PostDetailScreen.route + "/{postId}?shouldShowKeyboard={shouldShowKeyboard}",
                 arguments = listOf(
                     navArgument(
                         name = "postId"
                     ) {
                         type = NavType.StringType
+                    },
+                    navArgument(
+                        name = "shouldShowKeyboard"
+                    ) {
+                        type = NavType.BoolType
+                        defaultValue = false
                     }
                 )
-            ) {
+            ) { it1 ->
+                val shouldShowKeyboard = it1.arguments?.getBoolean("showShowKeyboard") ?: false
                 PostDetailScreen(
                     onNavigate = navController::navigate,
-                    scaffoldState = scaffoldState
+                    scaffoldState = scaffoldState,
+                    shouldShowKeyboard = shouldShowKeyboard
                 )
             }
 

@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
@@ -37,6 +39,7 @@ fun StandardTextField(
     singleLine: Boolean = true,
     maxLines: Int = 1,
     focusManager: FocusManager = LocalFocusManager.current,
+    focusRequester: FocusRequester = FocusRequester(),
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
@@ -119,6 +122,7 @@ fun StandardTextField(
                 icon
             } else trailingIcon,
             modifier = modifier.fillMaxWidth()
+                .focusRequester(focusRequester = focusRequester)
         )
 
         if (isRegisterPage) {

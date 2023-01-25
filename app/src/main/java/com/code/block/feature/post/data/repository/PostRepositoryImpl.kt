@@ -3,26 +3,18 @@ package com.code.block.feature.post.data.repository
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import com.code.block.R
-import com.code.block.core.domain.model.Post
 import com.code.block.core.domain.resource.* // ktlint-disable no-wildcard-imports
 import com.code.block.core.domain.util.* // ktlint-disable no-wildcard-imports
-import com.code.block.core.util.Constants
 import com.code.block.core.util.FileNameReader.getFileName
 import com.code.block.core.util.ui.UiText
-import com.code.block.feature.post.data.model.Source
 import com.code.block.feature.post.data.source.PostApi
-import com.code.block.feature.post.data.source.paging.PostSource
 import com.code.block.feature.post.data.source.request.CreateCommentRequest
 import com.code.block.feature.post.data.source.request.CreatePostRequest
 import com.code.block.feature.post.data.source.request.LikeUpdateRequest
 import com.code.block.feature.post.domain.repository.PostRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -38,15 +30,26 @@ class PostRepositoryImpl(
     private val appContext: Context
 ) : PostRepository {
 
-    override val posts: Flow<PagingData<Post>>
-        get() = Pager(
-            config = PagingConfig(
-                pageSize = Constants.PAGE_SIZE_POSTS
-            ),
-            pagingSourceFactory = {
-                PostSource(api, Source.PostsForFollow)
-            }
-        ).flow
+    override suspend fun getHomePosts(
+        page: Int,
+        pageSize: Int
+    ): HomePostsResource {
+        return try {
+            val posts = api.getHomePosts(
+                page = page,
+                pageSize = pageSize
+            ).map { it.toPost() }
+            Resource.Success(data = posts, uiText = null)
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
+    }
 
     @SuppressLint("Recycle")
     override suspend fun createPost(

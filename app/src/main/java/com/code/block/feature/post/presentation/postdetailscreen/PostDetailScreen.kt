@@ -13,10 +13,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -36,6 +38,7 @@ import com.code.block.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.core.util.KeyboardShower.showKeyboard
 import com.code.block.core.util.VideoPlayer
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.asString
@@ -46,11 +49,13 @@ import kotlinx.coroutines.flow.collectLatest
 fun PostDetailScreen(
     scaffoldState: ScaffoldState,
     onNavigate: (String) -> Unit = {},
+    shouldShowKeyboard: Boolean = false,
     viewModel: PostDetailViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
     val commentTextFieldState = viewModel.commentTextState.value
     val context = LocalContext.current
+    val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest {
@@ -62,6 +67,10 @@ fun PostDetailScreen(
                 }
                 else -> Unit
             }
+        }
+        if (shouldShowKeyboard) {
+            context.showKeyboard()
+            focusRequester.requestFocus()
         }
     }
 
@@ -145,10 +154,16 @@ fun PostDetailScreen(
 
                             InteractiveButtons(
                                 post = it,
+                                isLiked = state.post.isLiked,
                                 onNavigate = onNavigate,
                                 onLikeClick = {
                                     viewModel.onEvent(PostDetailEvent.LikePost)
-                                }
+                                },
+                                onCommentClick = {
+                                    context.showKeyboard()
+                                    focusRequester.requestFocus()
+                                },
+                                onShareClick = {}
                             )
 
                             Spacer(modifier = Modifier.height(SpaceSmall))
@@ -196,6 +211,7 @@ fun PostDetailScreen(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Done
                 ),
+                focusRequester = focusRequester,
                 trailingIcon = {
                     IconButton(
                         onClick = {

@@ -40,6 +40,10 @@ fun ProfileCommentPostsScreen(
                 onLikeClick = {
                     profileViewModel.onEvent(ProfileEvent.OwnPageLikePost(postId = post.id))
                 },
+                onCommentClick = {
+                    onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
+                },
+                onShareClick = {},
                 comment = null,
                 isProfileCommentScreen = true
             )

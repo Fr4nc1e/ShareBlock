@@ -109,6 +109,7 @@ fun PostCard(
 
                 InteractiveButtons(
                     post = post,
+                    isLiked = post.isLiked,
                     onNavigate = onNavigate,
                     onLikeClick = onLikeClick,
                     onCommentClick = onCommentClick,

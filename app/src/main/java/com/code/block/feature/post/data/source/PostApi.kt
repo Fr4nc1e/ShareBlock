@@ -16,7 +16,7 @@ import retrofit2.http.Query
 interface PostApi {
 
     @GET("/api/post/follow/get")
-    suspend fun getPostForFollows(
+    suspend fun getHomePosts(
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int
     ): List<PostDto>

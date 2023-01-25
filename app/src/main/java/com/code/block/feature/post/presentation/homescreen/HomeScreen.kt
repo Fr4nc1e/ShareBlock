@@ -5,64 +5,62 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.* // ktlint-disable no-wildcard-imports
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.LoadState
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.items
 import com.code.block.R
-import com.code.block.core.domain.model.Post
 import com.code.block.core.presentation.components.PostCard
 import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTopBar
-import com.code.block.core.presentation.ui.theme.IconSizeLarge
-import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.util.ui.UiEvent
+import com.code.block.core.util.ui.asString
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
-@Suppress("OPT_IN_IS_NOT_ENABLED")
 @OptIn(ExperimentalMaterialApi::class)
+@Suppress("OPT_IN_IS_NOT_ENABLED")
 @Composable
 fun HomeScreen(
-    scaffoldState: ScaffoldState,
     onNavigate: (String) -> Unit = {},
+    scaffoldState: ScaffoldState,
     lazyListState: LazyListState,
-    posts: LazyPagingItems<Post>,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state.value
-    val scope = rememberCoroutineScope()
+    val pagingState = viewModel.pagingState.value
+    val context = LocalContext.current
     val refreshing by viewModel.isRefreshing.collectAsState()
     val pullRefreshState = rememberPullRefreshState(
         refreshing = refreshing,
         onRefresh = {
-            viewModel.refresh {
-                posts.refresh()
-            }
+            viewModel.onEvent(HomeEvent.Refresh)
         }
     )
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
-                UiEvent.OnLikeParent -> viewModel.onEvent(HomeEvent.Refresh)
+                is UiEvent.SnackBarEvent -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.uiText.asString(context)
+                    )
+                }
                 else -> Unit
             }
         }
     }
 
     Box(
-        Modifier.pullRefresh(pullRefreshState)
+        Modifier.fillMaxSize()
+            .pullRefresh(state = pullRefreshState)
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
@@ -92,99 +90,46 @@ fun HomeScreen(
             )
 
             Box(modifier = Modifier.fillMaxSize()) {
-                if (state.isLoadingFirstTime) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize(),
                     state = lazyListState
                 ) {
-                    items(posts) { post ->
+                    items(pagingState.items.size) { i ->
+                        val post = pagingState.items[i]
+                        if (
+                            i >= pagingState.items.size - 1 &&
+                            !pagingState.endReached &&
+                            !pagingState.isLoading
+                        ) {
+                            viewModel.loadNextPosts()
+                        }
                         PostCard(
                             onNavigate = onNavigate,
-                            post = Post(
-                                id = post?.id ?: "",
-                                userId = post?.userId ?: "",
-                                username = post?.username ?: "",
-                                contentUrl = post?.contentUrl ?: "",
-                                profilePictureUrl = post?.profilePictureUrl ?: "",
-                                description = post?.description ?: "",
-                                likeCount = post?.likeCount ?: 0,
-                                commentCount = post?.commentCount ?: 0,
-                                timestamp = (post?.timestamp ?: 0) as String,
-                                isLiked = post?.isLiked ?: true,
-                                isOwnPost = post?.isOwnPost ?: true
-                            ),
+                            post = post,
                             comment = null,
                             onPostClick = {
-                                onNavigate(Screen.PostDetailScreen.route + "/${post?.id}")
+                                onNavigate(Screen.PostDetailScreen.route + "/${post.id}")
                             },
                             onLikeClick = {
-                                viewModel.onEvent(
-                                    HomeEvent.LikedParent(
-                                        post?.id ?: ""
-                                    )
-                                )
-                            }
+                                viewModel.onEvent(HomeEvent.LikedParent(post.id))
+                            },
+                            onCommentClick = {
+                                onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
+                            },
+                            onShareClick = {}
                         )
                     }
 
                     item {
-                        if (state.isLoadingNewPosts) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.align(Alignment.BottomCenter)
-                            )
-                        }
-                    }
-
-                    posts.apply {
-                        when {
-                            loadState.refresh !is LoadState.Loading -> {
-                                viewModel.onEvent(HomeEvent.LoadPage)
-                            }
-                            loadState.append is LoadState.Loading -> {
-                                viewModel.onEvent(HomeEvent.LoadPosts)
-                            }
-                            loadState.append is LoadState.NotLoading -> {
-                                viewModel.onEvent(HomeEvent.LoadPage)
-                            }
-                            loadState.append is LoadState.Error -> {
-                                scope.launch {
-                                    scaffoldState.snackbarHostState.showSnackbar(
-                                        message = "Error"
-                                    )
-                                }
-                            }
-                        }
+                        Spacer(modifier = Modifier.height(90.dp))
                     }
                 }
 
-                if (remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }.value > 0) {
-                    FloatingActionButton(
-                        onClick = {
-                            scope.launch {
-                                lazyListState.animateScrollToItem(index = 0)
-                            }
-                        },
-                        backgroundColor = MaterialTheme.colors.surface,
-                        contentColor = MaterialTheme.colors.onSurface,
-                        modifier = Modifier
-                            .size(IconSizeLarge)
-                            .align(Alignment.BottomEnd)
-                            .padding(
-                                end = SpaceSmall,
-                                bottom = SpaceSmall
-                            )
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowUpward,
-                            contentDescription = "Back to top."
-                        )
-                    }
+                if (pagingState.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Center)
+                    )
                 }
             }
         }
