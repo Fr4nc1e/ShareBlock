@@ -1,4 +1,4 @@
-package com.code.block.usecase.post
+package com.code.block.usecase.post.components
 
 import android.net.Uri
 import com.code.block.R

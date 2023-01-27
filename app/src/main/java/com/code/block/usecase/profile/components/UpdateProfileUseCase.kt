@@ -1,4 +1,4 @@
-package com.code.block.usecase.profile
+package com.code.block.usecase.profile.components
 
 import android.net.Uri
 import com.code.block.R

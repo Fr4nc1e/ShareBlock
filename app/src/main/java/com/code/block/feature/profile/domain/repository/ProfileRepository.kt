@@ -29,4 +29,5 @@ interface ProfileRepository {
         page: Int,
         pageSize: Int = Constants.PAGE_SIZE_POSTS
     ): CommentsForUserResource
+    fun logout()
 }

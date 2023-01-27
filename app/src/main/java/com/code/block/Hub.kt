@@ -109,6 +109,10 @@ fun Hub() {
                 ProfileScreen(
                     userId = backStackEntry.arguments?.getString("userId"),
                     onNavigate = navController::navigate,
+                    onLogout = {
+                        navController.popBackStack()
+                        navController.navigate(route = Screen.LoginScreen.route)
+                    },
                     scaffoldState = scaffoldState
                 )
             }

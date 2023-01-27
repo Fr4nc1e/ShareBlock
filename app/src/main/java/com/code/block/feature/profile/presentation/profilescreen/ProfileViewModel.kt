@@ -171,6 +171,24 @@ class ProfileViewModel @Inject constructor(
             is ProfileEvent.FollowMotion -> {
                 followUser(event.userId)
             }
+            ProfileEvent.DismissLogoutDialog -> {
+                _state.value = _state.value.copy(
+                    isLogoutDialogVisible = false
+                )
+            }
+            ProfileEvent.Logout -> {
+                profileUseCases.logoutUseCase()
+            }
+            ProfileEvent.ShowLogoutDialog -> {
+                _state.value = _state.value.copy(
+                    isLogoutDialogVisible = true
+                )
+            }
+            ProfileEvent.ShowMenu -> {
+                _state.value = _state.value.copy(
+                    showMenu = !state.value.showMenu
+                )
+            }
         }
     }
 

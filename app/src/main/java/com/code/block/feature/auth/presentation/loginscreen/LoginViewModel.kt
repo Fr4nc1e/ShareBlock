@@ -81,9 +81,7 @@ class LoginViewModel @Inject constructor(
                 }
                 when (loginResult.result) {
                     is Resource.Success -> {
-                        _eventFlow.emit(
-                            UiEvent.OnLogin
-                        )
+                        _eventFlow.emit(UiEvent.OnLogin)
                         initial()
                     }
                     is Resource.Error -> {

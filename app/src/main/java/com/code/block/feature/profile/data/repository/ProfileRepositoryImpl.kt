@@ -1,9 +1,11 @@
 package com.code.block.feature.profile.data.repository
 
+import android.content.SharedPreferences
 import android.net.Uri
 import androidx.core.net.toFile
 import com.code.block.R
 import com.code.block.core.domain.resource.* // ktlint-disable no-wildcard-imports
+import com.code.block.core.util.Constants
 import com.code.block.core.util.ui.UiText
 import com.code.block.feature.post.data.source.PostApi
 import com.code.block.feature.profile.data.source.ProfileApi
@@ -19,7 +21,8 @@ import java.io.IOException
 class ProfileRepositoryImpl(
     private val profileApi: ProfileApi,
     private val postApi: PostApi,
-    private val gson: Gson
+    private val gson: Gson,
+    private val sharedPreferences: SharedPreferences
 ) : ProfileRepository {
     override suspend fun getProfile(userId: String): ProfileResource {
         return try {
@@ -234,5 +237,11 @@ class ProfileRepositoryImpl(
                 uiText = UiText.StringResource(R.string.fail_to_connect)
             )
         }
+    }
+
+    override fun logout() {
+        sharedPreferences.edit()
+            .remove(Constants.KEY_JWT_TOKEN)
+            .apply()
     }
 }

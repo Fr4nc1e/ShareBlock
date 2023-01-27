@@ -1,4 +1,4 @@
-package com.code.block.usecase.profile
+package com.code.block.usecase.profile.components
 
 import com.code.block.core.domain.resource.FollowUpdateResource
 import com.code.block.feature.profile.domain.repository.ProfileRepository

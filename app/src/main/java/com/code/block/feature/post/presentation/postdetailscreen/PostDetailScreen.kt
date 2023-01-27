@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -68,6 +69,9 @@ fun PostDetailScreen(
                 else -> Unit
             }
         }
+    }
+
+    LaunchedEffect(key1 = true) {
         if (shouldShowKeyboard) {
             context.showKeyboard()
             focusRequester.requestFocus()
@@ -204,6 +208,7 @@ fun PostDetailScreen(
                     viewModel.onEvent(PostDetailEvent.EnteredComment(it))
                 },
                 modifier = Modifier
+                    .focusRequester(focusRequester = focusRequester)
                     .clip(MaterialTheme.shapes.medium)
                     .background(color = MaterialTheme.colors.background),
                 hint = stringResource(id = R.string.comment),
@@ -211,7 +216,6 @@ fun PostDetailScreen(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Done
                 ),
-                focusRequester = focusRequester,
                 trailingIcon = {
                     IconButton(
                         onClick = {

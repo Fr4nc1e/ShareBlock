@@ -1,4 +1,4 @@
-package com.code.block.usecase.post
+package com.code.block.usecase.post.components
 
 import com.code.block.core.domain.resource.HomePostsResource
 import com.code.block.core.util.Constants

@@ -10,7 +10,7 @@ import com.code.block.core.usecase.GetOwnUserIdUseCase
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
 import com.code.block.usecase.post.PostUseCases
-import com.code.block.usecase.profile.FollowUserUseCase
+import com.code.block.usecase.profile.components.FollowUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

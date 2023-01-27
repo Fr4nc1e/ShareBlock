@@ -6,4 +6,8 @@ sealed class ProfileEvent {
     data class LikePageLikePost(val postId: String) : ProfileEvent()
     data class LikeComment(val commentId: String) : ProfileEvent()
     data class FollowMotion(val userId: String) : ProfileEvent()
+    object ShowMenu : ProfileEvent()
+    object DismissLogoutDialog : ProfileEvent()
+    object ShowLogoutDialog : ProfileEvent()
+    object Logout : ProfileEvent()
 }

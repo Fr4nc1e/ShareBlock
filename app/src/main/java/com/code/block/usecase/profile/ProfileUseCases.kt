@@ -1,5 +1,7 @@
 package com.code.block.usecase.profile
 
+import com.code.block.usecase.profile.components.* // ktlint-disable no-wildcard-imports
+
 data class ProfileUseCases(
     val getProfileUseCase: GetProfileUseCase,
     val updateProfileUseCase: UpdateProfileUseCase,
@@ -7,5 +9,6 @@ data class ProfileUseCases(
     val getLikedPostsProfileUseCase: GetLikedPostsProfileUseCase,
     val searchUseCase: SearchUseCase,
     val followUserUseCase: FollowUserUseCase,
-    val commentsUseCase: GetCommentsUseCase
+    val commentsUseCase: GetCommentsUseCase,
+    val logoutUseCase: LogoutUseCase
 )

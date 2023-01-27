@@ -1,23 +1,29 @@
 package com.code.block.feature.profile.presentation.profilescreen
 
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.material.* // ktlint-disable no-wildcard-imports
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.runtime.* // ktlint-disable no-wildcard-imports
+import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.R
 import com.code.block.core.domain.model.User
 import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeLarge
+import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.asString
@@ -30,12 +36,13 @@ import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.flow.collectLatest
 
 @Suppress("OPT_IN_IS_NOT_ENABLED")
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun ProfileScreen(
     userId: String? = null,
     onNavigate: (String) -> Unit = {},
     scaffoldState: ScaffoldState,
+    onLogout: () -> Unit = {},
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val ownPagingState = viewModel.ownPagingState.value
@@ -78,6 +85,24 @@ fun ProfileScreen(
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colors.onBackground
                     )
+                },
+                navActions = {
+                    IconButton(onClick = { viewModel.onEvent(ProfileEvent.ShowMenu) }) {
+                        Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
+                    }
+                    DropdownMenu(
+                        expanded = state.showMenu,
+                        onDismissRequest = { viewModel.onEvent(ProfileEvent.ShowMenu) }
+                    ) {
+                        DropdownMenuItem(
+                            onClick = { viewModel.onEvent(ProfileEvent.ShowLogoutDialog) }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Logout,
+                                contentDescription = null
+                            )
+                        }
+                    }
                 },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -124,6 +149,48 @@ fun ProfileScreen(
                         likedPagingState = likePagingState,
                         commentPagingState = commentPagingState,
                         onNavigate = onNavigate
+                    )
+                }
+            }
+        }
+    }
+
+    if (state.isLogoutDialogVisible) {
+        Dialog(
+            onDismissRequest = {
+                viewModel.onEvent(ProfileEvent.DismissLogoutDialog)
+            }
+        ) {
+            Column(
+                modifier = Modifier.background(
+                    color = MaterialTheme.colors.surface,
+                    shape = MaterialTheme.shapes.medium
+                ).padding(SpaceMedium)
+            ) {
+                Text(text = stringResource(id = R.string.logout))
+                Spacer(modifier = Modifier.height(SpaceMedium))
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier.align(End)
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.no).uppercase(),
+                        color = MaterialTheme.colors.onBackground,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.clickable {
+                            viewModel.onEvent(ProfileEvent.DismissLogoutDialog)
+                        }
+                    )
+                    Spacer(modifier = Modifier.width(SpaceMedium))
+                    Text(
+                        text = stringResource(id = R.string.yes).uppercase(),
+                        color = MaterialTheme.colors.primary,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.clickable {
+                            viewModel.onEvent(ProfileEvent.Logout)
+                            viewModel.onEvent(ProfileEvent.DismissLogoutDialog)
+                            onLogout()
+                        }
                     )
                 }
             }

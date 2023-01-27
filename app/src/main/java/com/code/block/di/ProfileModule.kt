@@ -1,10 +1,12 @@
 package com.code.block.di
 
+import android.content.SharedPreferences
 import com.code.block.feature.post.data.source.PostApi
 import com.code.block.feature.profile.data.repository.ProfileRepositoryImpl
 import com.code.block.feature.profile.data.source.ProfileApi
 import com.code.block.feature.profile.domain.repository.ProfileRepository
 import com.code.block.usecase.profile.* // ktlint-disable no-wildcard-imports
+import com.code.block.usecase.profile.components.* // ktlint-disable no-wildcard-imports
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -31,11 +33,17 @@ object ProfileModule {
 
     @Provides
     @Singleton
-    fun provideProfileRepository(profileApi: ProfileApi, postApi: PostApi, gson: Gson): ProfileRepository {
+    fun provideProfileRepository(
+        profileApi: ProfileApi,
+        postApi: PostApi,
+        gson: Gson,
+        sharedPreferences: SharedPreferences
+    ): ProfileRepository {
         return ProfileRepositoryImpl(
             profileApi = profileApi,
             postApi = postApi,
-            gson = gson
+            gson = gson,
+            sharedPreferences = sharedPreferences
         )
     }
 
@@ -49,7 +57,8 @@ object ProfileModule {
             getLikedPostsProfileUseCase = GetLikedPostsProfileUseCase(repository),
             searchUseCase = SearchUseCase(repository),
             followUserUseCase = FollowUserUseCase(repository),
-            commentsUseCase = GetCommentsUseCase(repository)
+            commentsUseCase = GetCommentsUseCase(repository),
+            logoutUseCase = LogoutUseCase(repository)
         )
     }
 

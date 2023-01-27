@@ -90,4 +90,7 @@
     <string name="error_invalid_github_url">Wrong GitHub Url</string>
     <string name="comment_created">Create comment successfully.</string>
     <string name="send_comment">Send comment</string>
+    <string name="logout">Do you want to logout?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 </resources>
