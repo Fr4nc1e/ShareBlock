@@ -6,12 +6,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.core.domain.model.Post
 import com.code.block.core.domain.state.PageState
 import com.code.block.core.presentation.components.PostCard
 import com.code.block.core.presentation.components.Screen
+import com.code.block.core.util.ShareManager.sharePost
 import com.code.block.feature.profile.presentation.profilescreen.ProfileEvent
 import com.code.block.feature.profile.presentation.profilescreen.ProfileViewModel
 
@@ -21,6 +23,7 @@ fun ProfileLikedPostsScreen(
     onNavigate: (String) -> Unit = {}
 ) {
     val profileViewModel = hiltViewModel<ProfileViewModel>()
+    val context = LocalContext.current
 
     LazyColumn(
         modifier = Modifier.fillMaxSize()
@@ -44,7 +47,9 @@ fun ProfileLikedPostsScreen(
                 onCommentClick = {
                     onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
                 },
-                onShareClick = {}
+                onShareClick = {
+                    context.sharePost(postId = post.id)
+                }
             )
         }
         item {

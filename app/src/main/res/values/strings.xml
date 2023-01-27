@@ -93,4 +93,5 @@
     <string name="logout">Do you want to logout?</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="share_intent">Hey! Check this out!</string>
 </resources>

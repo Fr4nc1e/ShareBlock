@@ -40,6 +40,7 @@ import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.util.KeyboardShower.showKeyboard
+import com.code.block.core.util.ShareManager.sharePost
 import com.code.block.core.util.VideoPlayer
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.asString
@@ -167,7 +168,9 @@ fun PostDetailScreen(
                                     context.showKeyboard()
                                     focusRequester.requestFocus()
                                 },
-                                onShareClick = {}
+                                onShareClick = {
+                                    context.sharePost(postId = it.id)
+                                }
                             )
 
                             Spacer(modifier = Modifier.height(SpaceSmall))

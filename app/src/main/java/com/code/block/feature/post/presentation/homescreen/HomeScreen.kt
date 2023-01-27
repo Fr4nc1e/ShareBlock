@@ -22,6 +22,7 @@ import com.code.block.R
 import com.code.block.core.presentation.components.PostCard
 import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTopBar
+import com.code.block.core.util.ShareManager.sharePost
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.asString
 import kotlinx.coroutines.flow.collectLatest
@@ -117,7 +118,9 @@ fun HomeScreen(
                             onCommentClick = {
                                 onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
                             },
-                            onShareClick = {}
+                            onShareClick = {
+                                context.sharePost(postId = post.id)
+                            }
                         )
                     }
 

@@ -1,5 +1,6 @@
 package com.code.block
 
+import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -14,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardScaffold
 import com.code.block.feature.activity.presentation.activityscreen.ActivityScreen
@@ -156,9 +158,16 @@ fun Hub() {
                         type = NavType.BoolType
                         defaultValue = false
                     }
+                ),
+                deepLinks = listOf(
+                    navDeepLink {
+                        action = Intent.ACTION_VIEW
+                        uriPattern = "https://block.com/{postId}"
+                    }
                 )
             ) { it1 ->
                 val shouldShowKeyboard = it1.arguments?.getBoolean("showShowKeyboard") ?: false
+                println("POST ID: ${it1.arguments?.getString("postId")}")
                 PostDetailScreen(
                     onNavigate = navController::navigate,
                     scaffoldState = scaffoldState,
