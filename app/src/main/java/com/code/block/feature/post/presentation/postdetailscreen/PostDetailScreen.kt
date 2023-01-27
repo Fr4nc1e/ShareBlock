@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -24,7 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.ImeAction.Companion.Done
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -200,48 +199,38 @@ fun PostDetailScreen(
                 )
             }
         }
-        Row(
+
+        StandardTextField(
+            text = commentTextFieldState.text,
+            onValueChange = {
+                viewModel.onEvent(PostDetailEvent.EnteredComment(it))
+            },
             modifier = Modifier
-                .padding(SpaceSmall),
-            verticalAlignment = CenterVertically
-        ) {
-            StandardTextField(
-                text = commentTextFieldState.text,
-                onValueChange = {
-                    viewModel.onEvent(PostDetailEvent.EnteredComment(it))
-                },
-                modifier = Modifier
-                    .focusRequester(focusRequester = focusRequester)
-                    .clip(MaterialTheme.shapes.medium)
-                    .background(color = MaterialTheme.colors.background),
-                hint = stringResource(id = R.string.comment),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Done
-                ),
-                trailingIcon = {
-                    IconButton(
-                        onClick = {
-                            viewModel.onEvent(PostDetailEvent.Comment)
-                        },
-                        enabled = commentTextFieldState.error == null
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Send,
-                            tint = if (commentTextFieldState.error == null) {
-                                MaterialTheme.colors.primary
-                            } else MaterialTheme.colors.background,
-                            contentDescription = stringResource(id = R.string.send_comment)
-                        )
-                    }
+                .padding(SpaceMedium)
+                .focusRequester(focusRequester = focusRequester)
+                .clip(MaterialTheme.shapes.medium)
+                .background(color = MaterialTheme.colors.background),
+            hint = stringResource(id = R.string.comment),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = Done
+            ),
+            trailingIcon = {
+                IconButton(
+                    onClick = {
+                        viewModel.onEvent(PostDetailEvent.Comment)
+                    },
+                    enabled = commentTextFieldState.error == null
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Send,
+                        tint = if (commentTextFieldState.error == null) {
+                            MaterialTheme.colors.primary
+                        } else MaterialTheme.colors.background,
+                        contentDescription = stringResource(id = R.string.send_comment)
+                    )
                 }
-            )
-            if (viewModel.commentState.value.isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(CenterVertically),
-                    strokeWidth = 2.dp
-                )
             }
-        }
+        )
     }
 }

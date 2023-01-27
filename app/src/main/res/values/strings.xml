@@ -94,4 +94,5 @@
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="share_intent">Hey! Check this out!</string>
+    <string name="enter_a_message">Message here...</string>
 </resources>

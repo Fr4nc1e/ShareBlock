@@ -22,7 +22,9 @@ import com.code.block.feature.activity.presentation.activityscreen.ActivityScree
 import com.code.block.feature.auth.presentation.loginscreen.LoginScreen
 import com.code.block.feature.auth.presentation.registerscreen.RegisterScreen
 import com.code.block.feature.auth.presentation.splashscreen.SplashScreen
+import com.code.block.feature.chat.domain.model.Chat
 import com.code.block.feature.chat.presentation.chatscreen.ChatScreen
+import com.code.block.feature.chat.presentation.messagescreen.MessageScreen
 import com.code.block.feature.post.presentation.createpostscreen.CreatePostScreen
 import com.code.block.feature.post.presentation.homescreen.HomeScreen
 import com.code.block.feature.post.presentation.personlistscreen.PersonListScreen
@@ -89,7 +91,21 @@ fun Hub() {
             }
 
             composable(Screen.ChatScreen.route) {
-                ChatScreen()
+                ChatScreen(
+                    onNavigate = navController::navigate
+                )
+            }
+
+            composable(Screen.MessageScreen.route) {
+                MessageScreen(
+                    chat = Chat(
+                        username = "Phillip",
+                        profileUrl = "http://172.28.211.51:8081/profile_pictures/a060d923-61ea-4302-bfde-b3e171da4601.jpg",
+                        latestMessage = "hello",
+                        latestFormattedTime = "9:47"
+                    ),
+                    onNavigate = navController::navigate
+                )
             }
 
             composable(Screen.ActivityScreen.route) {

@@ -75,7 +75,10 @@ fun UserProfileItem(
                         text = user.bio,
                         style = MaterialTheme.typography.body2,
                         overflow = TextOverflow.Ellipsis,
-                        maxLines = 2
+                        maxLines = 2,
+                        modifier = Modifier.heightIn(
+                            min = MaterialTheme.typography.body2.fontSize.value.dp * 3f
+                        )
                     )
                 }
             }
