@@ -1,29 +1,34 @@
 package com.code.block.feature.post.presentation.createpostscreen
 
+import android.graphics.Color
+import android.net.Uri
 import android.webkit.MimeTypeMap
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Photo
+import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.Send
-import androidx.compose.material.icons.filled.VideoFile
-import androidx.compose.runtime.* // ktlint-disable no-wildcard-imports
-import androidx.compose.ui.Alignment.Companion.CenterEnd
-import androidx.compose.ui.Alignment.Companion.CenterStart
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
@@ -31,13 +36,16 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.code.block.R
-import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.core.presentation.ui.theme.quicksand
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.asString
+import com.code.block.core.util.ui.multilfab.MultiFabItem
+import com.code.block.core.util.ui.multilfab.MultiFloatingActionButton
+import com.code.block.core.util.ui.multilfab.fabItems
 import com.code.block.core.util.ui.videoplayer.NewVideoPlayer
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -55,21 +63,26 @@ fun CreatePostScreen(
         rememberLauncherForActivityResult(
             contract = CropImageContract(),
             onResult = {
-                viewModel.onEvent(CreatePostEvent.CropImage(it.uriContent))
+                viewModel.onEvent(CreatePostEvent.InputContent(it.uriContent))
             }
         )
     val imageLauncher =
         rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.GetContent(),
+            contract = ActivityResultContracts.PickVisualMedia(),
             onResult = {
-                val cropOptions = CropImageContractOptions(it, CropImageOptions())
+                val cropOptions = CropImageContractOptions(
+                    uri = it,
+                    cropImageOptions = CropImageOptions().apply {
+                        showIntentChooser = true
+                        activityBackgroundColor = Color.rgb(0, 0, 0)
+                    }
+                )
                 cropActivityLauncher.launch(cropOptions)
             }
         )
-
     val videoLauncher =
         rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.GetContent(),
+            contract = ActivityResultContracts.PickVisualMedia(),
             onResult = {
                 viewModel.onEvent(CreatePostEvent.InputContent(it))
             }
@@ -92,130 +105,159 @@ fun CreatePostScreen(
         }
     )
 
-    Column(
-        modifier = Modifier.fillMaxSize()
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.surface)
+            .padding(SpaceSmall)
     ) {
-        StandardTopBar(
-            title = {
-                Text(
-                    text = stringResource(R.string.make_post),
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.onBackground
-                )
-            },
-            navActions = {
-                Button(
-                    onClick = {
-                        viewModel.onEvent(CreatePostEvent.Post)
-                    },
-                    enabled = !viewModel.isLoading.value
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.post),
-                        color = MaterialTheme.colors.onPrimary
-                    )
-                    Spacer(modifier = Modifier.width(SpaceSmall))
-                    if (viewModel.isLoading.value) {
-                        CircularProgressIndicator(
-                            color = MaterialTheme.colors.onPrimary,
-                            modifier = Modifier
-                                .size(20.dp)
-                                .align(CenterVertically)
-                        )
-                    } else {
-                        Icon(
-                            imageVector = Icons.Default.Send,
-                            contentDescription = null
-                        )
+        Box(modifier = Modifier.fillMaxSize()) {
+            MultiFloatingActionButton(
+                srcIcon = Icons.Filled.AddAPhoto,
+                modifier = Modifier.align(BottomEnd)
+                    .padding(bottom = SpaceMedium),
+                items = fabItems,
+                onFabItemClicked = { item: MultiFabItem ->
+                    when (item.label) {
+                        "photo" -> {
+                            imageLauncher.launch(
+                                PickVisualMediaRequest(
+                                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                                )
+                            )
+                        }
+                        "video" -> {
+                            videoLauncher.launch(
+                                PickVisualMediaRequest(
+                                    ActivityResultContracts.PickVisualMedia.VideoOnly
+                                )
+                            )
+                        }
                     }
                 }
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(SpaceLarge)
-        ) {
-            Box(
-                modifier = Modifier
-                    .aspectRatio(16f / 9f)
-                    .fillMaxWidth()
-                    .clip(MaterialTheme.shapes.medium)
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colors.onBackground,
-                        shape = MaterialTheme.shapes.medium
-                    )
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Photo,
-                    contentDescription = stringResource(R.string.choose_image),
-                    tint = MaterialTheme.colors.onBackground,
-                    modifier = Modifier
-                        .align(CenterStart)
-                        .padding(start = SpaceLarge)
-                        .clickable {
-                            imageLauncher.launch("image/*")
-                        }
-                )
-
-                Spacer(modifier = Modifier.width(SpaceLarge))
-
-                Icon(
-                    imageVector = Icons.Default.VideoFile,
-                    contentDescription = stringResource(R.string.choose_video),
-                    tint = MaterialTheme.colors.onBackground,
-                    modifier = Modifier
-                        .align(CenterEnd)
-                        .padding(end = SpaceLarge)
-                        .clickable {
-                            videoLauncher.launch("video/mp4")
-                        }
-                )
-
-                contentUri?.let { uri ->
-                    val fileExtension = MimeTypeMap
-                        .getFileExtensionFromUrl(uri.toString())
-                    val mimeType = MimeTypeMap
-                        .getSingleton()
-                        .getMimeTypeFromExtension(fileExtension)
-
-                    if (mimeType != null && !mimeType.contains("video")) {
-                        Image(
-                            painter = rememberAsyncImagePainter(
-                                model = ImageRequest.Builder(LocalContext.current)
-                                    .data(uri)
-                                    .build()
-                            ),
-                            contentDescription = null,
-                            modifier = Modifier.matchParentSize()
-                        )
-                    } else {
-                        NewVideoPlayer(uri = contentUri)
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(SpaceMedium))
-
-            StandardTextField(
-                text = viewModel.descriptionState.value.text,
-                hint = stringResource(R.string.description_hint),
-                singleLine = false,
-                maxLength = 32 * 5,
-                maxLines = 5,
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done
-                ),
-                onValueChange = {
-                    viewModel.onEvent(CreatePostEvent.EnteredDescription(it))
-                },
-                modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(SpaceLarge))
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                StandardTopBar(
+                    title = {
+                        Text(
+                            text = stringResource(R.string.make_post),
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colors.onBackground
+                        )
+                    },
+                    navActions = {
+                        Button(
+                            onClick = {
+                                viewModel.onEvent(CreatePostEvent.Post)
+                            },
+                            shape = RoundedCornerShape(12.dp),
+                            colors = when (viewModel.isLoading.value) {
+                                true -> ButtonDefaults.buttonColors(
+                                    backgroundColor = MaterialTheme.colors.background,
+                                    contentColor = MaterialTheme.colors.onBackground
+                                )
+                                false -> ButtonDefaults.buttonColors(
+                                    backgroundColor = MaterialTheme.colors.primary,
+                                    contentColor = MaterialTheme.colors.onPrimary
+                                )
+                            },
+                            enabled = !viewModel.isLoading.value
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.post)
+                            )
+                            Spacer(modifier = Modifier.width(SpaceSmall))
+                            if (viewModel.isLoading.value) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .size(20.dp)
+                                        .align(CenterVertically)
+                                )
+                            } else {
+                                Icon(
+                                    imageVector = Icons.Default.Send,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                OutlinedTextField(
+                    value = viewModel.descriptionState.value.text,
+                    onValueChange = {
+                        if (it.length < 32 * 5) {
+                            viewModel.onEvent(CreatePostEvent.EnteredDescription(it))
+                        }
+                    },
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.description_hint),
+                            style = MaterialTheme.typography.body1,
+                            color = MaterialTheme.colors.onSurface
+                        )
+                    },
+                    textStyle = TextStyle(
+                        color = MaterialTheme.colors.onSurface,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = quicksand,
+                        fontSize = 20.sp
+                    ),
+                    maxLines = 5,
+                    singleLine = false,
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done
+                    ),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        backgroundColor = MaterialTheme.colors.background,
+                        textColor = MaterialTheme.colors.onBackground,
+                        focusedBorderColor = MaterialTheme.colors.background,
+                        unfocusedBorderColor = MaterialTheme.colors.background
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                Spacer(modifier = Modifier.height(SpaceLarge))
+
+                ShowContent(contentUri = contentUri)
+            }
+        }
+    }
+}
+
+@Composable
+fun ShowContent(contentUri: Uri?) {
+    Box(
+        modifier = Modifier
+            .aspectRatio(1f)
+            .fillMaxSize()
+            .padding(SpaceSmall)
+            .clip(MaterialTheme.shapes.medium)
+    ) {
+        contentUri?.let { uri ->
+            val fileExtension = MimeTypeMap
+                .getFileExtensionFromUrl(uri.toString())
+            val mimeType = MimeTypeMap
+                .getSingleton()
+                .getMimeTypeFromExtension(fileExtension)
+
+            if (mimeType != null && !mimeType.contains("video")) {
+                Image(
+                    painter = rememberAsyncImagePainter(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(uri)
+                            .build()
+                    ),
+                    contentDescription = null,
+                    modifier = Modifier.matchParentSize()
+                )
+            } else {
+                NewVideoPlayer(uri = contentUri)
+            }
         }
     }
 }

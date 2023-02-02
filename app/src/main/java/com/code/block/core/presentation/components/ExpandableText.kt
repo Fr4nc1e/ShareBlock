@@ -9,9 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import com.code.block.R
-import com.code.block.core.presentation.ui.theme.HintGray
 import com.code.block.core.util.Constants
 
 @Composable
@@ -39,7 +39,7 @@ fun ExpandableText(
                         append(text)
                         withStyle(
                             SpanStyle(
-                                color = HintGray
+                                color = MaterialTheme.colors.onPrimary
                             )
                         ) {
                             append(" ")
@@ -56,7 +56,7 @@ fun ExpandableText(
                         append(adjustText)
                         withStyle(
                             SpanStyle(
-                                color = HintGray
+                                color = MaterialTheme.colors.onPrimary
                             )
                         ) {
                             append(showMoreText)
@@ -67,6 +67,8 @@ fun ExpandableText(
                 }
             },
             style = MaterialTheme.typography.body1,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colors.onSurface,
             maxLines = if (isExpanded) Int.MAX_VALUE else collapsedMaxLine,
             onTextLayout = {
                 if (!isExpanded && it.hasVisualOverflow) {

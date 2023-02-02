@@ -1,5 +1,6 @@
 package com.code.block.feature.post.presentation.homescreen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -23,6 +24,7 @@ import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
+import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.util.ShareManager.sharePost
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.asString
@@ -60,83 +62,91 @@ fun HomeScreen(
         }
     }
 
-    Box(
-        Modifier
+    Surface(
+        modifier = Modifier
             .fillMaxSize()
-            .pullRefresh(state = pullRefreshState)
+            .background(MaterialTheme.colors.surface)
     ) {
-        if (pagingState.isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Center))
-        }
-
-        Column(
-            modifier = Modifier.fillMaxSize()
+        Box(
+            Modifier
+                .fillMaxSize()
+                .padding(SpaceSmall)
+                .pullRefresh(state = pullRefreshState)
         ) {
-            StandardTopBar(
-                title = {
-                    Text(
-                        text = stringResource(R.string.home),
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.onBackground
-                    )
-                },
-                modifier = Modifier.fillMaxWidth(),
-                navActions = {
-                    IconButton(
-                        onClick = {
-                            onNavigate(Screen.SearchScreen.route)
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = stringResource(R.string.search),
-                            tint = MaterialTheme.colors.onBackground
-                        )
-                    }
-                }
-            )
-
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize(),
-                state = listState
-            ) {
-                items(pagingState.items.size) { i ->
-                    val post = pagingState.items[i]
-                    if (
-                        i >= pagingState.items.size - 1 &&
-                        !pagingState.endReached &&
-                        !pagingState.isLoading
-                    ) {
-                        viewModel.loadNextPosts()
-                    }
-                    if (i != 0) {
-                        Spacer(modifier = Modifier.height(SpaceMedium))
-                    }
-                    PostCard(
-                        onNavigate = onNavigate,
-                        post = post,
-                        onPostClick = {
-                            onNavigate(Screen.PostDetailScreen.route + "/${post.id}")
-                        },
-                        onLikeClick = {
-                            viewModel.onEvent(HomeEvent.LikedParent(post.id))
-                        },
-                        onCommentClick = {
-                            onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
-                        }
-                    ) {
-                        context.sharePost(postId = post.id)
-                    }
-                }
-
-                item { Spacer(modifier = Modifier.height(SpaceLarge)) }
+            if (pagingState.isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Center))
             }
+
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                StandardTopBar(
+                    title = {
+                        Text(
+                            text = stringResource(R.string.home),
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colors.onSurface
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    navActions = {
+                        IconButton(
+                            onClick = {
+                                onNavigate(Screen.SearchScreen.route)
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = stringResource(R.string.search),
+                                tint = MaterialTheme.colors.onSurface
+                            )
+                        }
+                    }
+                )
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    state = listState
+                ) {
+                    items(pagingState.items.size) { i ->
+                        val post = pagingState.items[i]
+                        if (
+                            i >= pagingState.items.size - 1 &&
+                            !pagingState.endReached &&
+                            !pagingState.isLoading
+                        ) {
+                            viewModel.loadNextPosts()
+                        }
+                        if (i != 0) {
+                            Spacer(modifier = Modifier.height(SpaceMedium))
+                        }
+                        PostCard(
+                            modifier = Modifier.background(MaterialTheme.colors.onPrimary),
+                            onNavigate = onNavigate,
+                            post = post,
+                            onPostClick = {
+                                onNavigate(Screen.PostDetailScreen.route + "/${post.id}")
+                            },
+                            onLikeClick = {
+                                viewModel.onEvent(HomeEvent.LikedParent(post.id))
+                            },
+                            onCommentClick = {
+                                onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
+                            }
+                        ) {
+                            context.sharePost(postId = post.id)
+                        }
+                    }
+
+                    item { Spacer(modifier = Modifier.height(SpaceLarge)) }
+                }
+            }
+            PullRefreshIndicator(
+                refreshing = refreshing,
+                state = pullRefreshState,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
         }
-        PullRefreshIndicator(
-            refreshing = refreshing,
-            state = pullRefreshState,
-            modifier = Modifier.align(Alignment.TopCenter)
-        )
     }
 }

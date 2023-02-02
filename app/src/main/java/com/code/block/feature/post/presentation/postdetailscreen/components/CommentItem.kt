@@ -109,7 +109,8 @@ fun CommentItem(
                         append("    " + comment.comment)
                     },
                     style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.onBackground
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colors.onSurface
                 )
 
                 Spacer(modifier = Modifier.height(SpaceSmall))
@@ -136,9 +137,9 @@ fun CommentItem(
                                     stringResource(com.code.block.R.string.like)
                                 },
                                 tint = if (comment.isLiked) {
-                                    Color.Red
+                                    MaterialTheme.colors.primary
                                 } else {
-                                    TextWhite
+                                    MaterialTheme.colors.onSurface
                                 }
                             )
                         }
@@ -148,13 +149,15 @@ fun CommentItem(
                         Text(
                             text = "${comment.likeCount}",
                             fontWeight = FontWeight.Bold,
-                            style = MaterialTheme.typography.body2
+                            style = MaterialTheme.typography.body2,
+                            color = MaterialTheme.colors.onSurface
                         )
                     }
 
                     Text(
                         text = comment.formattedTime,
-                        style = MaterialTheme.typography.body2
+                        style = MaterialTheme.typography.body2,
+                        color = MaterialTheme.colors.onSurface
                     )
                 }
             }

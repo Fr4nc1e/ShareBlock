@@ -79,7 +79,8 @@ fun LoginScreen(
         ) {
             Text(
                 text = stringResource(R.string.login),
-                style = MaterialTheme.typography.h1
+                style = MaterialTheme.typography.h1,
+                color = MaterialTheme.colors.onSurface
             )
 
             Spacer(modifier = Modifier.height(SpaceMedium))
@@ -94,7 +95,8 @@ fun LoginScreen(
                 label = {
                     Text(
                         text = stringResource(id = R.string.email_label),
-                        style = MaterialTheme.typography.body1
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface
                     )
                 },
                 error = when (emailState.value.error) {
@@ -142,7 +144,8 @@ fun LoginScreen(
                 label = {
                     Text(
                         text = stringResource(id = R.string.password_label),
-                        style = MaterialTheme.typography.body1
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface
                     )
                 },
                 error = when (passwordState.value.error) {
@@ -201,6 +204,7 @@ fun LoginScreen(
                 }
             },
             style = MaterialTheme.typography.body1,
+            color = MaterialTheme.colors.onSurface,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .clickable {

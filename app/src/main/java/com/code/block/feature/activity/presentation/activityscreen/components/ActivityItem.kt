@@ -62,11 +62,16 @@ fun ActivityItem(
                         .clip(CircleShape)
                         .border(
                             width = 1.dp,
-                            brush = Brush.horizontalGradient(
+                            brush = Brush.sweepGradient(
                                 listOf(
-                                    Color.Green,
-                                    Color.Blue,
-                                    Color.Transparent
+                                    Color(0xFF9575CD),
+                                    Color(0xFFBA68C8),
+                                    Color(0xFFE57373),
+                                    Color(0xFFFFB74D),
+                                    Color(0xFFFFF176),
+                                    Color(0xFFAED581),
+                                    Color(0xFF4DD0E1),
+                                    Color(0xFF9575CD)
                                 )
                             ),
                             shape = CircleShape
@@ -98,7 +103,7 @@ fun ActivityItem(
                         fontFamily = quicksand,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.primary
+                        color = MaterialTheme.colors.onSurface
                     )
 
                     Spacer(modifier = Modifier.height(SpaceSmall))

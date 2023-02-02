@@ -78,7 +78,8 @@ fun StandardTextField(
             placeholder = {
                 Text(
                     text = hint,
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.body1,
+                    color = MaterialTheme.colors.onSurface
                 )
             },
             maxLines = maxLines,

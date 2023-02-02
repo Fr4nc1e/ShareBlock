@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.code.block.core.presentation.ui.theme.HintGray
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 
 @Composable
@@ -27,8 +26,8 @@ fun RowScope.StandardBottomNavItem(
     contentDescription: String? = null,
     selected: Boolean = false,
     alertCount: Int? = null,
-    selectedColor: Color = MaterialTheme.colors.primary,
-    unselectedColor: Color = HintGray,
+    selectedColor: Color = MaterialTheme.colors.onPrimary,
+    unselectedColor: Color = MaterialTheme.colors.onSurface,
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
@@ -77,7 +76,7 @@ fun RowScope.StandardBottomNavItem(
                             modifier = Modifier.align(Alignment.Center),
                             badge = {
                                 Badge(
-                                    backgroundColor = MaterialTheme.colors.primary
+                                    backgroundColor = MaterialTheme.colors.onPrimary
                                 ) {
                                     val alertText = if (alertCount > 99) {
                                         "99"
@@ -88,7 +87,7 @@ fun RowScope.StandardBottomNavItem(
                                     Text(
                                         text = alertText,
                                         fontSize = 10.sp,
-                                        color = MaterialTheme.colors.onPrimary,
+                                        color = MaterialTheme.colors.primaryVariant,
                                         fontWeight = FontWeight.Bold,
                                         textAlign = TextAlign.Center
                                     )

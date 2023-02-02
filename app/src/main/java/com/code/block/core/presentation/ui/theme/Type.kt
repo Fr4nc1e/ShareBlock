@@ -20,19 +20,19 @@ val quicksand = FontFamily(
 val Typography = Typography(
     body1 = TextStyle(
         fontFamily = quicksand,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
+        fontWeight = FontWeight.Bold,
+        fontSize = 20.sp,
         color = TextWhite
     ),
     h1 = TextStyle(
         fontFamily = quicksand,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.ExtraBold,
         fontSize = 30.sp,
         color = TextWhite
     ),
     h2 = TextStyle(
         fontFamily = quicksand,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         fontSize = 24.sp,
         color = TextWhite
     ),

@@ -44,7 +44,10 @@ fun EditTextSection(
         text = usernameState.text,
         hint = stringResource(id = R.string.username_hint),
         label = {
-            Text(text = stringResource(id = R.string.username_label))
+            Text(
+                text = stringResource(id = R.string.username_label),
+                color = MaterialTheme.colors.onSurface
+            )
         },
         error = when (viewModel.usernameState.value.error) {
             is EditProfileError.FieldEmpty -> stringResource(id = R.string.this_field_cant_be_empty)
@@ -87,7 +90,10 @@ fun EditTextSection(
         text = qqTextState.text,
         hint = stringResource(id = R.string.qq_hint),
         label = {
-            Text(text = stringResource(id = R.string.qq_label))
+            Text(
+                text = stringResource(id = R.string.qq_label),
+                color = MaterialTheme.colors.onSurface
+            )
         },
         error = when (qqTextState.error) {
             is EditProfileError.FieldEmpty -> {
@@ -132,7 +138,10 @@ fun EditTextSection(
         text = weChatTextState.text,
         hint = stringResource(id = R.string.wechat_hint),
         label = {
-            Text(text = stringResource(id = R.string.wechat_label))
+            Text(
+                text = stringResource(id = R.string.wechat_label),
+                color = MaterialTheme.colors.onSurface
+            )
         },
         error = when (weChatTextState.error) {
             is EditProfileError.FieldEmpty -> {
@@ -177,7 +186,10 @@ fun EditTextSection(
         text = gitHubTextState.text,
         hint = stringResource(id = R.string.github_hint),
         label = {
-            Text(text = stringResource(id = R.string.github_label))
+            Text(
+                text = stringResource(id = R.string.github_label),
+                color = MaterialTheme.colors.onSurface
+            )
         },
         error = when (gitHubTextState.error) {
             is EditProfileError.FieldEmpty -> {
@@ -228,7 +240,10 @@ fun EditTextSection(
         ),
         hint = stringResource(id = R.string.bio_hint),
         label = {
-            Text(text = stringResource(id = R.string.bio_label))
+            Text(
+                text = stringResource(id = R.string.bio_label),
+                color = MaterialTheme.colors.onSurface
+            )
         },
         error = when (bioState.error) {
             is EditProfileError.FieldEmpty -> {

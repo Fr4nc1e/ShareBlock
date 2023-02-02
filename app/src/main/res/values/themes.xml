@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="Theme.Block" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/medium_gray</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPrimary">@color/blue500</item>
+        <item name="colorPrimaryDark">@color/blue800</item>
+        <item name="colorAccent">@color/yellow700</item>
     </style>
 </resources>

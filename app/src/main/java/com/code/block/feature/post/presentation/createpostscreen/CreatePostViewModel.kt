@@ -44,10 +44,6 @@ class CreatePostViewModel @Inject constructor(
             is CreatePostEvent.InputContent -> {
                 _chosenContentUri.value = event.contentUri
             }
-            is CreatePostEvent.CropImage -> {
-                _chosenContentUri.value = event.contentUri
-                println("URI IS ${event.contentUri}")
-            }
             is CreatePostEvent.Post -> {
                 chosenContentUri.value?.let {
                     viewModelScope.launch {

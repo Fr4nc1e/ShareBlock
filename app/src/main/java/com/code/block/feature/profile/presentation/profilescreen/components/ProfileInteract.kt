@@ -50,7 +50,7 @@ fun ProfileInteract(
                     },
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor = if (isFollowing) {
-                            MaterialTheme.colors.surface
+                            MaterialTheme.colors.onSurface
                         } else {
                             MaterialTheme.colors.primary
                         }
@@ -64,7 +64,7 @@ fun ProfileInteract(
                             stringResource(R.string.follow)
                         },
                         color = if (isFollowing) {
-                            MaterialTheme.colors.background
+                            MaterialTheme.colors.surface
                         } else MaterialTheme.colors.onPrimary
                     )
                 }

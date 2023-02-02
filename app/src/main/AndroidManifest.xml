@@ -9,11 +9,11 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/bot"
+        android:icon="@drawable/share"
         android:label="@string/app_name"
         android:usesCleartextTraffic="true"
         android:enableOnBackInvokedCallback="true"
-        android:roundIcon="@drawable/bot"
+        android:roundIcon="@drawable/share_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Block"
         tools:targetApi="tiramisu">

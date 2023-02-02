@@ -9,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.sp
 import com.code.block.R
 import com.code.block.core.domain.model.User
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
@@ -38,8 +37,7 @@ fun ProfileHeaderSection(
             Text(
                 text = user.username,
                 style = MaterialTheme.typography.h1.copy(
-                    fontSize = 24.sp,
-                    color = MaterialTheme.colors.primary
+                    color = MaterialTheme.colors.onSurface
                 )
             )
 
@@ -48,7 +46,8 @@ fun ProfileHeaderSection(
             if (user.description.isNotBlank()) {
                 Text(
                     text = user.description,
-                    style = MaterialTheme.typography.body2
+                    style = MaterialTheme.typography.body2,
+                    color = MaterialTheme.colors.onSurface
                 )
             }
 

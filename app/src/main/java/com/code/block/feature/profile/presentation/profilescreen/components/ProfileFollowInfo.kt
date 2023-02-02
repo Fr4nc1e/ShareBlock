@@ -27,7 +27,7 @@ fun ProfileFollowInfo(
             text = buildAnnotatedString {
                 withStyle(
                     SpanStyle(
-                        color = MaterialTheme.colors.onBackground,
+                        color = MaterialTheme.colors.onSurface,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -38,6 +38,7 @@ fun ProfileFollowInfo(
                 append("  following")
             },
             style = MaterialTheme.typography.body2,
+            color = MaterialTheme.colors.onSurface,
             modifier = Modifier
                 .clickable {
                     onFollowingClick()
@@ -50,7 +51,7 @@ fun ProfileFollowInfo(
             text = buildAnnotatedString {
                 withStyle(
                     SpanStyle(
-                        color = MaterialTheme.colors.onBackground,
+                        color = MaterialTheme.colors.onSurface,
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -61,6 +62,7 @@ fun ProfileFollowInfo(
                 append("  follower(s)")
             },
             style = MaterialTheme.typography.body2,
+            color = MaterialTheme.colors.onSurface,
             modifier = Modifier
                 .clickable {
                     onFollowerClick()

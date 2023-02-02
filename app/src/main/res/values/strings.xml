@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Block</string>
+    <string name="app_name">Share Block</string>
     <string name="login">Login</string>
     <string name="login_hint">Please enter the username/e-mail</string>
     <string name="password_hint">Please enter the password</string>

@@ -13,7 +13,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
@@ -21,7 +20,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction.Companion.Done
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.R
 import com.code.block.core.presentation.components.ActionRow
@@ -72,140 +70,134 @@ fun PostDetailScreen(
         }
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize()
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.onSurface)
     ) {
-        StandardTopBar(
-            title = {
-                Text(
-                    text = stringResource(R.string.home),
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.onBackground
-                )
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        LazyColumn(
+        Column(
             modifier = Modifier
-                .weight(1f)
-                .background(MaterialTheme.colors.background)
+                .fillMaxSize()
+                .padding(SpaceSmall)
         ) {
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(SpaceSmall)
-                        .background(MaterialTheme.colors.background)
-                ) {
-                    state.post?.let { it ->
-                        ActionRow(
-                            post = it,
-                            imageSize = ProfilePictureSizeSmall,
-                            modifier = Modifier.fillMaxWidth(),
-                            onUserClick = onNavigate
-                        )
+            StandardTopBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.home),
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colors.onBackground
+                    )
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
 
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clip(MaterialTheme.shapes.medium)
-                                .shadow(5.dp)
-                                .background(MaterialTheme.colors.background)
-                        ) {
-                            Text(
-                                text = it.description,
-                                style = MaterialTheme.typography.body1
-                            )
-
-                            Spacer(modifier = Modifier.height(SpaceMedium))
-
-                            ContentLoader(contentUrl = it.contentUrl)
-
-                            Spacer(modifier = Modifier.height(SpaceMedium))
-
-                            Divider(
-                                color = MaterialTheme.colors.surface,
-                                thickness = 2.dp
-                            )
-
-                            Spacer(modifier = Modifier.height(SpaceSmall))
-
-                            InteractiveButtons(
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+            ) {
+                item {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(SpaceSmall)
+                    ) {
+                        state.post?.let { it ->
+                            ActionRow(
                                 post = it,
-                                isLiked = state.post.isLiked,
-                                onNavigate = onNavigate,
-                                onLikeClick = {
-                                    viewModel.onEvent(PostDetailEvent.LikePost)
-                                },
-                                onCommentClick = {
-                                    context.showKeyboard()
-                                    focusRequester.requestFocus()
-                                },
-                                onShareClick = {
-                                    context.sharePost(postId = it.id)
-                                }
+                                imageSize = ProfilePictureSizeSmall,
+                                modifier = Modifier.fillMaxWidth(),
+                                onUserClick = onNavigate
                             )
 
-                            Spacer(modifier = Modifier.height(SpaceSmall))
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(MaterialTheme.shapes.medium)
+                            ) {
+                                Text(
+                                    text = it.description,
+                                    style = MaterialTheme.typography.body1,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colors.onSurface
+                                )
 
-                            Divider(
-                                color = MaterialTheme.colors.surface,
-                                thickness = 2.dp
-                            )
+                                Spacer(modifier = Modifier.height(SpaceMedium))
+
+                                ContentLoader(contentUrl = it.contentUrl)
+
+                                Spacer(modifier = Modifier.height(SpaceMedium))
+
+                                InteractiveButtons(
+                                    post = it,
+                                    isLiked = state.post.isLiked,
+                                    onNavigate = onNavigate,
+                                    onLikeClick = {
+                                        viewModel.onEvent(PostDetailEvent.LikePost)
+                                    },
+                                    onCommentClick = {
+                                        context.showKeyboard()
+                                        focusRequester.requestFocus()
+                                    },
+                                    onShareClick = {
+                                        context.sharePost(postId = it.id)
+                                    }
+                                )
+
+                                Spacer(modifier = Modifier.height(SpaceSmall))
+                            }
                         }
                     }
                 }
-            }
 
-            items(state.comments) { comment ->
-                CommentItem(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            horizontal = SpaceLarge,
-                            vertical = SpaceSmall
-                        ),
-                    comment = comment,
-                    onUserClick = onNavigate,
-                    onLikeClick = {
-                        viewModel.onEvent(PostDetailEvent.LikeComment(commentId = comment.id))
-                    }
-                )
-            }
-        }
-
-        StandardTextField(
-            text = commentTextFieldState.text,
-            onValueChange = {
-                viewModel.onEvent(PostDetailEvent.EnteredComment(it))
-            },
-            modifier = Modifier
-                .padding(SpaceMedium)
-                .focusRequester(focusRequester = focusRequester)
-                .clip(MaterialTheme.shapes.medium)
-                .background(color = MaterialTheme.colors.background),
-            hint = stringResource(id = R.string.comment),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = Done
-            ),
-            trailingIcon = {
-                IconButton(
-                    onClick = {
-                        viewModel.onEvent(PostDetailEvent.Comment)
-                    },
-                    enabled = commentTextFieldState.error == null
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Send,
-                        tint = if (commentTextFieldState.error == null) {
-                            MaterialTheme.colors.primary
-                        } else MaterialTheme.colors.background,
-                        contentDescription = stringResource(id = R.string.send_comment)
+                items(state.comments) { comment ->
+                    CommentItem(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = SpaceLarge,
+                                vertical = SpaceSmall
+                            ),
+                        comment = comment,
+                        onUserClick = onNavigate,
+                        onLikeClick = {
+                            viewModel.onEvent(PostDetailEvent.LikeComment(commentId = comment.id))
+                        }
                     )
                 }
             }
-        )
+
+            StandardTextField(
+                text = commentTextFieldState.text,
+                onValueChange = {
+                    viewModel.onEvent(PostDetailEvent.EnteredComment(it))
+                },
+                modifier = Modifier
+                    .padding(SpaceMedium)
+                    .focusRequester(focusRequester = focusRequester)
+                    .clip(MaterialTheme.shapes.medium)
+                    .background(color = MaterialTheme.colors.background),
+                hint = stringResource(id = R.string.comment),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = Done
+                ),
+                trailingIcon = {
+                    IconButton(
+                        onClick = {
+                            viewModel.onEvent(PostDetailEvent.Comment)
+                        },
+                        enabled = commentTextFieldState.error == null
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Send,
+                            tint = if (commentTextFieldState.error == null) {
+                                MaterialTheme.colors.primary
+                            } else MaterialTheme.colors.background,
+                            contentDescription = stringResource(id = R.string.send_comment)
+                        )
+                    }
+                }
+            )
+        }
     }
 }

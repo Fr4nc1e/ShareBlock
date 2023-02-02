@@ -14,13 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import com.code.block.R
 import com.code.block.core.domain.model.Post
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
-import com.code.block.core.presentation.ui.theme.TextWhite
 
 @Composable
 fun InteractiveButtons(
@@ -56,7 +53,7 @@ fun InteractiveButtons(
                     tint = if (isLiked) {
                         MaterialTheme.colors.primary
                     } else {
-                        TextWhite
+                        MaterialTheme.colors.onSurface
                     }
                 )
             }
@@ -65,9 +62,8 @@ fun InteractiveButtons(
 
             Text(
                 text = "${post.likeCount}",
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
                 style = MaterialTheme.typography.h2,
+                color = MaterialTheme.colors.onSurface,
                 modifier = Modifier.clickable {
                     onNavigate(Screen.PersonListScreen.route + "/${post.id}")
                 }
@@ -93,9 +89,8 @@ fun InteractiveButtons(
 
             Text(
                 text = "${post.commentCount}",
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
-                style = MaterialTheme.typography.h2
+                style = MaterialTheme.typography.h2,
+                color = MaterialTheme.colors.onSurface
             )
         }
 

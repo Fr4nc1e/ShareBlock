@@ -3,12 +3,10 @@ package com.code.block
 import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -28,7 +26,6 @@ import com.code.block.feature.chat.presentation.chatscreen.ChatScreen
 import com.code.block.feature.chat.presentation.messagescreen.MessageScreen
 import com.code.block.feature.post.presentation.createpostscreen.CreatePostScreen
 import com.code.block.feature.post.presentation.homescreen.HomeScreen
-import com.code.block.feature.post.presentation.homescreen.HomeViewModel
 import com.code.block.feature.post.presentation.personlistscreen.PersonListScreen
 import com.code.block.feature.post.presentation.postdetailscreen.PostDetailScreen
 import com.code.block.feature.profile.presentation.editprofilescreen.EditProfileScreen
@@ -40,9 +37,6 @@ fun Hub() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val scaffoldState = rememberScaffoldState()
-    val homeViewModel = hiltViewModel<HomeViewModel>()
-    val lazyListState = rememberLazyListState()
-    val homePagingState = homeViewModel.pagingState.value
 
     StandardScaffold(
         navController = navController,

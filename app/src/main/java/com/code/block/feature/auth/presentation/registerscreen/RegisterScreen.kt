@@ -81,7 +81,8 @@ fun RegisterScreen(
         ) {
             Text(
                 text = stringResource(id = R.string.register),
-                style = MaterialTheme.typography.h1
+                style = MaterialTheme.typography.h1,
+                color = MaterialTheme.colors.onSurface
             )
 
             Spacer(modifier = Modifier.height(SpaceMedium))
@@ -96,7 +97,8 @@ fun RegisterScreen(
                 label = {
                     Text(
                         text = stringResource(id = R.string.email_label),
-                        style = MaterialTheme.typography.body1
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface
                     )
                 },
                 error = when (emailState.error) {
@@ -144,7 +146,10 @@ fun RegisterScreen(
                 },
                 hint = stringResource(id = R.string.username_hint),
                 label = {
-                    Text(text = stringResource(id = R.string.username_label))
+                    Text(
+                        text = stringResource(id = R.string.username_label),
+                        color = MaterialTheme.colors.onSurface
+                    )
                 },
                 error = when (usernameState.error) {
                     is AuthError.FieldEmpty -> {
@@ -192,7 +197,8 @@ fun RegisterScreen(
                 label = {
                     Text(
                         text = stringResource(id = R.string.password_label),
-                        style = MaterialTheme.typography.body1
+                        style = MaterialTheme.typography.body1,
+                        color = MaterialTheme.colors.onSurface
                     )
                 },
                 error = when (passwordState.error) {
