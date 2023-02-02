@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.Photo
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.VideoFile
 import androidx.compose.runtime.* // ktlint-disable no-wildcard-imports
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterStart
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -37,9 +36,9 @@ import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
-import com.code.block.core.util.VideoPlayer
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.asString
+import com.code.block.core.util.ui.videoplayer.NewVideoPlayer
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -104,6 +103,33 @@ fun CreatePostScreen(
                     color = MaterialTheme.colors.onBackground
                 )
             },
+            navActions = {
+                Button(
+                    onClick = {
+                        viewModel.onEvent(CreatePostEvent.Post)
+                    },
+                    enabled = !viewModel.isLoading.value
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.post),
+                        color = MaterialTheme.colors.onPrimary
+                    )
+                    Spacer(modifier = Modifier.width(SpaceSmall))
+                    if (viewModel.isLoading.value) {
+                        CircularProgressIndicator(
+                            color = MaterialTheme.colors.onPrimary,
+                            modifier = Modifier
+                                .size(20.dp)
+                                .align(CenterVertically)
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Default.Send,
+                            contentDescription = null
+                        )
+                    }
+                }
+            },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -167,7 +193,7 @@ fun CreatePostScreen(
                             modifier = Modifier.matchParentSize()
                         )
                     } else {
-                        VideoPlayer(uri = contentUri)
+                        NewVideoPlayer(uri = contentUri)
                     }
                 }
             }
@@ -190,32 +216,6 @@ fun CreatePostScreen(
             )
 
             Spacer(modifier = Modifier.height(SpaceLarge))
-
-            Button(
-                onClick = {
-                    viewModel.onEvent(CreatePostEvent.Post)
-                },
-                enabled = !viewModel.isLoading.value,
-                modifier = Modifier.align(Alignment.End)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.post),
-                    color = MaterialTheme.colors.onPrimary
-                )
-                Spacer(modifier = Modifier.width(SpaceSmall))
-                if (viewModel.isLoading.value) {
-                    CircularProgressIndicator(
-                        color = MaterialTheme.colors.onPrimary,
-                        modifier = Modifier
-                            .size(20.dp)
-                            .align(CenterVertically)
-                    )
-                }
-                Icon(
-                    imageVector = Icons.Default.Send,
-                    contentDescription = null
-                )
-            }
         }
     }
 }

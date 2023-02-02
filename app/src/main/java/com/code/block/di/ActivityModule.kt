@@ -1,5 +1,6 @@
 package com.code.block.di
 
+import com.code.block.core.util.Constants.BASE_URL
 import com.code.block.feature.activity.data.repository.ActivityRepositoryImpl
 import com.code.block.feature.activity.data.source.ActivityApi
 import com.code.block.feature.activity.domain.repository.ActivityRepository
@@ -20,7 +21,7 @@ object ActivityModule {
     @Singleton
     fun provideActivityApi(client: OkHttpClient): ActivityApi {
         return Retrofit.Builder()
-            .baseUrl(ActivityApi.BASE_URL)
+            .baseUrl(BASE_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

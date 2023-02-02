@@ -1,12 +1,9 @@
 package com.code.block.feature.post.presentation.postdetailscreen
 
-import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
@@ -19,7 +16,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -27,8 +23,6 @@ import androidx.compose.ui.text.input.ImeAction.Companion.Done
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.code.block.R
 import com.code.block.core.presentation.components.ActionRow
 import com.code.block.core.presentation.components.InteractiveButtons
@@ -40,7 +34,7 @@ import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.util.KeyboardShower.showKeyboard
 import com.code.block.core.util.ShareManager.sharePost
-import com.code.block.core.util.VideoPlayer
+import com.code.block.core.util.ui.ContentLoader
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.asString
 import com.code.block.feature.post.presentation.postdetailscreen.components.CommentItem
@@ -126,26 +120,7 @@ fun PostDetailScreen(
 
                             Spacer(modifier = Modifier.height(SpaceMedium))
 
-                            if (it.contentUrl.takeLastWhile { it != '.' } != "mp4") {
-                                Image(
-                                    painter = rememberAsyncImagePainter(
-                                        ImageRequest.Builder(LocalContext.current)
-                                            .data(data = it.contentUrl)
-                                            .apply(
-                                                block = fun ImageRequest.Builder.() {
-                                                    crossfade(true)
-                                                }
-                                            ).build()
-                                    ),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier
-                                        .padding(horizontal = SpaceSmall)
-                                        .fillMaxWidth()
-                                        .aspectRatio(16f / 9f)
-                                        .clip(RoundedCornerShape(10.dp))
-                                )
-                            } else { VideoPlayer(uri = Uri.parse(it.contentUrl)) }
+                            ContentLoader(contentUrl = it.contentUrl)
 
                             Spacer(modifier = Modifier.height(SpaceMedium))
 

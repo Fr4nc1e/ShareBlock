@@ -1,6 +1,7 @@
 package com.code.block.di
 
 import android.content.SharedPreferences
+import com.code.block.core.util.Constants.BASE_URL
 import com.code.block.feature.post.data.source.PostApi
 import com.code.block.feature.profile.data.repository.ProfileRepositoryImpl
 import com.code.block.feature.profile.data.source.ProfileApi
@@ -24,7 +25,7 @@ object ProfileModule {
     @Singleton
     fun provideProfileApi(client: OkHttpClient): ProfileApi {
         return Retrofit.Builder()
-            .baseUrl(ProfileApi.BASE_URL)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

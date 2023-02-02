@@ -45,8 +45,4 @@ interface ProfileApi {
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int
     ): CommentsForUserResponse
-
-    companion object {
-        const val BASE_URL = "http://172.28.211.51:8081/"
-    }
 }

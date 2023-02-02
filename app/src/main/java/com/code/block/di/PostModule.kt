@@ -1,6 +1,7 @@
 package com.code.block.di
 
 import android.content.Context
+import com.code.block.core.util.Constants.BASE_URL
 import com.code.block.feature.post.data.repository.PostRepositoryImpl
 import com.code.block.feature.post.data.source.PostApi
 import com.code.block.feature.post.domain.repository.PostRepository
@@ -26,7 +27,7 @@ object PostModule {
     fun providePostApi(client: OkHttpClient): PostApi {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(PostApi.BASE_URL)
+            .baseUrl(BASE_URL)
             .client(client)
             .build()
             .create(PostApi::class.java)

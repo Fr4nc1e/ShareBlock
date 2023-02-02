@@ -12,8 +12,4 @@ interface ActivityApi {
         @Query("page") page: Int = 0,
         @Query("pageSize") pageSize: Int = Constants.PAGE_SIZE_POSTS
     ): List<ActivityDto>
-
-    companion object {
-        const val BASE_URL = "http://172.28.211.51:8081/"
-    }
 }

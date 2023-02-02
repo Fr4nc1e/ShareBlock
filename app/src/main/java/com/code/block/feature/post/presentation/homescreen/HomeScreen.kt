@@ -2,7 +2,7 @@ package com.code.block.feature.post.presentation.homescreen
 
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -16,12 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.R
 import com.code.block.core.presentation.components.PostCard
 import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTopBar
+import com.code.block.core.presentation.ui.theme.SpaceLarge
+import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.util.ShareManager.sharePost
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.asString
@@ -33,12 +34,12 @@ import kotlinx.coroutines.flow.collectLatest
 fun HomeScreen(
     onNavigate: (String) -> Unit = {},
     scaffoldState: ScaffoldState,
-    lazyListState: LazyListState,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val pagingState = viewModel.pagingState.value
     val context = LocalContext.current
     val refreshing by viewModel.isRefreshing.collectAsState()
+    val listState = rememberLazyListState()
     val pullRefreshState = rememberPullRefreshState(
         refreshing = refreshing,
         onRefresh = {
@@ -60,11 +61,16 @@ fun HomeScreen(
     }
 
     Box(
-        Modifier.fillMaxSize()
+        Modifier
+            .fillMaxSize()
             .pullRefresh(state = pullRefreshState)
     ) {
+        if (pagingState.isLoading) {
+            CircularProgressIndicator(modifier = Modifier.align(Center))
+        }
+
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxSize()
         ) {
             StandardTopBar(
                 title = {
@@ -90,50 +96,41 @@ fun HomeScreen(
                 }
             )
 
-            Box(modifier = Modifier.fillMaxSize()) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    state = lazyListState
-                ) {
-                    items(pagingState.items.size) { i ->
-                        val post = pagingState.items[i]
-                        if (
-                            i >= pagingState.items.size - 1 &&
-                            !pagingState.endReached &&
-                            !pagingState.isLoading
-                        ) {
-                            viewModel.loadNextPosts()
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize(),
+                state = listState
+            ) {
+                items(pagingState.items.size) { i ->
+                    val post = pagingState.items[i]
+                    if (
+                        i >= pagingState.items.size - 1 &&
+                        !pagingState.endReached &&
+                        !pagingState.isLoading
+                    ) {
+                        viewModel.loadNextPosts()
+                    }
+                    if (i != 0) {
+                        Spacer(modifier = Modifier.height(SpaceMedium))
+                    }
+                    PostCard(
+                        onNavigate = onNavigate,
+                        post = post,
+                        onPostClick = {
+                            onNavigate(Screen.PostDetailScreen.route + "/${post.id}")
+                        },
+                        onLikeClick = {
+                            viewModel.onEvent(HomeEvent.LikedParent(post.id))
+                        },
+                        onCommentClick = {
+                            onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
                         }
-                        PostCard(
-                            onNavigate = onNavigate,
-                            post = post,
-                            comment = null,
-                            onPostClick = {
-                                onNavigate(Screen.PostDetailScreen.route + "/${post.id}")
-                            },
-                            onLikeClick = {
-                                viewModel.onEvent(HomeEvent.LikedParent(post.id))
-                            },
-                            onCommentClick = {
-                                onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
-                            },
-                            onShareClick = {
-                                context.sharePost(postId = post.id)
-                            }
-                        )
-                    }
-
-                    item {
-                        Spacer(modifier = Modifier.height(90.dp))
+                    ) {
+                        context.sharePost(postId = post.id)
                     }
                 }
 
-                if (pagingState.isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Center)
-                    )
-                }
+                item { Spacer(modifier = Modifier.height(SpaceLarge)) }
             }
         }
         PullRefreshIndicator(

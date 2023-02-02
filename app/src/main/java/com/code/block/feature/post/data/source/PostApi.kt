@@ -72,8 +72,4 @@ interface PostApi {
     suspend fun getLikedUsers(
         @Query("parentId") parentId: String
     ): LikedUsersResponse
-
-    companion object {
-        const val BASE_URL = "http://172.28.211.51:8081/"
-    }
 }

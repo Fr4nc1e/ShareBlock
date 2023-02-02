@@ -10,4 +10,5 @@ object Constants {
     const val KEY_USER_ID = "userId"
     const val SHARED_PREF_NAME = "shared_pref"
     const val PAGE_SIZE_POSTS = 20
+    const val BASE_URL = "http://172.28.211.51:8081/"
 }

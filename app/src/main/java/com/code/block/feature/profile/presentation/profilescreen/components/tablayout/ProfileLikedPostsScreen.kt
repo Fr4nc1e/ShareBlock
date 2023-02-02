@@ -39,18 +39,16 @@ fun ProfileLikedPostsScreen(
             PostCard(
                 onNavigate = onNavigate,
                 post = post,
-                comment = null,
                 onPostClick = { onNavigate(Screen.PostDetailScreen.route + "/${post.id}") },
                 onLikeClick = {
                     profileViewModel.onEvent(ProfileEvent.LikePageLikePost(postId = post.id))
                 },
                 onCommentClick = {
                     onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
-                },
-                onShareClick = {
-                    context.sharePost(postId = post.id)
                 }
-            )
+            ) {
+                context.sharePost(postId = post.id)
+            }
         }
         item {
             Spacer(modifier = Modifier.height(90.dp))
