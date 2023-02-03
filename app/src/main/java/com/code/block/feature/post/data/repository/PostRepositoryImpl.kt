@@ -247,4 +247,19 @@ class PostRepositoryImpl(
             )
         }
     }
+
+    override suspend fun deletePost(postId: String): DeleteResource {
+        return try {
+            api.deletePost(postId)
+            Resource.Success(uiText = null)
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
+    }
 }

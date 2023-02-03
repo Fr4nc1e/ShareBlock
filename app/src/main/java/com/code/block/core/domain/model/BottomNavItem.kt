@@ -21,8 +21,7 @@ enum class BottomNavItem(
     Chat(
         route = Screen.ChatScreen.route,
         icon = Icons.Outlined.Chat,
-        contentDescription = R.string.message,
-        alertCount = 100
+        contentDescription = R.string.message
     ),
     Empty(
         route = Screen.SplashScreen.route,
@@ -31,8 +30,7 @@ enum class BottomNavItem(
     Activity(
         route = Screen.ActivityScreen.route,
         icon = Icons.Outlined.Notifications,
-        contentDescription = R.string.activity,
-        alertCount = 100
+        contentDescription = R.string.activity
     ),
     Profile(
         route = Screen.ProfileScreen.route,

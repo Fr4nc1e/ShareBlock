@@ -1,8 +1,10 @@
 package com.code.block.feature.chat.domain.model
 
 data class Chat(
-    val username: String,
-    val profileUrl: String,
-    val latestMessage: String,
-    val latestFormattedTime: String
+    val chatId: String,
+    val remoteUserId: String,
+    val remoteUsername: String,
+    val remoteUserProfilePictureUrl: String,
+    val lastMessage: String,
+    val timestamp: Long
 )

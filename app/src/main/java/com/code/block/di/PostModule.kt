@@ -71,6 +71,9 @@ object PostModule {
             ),
             getLikedUsersForParent = GetLikedUsersForParent(
                 repository = repository
+            ),
+            deletePost = DeletePost(
+                repository = repository
             )
         )
     }

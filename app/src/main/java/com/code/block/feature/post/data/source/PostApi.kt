@@ -72,4 +72,9 @@ interface PostApi {
     suspend fun getLikedUsers(
         @Query("parentId") parentId: String
     ): LikedUsersResponse
+
+    @DELETE("/api/post/delete")
+    suspend fun deletePost(
+        @Query("postId") postId: String
+    )
 }

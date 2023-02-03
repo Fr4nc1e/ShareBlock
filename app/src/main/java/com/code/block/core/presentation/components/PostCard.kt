@@ -17,10 +17,12 @@ fun PostCard(
     modifier: Modifier = Modifier,
     onNavigate: (String) -> Unit = {},
     post: Post,
+    showDeleteIcon: Boolean = true,
     onPostClick: () -> Unit = {},
     onLikeClick: () -> Unit = {},
     onCommentClick: () -> Unit = {},
-    onShareClick: () -> Unit = {}
+    onShareClick: () -> Unit = {},
+    onDeleteClick: () -> Unit = {}
 ) {
     Card(
         modifier = modifier,
@@ -58,10 +60,12 @@ fun PostCard(
             InteractiveButtons(
                 post = post,
                 isLiked = post.isLiked,
+                showDeleteIcon = showDeleteIcon,
                 onNavigate = onNavigate,
                 onLikeClick = onLikeClick,
                 onCommentClick = onCommentClick,
-                onShareClick = onShareClick
+                onShareClick = onShareClick,
+                onDeleteClick = onDeleteClick
             )
         }
     }

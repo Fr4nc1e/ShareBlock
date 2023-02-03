@@ -85,8 +85,7 @@ fun ActionRow(
                 style = MaterialTheme.typography.body1,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colors.onSurface,
-                modifier = Modifier
-                    .align(CenterVertically)
+                modifier = Modifier.align(CenterVertically)
             )
         }
 
@@ -94,8 +93,7 @@ fun ActionRow(
             text = post.timestamp,
             style = MaterialTheme.typography.body2,
             color = MaterialTheme.colors.onSurface,
-            modifier = Modifier
-                .align(CenterVertically)
+            modifier = Modifier.align(CenterVertically)
         )
     }
 }

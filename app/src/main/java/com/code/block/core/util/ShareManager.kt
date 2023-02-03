@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.content.Intent.createChooser
+import android.net.Uri
 
 object ShareManager {
     fun Context.sharePost(postId: String) {
@@ -21,5 +22,12 @@ object ShareManager {
                 createChooser(intent, "Choose an app.")
             )
         }
+    }
+
+    fun Context.openUrlInBrowser(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(url)
+        }
+        startActivity(createChooser(intent, "Select an app"))
     }
 }

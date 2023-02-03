@@ -1,18 +1,11 @@
 package com.code.block.feature.profile.presentation.profilescreen.components
 
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
-import androidx.compose.material.* // ktlint-disable no-wildcard-imports
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import com.code.block.R
 import com.code.block.core.domain.model.User
-import com.code.block.core.presentation.ui.theme.IconSizeMedium
-import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 
 @Composable
@@ -21,7 +14,6 @@ fun ProfileHeaderSection(
     user: User,
     isOwnProfile: Boolean = true,
     isFollowing: Boolean = true,
-    onEditClick: () -> Unit = {},
     onFollowClick: () -> Unit = {},
     onFollowingClick: () -> Unit = {},
     onFollowerClick: () -> Unit = {}
@@ -61,29 +53,6 @@ fun ProfileHeaderSection(
                 onFollowerClick = onFollowerClick,
                 onFollowClick = onFollowClick
             )
-        }
-
-        Box(
-            modifier = Modifier
-                .align(CenterVertically)
-                .padding(PaddingValues(SpaceSmall))
-                .offset(y = -SpaceMedium)
-        ) {
-            if (isOwnProfile) {
-                IconButton(
-                    onClick = {
-                        onEditClick()
-                    },
-                    modifier = Modifier
-                        .size(IconSizeMedium)
-                        .align(Alignment.Center)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = stringResource(R.string.edit)
-                    )
-                }
-            }
         }
     }
 }

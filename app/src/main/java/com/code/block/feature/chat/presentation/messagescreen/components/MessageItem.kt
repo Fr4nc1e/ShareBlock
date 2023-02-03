@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.code.block.feature.chat.domain.model.Message
 
@@ -51,11 +50,6 @@ fun MessageItem(
             )
             .padding(8.dp)
     ) {
-        Text(
-            text = message.fromId,
-            fontWeight = FontWeight.Bold,
-            color = Color.White
-        )
         Text(
             text = message.text,
             color = Color.White

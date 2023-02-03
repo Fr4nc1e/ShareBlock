@@ -1,4 +1,4 @@
-package com.code.block.feature.chat.presentation.messagescreen
+package com.code.block.feature.chat.presentation.messagescreen.event
 
 sealed class MessageEvent {
     object SendMessage : MessageEvent()

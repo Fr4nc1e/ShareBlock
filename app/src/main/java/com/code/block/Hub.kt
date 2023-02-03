@@ -21,7 +21,6 @@ import com.code.block.feature.activity.presentation.activityscreen.ActivityScree
 import com.code.block.feature.auth.presentation.loginscreen.LoginScreen
 import com.code.block.feature.auth.presentation.registerscreen.RegisterScreen
 import com.code.block.feature.auth.presentation.splashscreen.SplashScreen
-import com.code.block.feature.chat.domain.model.Chat
 import com.code.block.feature.chat.presentation.chatscreen.ChatScreen
 import com.code.block.feature.chat.presentation.messagescreen.MessageScreen
 import com.code.block.feature.post.presentation.createpostscreen.CreatePostScreen
@@ -93,14 +92,35 @@ fun Hub() {
                 )
             }
 
-            composable(Screen.MessageScreen.route) {
+            composable(
+                route = Screen.MessageScreen.route +
+                    "/{remoteUserId}/{remoteUsername}/{remoteUserProfilePictureUrl}?chatId={chatId}",
+                arguments = listOf(
+                    navArgument("chatId") {
+                        type = NavType.StringType
+                        nullable = true
+                    },
+                    navArgument("remoteUserId") {
+                        type = NavType.StringType
+                    },
+                    navArgument("remoteUsername") {
+                        type = NavType.StringType
+                    },
+                    navArgument("remoteUserProfilePictureUrl") {
+                        type = NavType.StringType
+                    }
+                )
+            ) { navBackStackEntry ->
+                val remoteUserId = navBackStackEntry
+                    .arguments?.getString("remoteUserId")!!
+                val remoteUsername = navBackStackEntry
+                    .arguments?.getString("remoteUsername")!!
+                val remoteUserProfilePictureUrl = navBackStackEntry
+                    .arguments?.getString("remoteUserProfilePictureUrl")!!
                 MessageScreen(
-                    chat = Chat(
-                        username = "Phillip",
-                        profileUrl = "http://172.28.211.51:8081/profile_pictures/a060d923-61ea-4302-bfde-b3e171da4601.jpg",
-                        latestMessage = "hello",
-                        latestFormattedTime = "9:47"
-                    ),
+                    remoteUserId = remoteUserId,
+                    remoteUsername = remoteUsername,
+                    encodedRemoteUserProfilePictureUrl = remoteUserProfilePictureUrl,
                     onNavigate = navController::navigate
                 )
             }

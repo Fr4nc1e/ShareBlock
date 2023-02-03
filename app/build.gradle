@@ -115,6 +115,13 @@ dependencies {
     implementation "com.tinder.scarlet:message-adapter-gson:$scarletVersion"
     implementation "com.tinder.scarlet:stream-adapter-coroutines:$scarletVersion"
 
+    // Ktor client
+    implementation "io.ktor:ktor-client-core:2.2.2"
+    implementation "io.ktor:ktor-client-cio:2.2.2"
+    implementation "io.ktor:ktor-client-gson:1.6.5"
+    implementation "io.ktor:ktor-client-logging:1.6.5"
+    implementation "ch.qos.logback:logback-classic:1.2.11"
+
     implementation 'com.google.android.exoplayer:exoplayer:2.18.2'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.18.2'
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.18.2'

@@ -8,10 +8,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Comment
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.code.block.R
@@ -25,17 +26,19 @@ fun InteractiveButtons(
     onNavigate: (String) -> Unit = {},
     post: Post,
     isLiked: Boolean,
+    showDeleteIcon: Boolean = true,
     onLikeClick: () -> Unit = {},
     onCommentClick: () -> Unit = {},
-    onShareClick: () -> Unit = {}
+    onShareClick: () -> Unit = {},
+    onDeleteClick: () -> Unit = {}
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = CenterVertically,
         modifier = modifier.fillMaxWidth()
     ) {
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = CenterVertically
         ) {
             IconButton(
                 onClick = {
@@ -71,7 +74,7 @@ fun InteractiveButtons(
         }
 
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = CenterVertically
         ) {
             IconButton(
                 onClick = {
@@ -94,18 +97,30 @@ fun InteractiveButtons(
             )
         }
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically
+        IconButton(
+            onClick = {
+                onShareClick()
+            },
+            modifier = Modifier.size(IconSizeMedium)
+                .align(CenterVertically)
         ) {
+            Icon(
+                imageVector = Icons.Filled.Share,
+                contentDescription = stringResource(R.string.share)
+            )
+        }
+
+        if (post.isOwnPost && showDeleteIcon) {
             IconButton(
                 onClick = {
-                    onShareClick()
+                    onDeleteClick()
                 },
                 modifier = Modifier.size(IconSizeMedium)
+                    .align(CenterVertically)
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Share,
-                    contentDescription = stringResource(R.string.share)
+                    imageVector = Icons.Filled.Delete,
+                    contentDescription = stringResource(R.string.delete)
                 )
             }
         }

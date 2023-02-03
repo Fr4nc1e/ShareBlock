@@ -36,4 +36,6 @@ interface PostRepository {
     suspend fun getLikedUsers(
         parentId: String
     ): LikedUsersResource
+
+    suspend fun deletePost(postId: String): DeleteResource
 }

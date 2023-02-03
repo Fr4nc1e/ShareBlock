@@ -133,10 +133,14 @@ fun HomeScreen(
                             },
                             onCommentClick = {
                                 onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
+                            },
+                            onShareClick = {
+                                context.sharePost(postId = post.id)
+                            },
+                            onDeleteClick = {
+                                viewModel.onEvent(HomeEvent.DeletePost(post = post))
                             }
-                        ) {
-                            context.sharePost(postId = post.id)
-                        }
+                        )
                     }
 
                     item { Spacer(modifier = Modifier.height(SpaceLarge)) }

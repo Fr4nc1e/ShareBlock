@@ -28,6 +28,8 @@ import com.code.block.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.feature.chat.domain.model.Chat
+import java.text.SimpleDateFormat
+import java.util.*
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -58,7 +60,7 @@ fun ChatItem(
                 painter = rememberAsyncImagePainter(
                     ImageRequest.Builder(LocalContext.current)
                         .data(
-                            data = chatItem.profileUrl
+                            data = chatItem.remoteUserProfilePictureUrl
                         )
                         .apply(
                             block = fun ImageRequest.Builder.() {
@@ -98,7 +100,7 @@ fun ChatItem(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Text(
-                        text = chatItem.username,
+                        text = chatItem.remoteUsername,
                         style = MaterialTheme.typography.body1.copy(
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colors.onSurface
@@ -107,13 +109,14 @@ fun ChatItem(
                     )
                     Spacer(modifier = Modifier.width(SpaceSmall))
                     Text(
-                        text = chatItem.latestFormattedTime,
+                        text = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault())
+                            .format(chatItem.timestamp),
                         color = MaterialTheme.colors.onSurface
                     )
                 }
                 Spacer(modifier = Modifier.height(SpaceSmall))
                 Text(
-                    text = chatItem.latestMessage,
+                    text = chatItem.lastMessage,
                     style = MaterialTheme.typography.body2,
                     color = MaterialTheme.colors.onSurface,
                     overflow = TextOverflow.Ellipsis,

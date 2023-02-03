@@ -4,10 +4,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.code.block.R
 import com.code.block.core.domain.model.Post
+import com.code.block.core.domain.resource.Resource
 import com.code.block.core.domain.state.PageState
 import com.code.block.core.domain.type.ParentType
 import com.code.block.core.util.ui.UiEvent
+import com.code.block.core.util.ui.UiText
 import com.code.block.core.util.ui.liker.Liker
 import com.code.block.core.util.ui.paging.PaginatorImpl
 import com.code.block.usecase.post.PostUseCases
@@ -68,12 +71,41 @@ class HomeViewModel @Inject constructor(
             HomeEvent.Refresh -> {
                 refresh()
             }
+            is HomeEvent.DeletePost -> {
+                deletePost(event.post.id)
+            }
         }
     }
 
     fun loadNextPosts() {
         viewModelScope.launch {
             paginator.loadNextItems()
+        }
+    }
+
+    private fun deletePost(postId: String) {
+        viewModelScope.launch {
+            when (val result = postUseCases.deletePost(postId)) {
+                is Resource.Success -> {
+                    _pagingState.value = pagingState.value.copy(
+                        items = pagingState.value.items.filter {
+                            it.id != postId
+                        }
+                    )
+                    _eventFlow.emit(
+                        UiEvent.SnackBarEvent(
+                            UiText.StringResource(
+                                R.string.successfully_deleted_post
+                            )
+                        )
+                    )
+                }
+                is Resource.Error -> {
+                    _eventFlow.emit(
+                        UiEvent.SnackBarEvent(result.uiText ?: UiText.unknownError())
+                    )
+                }
+            }
         }
     }
 

@@ -45,10 +45,14 @@ fun ProfileOwnPostsScreen(
                 },
                 onCommentClick = {
                     onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
+                },
+                onShareClick = {
+                    context.sharePost(postId = post.id)
+                },
+                onDeleteClick = {
+                    profileViewModel.onEvent(ProfileEvent.DeletePost(post = post))
                 }
-            ) {
-                context.sharePost(postId = post.id)
-            }
+            )
         }
         item {
             Spacer(modifier = Modifier.height(90.dp))

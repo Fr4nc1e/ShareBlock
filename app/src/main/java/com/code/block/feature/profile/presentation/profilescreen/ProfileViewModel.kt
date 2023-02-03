@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.code.block.R
 import com.code.block.core.domain.model.Comment
 import com.code.block.core.domain.model.Post
 import com.code.block.core.domain.resource.Resource
@@ -188,6 +189,35 @@ class ProfileViewModel @Inject constructor(
                 _state.value = _state.value.copy(
                     showMenu = !state.value.showMenu
                 )
+            }
+            is ProfileEvent.DeletePost -> {
+                deletePost(event.post.id)
+            }
+        }
+    }
+
+    private fun deletePost(postId: String) {
+        viewModelScope.launch {
+            when (val result = postUseCases.deletePost(postId)) {
+                is Resource.Success -> {
+                    _ownPagingState.value = ownPagingState.value.copy(
+                        items = ownPagingState.value.items.filter {
+                            it.id != postId
+                        }
+                    )
+                    _eventFlow.emit(
+                        UiEvent.SnackBarEvent(
+                            UiText.StringResource(
+                                R.string.successfully_deleted_post
+                            )
+                        )
+                    )
+                }
+                is Resource.Error -> {
+                    _eventFlow.emit(
+                        UiEvent.SnackBarEvent(result.uiText ?: UiText.unknownError())
+                    )
+                }
             }
         }
     }

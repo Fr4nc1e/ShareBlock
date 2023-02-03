@@ -31,3 +31,4 @@ typealias CreateCommentResource = Resource<Unit>
 typealias LikeUpdateResource = Resource<Unit>
 typealias LikedUsersResource = Resource<List<UserItem>>
 typealias HomePostsResource = Resource<List<Post>>
+typealias DeleteResource = Resource<Unit>
