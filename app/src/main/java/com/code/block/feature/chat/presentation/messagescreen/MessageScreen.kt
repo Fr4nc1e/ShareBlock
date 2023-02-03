@@ -60,28 +60,25 @@ fun MessageScreen(
     val messages = remember {
         listOf(
             Message(
-                formUserId = "Francle",
-                toUserId = "Phillip",
-                messageText = "Hello World!",
+                fromId = "Francle",
+                toId = "Phillip",
+                text = "Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!",
                 formattedTime = "19:34",
-                parentId = "",
-                id = ""
+                chatId = null
             ),
             Message(
-                formUserId = "Phillip",
-                toUserId = "",
-                messageText = "Hello World!",
+                fromId = "Phillip",
+                toId = "",
+                text = "Hello World!",
                 formattedTime = "19:34",
-                parentId = "",
-                id = ""
+                chatId = null
             ),
             Message(
-                formUserId = "Phillip",
-                toUserId = "",
-                messageText = "Hello World!",
+                fromId = "Phillip",
+                toId = "",
+                text = "Hello World!",
                 formattedTime = "19:34",
-                parentId = "",
-                id = ""
+                chatId = null
             )
         )
     }
@@ -144,7 +141,7 @@ fun MessageScreen(
             item { Spacer(modifier = Modifier.height(32.dp)) }
 
             items(messages) { message ->
-                val isOwnMessage = message.formUserId != chat.username
+                val isOwnMessage = message.fromId != chat.username
                 Box(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = if (isOwnMessage) {
@@ -171,7 +168,7 @@ fun MessageScreen(
                 .focusRequester(focusRequester = focusRequester)
                 .clip(MaterialTheme.shapes.medium)
                 .background(color = MaterialTheme.colors.background),
-            hint = stringResource(id = R.string.comment),
+            hint = stringResource(id = R.string.chat),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done

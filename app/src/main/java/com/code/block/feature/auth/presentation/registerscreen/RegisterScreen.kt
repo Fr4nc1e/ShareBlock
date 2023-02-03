@@ -148,6 +148,7 @@ fun RegisterScreen(
                 label = {
                     Text(
                         text = stringResource(id = R.string.username_label),
+                        style = MaterialTheme.typography.body1,
                         color = MaterialTheme.colors.onSurface
                     )
                 },

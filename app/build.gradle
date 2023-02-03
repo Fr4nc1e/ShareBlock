@@ -107,6 +107,14 @@ dependencies {
     // Gson
     implementation("com.google.code.gson:gson:2.10.1")
 
+    // Scarlet
+    def scarletVersion = "0.1.12"
+    implementation "com.tinder.scarlet:scarlet:$scarletVersion"
+    implementation "com.tinder.scarlet:websocket-okhttp:$scarletVersion"
+    implementation "com.tinder.scarlet:lifecycle-android:$scarletVersion"
+    implementation "com.tinder.scarlet:message-adapter-gson:$scarletVersion"
+    implementation "com.tinder.scarlet:stream-adapter-coroutines:$scarletVersion"
+
     implementation 'com.google.android.exoplayer:exoplayer:2.18.2'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.18.2'
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.18.2'

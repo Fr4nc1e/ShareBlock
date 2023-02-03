@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
@@ -40,6 +41,7 @@ fun ChatItem(
         onClick = {
             onItemClick(chatItem)
         },
+        shape = RoundedCornerShape(16.dp),
         elevation = 5.dp
     ) {
         Row(
@@ -98,17 +100,22 @@ fun ChatItem(
                     Text(
                         text = chatItem.username,
                         style = MaterialTheme.typography.body1.copy(
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colors.onSurface
                         ),
                         modifier = Modifier.weight(1f)
                     )
                     Spacer(modifier = Modifier.width(SpaceSmall))
-                    Text(text = chatItem.latestFormattedTime)
+                    Text(
+                        text = chatItem.latestFormattedTime,
+                        color = MaterialTheme.colors.onSurface
+                    )
                 }
                 Spacer(modifier = Modifier.height(SpaceSmall))
                 Text(
                     text = chatItem.latestMessage,
                     style = MaterialTheme.typography.body2,
+                    color = MaterialTheme.colors.onSurface,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 2,
                     modifier = Modifier.heightIn(

@@ -1,10 +1,9 @@
 package com.code.block.feature.chat.domain.model
 
 data class Message(
-    val formUserId: String,
-    val toUserId: String,
-    val messageText: String,
+    val fromId: String,
+    val toId: String,
+    val text: String,
     val formattedTime: String,
-    val parentId: String,
-    val id: String
+    val chatId: String?
 )

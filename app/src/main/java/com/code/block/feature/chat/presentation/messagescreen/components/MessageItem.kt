@@ -52,12 +52,12 @@ fun MessageItem(
             .padding(8.dp)
     ) {
         Text(
-            text = message.formUserId,
+            text = message.fromId,
             fontWeight = FontWeight.Bold,
             color = Color.White
         )
         Text(
-            text = message.messageText,
+            text = message.text,
             color = Color.White
         )
         Text(
