@@ -10,5 +10,7 @@ data class ProfileUseCases(
     val searchUseCase: SearchUseCase,
     val followUserUseCase: FollowUserUseCase,
     val commentsUseCase: GetCommentsUseCase,
-    val logoutUseCase: LogoutUseCase
+    val logoutUseCase: LogoutUseCase,
+    val getFollowersUseCase: GetFollowersUseCase,
+    val getFollowingsUseCase: GetFollowingsUseCase
 )

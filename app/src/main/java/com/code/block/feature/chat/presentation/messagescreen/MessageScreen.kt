@@ -154,7 +154,6 @@ fun MessageScreen(
                 .weight(1f)
                 .fillMaxWidth(),
             state = lazyListState,
-            reverseLayout = true,
             contentPadding = PaddingValues(vertical = SpaceLarge)
         ) {
             item { Spacer(modifier = Modifier.height(32.dp)) }

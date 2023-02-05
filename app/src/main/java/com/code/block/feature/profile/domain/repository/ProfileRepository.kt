@@ -26,8 +26,11 @@ interface ProfileRepository {
     suspend fun followUser(userId: String): FollowUpdateResource
     suspend fun unfollowUser(userId: String): FollowUpdateResource
     suspend fun getComments(
+        userId: String,
         page: Int,
         pageSize: Int = Constants.PAGE_SIZE_POSTS
     ): CommentsForUserResource
     fun logout()
+    suspend fun getFollowers(userId: String): FollowingUsersResource
+    suspend fun getFollowings(userId: String): FollowedUsersResource
 }

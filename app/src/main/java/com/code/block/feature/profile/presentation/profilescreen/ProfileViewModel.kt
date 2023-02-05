@@ -11,6 +11,7 @@ import com.code.block.core.domain.model.Post
 import com.code.block.core.domain.resource.Resource
 import com.code.block.core.domain.state.PageState
 import com.code.block.core.domain.type.ParentType
+import com.code.block.core.presentation.components.Screen
 import com.code.block.core.usecase.GetOwnUserIdUseCase
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
@@ -55,7 +56,9 @@ class ProfileViewModel @Inject constructor(
             )
         },
         onRequest = { page ->
+            val userId = savedStateHandle.get<String>("userId") ?: getOwnUserIdUseCase()
             profileUseCases.commentsUseCase(
+                userId = userId,
                 page = page
             )
         },
@@ -192,6 +195,24 @@ class ProfileViewModel @Inject constructor(
             }
             is ProfileEvent.DeletePost -> {
                 deletePost(event.post.id)
+            }
+            is ProfileEvent.Followers -> {
+                viewModelScope.launch {
+                    _eventFlow.emit(
+                        UiEvent.Navigate(
+                            Screen.FollowInfoScreen.route + "/followers" + "/${event.userId}"
+                        )
+                    )
+                }
+            }
+            is ProfileEvent.Followings -> {
+                viewModelScope.launch {
+                    _eventFlow.emit(
+                        UiEvent.Navigate(
+                            Screen.FollowInfoScreen.route + "/followings" + "/${event.userId}"
+                        )
+                    )
+                }
             }
         }
     }

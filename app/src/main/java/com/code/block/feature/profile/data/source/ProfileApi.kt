@@ -1,9 +1,6 @@
 package com.code.block.feature.profile.data.source
 
-import com.code.block.core.data.source.response.BasicApiResponse
-import com.code.block.core.data.source.response.CommentsForUserResponse
-import com.code.block.core.data.source.response.FollowUpdateResponse
-import com.code.block.core.data.source.response.UpdateProfileResponse
+import com.code.block.core.data.source.response.* // ktlint-disable no-wildcard-imports
 import com.code.block.feature.profile.data.source.request.FollowUpdateRequest
 import com.code.block.feature.profile.data.source.response.ProfileResponse
 import com.code.block.feature.profile.data.source.response.UserItemDto
@@ -42,7 +39,18 @@ interface ProfileApi {
 
     @GET("api/comment/user/get")
     suspend fun getComments(
+        @Query("userId") userId: String,
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int
     ): CommentsForUserResponse
+
+    @GET("/api/follow/users/followers")
+    suspend fun getFollowers(
+        @Query("userId") userId: String
+    ): FollowingUsersResponse
+
+    @GET("/api/follow/users/followings")
+    suspend fun getFollowings(
+        @Query("userId") userId: String
+    ): FollowedUsersResponse
 }

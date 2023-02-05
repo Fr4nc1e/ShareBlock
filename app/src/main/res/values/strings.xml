@@ -59,7 +59,7 @@
     <string name="qq_label">QQ</string>
     <string name="wechat_hint">Please enter WeChat account</string>
     <string name="wechat_label">WeChat</string>
-    <string name="wechat_icon">Wecaht icon</string>
+    <string name="wechat_icon">Wechat icon</string>
     <string name="qq_icon">QQ icon</string>
     <string name="github_hint">Please enter github account</string>
     <string name="github_label">Github</string>
@@ -97,4 +97,5 @@
     <string name="enter_a_message">Message here...</string>
     <string name="successfully_deleted_post">Delete successfully.</string>
     <string name="delete">Delete</string>
+    <string name="follow_info">Follow info</string>
 </resources>

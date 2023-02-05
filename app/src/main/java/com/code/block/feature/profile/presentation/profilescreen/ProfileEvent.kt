@@ -9,6 +9,8 @@ sealed class ProfileEvent {
     data class DeletePost(val post: Post) : ProfileEvent()
     data class LikeComment(val commentId: String) : ProfileEvent()
     data class FollowMotion(val userId: String) : ProfileEvent()
+    data class Followers(val userId: String) : ProfileEvent()
+    data class Followings(val userId: String) : ProfileEvent()
     object ShowMenu : ProfileEvent()
     object DismissLogoutDialog : ProfileEvent()
     object ShowLogoutDialog : ProfileEvent()

@@ -32,3 +32,5 @@ typealias LikeUpdateResource = Resource<Unit>
 typealias LikedUsersResource = Resource<List<UserItem>>
 typealias HomePostsResource = Resource<List<Post>>
 typealias DeleteResource = Resource<Unit>
+typealias FollowingUsersResource = Resource<List<UserItem>>
+typealias FollowedUsersResource = Resource<List<UserItem>>

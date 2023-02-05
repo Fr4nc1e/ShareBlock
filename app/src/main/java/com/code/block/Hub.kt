@@ -28,6 +28,7 @@ import com.code.block.feature.post.presentation.homescreen.HomeScreen
 import com.code.block.feature.post.presentation.personlistscreen.PersonListScreen
 import com.code.block.feature.post.presentation.postdetailscreen.PostDetailScreen
 import com.code.block.feature.profile.presentation.editprofilescreen.EditProfileScreen
+import com.code.block.feature.profile.presentation.followinfoscreen.FollowInfoScreen
 import com.code.block.feature.profile.presentation.profilescreen.ProfileScreen
 import com.code.block.feature.profile.presentation.searchscreen.SearchScreen
 
@@ -200,7 +201,6 @@ fun Hub() {
                 )
             ) { it1 ->
                 val shouldShowKeyboard = it1.arguments?.getBoolean("showShowKeyboard") ?: false
-                println("POST ID: ${it1.arguments?.getString("postId")}")
                 PostDetailScreen(
                     onNavigate = navController::navigate,
                     scaffoldState = scaffoldState,
@@ -217,6 +217,23 @@ fun Hub() {
                 )
             ) {
                 PersonListScreen(
+                    onNavigate = navController::navigate,
+                    scaffoldState = scaffoldState
+                )
+            }
+
+            composable(
+                route = Screen.FollowInfoScreen.route + "/{followType}/{userId}",
+                arguments = listOf(
+                    navArgument("userId") {
+                        type = NavType.StringType
+                    },
+                    navArgument("followType") {
+                        type = NavType.StringType
+                    }
+                )
+            ) {
+                FollowInfoScreen(
                     onNavigate = navController::navigate,
                     scaffoldState = scaffoldState
                 )

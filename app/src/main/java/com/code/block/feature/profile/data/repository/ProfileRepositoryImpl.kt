@@ -210,11 +210,13 @@ class ProfileRepositoryImpl(
     }
 
     override suspend fun getComments(
+        userId: String,
         page: Int,
         pageSize: Int
     ): CommentsForUserResource {
         return try {
             val response = profileApi.getComments(
+                userId = userId,
                 page = page,
                 pageSize = pageSize
             )
@@ -244,5 +246,51 @@ class ProfileRepositoryImpl(
             .putString(Constants.KEY_JWT_TOKEN, "")
             .putString(Constants.KEY_USER_ID, "")
             .apply()
+    }
+
+    override suspend fun getFollowers(userId: String): FollowingUsersResource {
+        return try {
+            val response = profileApi
+                .getFollowers(userId)
+                .data
+                ?.map {
+                    it.toUserItem()
+                }
+            Resource.Success(
+                data = response ?: emptyList(),
+                uiText = null
+            )
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
+    }
+
+    override suspend fun getFollowings(userId: String): FollowedUsersResource {
+        return try {
+            val response = profileApi
+                .getFollowings(userId)
+                .data
+                ?.map {
+                    it.toUserItem()
+                }
+            Resource.Success(
+                data = response ?: emptyList(),
+                uiText = null
+            )
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect)
+            )
+        }
     }
 }

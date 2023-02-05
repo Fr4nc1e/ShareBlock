@@ -59,7 +59,9 @@ object ProfileModule {
             searchUseCase = SearchUseCase(repository),
             followUserUseCase = FollowUserUseCase(repository),
             commentsUseCase = GetCommentsUseCase(repository),
-            logoutUseCase = LogoutUseCase(repository)
+            logoutUseCase = LogoutUseCase(repository),
+            getFollowersUseCase = GetFollowersUseCase(repository),
+            getFollowingsUseCase = GetFollowingsUseCase(repository)
         )
     }
 

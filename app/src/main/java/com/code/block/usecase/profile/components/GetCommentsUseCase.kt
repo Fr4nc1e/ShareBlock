@@ -6,7 +6,13 @@ import com.code.block.feature.profile.domain.repository.ProfileRepository
 class GetCommentsUseCase(
     private val repository: ProfileRepository
 ) {
-    suspend operator fun invoke(page: Int): CommentsForUserResource {
-        return repository.getComments(page = page)
+    suspend operator fun invoke(
+        userId: String,
+        page: Int
+    ): CommentsForUserResource {
+        return repository.getComments(
+            userId = userId,
+            page = page
+        )
     }
 }

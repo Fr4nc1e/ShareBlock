@@ -63,6 +63,9 @@ fun ProfileScreen(
                         message = it.uiText.asString(context)
                     )
                 }
+                is UiEvent.Navigate -> {
+                    onNavigate(it.route)
+                }
                 else -> Unit
             }
         }
@@ -176,8 +179,12 @@ fun ProfileScreen(
                         onFollowClick = {
                             viewModel.onEvent(ProfileEvent.FollowMotion(profile.userId))
                         },
-                        onFollowingClick = {},
-                        onFollowerClick = {}
+                        onFollowingClick = {
+                            viewModel.onEvent(ProfileEvent.Followings(profile.userId))
+                        },
+                        onFollowerClick = {
+                            viewModel.onEvent(ProfileEvent.Followers(profile.userId))
+                        }
                     )
                 }
 
