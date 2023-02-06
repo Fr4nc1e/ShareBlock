@@ -8,15 +8,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Send
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.* // ktlint-disable no-wildcard-imports
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -44,6 +40,11 @@ import com.code.block.core.util.ui.asString
 import com.code.block.core.util.ui.multilfab.MultiFabItem
 import com.code.block.core.util.ui.multilfab.MultiFloatingActionButton
 import com.code.block.core.util.ui.multilfab.fabItems
+import com.simform.ssjetpackcomposeprogressbuttonlibrary.SSButtonState
+import com.simform.ssjetpackcomposeprogressbuttonlibrary.SSButtonType
+import com.simform.ssjetpackcomposeprogressbuttonlibrary.SSJetPackComposeProgressButton
+import com.simform.ssjetpackcomposeprogressbuttonlibrary.utils.ten
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -56,6 +57,7 @@ fun CreatePostScreen(
     val contentUri = viewModel.chosenContentUri.value
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    var submitButtonState by remember { mutableStateOf(SSButtonState.IDLE) }
     val cropActivityLauncher =
         rememberLauncherForActivityResult(
             contract = CropImageContract(),
@@ -181,40 +183,25 @@ fun CreatePostScreen(
                         )
                     },
                     navActions = {
-                        Button(
+                        SSJetPackComposeProgressButton(
+                            type = SSButtonType.CUSTOM,
+                            width = 80.dp,
+                            height = 40.dp,
+                            cornerRadius = 12,
                             onClick = {
+                                submitButtonState = SSButtonState.LOADING
                                 viewModel.onEvent(CreatePostEvent.Post)
+                                scope.launch {
+                                    delay(1_000L)
+                                    submitButtonState = SSButtonState.SUCCESS
+                                }
                             },
-                            shape = RoundedCornerShape(12.dp),
-                            colors = when (viewModel.isLoading.value) {
-                                true -> ButtonDefaults.buttonColors(
-                                    backgroundColor = MaterialTheme.colors.background,
-                                    contentColor = MaterialTheme.colors.onBackground
-                                )
-                                false -> ButtonDefaults.buttonColors(
-                                    backgroundColor = MaterialTheme.colors.primary,
-                                    contentColor = MaterialTheme.colors.onPrimary
-                                )
-                            },
-                            enabled = !viewModel.isLoading.value
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.post)
-                            )
-                            Spacer(modifier = Modifier.width(SpaceSmall))
-                            if (viewModel.isLoading.value) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier
-                                        .size(20.dp)
-                                        .align(CenterVertically)
-                                )
-                            } else {
-                                Icon(
-                                    imageVector = Icons.Default.Send,
-                                    contentDescription = null
-                                )
-                            }
-                        }
+                            enabled = !viewModel.isLoading.value,
+                            assetColor = MaterialTheme.colors.onPrimary,
+                            buttonState = submitButtonState,
+                            text = stringResource(id = R.string.post),
+                            textModifier = Modifier.padding(ten.dp).align(CenterVertically)
+                        )
                     },
                     modifier = Modifier.fillMaxWidth()
                 )

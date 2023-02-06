@@ -12,6 +12,7 @@ import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
 import com.code.block.usecase.post.PostUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -59,6 +60,7 @@ class CreatePostViewModel @Inject constructor(
                                         uiText = UiText.StringResource(R.string.post_created)
                                     )
                                 )
+                                delay(1_000L)
                                 _eventFlow.emit(UiEvent.NavigateUp)
                             }
                             is Resource.Error -> {
