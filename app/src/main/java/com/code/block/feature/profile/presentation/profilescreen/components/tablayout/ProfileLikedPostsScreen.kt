@@ -3,6 +3,7 @@ package com.code.block.feature.profile.presentation.profilescreen.components.tab
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,6 +14,7 @@ import com.code.block.core.domain.model.Post
 import com.code.block.core.domain.state.PageState
 import com.code.block.core.presentation.components.PostCard
 import com.code.block.core.presentation.components.Screen
+import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.util.ShareManager.sharePost
 import com.code.block.feature.profile.presentation.profilescreen.ProfileEvent
 import com.code.block.feature.profile.presentation.profilescreen.ProfileViewModel
@@ -38,6 +40,7 @@ fun ProfileLikedPostsScreen(
             }
             PostCard(
                 onNavigate = onNavigate,
+                modifier = Modifier.padding(SpaceSmall),
                 post = post,
                 showDeleteIcon = false,
                 onPostClick = { onNavigate(Screen.PostDetailScreen.route + "/${post.id}") },

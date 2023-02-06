@@ -1,6 +1,7 @@
 package com.code.block.feature.profile.presentation.editprofilescreen
 
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.rememberScrollState
@@ -50,7 +51,7 @@ fun EditProfileScreen(
         viewModel.onEvent(EditProfileEvent.CropBannerImage(it))
     }
     val profilePictureGalleryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
+        contract = ActivityResultContracts.PickVisualMedia()
     ) {
         if (it == null) {
             return@rememberLauncherForActivityResult
@@ -58,7 +59,7 @@ fun EditProfileScreen(
         cropProfilePictureLauncher.launch(it)
     }
     val bannerImageGalleryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
+        contract = ActivityResultContracts.PickVisualMedia()
     ) {
         if (it == null) {
             return@rememberLauncherForActivityResult
@@ -138,10 +139,18 @@ fun EditProfileScreen(
                         ).build()
                 ),
                 onBannerClick = {
-                    bannerImageGalleryLauncher.launch("image/*")
+                    bannerImageGalleryLauncher.launch(
+                        PickVisualMediaRequest(
+                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                        )
+                    )
                 },
                 onProfileImageClick = {
-                    profilePictureGalleryLauncher.launch("image/*")
+                    profilePictureGalleryLauncher.launch(
+                        PickVisualMediaRequest(
+                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                        )
+                    )
                 }
             )
 

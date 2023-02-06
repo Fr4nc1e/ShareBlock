@@ -9,10 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
@@ -98,122 +95,124 @@ fun MessageScreen(
         }
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        StandardTopBar(
-            title = {
-                Image(
-                    painter = rememberAsyncImagePainter(
-                        ImageRequest.Builder(LocalContext.current)
-                            .data(data = decodedRemoteUserProfilePictureUrl)
-                            .apply(
-                                block = fun ImageRequest.Builder.() {
-                                    crossfade(true)
-                                }
-                            ).build()
-                    ),
-                    contentDescription = stringResource(R.string.profile_pic),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(ProfilePictureSizeSmall)
-                        .clip(CircleShape)
-                        .border(
-                            width = 1.dp,
-                            brush = Brush.sweepGradient(
-                                listOf(
-                                    Color(0xFF9575CD),
-                                    Color(0xFFBA68C8),
-                                    Color(0xFFE57373),
-                                    Color(0xFFFFB74D),
-                                    Color(0xFFFFF176),
-                                    Color(0xFFAED581),
-                                    Color(0xFF4DD0E1),
-                                    Color(0xFF9575CD)
-                                )
-                            ),
-                            shape = CircleShape
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            StandardTopBar(
+                title = {
+                    Image(
+                        painter = rememberAsyncImagePainter(
+                            ImageRequest.Builder(LocalContext.current)
+                                .data(data = decodedRemoteUserProfilePictureUrl)
+                                .apply(
+                                    block = fun ImageRequest.Builder.() {
+                                        crossfade(true)
+                                    }
+                                ).build()
+                        ),
+                        contentDescription = stringResource(R.string.profile_pic),
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(ProfilePictureSizeSmall)
+                            .clip(CircleShape)
+                            .border(
+                                width = 1.dp,
+                                brush = Brush.sweepGradient(
+                                    listOf(
+                                        Color(0xFF9575CD),
+                                        Color(0xFFBA68C8),
+                                        Color(0xFFE57373),
+                                        Color(0xFFFFB74D),
+                                        Color(0xFFFFF176),
+                                        Color(0xFFAED581),
+                                        Color(0xFF4DD0E1),
+                                        Color(0xFF9575CD)
+                                    )
+                                ),
+                                shape = CircleShape
+                            )
+                            .clickable {
+                                onNavigate(Screen.ProfileScreen.route + "?userId=$remoteUserId")
+                            }
+                    )
+                    Spacer(modifier = Modifier.width(SpaceMedium))
+                    Text(
+                        text = remoteUsername,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colors.onBackground
+                    )
+                }
+            )
+
+            LazyColumn(
+                modifier = Modifier
+                    .padding(paddingValues = PaddingValues(horizontal = 16.dp))
+                    .weight(1f)
+                    .fillMaxWidth(),
+                state = lazyListState,
+                contentPadding = PaddingValues(vertical = SpaceLarge)
+            ) {
+                item { Spacer(modifier = Modifier.height(32.dp)) }
+
+                items(pagingState.items.size) { i ->
+                    val message = pagingState.items[i]
+                    val isOwnMessage = message.fromId != remoteUserId
+                    if (i >= pagingState.items.size - 1 &&
+                        !pagingState.endReached &&
+                        !pagingState.isLoading
+                    ) {
+                        viewModel.loadNextMessages()
+                    }
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = if (isOwnMessage) {
+                            Alignment.CenterEnd
+                        } else Alignment.CenterStart
+                    ) {
+                        MessageItem(
+                            message = message,
+                            isOwnMessage = isOwnMessage
                         )
-                        .clickable {
-                            onNavigate(Screen.ProfileScreen.route + "?userId=$remoteUserId")
-                        }
-                )
-                Spacer(modifier = Modifier.width(SpaceMedium))
-                Text(
-                    text = remoteUsername,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.onBackground
-                )
-            }
-        )
+                    }
 
-        LazyColumn(
-            modifier = Modifier
-                .padding(paddingValues = PaddingValues(horizontal = 16.dp))
-                .weight(1f)
-                .fillMaxWidth(),
-            state = lazyListState,
-            contentPadding = PaddingValues(vertical = SpaceLarge)
-        ) {
-            item { Spacer(modifier = Modifier.height(32.dp)) }
-
-            items(pagingState.items.size) { i ->
-                val message = pagingState.items[i]
-                val isOwnMessage = message.fromId != remoteUserId
-                if (i >= pagingState.items.size - 1 &&
-                    !pagingState.endReached &&
-                    !pagingState.isLoading
-                ) {
-                    viewModel.loadNextMessages()
+                    Spacer(modifier = Modifier.height(32.dp))
                 }
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = if (isOwnMessage) {
-                        Alignment.CenterEnd
-                    } else Alignment.CenterStart
-                ) {
-                    MessageItem(
-                        message = message,
-                        isOwnMessage = isOwnMessage
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(32.dp))
             }
+
+            StandardTextField(
+                text = messageTextFiledState.text,
+                onValueChange = {
+                    viewModel.onEvent(MessageEvent.EnteredMessage(it))
+                },
+                modifier = Modifier
+                    .padding(SpaceMedium)
+                    .focusRequester(focusRequester = focusRequester)
+                    .clip(MaterialTheme.shapes.medium)
+                    .background(color = MaterialTheme.colors.background),
+                hint = stringResource(id = R.string.chat),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                ),
+                trailingIcon = {
+                    IconButton(
+                        onClick = {
+                            viewModel.onEvent(MessageEvent.SendMessage)
+                        },
+                        enabled = messageTextFiledState.error == null || !state.canSendMessage
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Send,
+                            tint = if (messageTextFiledState.error == null && state.canSendMessage) {
+                                MaterialTheme.colors.primary
+                            } else MaterialTheme.colors.background,
+                            contentDescription = stringResource(id = R.string.send_comment)
+                        )
+                    }
+                }
+            )
         }
-
-        StandardTextField(
-            text = messageTextFiledState.text,
-            onValueChange = {
-                viewModel.onEvent(MessageEvent.EnteredMessage(it))
-            },
-            modifier = Modifier
-                .padding(SpaceMedium)
-                .focusRequester(focusRequester = focusRequester)
-                .clip(MaterialTheme.shapes.medium)
-                .background(color = MaterialTheme.colors.background),
-            hint = stringResource(id = R.string.chat),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Done
-            ),
-            trailingIcon = {
-                IconButton(
-                    onClick = {
-                        viewModel.onEvent(MessageEvent.SendMessage)
-                    },
-                    enabled = messageTextFiledState.error == null || !state.canSendMessage
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Send,
-                        tint = if (messageTextFiledState.error == null && state.canSendMessage) {
-                            MaterialTheme.colors.primary
-                        } else MaterialTheme.colors.background,
-                        contentDescription = stringResource(id = R.string.send_comment)
-                    )
-                }
-            }
-        )
+        if (state.isLoading) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+        }
     }
 }

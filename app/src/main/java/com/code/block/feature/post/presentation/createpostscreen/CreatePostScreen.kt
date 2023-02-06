@@ -1,19 +1,18 @@
 package com.code.block.feature.post.presentation.createpostscreen
 
+import android.Manifest
 import android.graphics.Color
-import android.net.Uri
-import android.webkit.MimeTypeMap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
+import androidx.activity.result.launch
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddAPhoto
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,7 +20,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -30,8 +28,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
@@ -41,12 +37,13 @@ import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.presentation.ui.theme.quicksand
+import com.code.block.core.util.BitMapTransformer
+import com.code.block.core.util.ContentPreviewer
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.asString
 import com.code.block.core.util.ui.multilfab.MultiFabItem
 import com.code.block.core.util.ui.multilfab.MultiFloatingActionButton
 import com.code.block.core.util.ui.multilfab.fabItems
-import com.code.block.core.util.ui.videoplayer.NewVideoPlayer
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -87,6 +84,38 @@ fun CreatePostScreen(
                 viewModel.onEvent(CreatePostEvent.InputContent(it))
             }
         )
+    val cameraLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicturePreview(),
+        onResult = {
+            it?.let {
+                val cropOptions = CropImageContractOptions(
+                    uri = BitMapTransformer.getImageUriFromBitmap(
+                        context = context,
+                        bitmap = it
+                    ).also { uri -> println(uri) },
+                    cropImageOptions = CropImageOptions().apply {
+                        showIntentChooser = true
+                        activityBackgroundColor = Color.rgb(0, 0, 0)
+                    }
+                )
+                cropActivityLauncher.launch(cropOptions)
+            }
+        }
+    )
+    val cameraPermissionResultLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted ->
+            if (isGranted) {
+                cameraLauncher.launch()
+            } else {
+                scope.launch {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = "No camera permission."
+                    )
+                }
+            }
+        }
+    )
 
     LaunchedEffect(
         key1 = true,
@@ -113,7 +142,7 @@ fun CreatePostScreen(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             MultiFloatingActionButton(
-                srcIcon = Icons.Filled.AddAPhoto,
+                srcIcon = Icons.Filled.Add,
                 modifier = Modifier.align(BottomEnd)
                     .padding(bottom = SpaceMedium),
                 items = fabItems,
@@ -132,6 +161,9 @@ fun CreatePostScreen(
                                     ActivityResultContracts.PickVisualMedia.VideoOnly
                                 )
                             )
+                        }
+                        "camera" -> {
+                            cameraPermissionResultLauncher.launch(Manifest.permission.CAMERA)
                         }
                     }
                 }
@@ -223,40 +255,7 @@ fun CreatePostScreen(
 
                 Spacer(modifier = Modifier.height(SpaceLarge))
 
-                ShowContent(contentUri = contentUri)
-            }
-        }
-    }
-}
-
-@Composable
-fun ShowContent(contentUri: Uri?) {
-    Box(
-        modifier = Modifier
-            .aspectRatio(1f)
-            .fillMaxSize()
-            .padding(SpaceSmall)
-            .clip(MaterialTheme.shapes.medium)
-    ) {
-        contentUri?.let { uri ->
-            val fileExtension = MimeTypeMap
-                .getFileExtensionFromUrl(uri.toString())
-            val mimeType = MimeTypeMap
-                .getSingleton()
-                .getMimeTypeFromExtension(fileExtension)
-
-            if (mimeType != null && !mimeType.contains("video")) {
-                Image(
-                    painter = rememberAsyncImagePainter(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(uri)
-                            .build()
-                    ),
-                    contentDescription = null,
-                    modifier = Modifier.matchParentSize()
-                )
-            } else {
-                NewVideoPlayer(uri = contentUri)
+                ContentPreviewer(contentUri = contentUri)
             }
         }
     }

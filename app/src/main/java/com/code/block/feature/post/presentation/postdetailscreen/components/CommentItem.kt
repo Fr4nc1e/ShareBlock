@@ -30,7 +30,10 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.code.block.core.domain.model.Comment
 import com.code.block.core.presentation.components.Screen
-import com.code.block.core.presentation.ui.theme.* // ktlint-disable no-wildcard-imports
+import com.code.block.core.presentation.ui.theme.IconSizeSmall
+import com.code.block.core.presentation.ui.theme.ProfilePictureSizeSmall
+import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.core.presentation.ui.theme.quicksand
 
 @Composable
 fun CommentItem(
