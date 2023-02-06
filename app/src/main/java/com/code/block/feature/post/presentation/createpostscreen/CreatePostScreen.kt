@@ -2,6 +2,7 @@ package com.code.block.feature.post.presentation.createpostscreen
 
 import android.Manifest
 import android.graphics.Color
+import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,7 +35,7 @@ import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.presentation.ui.theme.quicksand
 import com.code.block.core.util.BitMapTransformer
-import com.code.block.core.util.ContentPreviewer
+import com.code.block.core.util.ui.ContentPreviewer
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.asString
 import com.code.block.core.util.ui.multilfab.MultiFabItem
@@ -44,6 +45,7 @@ import com.simform.ssjetpackcomposeprogressbuttonlibrary.SSButtonState
 import com.simform.ssjetpackcomposeprogressbuttonlibrary.SSButtonType
 import com.simform.ssjetpackcomposeprogressbuttonlibrary.SSJetPackComposeProgressButton
 import com.simform.ssjetpackcomposeprogressbuttonlibrary.utils.ten
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -90,17 +92,26 @@ fun CreatePostScreen(
         contract = ActivityResultContracts.TakePicturePreview(),
         onResult = {
             it?.let {
-                val cropOptions = CropImageContractOptions(
-                    uri = BitMapTransformer.getImageUriFromBitmap(
-                        context = context,
-                        bitmap = it
-                    ).also { uri -> println(uri) },
-                    cropImageOptions = CropImageOptions().apply {
-                        showIntentChooser = true
-                        activityBackgroundColor = Color.rgb(0, 0, 0)
-                    }
-                )
-                cropActivityLauncher.launch(cropOptions)
+                scope.launch(Dispatchers.IO) {
+                    val cropOptions = CropImageContractOptions(
+                        uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            BitMapTransformer.saveImageQ(
+                                bitmap = it,
+                                context = context
+                            )
+                        } else {
+                            BitMapTransformer.getImageUriFromBitmap(
+                                context = context,
+                                bitmap = it
+                            )
+                        },
+                        cropImageOptions = CropImageOptions().apply {
+                            showIntentChooser = true
+                            activityBackgroundColor = Color.rgb(0, 0, 0)
+                        }
+                    )
+                    cropActivityLauncher.launch(cropOptions)
+                }
             }
         }
     )

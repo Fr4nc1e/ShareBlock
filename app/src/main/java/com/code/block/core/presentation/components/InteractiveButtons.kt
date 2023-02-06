@@ -1,5 +1,6 @@
 package com.code.block.core.presentation.components
 
+import androidx.compose.animation.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -28,6 +29,7 @@ import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.popovanton0.heartswitch.HeartSwitch
 import com.popovanton0.heartswitch.HeartSwitchColors
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun InteractiveButtons(
     modifier: Modifier = Modifier,
@@ -72,14 +74,29 @@ fun InteractiveButtons(
 
             Spacer(modifier = Modifier.width(SpaceSmall))
 
-            Text(
-                text = "${post.likeCount}",
-                style = MaterialTheme.typography.h2,
-                color = MaterialTheme.colors.onSurface,
-                modifier = Modifier.clickable {
-                    onNavigate(Screen.PersonListScreen.route + "/${post.id}")
+            AnimatedContent(
+                targetState = post.likeCount,
+                transitionSpec = {
+                    if (targetState > initialState) {
+                        slideInVertically(initialOffsetY = { it }) + fadeIn() with slideOutVertically(
+                            targetOffsetY = { -it }
+                        ) + fadeOut()
+                    } else {
+                        slideInVertically(initialOffsetY = { -it }) + fadeIn() with slideOutVertically(
+                            targetOffsetY = { it }
+                        ) + fadeOut()
+                    }.using(SizeTransform(clip = false))
                 }
-            )
+            ) {
+                Text(
+                    text = "$it",
+                    style = MaterialTheme.typography.h2,
+                    color = MaterialTheme.colors.onSurface,
+                    modifier = Modifier.clickable {
+                        onNavigate(Screen.PersonListScreen.route + "/${post.id}")
+                    }
+                )
+            }
         }
 
         Row(

@@ -64,6 +64,9 @@ fun PostCard(
                 ContentLoader(
                     modifier = Modifier.pointerInput(Unit) {
                         detectTapGestures(
+                            onTap = {
+                                onPostClick()
+                            },
                             onDoubleTap = {
                                 transitionState = MutableTransitionState(LikedStates.Initial)
                                 onLikeClick()

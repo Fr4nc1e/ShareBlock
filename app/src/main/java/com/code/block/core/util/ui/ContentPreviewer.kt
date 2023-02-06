@@ -1,4 +1,4 @@
-package com.code.block.core.util
+package com.code.block.core.util.ui
 
 import android.net.Uri
 import android.webkit.MimeTypeMap
