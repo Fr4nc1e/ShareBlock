@@ -7,12 +7,12 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.* // ktlint-disable no-wildcard-imports
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -108,7 +108,7 @@ fun StandardTextField(
                             } else {
                                 Icons.Filled.VisibilityOff
                             },
-                            tint = Color.White,
+                            tint = MaterialTheme.colors.onSurface,
                             contentDescription = if (isPasswordVisible) {
                                 stringResource(R.string.password_visible_content_description)
                             } else {

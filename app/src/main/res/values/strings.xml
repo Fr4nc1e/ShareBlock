@@ -30,7 +30,6 @@
     <string name="share">Share</string>
     <string name="show_more">... Show More</string>
     <string name="profile_pic">Profile picture</string>
-    <string name="test_string">"Batman is a superhero appearing in American comic books published by DC Comics. The character was created by artist Bob Kane and writer Bill Finger, and debuted in the 27th issue of the comic book Detective Comics on March 30, 1939. In the DC Universe continuity, Batman is the alias of Bruce Wayne, a wealthy American playboy, philanthropist, and industrialist who resides in Gotham City."</string>
     <string name="show_less">Show Less</string>
     <string name="home">Home</string>
     <string name="message">Message</string>
@@ -42,7 +41,6 @@
     <string name="back">Back</string>
     <string name="search">Search</string>
     <string name="chat">Chat</string>
-    <string name="test_string_superman">Superman is a superhero who appears in American comic books published by DC Comics. The character was created by writer Jerry Siegel and artist Joe Shuster, and debuted in the comic book Action Comics #1 (cover-dated June 1938 and published April 18, 1938).</string>
     <string name="liked">liked</string>
     <string name="commented_on">commented on</string>
     <string name="followed_you">followed you</string>
@@ -82,7 +80,6 @@
     <string name="no_content_picked">No content picked.</string>
     <string name="no_des_input">Description is null.</string>
     <string name="post_created">Create post successfully.</string>
-    <string name="test_comment">actually we have credit card etc information that we want to store and use them in espresso tests. As its critical information, we neither want it to be stored in the main project file nor want to delete it every time when we build a release build apk</string>
     <string name="choose_video">Choose video.</string>
     <string name="error_username_empty">Empty username.</string>
     <string name="error_couldnt_load_profile">Can not load the profile.</string>

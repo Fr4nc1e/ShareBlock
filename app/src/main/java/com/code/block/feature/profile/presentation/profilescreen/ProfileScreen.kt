@@ -221,7 +221,10 @@ fun ProfileScreen(
                     shape = MaterialTheme.shapes.medium
                 ).padding(SpaceMedium)
             ) {
-                Text(text = stringResource(id = R.string.logout))
+                Text(
+                    text = stringResource(id = R.string.logout),
+                    color = MaterialTheme.colors.onBackground
+                )
                 Spacer(modifier = Modifier.height(SpaceMedium))
                 Row(
                     horizontalArrangement = Arrangement.End,
