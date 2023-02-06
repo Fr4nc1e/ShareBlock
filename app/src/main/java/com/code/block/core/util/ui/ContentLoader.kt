@@ -19,7 +19,8 @@ import com.code.block.core.util.ui.videoplayer.NewVideoPlayer
 
 @Composable
 fun ContentLoader(
-    contentUrl: String
+    contentUrl: String,
+    modifier: Modifier = Modifier
 ) {
     if (contentUrl.takeLastWhile { it != '.' } != "mp4") {
         val painter = rememberAsyncImagePainter(
@@ -32,7 +33,7 @@ fun ContentLoader(
         Image(
             painter = painter,
             contentDescription = null,
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .aspectRatio(1f)
                 .padding(horizontal = SpaceSmall)
@@ -40,6 +41,9 @@ fun ContentLoader(
             contentScale = ContentScale.Crop
         )
     } else {
-        NewVideoPlayer(uri = Uri.parse(contentUrl))
+        NewVideoPlayer(
+            modifier = modifier,
+            uri = Uri.parse(contentUrl)
+        )
     }
 }
