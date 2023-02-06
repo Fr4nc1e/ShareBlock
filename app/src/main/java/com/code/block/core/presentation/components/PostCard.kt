@@ -33,9 +33,7 @@ fun PostCard(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(SpaceSmall)
-                .clickable {
-                    onPostClick()
-                }
+                .clickable { onPostClick() }
         ) {
             ActionRow(
                 post = post,

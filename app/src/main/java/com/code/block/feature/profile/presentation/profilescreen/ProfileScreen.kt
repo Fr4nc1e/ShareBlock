@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.code.block.R
@@ -115,39 +117,43 @@ fun ProfileScreen(
                     IconButton(onClick = { viewModel.onEvent(ProfileEvent.ShowMenu) }) {
                         Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
                     }
-                    DropdownMenu(
-                        expanded = state.showMenu,
-                        onDismissRequest = { viewModel.onEvent(ProfileEvent.ShowMenu) }
+                    MaterialTheme(
+                        shapes = MaterialTheme.shapes.copy(medium = RoundedCornerShape(16.dp))
                     ) {
-                        state.profile?.let {
-                            if (it.isOwnProfile) {
-                                DropdownMenuItem(
-                                    onClick = {
-                                        onNavigate(Screen.EditProfileScreen.route + "/${it.userId}")
+                        DropdownMenu(
+                            expanded = state.showMenu,
+                            onDismissRequest = { viewModel.onEvent(ProfileEvent.ShowMenu) }
+                        ) {
+                            state.profile?.let {
+                                if (it.isOwnProfile) {
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            onNavigate(Screen.EditProfileScreen.route + "/${it.userId}")
+                                        }
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Edit,
+                                            contentDescription = null
+                                        )
+                                        Text(
+                                            text = "Edit profile",
+                                            color = MaterialTheme.colors.onSurface
+                                        )
                                     }
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Edit,
-                                        contentDescription = null
-                                    )
-                                    Text(
-                                        text = "Edit profile",
-                                        color = MaterialTheme.colors.onSurface
-                                    )
                                 }
                             }
-                        }
-                        DropdownMenuItem(
-                            onClick = { viewModel.onEvent(ProfileEvent.ShowLogoutDialog) }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Logout,
-                                contentDescription = null
-                            )
-                            Text(
-                                text = "Log out",
-                                color = MaterialTheme.colors.onSurface
-                            )
+                            DropdownMenuItem(
+                                onClick = { viewModel.onEvent(ProfileEvent.ShowLogoutDialog) }
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Logout,
+                                    contentDescription = null
+                                )
+                                Text(
+                                    text = "Log out",
+                                    color = MaterialTheme.colors.onSurface
+                                )
+                            }
                         }
                     }
                 },
