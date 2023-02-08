@@ -26,7 +26,9 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 import java.io.BufferedInputStream
+import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
@@ -356,15 +358,23 @@ class ProfileViewModel @Inject constructor(
             ).apply {
                 when (this) {
                     is Resource.Success -> {
-                        val url = URL(this.data?.bannerUrl)
-                        val inputStream: InputStream = withContext(Dispatchers.IO) {
-                            (url.openConnection() as HttpURLConnection).run {
-                                connect()
-                                inputStream
+                        val bitmap = try {
+                            val url = URL(this.data?.bannerUrl)
+                            val inputStream: InputStream = withContext(Dispatchers.IO) {
+                                (url.openConnection() as HttpURLConnection).run {
+                                    connect()
+                                    inputStream
+                                }
                             }
+                            val bufferedInputStream = BufferedInputStream(inputStream)
+                            BitmapFactory.decodeStream(bufferedInputStream)
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                            null
+                        } catch (e: HttpException) {
+                            e.printStackTrace()
+                            null
                         }
-                        val bufferedInputStream = BufferedInputStream(inputStream)
-                        val bitmap = BitmapFactory.decodeStream(bufferedInputStream)
                         _state.value = _state.value.copy(
                             profile = this.data,
                             bitmap = bitmap,

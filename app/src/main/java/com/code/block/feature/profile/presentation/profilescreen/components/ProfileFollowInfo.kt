@@ -31,7 +31,7 @@ fun ProfileFollowInfo(
             Text(
                 text = user.followingCount.toString(),
                 color = color ?: MaterialTheme.colors.onSurface,
-                fontSize = 15.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .clickable {
@@ -54,7 +54,7 @@ fun ProfileFollowInfo(
             Text(
                 text = user.followerCount.toString(),
                 color = color ?: MaterialTheme.colors.onSurface,
-                fontSize = 15.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .clickable {

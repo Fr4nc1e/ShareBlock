@@ -48,7 +48,7 @@ fun ProfileHeadSection(
     ) {
         val palette = bitmap?.let { Palette.from(it).generate() }
         val color = palette?.dominantSwatch?.rgb?.let { Color(it) }
-        val textColor = palette?.dominantSwatch?.titleTextColor?.let { Color(it) }
+        val textColor = palette?.vibrantSwatch?.bodyTextColor?.let { Color(it) }
 
         Image(
             painter = rememberAsyncImagePainter(profile.bannerUrl),
@@ -111,9 +111,7 @@ fun ProfileHeadSection(
                     Text(
                         text = user.description,
                         style = MaterialTheme.typography.body2
-                            .copy(
-                                color = textColor ?: MaterialTheme.colors.onSurface,
-                            ),
+                            .copy(color = textColor ?: MaterialTheme.colors.onSurface),
                     )
                 }
 

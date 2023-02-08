@@ -40,6 +40,7 @@ fun ProfileInteract(
             onFollowerClick = onFollowerClick,
             onFollowingClick = onFollowingClick,
         )
+
         Spacer(modifier = Modifier.height(SpaceSmall))
 
         if (!isOwnProfile) {

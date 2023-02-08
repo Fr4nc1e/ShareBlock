@@ -1,5 +1,7 @@
 package com.code.block.feature.profile.presentation.profilescreen
 
+import android.content.res.Resources.* // ktlint-disable no-wildcard-imports
+import android.graphics.BitmapFactory
 import android.util.Base64
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -152,7 +154,7 @@ fun ProfileScreen(
                             followingCount = profile.followingCount,
                             postCount = profile.postCount,
                         ),
-                        bitmap = state.bitmap,
+                        bitmap = state.bitmap ?: BitmapFactory.decodeResource(getSystem(), R.drawable.bot),
                         isOwnProfile = profile.isOwnProfile,
                         isFollowing = profile.isFollowing,
                         modifier = Modifier,
