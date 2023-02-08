@@ -357,12 +357,11 @@ class ProfileViewModel @Inject constructor(
                 when (this) {
                     is Resource.Success -> {
                         val url = URL(this.data?.bannerUrl)
-                        val connection: HttpURLConnection = withContext(Dispatchers.IO) {
-                            url.openConnection()
-                        } as HttpURLConnection
                         val inputStream: InputStream = withContext(Dispatchers.IO) {
-                            connection.connect()
-                            connection.inputStream
+                            (url.openConnection() as HttpURLConnection).run {
+                                connect()
+                                inputStream
+                            }
                         }
                         val bufferedInputStream = BufferedInputStream(inputStream)
                         val bitmap = BitmapFactory.decodeStream(bufferedInputStream)
