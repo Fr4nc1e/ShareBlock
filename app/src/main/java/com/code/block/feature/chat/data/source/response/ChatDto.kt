@@ -8,7 +8,7 @@ data class ChatDto(
     val remoteUsername: String?,
     val remoteUserProfilePictureUrl: String?,
     val lastMessage: String?,
-    val timestamp: Long?
+    val timestamp: Long?,
 ) {
     fun toChat(): Chat? {
         return Chat(
@@ -17,7 +17,7 @@ data class ChatDto(
             remoteUsername = remoteUsername ?: return null,
             remoteUserProfilePictureUrl = remoteUserProfilePictureUrl ?: return null,
             lastMessage = lastMessage ?: return null,
-            timestamp = timestamp ?: return null
+            timestamp = timestamp ?: return null,
         )
     }
 }

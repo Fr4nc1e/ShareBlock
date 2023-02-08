@@ -22,7 +22,7 @@ class ProfileRepositoryImpl(
     private val profileApi: ProfileApi,
     private val postApi: PostApi,
     private val gson: Gson,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
 ) : ProfileRepository {
     override suspend fun getProfile(userId: String): ProfileResource {
         return try {
@@ -36,11 +36,11 @@ class ProfileRepositoryImpl(
             }
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
@@ -48,7 +48,7 @@ class ProfileRepositoryImpl(
     override suspend fun updateProfile(
         updateProfileData: UpdateProfileData,
         bannerImageUri: Uri?,
-        profilePictureUri: Uri?
+        profilePictureUri: Uri?,
     ): UpdateProfileResource {
         val bannerFile = bannerImageUri?.toFile()
         val profilePictureFile = profilePictureUri?.toFile()
@@ -60,7 +60,7 @@ class ProfileRepositoryImpl(
                         .createFormData(
                             "banner_image",
                             bannerFile.name,
-                            bannerFile.asRequestBody()
+                            bannerFile.asRequestBody(),
                         )
                 },
                 profilePicture = profilePictureFile?.let {
@@ -68,14 +68,14 @@ class ProfileRepositoryImpl(
                         .createFormData(
                             "profile_picture",
                             profilePictureFile.name,
-                            profilePictureFile.asRequestBody()
+                            profilePictureFile.asRequestBody(),
                         )
                 },
                 updateProfileData = MultipartBody.Part
                     .createFormData(
                         "update_profile_data",
-                        gson.toJson(updateProfileData)
-                    )
+                        gson.toJson(updateProfileData),
+                    ),
             )
             if (response.successful) {
                 Resource.Success(uiText = null)
@@ -86,11 +86,11 @@ class ProfileRepositoryImpl(
             }
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
@@ -98,25 +98,25 @@ class ProfileRepositoryImpl(
     override suspend fun getOwnPagedPosts(
         userId: String,
         page: Int,
-        pageSize: Int
+        pageSize: Int,
     ): ProfileOwnPostResource {
         return try {
             val response = postApi.getPostsForProfile(
                 userId = userId,
                 page = page,
-                pageSize = pageSize
+                pageSize = pageSize,
             )
             Resource.Success(
                 data = response.map { it.toPost() },
-                uiText = null
+                uiText = null,
             )
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
@@ -124,25 +124,25 @@ class ProfileRepositoryImpl(
     override suspend fun getLikedPosts(
         userId: String,
         page: Int,
-        pageSize: Int
+        pageSize: Int,
     ): ProfileLikedPostResource {
         return try {
             val response = postApi.getPostsForLike(
                 userId = userId,
                 page = page,
-                pageSize = pageSize
+                pageSize = pageSize,
             )
             Resource.Success(
                 data = response.map { it.toPost() },
-                uiText = null
+                uiText = null,
             )
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
@@ -154,15 +154,15 @@ class ProfileRepositoryImpl(
                 data = response.map {
                     it.toUserItem()
                 },
-                uiText = null
+                uiText = null,
             )
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
@@ -179,11 +179,11 @@ class ProfileRepositoryImpl(
             }
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
@@ -200,11 +200,11 @@ class ProfileRepositoryImpl(
             }
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
@@ -212,18 +212,18 @@ class ProfileRepositoryImpl(
     override suspend fun getComments(
         userId: String,
         page: Int,
-        pageSize: Int
+        pageSize: Int,
     ): CommentsForUserResource {
         return try {
             val response = profileApi.getComments(
                 userId = userId,
                 page = page,
-                pageSize = pageSize
+                pageSize = pageSize,
             )
             if (response.successful) {
                 Resource.Success(
                     data = response.data?.map { it.toComment() } ?: emptyList(),
-                    uiText = null
+                    uiText = null,
                 )
             } else {
                 response.message?.let { msg ->
@@ -232,11 +232,11 @@ class ProfileRepositoryImpl(
             }
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
@@ -258,15 +258,15 @@ class ProfileRepositoryImpl(
                 }
             Resource.Success(
                 data = response ?: emptyList(),
-                uiText = null
+                uiText = null,
             )
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
@@ -281,15 +281,15 @@ class ProfileRepositoryImpl(
                 }
             Resource.Success(
                 data = response ?: emptyList(),
-                uiText = null
+                uiText = null,
             )
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }

@@ -22,13 +22,13 @@ fun ChipContent(
     selected: Boolean = false,
     selectedColor: Color = MaterialTheme.colors.primary,
     unSelectedColor: Color = MaterialTheme.colors.onSurface,
-    onChipClick: () -> Unit = {}
+    onChipClick: () -> Unit = {},
 ) {
     FlowRow(
         modifier = modifier,
         mainAxisAlignment = MainAxisAlignment.Center,
         mainAxisSpacing = SpaceSmall,
-        crossAxisSpacing = SpaceSmall
+        crossAxisSpacing = SpaceSmall,
     ) {
         list.forEach {
             Chip(
@@ -39,13 +39,13 @@ fun ChipContent(
                 shape = RoundedCornerShape(50.dp),
                 border = BorderStroke(
                     width = 1.dp,
-                    color = if (selected) selectedColor else unSelectedColor
-                )
+                    color = if (selected) selectedColor else unSelectedColor,
+                ),
             ) {
                 Text(
                     text = it,
                     modifier = Modifier.align(CenterVertically),
-                    color = if (selected) selectedColor else unSelectedColor
+                    color = if (selected) selectedColor else unSelectedColor,
                 )
             }
         }

@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashScreenViewModel @Inject constructor(
-    private val authenticateUseCase: AuthenticateUseCase
+    private val authenticateUseCase: AuthenticateUseCase,
 ) : ViewModel() {
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
@@ -25,12 +25,12 @@ class SplashScreenViewModel @Inject constructor(
             when (authenticateUseCase()) {
                 is Resource.Success -> {
                     _eventFlow.emit(
-                        UiEvent.Navigate(Screen.HomeScreen.route)
+                        UiEvent.Navigate(Screen.HomeScreen.route),
                     )
                 }
                 is Resource.Error -> {
                     _eventFlow.emit(
-                        UiEvent.Navigate(Screen.LoginScreen.route)
+                        UiEvent.Navigate(Screen.LoginScreen.route),
                     )
                 }
             }

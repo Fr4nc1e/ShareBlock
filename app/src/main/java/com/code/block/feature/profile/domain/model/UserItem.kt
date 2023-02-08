@@ -5,5 +5,5 @@ data class UserItem(
     val username: String,
     val profileImageUrl: String,
     val bio: String,
-    val isFollowing: Boolean
+    val isFollowing: Boolean,
 )

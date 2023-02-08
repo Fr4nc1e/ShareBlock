@@ -29,7 +29,7 @@ fun RowScope.StandardBottomNavItem(
     selectedColor: Color = MaterialTheme.colors.onPrimary,
     unselectedColor: Color = MaterialTheme.colors.onSurface,
     enabled: Boolean = true,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     if (alertCount != null && alertCount < 0) {
         throw IllegalArgumentException("Alert count can not be negative.")
@@ -37,7 +37,7 @@ fun RowScope.StandardBottomNavItem(
 
     val lineLength = animateFloatAsState(
         targetValue = if (selected) 1f else 0f,
-        animationSpec = tween(durationMillis = 300)
+        animationSpec = tween(durationMillis = 300),
     )
 
     BottomNavigationItem(
@@ -58,17 +58,17 @@ fun RowScope.StandardBottomNavItem(
                                 color = if (selected) selectedColor else unselectedColor,
                                 start = Offset(
                                     x = size.width / 2f - lineLength.value * 15.dp.toPx(),
-                                    y = size.height
+                                    y = size.height,
                                 ),
                                 end = Offset(
                                     x = size.width / 2f + lineLength.value * 15.dp.toPx(),
-                                    y = size.height
+                                    y = size.height,
                                 ),
                                 strokeWidth = 2.dp.toPx(),
-                                cap = StrokeCap.Round
+                                cap = StrokeCap.Round,
                             )
                         }
-                    }
+                    },
             ) {
                 if (icon != null) {
                     if (alertCount != null) {
@@ -76,7 +76,7 @@ fun RowScope.StandardBottomNavItem(
                             modifier = Modifier.align(Alignment.Center),
                             badge = {
                                 Badge(
-                                    backgroundColor = MaterialTheme.colors.onPrimary
+                                    backgroundColor = MaterialTheme.colors.onPrimary,
                                 ) {
                                     val alertText = if (alertCount > 99) {
                                         "99"
@@ -89,16 +89,16 @@ fun RowScope.StandardBottomNavItem(
                                         fontSize = 10.sp,
                                         color = MaterialTheme.colors.primaryVariant,
                                         fontWeight = FontWeight.Bold,
-                                        textAlign = TextAlign.Center
+                                        textAlign = TextAlign.Center,
                                     )
                                 }
-                            }
+                            },
                         ) {
                             Icon(
                                 imageVector = icon,
                                 contentDescription = contentDescription,
                                 modifier = Modifier
-                                    .align(Alignment.Center)
+                                    .align(Alignment.Center),
                             )
                         }
                     } else {
@@ -106,11 +106,11 @@ fun RowScope.StandardBottomNavItem(
                             imageVector = icon,
                             contentDescription = contentDescription,
                             modifier = Modifier
-                                .align(Alignment.Center)
+                                .align(Alignment.Center),
                         )
                     }
                 }
             }
-        }
+        },
     )
 }

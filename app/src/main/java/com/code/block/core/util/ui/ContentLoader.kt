@@ -20,7 +20,7 @@ import com.code.block.core.util.ui.videoplayer.NewVideoPlayer
 @Composable
 fun ContentLoader(
     contentUrl: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     if (contentUrl.takeLastWhile { it != '.' } != "mp4") {
         val painter = rememberAsyncImagePainter(
@@ -28,7 +28,7 @@ fun ContentLoader(
                 .data(data = contentUrl)
                 .apply(block = fun ImageRequest.Builder.() {
                     crossfade(true)
-                }).build()
+                }).build(),
         )
         Image(
             painter = painter,
@@ -38,12 +38,12 @@ fun ContentLoader(
                 .aspectRatio(1f)
                 .padding(horizontal = SpaceSmall)
                 .clip(RoundedCornerShape(16.dp)),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
         )
     } else {
         NewVideoPlayer(
             modifier = modifier,
-            uri = Uri.parse(contentUrl)
+            uri = Uri.parse(contentUrl),
         )
     }
 }

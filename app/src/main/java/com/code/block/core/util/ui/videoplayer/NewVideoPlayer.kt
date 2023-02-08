@@ -31,7 +31,7 @@ import com.google.android.exoplayer2.ui.StyledPlayerView
 @Composable
 fun NewVideoPlayer(
     modifier: Modifier = Modifier,
-    uri: Uri
+    uri: Uri,
 ) {
     val context = LocalContext.current
     var lifecycle by remember {
@@ -53,10 +53,10 @@ fun NewVideoPlayer(
                             setMediaMetadata(
                                 MediaMetadata.Builder()
                                     .setDisplayTitle("")
-                                    .build()
+                                    .build(),
                             )
                         }
-                        .build()
+                        .build(),
                 )
                 prepare()
                 playWhenReady = true
@@ -82,7 +82,7 @@ fun NewVideoPlayer(
         modifier = modifier
             .padding(horizontal = SpaceSmall)
             .fillMaxSize()
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(16.dp)),
     ) {
         DisposableEffect(lifecycleOwner) {
             val observer = LifecycleEventObserver { _, event ->
@@ -99,7 +99,7 @@ fun NewVideoPlayer(
                 object : Player.Listener {
                     override fun onEvents(
                         player: Player,
-                        events: Player.Events
+                        events: Player.Events,
                     ) {
                         super.onEvents(player, events)
                         totalDuration = player.duration.coerceAtLeast(0L)
@@ -131,10 +131,10 @@ fun NewVideoPlayer(
                     layoutParams =
                         FrameLayout.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT
+                            ViewGroup.LayoutParams.MATCH_PARENT,
                         )
                 }
-            }
+            },
         )
 
         PlayerController(
@@ -167,7 +167,7 @@ fun NewVideoPlayer(
             playbackState = { playbackState },
             onSeekChanged = { timeMs: Float ->
                 exoPlayer.seekTo(timeMs.toLong())
-            }
+            },
         ) {
             when (isMute) {
                 true -> exoPlayer.volume = 0f

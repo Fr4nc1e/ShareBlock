@@ -7,7 +7,7 @@ class PaginatorImpl<T>(
     private val onLoadUpdated: (Boolean) -> Unit,
     private val onRequest: suspend (nextPage: Int) -> Resource<List<T>>,
     private val onError: suspend (UiText) -> Unit,
-    private val onSuccess: (items: List<T>) -> Unit
+    private val onSuccess: (items: List<T>) -> Unit,
 ) : Paginator<T> {
     var page = 0
 

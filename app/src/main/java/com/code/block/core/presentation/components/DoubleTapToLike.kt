@@ -14,7 +14,7 @@ import com.code.block.core.domain.state.LikedStates
 @Composable
 fun DoubleTapToLike(
     modifier: Modifier = Modifier,
-    transitionState: MutableTransitionState<LikedStates>
+    transitionState: MutableTransitionState<LikedStates>,
 ) {
     if (transitionState.currentState == LikedStates.Initial) {
         transitionState.targetState = LikedStates.Liked
@@ -38,7 +38,7 @@ fun DoubleTapToLike(
                 else -> snap()
             }
         },
-        label = ""
+        label = "",
     ) {
         if (it == LikedStates.Liked) 1f else 0f
     }
@@ -53,7 +53,7 @@ fun DoubleTapToLike(
                 else -> snap()
             }
         },
-        label = ""
+        label = "",
     ) {
         when (it) {
             LikedStates.Initial -> 0f
@@ -69,8 +69,8 @@ fun DoubleTapToLike(
             .graphicsLayer(
                 alpha = alpha,
                 scaleX = scale,
-                scaleY = scale
+                scaleY = scale,
             ),
-        tint = Color(0xFFE91E63)
+        tint = Color(0xFFE91E63),
     )
 }

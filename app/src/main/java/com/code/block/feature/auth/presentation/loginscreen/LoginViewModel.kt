@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
 ) : ViewModel() {
 
     private val _emailState = mutableStateOf(TextFieldState())
@@ -37,12 +37,12 @@ class LoginViewModel @Inject constructor(
         when (event) {
             is LoginEvent.EnteredEmail -> {
                 _emailState.value = emailState.value.copy(
-                    text = event.email
+                    text = event.email,
                 )
             }
             is LoginEvent.EnteredPassword -> {
                 _passwordState.value = passwordState.value.copy(
-                    text = event.password
+                    text = event.password,
                 )
             }
             is LoginEvent.ClearEmail -> {
@@ -50,7 +50,7 @@ class LoginViewModel @Inject constructor(
             }
             is LoginEvent.TogglePasswordVisibility -> {
                 _passwordState.value = passwordState.value.copy(
-                    isPasswordVisible = !passwordState.value.isPasswordVisible
+                    isPasswordVisible = !passwordState.value.isPasswordVisible,
                 )
             }
             is LoginEvent.Login -> {
@@ -65,17 +65,17 @@ class LoginViewModel @Inject constructor(
 
             loginUseCase(
                 email = emailState.value.text,
-                password = passwordState.value.text
+                password = passwordState.value.text,
             ).also { loginResult ->
                 loginResult.loginError?.let {
                     it.emailError?.let {
                         _emailState.value = emailState.value.copy(
-                            error = loginResult.loginError.emailError
+                            error = loginResult.loginError.emailError,
                         )
                     }
                     it.passwordError?.let {
                         _passwordState.value = _passwordState.value.copy(
-                            error = loginResult.loginError.passwordError
+                            error = loginResult.loginError.passwordError,
                         )
                     }
                 }
@@ -87,8 +87,8 @@ class LoginViewModel @Inject constructor(
                     is Resource.Error -> {
                         _eventFlow.emit(
                             UiEvent.SnackBarEvent(
-                                loginResult.result.uiText ?: UiText.unknownError()
-                            )
+                                loginResult.result.uiText ?: UiText.unknownError(),
+                            ),
                         )
                     }
                     null -> {

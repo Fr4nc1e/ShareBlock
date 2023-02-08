@@ -11,7 +11,7 @@ interface ProfileApi {
 
     @GET("/api/user/profile")
     suspend fun getUserProfile(
-        @Query("userId") userId: String
+        @Query("userId") userId: String,
     ): BasicApiResponse<ProfileResponse>
 
     @Multipart
@@ -19,38 +19,38 @@ interface ProfileApi {
     suspend fun updateProfile(
         @Part bannerImage: MultipartBody.Part?,
         @Part profilePicture: MultipartBody.Part?,
-        @Part updateProfileData: MultipartBody.Part
+        @Part updateProfileData: MultipartBody.Part,
     ): UpdateProfileResponse
 
     @GET("/api/user/search")
     suspend fun searchUser(
-        @Query("query") query: String
+        @Query("query") query: String,
     ): List<UserItemDto>
 
     @POST("/api/following/follow")
     suspend fun followUser(
-        @Body request: FollowUpdateRequest
+        @Body request: FollowUpdateRequest,
     ): FollowUpdateResponse
 
     @HTTP(method = "DELETE", path = "/api/following/unfollow", hasBody = true)
     suspend fun unfollowUser(
-        @Body request: FollowUpdateRequest
+        @Body request: FollowUpdateRequest,
     ): FollowUpdateResponse
 
     @GET("api/comment/user/get")
     suspend fun getComments(
         @Query("userId") userId: String,
         @Query("page") page: Int,
-        @Query("pageSize") pageSize: Int
+        @Query("pageSize") pageSize: Int,
     ): CommentsForUserResponse
 
     @GET("/api/follow/users/followers")
     suspend fun getFollowers(
-        @Query("userId") userId: String
+        @Query("userId") userId: String,
     ): FollowingUsersResponse
 
     @GET("/api/follow/users/followings")
     suspend fun getFollowings(
-        @Query("userId") userId: String
+        @Query("userId") userId: String,
     ): FollowedUsersResponse
 }

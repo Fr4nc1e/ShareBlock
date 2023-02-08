@@ -38,13 +38,13 @@ object ProfileModule {
         profileApi: ProfileApi,
         postApi: PostApi,
         gson: Gson,
-        sharedPreferences: SharedPreferences
+        sharedPreferences: SharedPreferences,
     ): ProfileRepository {
         return ProfileRepositoryImpl(
             profileApi = profileApi,
             postApi = postApi,
             gson = gson,
-            sharedPreferences = sharedPreferences
+            sharedPreferences = sharedPreferences,
         )
     }
 
@@ -61,7 +61,7 @@ object ProfileModule {
             commentsUseCase = GetCommentsUseCase(repository),
             logoutUseCase = LogoutUseCase(repository),
             getFollowersUseCase = GetFollowersUseCase(repository),
-            getFollowingsUseCase = GetFollowingsUseCase(repository)
+            getFollowingsUseCase = GetFollowingsUseCase(repository),
         )
     }
 

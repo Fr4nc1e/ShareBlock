@@ -9,7 +9,7 @@ data class WsServerMessage(
     val toId: String,
     val text: String,
     val timestamp: Long,
-    val chatId: String?
+    val chatId: String?,
 ) {
     fun toMessage(): Message {
         return Message(
@@ -18,7 +18,7 @@ data class WsServerMessage(
             text = text,
             formattedTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
                 .format(timestamp),
-            chatId = chatId
+            chatId = chatId,
         )
     }
 }

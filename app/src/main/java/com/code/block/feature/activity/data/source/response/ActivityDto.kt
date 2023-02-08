@@ -12,7 +12,7 @@ data class ActivityDto(
     val type: Int,
     val username: String,
     val profileImageUrl: String,
-    val id: String
+    val id: String,
 ) {
     fun toActivity(): Activity {
         return Activity(
@@ -29,7 +29,7 @@ data class ActivityDto(
             },
             formattedTime = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault()).run {
                 format(timestamp)
-            }
+            },
         )
     }
 }

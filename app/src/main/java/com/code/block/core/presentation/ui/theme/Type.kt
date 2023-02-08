@@ -13,7 +13,7 @@ val quicksand = FontFamily(
     Font(R.font.quicksandregular, FontWeight.Normal),
     Font(R.font.quicksandmedium, FontWeight.Medium),
     Font(R.font.quicksandsemibold, FontWeight.SemiBold),
-    Font(R.font.quicksandbold, FontWeight.Bold)
+    Font(R.font.quicksandbold, FontWeight.Bold),
 )
 
 // Set of Material typography styles to start with
@@ -22,24 +22,24 @@ val Typography = Typography(
         fontFamily = quicksand,
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp,
-        color = TextWhite
+        color = TextWhite,
     ),
     h1 = TextStyle(
         fontFamily = quicksand,
         fontWeight = FontWeight.ExtraBold,
         fontSize = 30.sp,
-        color = TextWhite
+        color = TextWhite,
     ),
     h2 = TextStyle(
         fontFamily = quicksand,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp,
-        color = TextWhite
+        color = TextWhite,
     ),
     body2 = TextStyle(
         fontFamily = quicksand,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
-        color = TextWhite
-    )
+        color = TextWhite,
+    ),
 )

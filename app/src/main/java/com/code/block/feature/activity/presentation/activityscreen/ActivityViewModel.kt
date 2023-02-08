@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ActivityViewModel @Inject constructor(
-    getActivitiesUseCase: GetActivitiesUseCase
+    getActivitiesUseCase: GetActivitiesUseCase,
 ) : ViewModel() {
 
     val activities = getActivitiesUseCase()
@@ -36,7 +36,7 @@ class ActivityViewModel @Inject constructor(
     }
 
     fun refresh(
-        onRefresh: () -> Unit = {}
+        onRefresh: () -> Unit = {},
     ) {
         viewModelScope.launch {
             _isRefreshing.emit(true)

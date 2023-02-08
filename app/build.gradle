@@ -71,6 +71,8 @@ dependencies {
     implementation 'androidx.compose.material:material'
     implementation "androidx.compose.material3:material3"
     implementation "androidx.compose.material:material-icons-extended"
+    debugImplementation "androidx.compose.ui:ui-tooling"
+    implementation "androidx.compose.ui:ui-tooling-preview"
 
     // Compose dependencies
     def nav_version = "2.5.3"
@@ -129,6 +131,7 @@ dependencies {
     implementation 'com.github.yalantis:ucrop:2.2.8'
     implementation 'androidx.media3:media3-exoplayer:1.0.0-beta03'
     implementation "androidx.media3:media3-ui:1.0.0-beta03"
+    implementation 'androidx.palette:palette:1.0.0'
     implementation("com.vanniktech:android-image-cropper:4.3.3")
     implementation "com.github.popovanton0:heart-switch:1.2.0"
     implementation 'com.github.SimformSolutionsPvtLtd:SSJetPackComposeProgressButton:1.0.7'

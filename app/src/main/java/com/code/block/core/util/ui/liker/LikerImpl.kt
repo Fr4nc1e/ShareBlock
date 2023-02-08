@@ -8,7 +8,7 @@ class LikerImpl : Liker {
         posts: List<Post>,
         parentId: String,
         onRequest: suspend (isLiked: Boolean) -> Resource<Unit>,
-        onStateUpdate: (List<Post>) -> Unit
+        onStateUpdate: (List<Post>) -> Unit,
     ) {
         val post = posts.find { it.id == parentId }
         val currentlyLiked = post?.isLiked == true
@@ -19,9 +19,13 @@ class LikerImpl : Liker {
                     isLiked = !post1.isLiked,
                     likeCount = if (currentlyLiked) {
                         post1.likeCount - 1
-                    } else post1.likeCount + 1
+                    } else {
+                        post1.likeCount + 1
+                    },
                 )
-            } else post1
+            } else {
+                post1
+            }
         }
         onStateUpdate(newPosts)
         when (onRequest(currentlyLiked)) {
@@ -31,9 +35,11 @@ class LikerImpl : Liker {
                     if (post2.id == parentId) {
                         post2.copy(
                             isLiked = currentlyLiked,
-                            likeCount = currentLikeCount
+                            likeCount = currentLikeCount,
                         )
-                    } else post2
+                    } else {
+                        post2
+                    }
                 }
                 onStateUpdate(oldPosts)
             }

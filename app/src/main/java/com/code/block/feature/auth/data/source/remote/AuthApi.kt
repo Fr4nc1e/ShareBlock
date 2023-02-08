@@ -12,12 +12,12 @@ interface AuthApi {
 
     @POST("/api/user/create")
     suspend fun register(
-        @Body request: CreateAccountRequest
+        @Body request: CreateAccountRequest,
     ): RegisterResponse
 
     @POST("/api/user/login")
     suspend fun login(
-        @Body request: LoginRequest
+        @Body request: LoginRequest,
     ): LoginResponse
 
     @GET("/api/user/authenticate")

@@ -11,13 +11,13 @@ import androidx.compose.ui.unit.dp
 fun StandardTopBar(
     modifier: Modifier = Modifier,
     navActions: @Composable RowScope.() -> Unit = {},
-    title: @Composable () -> Unit = {}
+    title: @Composable () -> Unit = {},
 ) {
     TopAppBar(
         title = title,
         modifier = modifier,
         actions = navActions,
         backgroundColor = MaterialTheme.colors.surface,
-        elevation = 0.dp
+        elevation = 0.dp,
     )
 }

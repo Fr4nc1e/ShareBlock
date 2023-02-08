@@ -16,14 +16,14 @@ object BitMapTransformer {
         bitmap.compress(
             /* format = */ Bitmap.CompressFormat.JPEG,
             /* quality = */ 100,
-            /* stream = */ bytes
+            /* stream = */ bytes,
         )
         val path = MediaStore.Images.Media
             .insertImage(
                 /* cr = */ context.contentResolver,
                 /* source = */ bitmap,
                 /* title = */ "Title",
-                /* description = */ null
+                /* description = */ null,
             )
         return Uri.parse(path.toString())
     }
@@ -31,7 +31,7 @@ object BitMapTransformer {
     @RequiresApi(Build.VERSION_CODES.Q)
     fun saveImageQ(
         bitmap: Bitmap,
-        context: Context
+        context: Context,
     ): Uri {
         val filename = "IMG_${System.currentTimeMillis()}.jpg"
         val values = ContentValues().apply {
@@ -44,7 +44,7 @@ object BitMapTransformer {
         val resolver = context.contentResolver
         val uri = resolver.insert(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            values
+            values,
         )
 
         uri?.let {
@@ -52,7 +52,7 @@ object BitMapTransformer {
                 bitmap.compress(
                     /* format = */ Bitmap.CompressFormat.JPEG,
                     /* quality = */ 100,
-                    /* stream = */ outputStream
+                    /* stream = */ outputStream,
                 )
             }
 
@@ -62,7 +62,7 @@ object BitMapTransformer {
                 /* uri = */ uri,
                 /* values = */ values,
                 /* where = */ null,
-                /* selectionArgs = */ null
+                /* selectionArgs = */ null,
             )
         } ?: throw RuntimeException("MediaStore failed for some reason")
         return uri

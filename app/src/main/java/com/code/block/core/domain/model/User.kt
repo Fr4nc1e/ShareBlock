@@ -7,5 +7,5 @@ data class User(
     val description: String,
     val followerCount: Int,
     val followingCount: Int,
-    val postCount: Int
+    val postCount: Int,
 )

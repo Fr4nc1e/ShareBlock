@@ -8,7 +8,7 @@ import com.code.block.feature.profile.data.source.response.UserItemDto
 data class BasicApiResponse<T>(
     val successful: Boolean,
     val message: String? = null,
-    val data: T? = null
+    val data: T? = null,
 )
 
 typealias RegisterResponse = BasicApiResponse<Unit>

@@ -56,7 +56,7 @@ fun MessageScreen(
     remoteUsername: String,
     encodedRemoteUserProfilePictureUrl: String,
     onNavigate: (String) -> Unit = {},
-    viewModel: MessageViewModel = hiltViewModel()
+    viewModel: MessageViewModel = hiltViewModel(),
 ) {
     val decodedRemoteUserProfilePictureUrl = remember {
         encodedRemoteUserProfilePictureUrl.decodeBase64()?.string(Charset.defaultCharset())
@@ -82,7 +82,8 @@ fun MessageScreen(
         viewModel.messageReceived.collect { event ->
             when (event) {
                 is MessageUpdateEvent.SingleMessageUpdate,
-                is MessageUpdateEvent.MessagePageLoaded -> {
+                is MessageUpdateEvent.MessagePageLoaded,
+                -> {
                     if (pagingState.items.isEmpty()) {
                         return@collect
                     }
@@ -106,8 +107,8 @@ fun MessageScreen(
                                 .apply(
                                     block = fun ImageRequest.Builder.() {
                                         crossfade(true)
-                                    }
-                                ).build()
+                                    },
+                                ).build(),
                         ),
                         contentDescription = stringResource(R.string.profile_pic),
                         contentScale = ContentScale.Crop,
@@ -125,22 +126,22 @@ fun MessageScreen(
                                         Color(0xFFFFF176),
                                         Color(0xFFAED581),
                                         Color(0xFF4DD0E1),
-                                        Color(0xFF9575CD)
-                                    )
+                                        Color(0xFF9575CD),
+                                    ),
                                 ),
-                                shape = CircleShape
+                                shape = CircleShape,
                             )
                             .clickable {
                                 onNavigate(Screen.ProfileScreen.route + "?userId=$remoteUserId")
-                            }
+                            },
                     )
                     Spacer(modifier = Modifier.width(SpaceMedium))
                     Text(
                         text = remoteUsername,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.onBackground
+                        color = MaterialTheme.colors.onBackground,
                     )
-                }
+                },
             )
 
             LazyColumn(
@@ -149,7 +150,7 @@ fun MessageScreen(
                     .weight(1f)
                     .fillMaxWidth(),
                 state = lazyListState,
-                contentPadding = PaddingValues(vertical = SpaceLarge)
+                contentPadding = PaddingValues(vertical = SpaceLarge),
             ) {
                 item { Spacer(modifier = Modifier.height(32.dp)) }
 
@@ -166,11 +167,13 @@ fun MessageScreen(
                         modifier = Modifier.fillMaxWidth(),
                         contentAlignment = if (isOwnMessage) {
                             Alignment.CenterEnd
-                        } else Alignment.CenterStart
+                        } else {
+                            Alignment.CenterStart
+                        },
                     ) {
                         MessageItem(
                             message = message,
-                            isOwnMessage = isOwnMessage
+                            isOwnMessage = isOwnMessage,
                         )
                     }
 
@@ -191,24 +194,26 @@ fun MessageScreen(
                 hint = stringResource(id = R.string.chat),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Done
+                    imeAction = ImeAction.Done,
                 ),
                 trailingIcon = {
                     IconButton(
                         onClick = {
                             viewModel.onEvent(MessageEvent.SendMessage)
                         },
-                        enabled = messageTextFiledState.error == null || !state.canSendMessage
+                        enabled = messageTextFiledState.error == null || !state.canSendMessage,
                     ) {
                         Icon(
                             imageVector = Icons.Default.Send,
                             tint = if (messageTextFiledState.error == null && state.canSendMessage) {
                                 MaterialTheme.colors.primary
-                            } else MaterialTheme.colors.background,
-                            contentDescription = stringResource(id = R.string.send_comment)
+                            } else {
+                                MaterialTheme.colors.background
+                            },
+                            contentDescription = stringResource(id = R.string.send_comment),
                         )
                     }
-                }
+                },
             )
         }
         if (state.isLoading) {

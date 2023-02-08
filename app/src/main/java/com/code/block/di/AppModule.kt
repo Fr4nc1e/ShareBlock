@@ -24,7 +24,7 @@ object AppModule {
     fun provideSharedPref(app: Application): SharedPreferences {
         return app.getSharedPreferences(
             Constants.SHARED_PREF_NAME,
-            MODE_PRIVATE
+            MODE_PRIVATE,
         )
     }
 
@@ -37,7 +37,7 @@ object AppModule {
                 val modifiedRequest = it.request().newBuilder()
                     .addHeader(
                         "Authorization",
-                        "Bearer $token"
+                        "Bearer $token",
                     )
                     .build()
                 it.proceed(modifiedRequest)
@@ -45,7 +45,7 @@ object AppModule {
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
-                }
+                },
             )
             .build()
     }

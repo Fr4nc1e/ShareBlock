@@ -5,19 +5,19 @@ import com.code.block.feature.auth.domain.model.LoginResult
 import com.code.block.feature.auth.domain.repository.AuthRepository
 
 class LoginUseCase(
-    private val repository: AuthRepository
+    private val repository: AuthRepository,
 ) {
     suspend operator fun invoke(
         email: String,
-        password: String
+        password: String,
     ): LoginResult {
         Validation.checkLogin(
             email = email,
-            password = password
+            password = password,
         ).also {
             if (it.emailError != null || it.passwordError != null) {
                 return LoginResult(
-                    loginError = it
+                    loginError = it,
                 )
             }
         }
@@ -25,8 +25,8 @@ class LoginUseCase(
         return LoginResult(
             result = repository.login(
                 email = email,
-                password = password
-            )
+                password = password,
+            ),
         )
     }
 }

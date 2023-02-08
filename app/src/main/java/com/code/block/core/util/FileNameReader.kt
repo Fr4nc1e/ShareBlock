@@ -6,14 +6,14 @@ import android.provider.OpenableColumns
 
 object FileNameReader {
     fun ContentResolver.getFileName(
-        uri: Uri
+        uri: Uri,
     ): String {
         val returnCursor = query(
             uri,
             null,
             null,
             null,
-            null
+            null,
         ) ?: return ""
         val nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
         returnCursor.moveToFirst()

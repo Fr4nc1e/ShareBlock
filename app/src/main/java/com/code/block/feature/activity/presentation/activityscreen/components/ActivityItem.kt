@@ -36,21 +36,21 @@ fun ActivityItem(
     activity: Activity,
     modifier: Modifier = Modifier,
     onUserClick: (String) -> Unit = {},
-    onActivityClick: (String) -> Unit = {}
+    onActivityClick: (String) -> Unit = {},
 ) {
     Card(
         modifier = modifier
             .clickable { onActivityClick(Screen.PostDetailScreen.route + "/${activity.parentId}") },
         shape = MaterialTheme.shapes.medium,
         backgroundColor = MaterialTheme.colors.surface,
-        elevation = 5.dp
+        elevation = 5.dp,
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(SpaceSmall),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Row {
                 Image(
@@ -71,15 +71,15 @@ fun ActivityItem(
                                     Color(0xFFFFF176),
                                     Color(0xFFAED581),
                                     Color(0xFF4DD0E1),
-                                    Color(0xFF9575CD)
-                                )
+                                    Color(0xFF9575CD),
+                                ),
                             ),
-                            shape = CircleShape
+                            shape = CircleShape,
                         )
                         .align(Alignment.CenterVertically)
                         .clickable {
                             onUserClick(Screen.ProfileScreen.route + "?userId=${activity.userId}")
-                        }
+                        },
                 )
 
                 Spacer(modifier = Modifier.width(SpaceSmall))
@@ -103,7 +103,7 @@ fun ActivityItem(
                         fontFamily = quicksand,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.onSurface
+                        color = MaterialTheme.colors.onSurface,
                     )
 
                     Spacer(modifier = Modifier.height(SpaceSmall))
@@ -113,14 +113,14 @@ fun ActivityItem(
                             append(" $fillerText ")
                             withStyle(
                                 SpanStyle(
-                                    fontWeight = FontWeight.Bold
-                                )
+                                    fontWeight = FontWeight.Bold,
+                                ),
                             ) {
                                 append(actionText)
                             }
                         },
                         fontSize = 12.sp,
-                        color = MaterialTheme.colors.onBackground
+                        color = MaterialTheme.colors.onBackground,
                     )
                 }
             }
@@ -128,7 +128,7 @@ fun ActivityItem(
             Text(
                 text = activity.formattedTime,
                 fontSize = 12.sp,
-                color = MaterialTheme.colors.onBackground
+                color = MaterialTheme.colors.onBackground,
             )
         }
     }

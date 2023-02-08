@@ -11,7 +11,7 @@ import com.code.block.feature.activity.domain.repository.ActivityRepository
 import kotlinx.coroutines.flow.Flow
 
 class ActivityRepositoryImpl(
-    private val api: ActivityApi
+    private val api: ActivityApi,
 ) : ActivityRepository {
     override val activities: Flow<PagingData<Activity>>
         get() = Pager(PagingConfig(pageSize = Constants.PAGE_SIZE_POSTS)) {

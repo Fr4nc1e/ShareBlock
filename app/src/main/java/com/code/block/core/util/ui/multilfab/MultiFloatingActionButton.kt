@@ -28,7 +28,7 @@ fun MultiFloatingActionButton(
     fabBackgroundColor: Color = Color.Unspecified,
     showLabels: Boolean = true,
     items: List<MultiFabItem>,
-    onFabItemClicked: (item: MultiFabItem) -> Unit
+    onFabItemClicked: (item: MultiFabItem) -> Unit,
 ) {
     val currentState = remember { mutableStateOf(MultiFabState.Collapsed) }
     val transition = updateTransition(targetState = currentState, label = "")
@@ -40,7 +40,7 @@ fun MultiFloatingActionButton(
                 spring(stiffness = Spring.StiffnessMedium)
             }
         },
-        label = ""
+        label = "",
     ) { state ->
         if (state.value == MultiFabState.Collapsed) 0F else -45F
     }
@@ -57,12 +57,12 @@ fun MultiFloatingActionButton(
                 MultiFabState.Expanded -> (index + 1) * 60F + if (index == 0) 5F else 0F
             }
         }, label = "", transitionSpec = {
-                if (targetState.value == MultiFabState.Expanded) {
-                    spring(stiffness = Spring.StiffnessLow, dampingRatio = 0.58F)
-                } else {
-                    spring(stiffness = Spring.StiffnessMedium)
-                }
-            })
+            if (targetState.value == MultiFabState.Expanded) {
+                spring(stiffness = Spring.StiffnessLow, dampingRatio = 0.58F)
+            } else {
+                spring(stiffness = Spring.StiffnessMedium)
+            }
+        })
         shrinkListAnim.add(index, shrinkAnim)
     }
     Box(modifier = modifier, contentAlignment = Alignment.BottomEnd) {
@@ -73,9 +73,9 @@ fun MultiFloatingActionButton(
                     .padding(
                         bottom = shrinkListAnim[index].dp,
                         top = 5.dp,
-                        end = 30.dp
+                        end = 30.dp,
                     )
-                    .alpha(animateFloatAsState(alphaAnim).value)
+                    .alpha(animateFloatAsState(alphaAnim).value),
             ) {
                 if (showLabels) {
                     Text(
@@ -87,7 +87,7 @@ fun MultiFloatingActionButton(
                             .clip(shape = RoundedCornerShape(16.dp))
                             .alpha(animateFloatAsState(alphaAnim).value)
                             .background(color = item.labelBackgroundColor)
-                            .padding(start = 6.dp, end = 6.dp, top = 4.dp, bottom = 4.dp)
+                            .padding(start = 6.dp, end = 6.dp, top = 4.dp, bottom = 4.dp),
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                 }
@@ -101,14 +101,14 @@ fun MultiFloatingActionButton(
                     },
                     elevation = FloatingActionButtonDefaults.elevation(
                         defaultElevation = 2.dp,
-                        pressedElevation = 4.dp
-                    )
+                        pressedElevation = 4.dp,
+                    ),
                 ) {
                     Icon(
                         modifier = Modifier.size(16.dp),
                         imageVector = item.icon,
                         tint = item.srcIconColor,
-                        contentDescription = item.label
+                        contentDescription = item.label,
                     )
                 }
             }
@@ -119,13 +119,13 @@ fun MultiFloatingActionButton(
             onClick = {
                 currentState.value =
                     if (currentState.value == MultiFabState.Collapsed) MultiFabState.Expanded else MultiFabState.Collapsed
-            }
+            },
         ) {
             Icon(
                 imageVector = srcIcon,
                 modifier = Modifier.rotate(rotateAnim),
                 tint = srcIconColor,
-                contentDescription = null
+                contentDescription = null,
             )
         }
     }

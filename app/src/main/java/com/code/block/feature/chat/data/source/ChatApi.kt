@@ -14,6 +14,6 @@ interface ChatApi {
     suspend fun getMessagesForChat(
         @Query("chatId") chatId: String,
         @Query("page") page: Int,
-        @Query("pageSize") pageSize: Int
+        @Query("pageSize") pageSize: Int,
     ): List<MessageDto>
 }

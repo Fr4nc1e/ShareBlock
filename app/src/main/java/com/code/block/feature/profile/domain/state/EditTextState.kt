@@ -4,5 +4,5 @@ import com.code.block.feature.profile.domain.error.EditProfileError
 
 data class EditTextState(
     val text: String = "",
-    val error: EditProfileError? = null
+    val error: EditProfileError? = null,
 )

@@ -26,7 +26,7 @@ object ChatModule {
             observeChatEvents = ObserveChatEvents(repository),
             observeMessages = ObserveMessages(repository),
             sendMessage = SendMessage(repository),
-            initRepositoryUseCase = InitRepositoryUseCase(repository)
+            initRepositoryUseCase = InitRepositoryUseCase(repository),
         )
     }
 
@@ -45,7 +45,7 @@ object ChatModule {
     fun provideChatRepository(client: OkHttpClient, chatApi: ChatApi): ChatRepository {
         return ChatRepositoryImpl(
             chatApi = chatApi,
-            okHttpClient = client
+            okHttpClient = client,
         )
     }
 }

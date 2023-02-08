@@ -1,5 +1,6 @@
 package com.code.block.feature.profile.presentation.profilescreen
 
+import android.graphics.BitmapFactory
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -20,9 +21,15 @@ import com.code.block.core.util.ui.paging.PaginatorImpl
 import com.code.block.usecase.post.PostUseCases
 import com.code.block.usecase.profile.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.BufferedInputStream
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,7 +38,7 @@ class ProfileViewModel @Inject constructor(
     private val postUseCases: PostUseCases,
     private val getOwnUserIdUseCase: GetOwnUserIdUseCase,
     private val savedStateHandle: SavedStateHandle,
-    private val liker: Liker
+    private val liker: Liker,
 ) : ViewModel() {
 
     private val _state = mutableStateOf(ProfileState())
@@ -52,76 +59,76 @@ class ProfileViewModel @Inject constructor(
     private val commentPaginator = PaginatorImpl(
         onLoadUpdated = { isLoading ->
             _commentPagingState.value = commentPagingState.value.copy(
-                isLoading = isLoading
+                isLoading = isLoading,
             )
         },
         onRequest = { page ->
             val userId = savedStateHandle.get<String>("userId") ?: getOwnUserIdUseCase()
             profileUseCases.commentsUseCase(
                 userId = userId,
-                page = page
+                page = page,
             )
         },
         onSuccess = { comments ->
             _commentPagingState.value = commentPagingState.value.copy(
                 items = commentPagingState.value.items + comments,
                 endReached = comments.isEmpty(),
-                isLoading = false
+                isLoading = false,
             )
         },
         onError = { uiText ->
             _eventFlow.emit(UiEvent.SnackBarEvent(uiText))
-        }
+        },
     )
 
     private val ownPaginator = PaginatorImpl(
         onLoadUpdated = { isLoading ->
             _ownPagingState.value = ownPagingState.value.copy(
-                isLoading = isLoading
+                isLoading = isLoading,
             )
         },
         onRequest = { page ->
             val userId = savedStateHandle.get<String>("userId") ?: getOwnUserIdUseCase()
             profileUseCases.getOwnPostsProfileUseCase(
                 userId = userId,
-                page = page
+                page = page,
             )
         },
         onSuccess = { posts ->
             _ownPagingState.value = ownPagingState.value.copy(
                 items = ownPagingState.value.items + posts,
                 endReached = posts.isEmpty(),
-                isLoading = false
+                isLoading = false,
             )
         },
         onError = { uiText ->
             _eventFlow.emit(UiEvent.SnackBarEvent(uiText))
-        }
+        },
     )
 
     private val likePaginator = PaginatorImpl(
         onLoadUpdated = { isLoading ->
             _likePagingState.value = likePagingState.value.copy(
-                isLoading = isLoading
+                isLoading = isLoading,
             )
         },
         onRequest = { page ->
             val userId = savedStateHandle.get<String>("userId") ?: getOwnUserIdUseCase()
             profileUseCases.getLikedPostsProfileUseCase(
                 userId = userId,
-                page = page
+                page = page,
             )
         },
         onSuccess = { posts ->
             _likePagingState.value = likePagingState.value.copy(
                 items = likePagingState.value.items + posts,
                 endReached = posts.isEmpty(),
-                isLoading = false
+                isLoading = false,
             )
         },
         onError = { uiText ->
             _eventFlow.emit(UiEvent.SnackBarEvent(uiText))
-        }
+        },
     )
 
     init {
@@ -156,14 +163,14 @@ class ProfileViewModel @Inject constructor(
             is ProfileEvent.OwnPageLikePost -> {
                 viewModelScope.launch {
                     ownLikeParent(
-                        parentId = event.postId
+                        parentId = event.postId,
                     )
                 }
             }
             is ProfileEvent.LikePageLikePost -> {
                 viewModelScope.launch {
                     likeLikeParent(
-                        parentId = event.postId
+                        parentId = event.postId,
                     )
                 }
             }
@@ -177,7 +184,7 @@ class ProfileViewModel @Inject constructor(
             }
             ProfileEvent.DismissLogoutDialog -> {
                 _state.value = _state.value.copy(
-                    isLogoutDialogVisible = false
+                    isLogoutDialogVisible = false,
                 )
             }
             ProfileEvent.Logout -> {
@@ -185,12 +192,12 @@ class ProfileViewModel @Inject constructor(
             }
             ProfileEvent.ShowLogoutDialog -> {
                 _state.value = _state.value.copy(
-                    isLogoutDialogVisible = true
+                    isLogoutDialogVisible = true,
                 )
             }
             ProfileEvent.ShowMenu -> {
                 _state.value = _state.value.copy(
-                    showMenu = !state.value.showMenu
+                    showMenu = !state.value.showMenu,
                 )
             }
             is ProfileEvent.DeletePost -> {
@@ -200,8 +207,8 @@ class ProfileViewModel @Inject constructor(
                 viewModelScope.launch {
                     _eventFlow.emit(
                         UiEvent.Navigate(
-                            Screen.FollowInfoScreen.route + "/followers" + "/${event.userId}"
-                        )
+                            Screen.FollowInfoScreen.route + "/followers" + "/${event.userId}",
+                        ),
                     )
                 }
             }
@@ -209,8 +216,8 @@ class ProfileViewModel @Inject constructor(
                 viewModelScope.launch {
                     _eventFlow.emit(
                         UiEvent.Navigate(
-                            Screen.FollowInfoScreen.route + "/followings" + "/${event.userId}"
-                        )
+                            Screen.FollowInfoScreen.route + "/followings" + "/${event.userId}",
+                        ),
                     )
                 }
             }
@@ -224,19 +231,19 @@ class ProfileViewModel @Inject constructor(
                     _ownPagingState.value = ownPagingState.value.copy(
                         items = ownPagingState.value.items.filter {
                             it.id != postId
-                        }
+                        },
                     )
                     _eventFlow.emit(
                         UiEvent.SnackBarEvent(
                             UiText.StringResource(
-                                R.string.successfully_deleted_post
-                            )
-                        )
+                                R.string.successfully_deleted_post,
+                            ),
+                        ),
                     )
                 }
                 is Resource.Error -> {
                     _eventFlow.emit(
-                        UiEvent.SnackBarEvent(result.uiText ?: UiText.unknownError())
+                        UiEvent.SnackBarEvent(result.uiText ?: UiText.unknownError()),
                     )
                 }
             }
@@ -244,7 +251,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun likeComment(
-        parentId: String
+        parentId: String,
     ) {
         viewModelScope.launch {
             val comments = commentPagingState.value.items
@@ -257,18 +264,22 @@ class ProfileViewModel @Inject constructor(
                         isLiked = !comment1.isLiked,
                         likeCount = if (currentlyLiked) {
                             comment1.likeCount - 1
-                        } else comment1.likeCount + 1
+                        } else {
+                            comment1.likeCount + 1
+                        },
                     )
-                } else comment1
+                } else {
+                    comment1
+                }
             }
             _commentPagingState.value = _commentPagingState.value.copy(
-                items = newComments
+                items = newComments,
             )
             when (
                 postUseCases.likeParentUseCase(
                     parentId = parentId,
                     parentType = ParentType.Comment.type,
-                    isLiked = currentlyLiked
+                    isLiked = currentlyLiked,
                 )
             ) {
                 is Resource.Success -> Unit
@@ -277,12 +288,14 @@ class ProfileViewModel @Inject constructor(
                         if (comment2.id == parentId) {
                             comment2.copy(
                                 isLiked = currentlyLiked,
-                                likeCount = currentLikeCount
+                                likeCount = currentLikeCount,
                             )
-                        } else comment2
+                        } else {
+                            comment2
+                        }
                     }
                     _commentPagingState.value = _commentPagingState.value.copy(
-                        items = oldComments
+                        items = oldComments,
                     )
                 }
             }
@@ -290,7 +303,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun likeLikeParent(
-        parentId: String
+        parentId: String,
     ) {
         viewModelScope.launch {
             liker.clickLike(
@@ -300,20 +313,20 @@ class ProfileViewModel @Inject constructor(
                     postUseCases.likeParentUseCase(
                         parentId = parentId,
                         parentType = ParentType.Post.type,
-                        isLiked = isLiked
+                        isLiked = isLiked,
                     )
                 },
                 onStateUpdate = { posts ->
                     _likePagingState.value = likePagingState.value.copy(
-                        items = posts
+                        items = posts,
                     )
-                }
+                },
             )
         }
     }
 
     private fun ownLikeParent(
-        parentId: String
+        parentId: String,
     ) {
         viewModelScope.launch {
             liker.clickLike(
@@ -323,14 +336,14 @@ class ProfileViewModel @Inject constructor(
                     postUseCases.likeParentUseCase(
                         parentId = parentId,
                         parentType = ParentType.Post.type,
-                        isLiked = isLiked
+                        isLiked = isLiked,
                     )
                 },
                 onStateUpdate = { posts ->
                     _ownPagingState.value = ownPagingState.value.copy(
-                        items = posts
+                        items = posts,
                     )
-                }
+                },
             )
         }
     }
@@ -339,19 +352,30 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
             profileUseCases.getProfileUseCase(
-                userId ?: getOwnUserIdUseCase()
+                userId ?: getOwnUserIdUseCase(),
             ).apply {
                 when (this) {
                     is Resource.Success -> {
+                        val url = URL(this.data?.bannerUrl)
+                        val connection: HttpURLConnection = withContext(Dispatchers.IO) {
+                            url.openConnection()
+                        } as HttpURLConnection
+                        val inputStream: InputStream = withContext(Dispatchers.IO) {
+                            connection.connect()
+                            connection.inputStream
+                        }
+                        val bufferedInputStream = BufferedInputStream(inputStream)
+                        val bitmap = BitmapFactory.decodeStream(bufferedInputStream)
                         _state.value = _state.value.copy(
                             profile = this.data,
-                            isLoading = false
+                            bitmap = bitmap,
+                            isLoading = false,
                         )
                     }
                     is Resource.Error -> {
                         _state.value = _state.value.copy(isLoading = false)
                         _eventFlow.emit(
-                            UiEvent.SnackBarEvent(this.uiText ?: UiText.unknownError())
+                            UiEvent.SnackBarEvent(this.uiText ?: UiText.unknownError()),
                         )
                     }
                 }
@@ -364,21 +388,21 @@ class ProfileViewModel @Inject constructor(
             val isFollowing = state.value.profile?.isFollowing == true
 
             _state.value = _state.value.copy(
-                profile = state.value.profile?.copy(isFollowing = !isFollowing)
+                profile = state.value.profile?.copy(isFollowing = !isFollowing),
             )
 
             profileUseCases.followUserUseCase(
                 userId = userId,
-                isFollowing = isFollowing
+                isFollowing = isFollowing,
             ).apply {
                 when (this) {
                     is Resource.Success -> Unit
                     is Resource.Error -> {
                         _state.value = _state.value.copy(
-                            profile = state.value.profile?.copy(isFollowing = isFollowing)
+                            profile = state.value.profile?.copy(isFollowing = isFollowing),
                         )
                         _eventFlow.emit(
-                            UiEvent.SnackBarEvent(uiText = this.uiText ?: UiText.unknownError())
+                            UiEvent.SnackBarEvent(uiText = this.uiText ?: UiText.unknownError()),
                         )
                     }
                 }

@@ -23,14 +23,14 @@ fun BannerEditSection(
     profileImage: Painter,
     profilePictureSize: Dp = ProfilePictureSizeLarge,
     onBannerClick: () -> Unit = {},
-    onProfileImageClick: () -> Unit = {}
+    onProfileImageClick: () -> Unit = {},
 ) {
     val bannerHeight = (LocalConfiguration.current.screenWidthDp / 1.9f).dp
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(bannerHeight + profilePictureSize / 2f)
+            .height(bannerHeight + profilePictureSize / 2f),
     ) {
         Image(
             painter = bannerImage,
@@ -42,7 +42,7 @@ fun BannerEditSection(
                 .aspectRatio(16f / 9f)
                 .clickable {
                     onBannerClick()
-                }
+                },
         )
 
         Image(
@@ -56,11 +56,11 @@ fun BannerEditSection(
                 .border(
                     width = 1.dp,
                     color = MaterialTheme.colors.onSurface,
-                    shape = CircleShape
+                    shape = CircleShape,
                 )
                 .clickable {
                     onProfileImageClick()
-                }
+                },
         )
     }
 }

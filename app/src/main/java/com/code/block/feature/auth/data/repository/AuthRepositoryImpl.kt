@@ -17,19 +17,19 @@ import java.io.IOException
 
 class AuthRepositoryImpl(
     private val api: AuthApi,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
 ) : AuthRepository {
 
     // Register
     override suspend fun register(
         email: String,
         username: String,
-        password: String
+        password: String,
     ): RegisterResource {
         val request = CreateAccountRequest(
             email = email,
             username = username,
-            password = password
+            password = password,
         )
 
         return try {
@@ -53,11 +53,11 @@ class AuthRepositoryImpl(
     // Login
     override suspend fun login(
         email: String,
-        password: String
+        password: String,
     ): LoginResource {
         val request = LoginRequest(
             email = email,
-            password = password
+            password = password,
         )
         return try {
             val response = api.login(request)

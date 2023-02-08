@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
-    private val postUseCases: PostUseCases
+    private val postUseCases: PostUseCases,
 ) : ViewModel() {
 
     private val _descriptionState = mutableStateOf(TextFieldState())
@@ -39,7 +39,7 @@ class CreatePostViewModel @Inject constructor(
         when (event) {
             is CreatePostEvent.EnteredDescription -> {
                 _descriptionState.value = _descriptionState.value.copy(
-                    text = event.description
+                    text = event.description,
                 )
             }
             is CreatePostEvent.InputContent -> {
@@ -51,14 +51,14 @@ class CreatePostViewModel @Inject constructor(
                         _isLoading.value = true
                         val result = postUseCases.createPostUseCase(
                             description = descriptionState.value.text,
-                            contentUri = chosenContentUri.value
+                            contentUri = chosenContentUri.value,
                         )
                         when (result) {
                             is Resource.Success -> {
                                 _eventFlow.emit(
                                     UiEvent.SnackBarEvent(
-                                        uiText = UiText.StringResource(R.string.post_created)
-                                    )
+                                        uiText = UiText.StringResource(R.string.post_created),
+                                    ),
                                 )
                                 delay(1_000L)
                                 _eventFlow.emit(UiEvent.NavigateUp)
@@ -66,8 +66,8 @@ class CreatePostViewModel @Inject constructor(
                             is Resource.Error -> {
                                 _eventFlow.emit(
                                     UiEvent.SnackBarEvent(
-                                        result.uiText ?: UiText.unknownError()
-                                    )
+                                        result.uiText ?: UiText.unknownError(),
+                                    ),
                                 )
                             }
                         }

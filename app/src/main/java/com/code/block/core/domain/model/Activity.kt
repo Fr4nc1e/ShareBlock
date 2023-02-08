@@ -8,5 +8,5 @@ data class Activity(
     val username: String,
     val profileImageUrl: String,
     val activityType: ActivityType,
-    val formattedTime: String
+    val formattedTime: String,
 )

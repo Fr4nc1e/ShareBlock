@@ -15,14 +15,14 @@ import com.code.block.core.domain.model.BottomNavItem
 @Composable
 fun StandardBottomBar(
     navController: NavController,
-    showBottomBar: Boolean = true
+    showBottomBar: Boolean = true,
 ) {
     if (showBottomBar) {
         BottomAppBar(
             modifier = Modifier.fillMaxWidth(),
             backgroundColor = MaterialTheme.colors.surface,
             cutoutShape = CircleShape,
-            elevation = 5.dp
+            elevation = 5.dp,
         ) {
             BottomNavigation {
                 BottomNavItem.values().forEachIndexed { _, bottomNavItem ->
@@ -31,7 +31,7 @@ fun StandardBottomBar(
                         contentDescription = stringResource(id = bottomNavItem.contentDescription),
                         selected = navController.currentDestination?.route?.startsWith(bottomNavItem.route) == true,
                         alertCount = bottomNavItem.alertCount,
-                        enabled = bottomNavItem.icon != null
+                        enabled = bottomNavItem.icon != null,
                     ) {
                         if (navController.currentDestination?.route != bottomNavItem.route) {
                             navController.popBackStack()

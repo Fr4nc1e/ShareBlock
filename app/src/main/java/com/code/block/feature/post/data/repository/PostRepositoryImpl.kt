@@ -27,26 +27,26 @@ import java.io.IOException
 class PostRepositoryImpl(
     private val api: PostApi,
     private val gson: Gson,
-    private val appContext: Context
+    private val appContext: Context,
 ) : PostRepository {
 
     override suspend fun getHomePosts(
         page: Int,
-        pageSize: Int
+        pageSize: Int,
     ): HomePostsResource {
         return try {
             val posts = api.getHomePosts(
                 page = page,
-                pageSize = pageSize
+                pageSize = pageSize,
             ).map { it.toPost() }
             Resource.Success(data = posts, uiText = null)
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
@@ -54,7 +54,7 @@ class PostRepositoryImpl(
     @SuppressLint("Recycle")
     override suspend fun createPost(
         description: String,
-        contentUri: Uri
+        contentUri: Uri,
     ): CreatePostResource {
         val request = CreatePostRequest(description)
 
@@ -63,27 +63,27 @@ class PostRepositoryImpl(
                 val inputStream = FileInputStream(fd.fileDescriptor)
                 val file = File(
                     appContext.cacheDir,
-                    appContext.contentResolver.getFileName(contentUri)
+                    appContext.contentResolver.getFileName(contentUri),
                 )
                 val outputStream = FileOutputStream(file)
                 inputStream.copyTo(outputStream)
                 file
             }
         } ?: return Resource.Error(
-            uiText = UiText.StringResource(R.string.unknown_error)
+            uiText = UiText.StringResource(R.string.unknown_error),
         )
 
         return try {
             val response = api.createPost(
                 postData = MultipartBody.Part.createFormData(
                     "post_data",
-                    gson.toJson(request)
+                    gson.toJson(request),
                 ),
                 postContent = MultipartBody.Part.createFormData(
                     name = "post_content",
                     filename = file.name,
-                    body = file.asRequestBody()
-                )
+                    body = file.asRequestBody(),
+                ),
             )
 
             if (response.successful) {
@@ -106,7 +106,7 @@ class PostRepositoryImpl(
             if (response.successful) {
                 Resource.Success(
                     data = response.data?.toPost(),
-                    uiText = null
+                    uiText = null,
                 )
             } else {
                 response.message?.let { msg ->
@@ -115,11 +115,11 @@ class PostRepositoryImpl(
             }
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
@@ -130,7 +130,7 @@ class PostRepositoryImpl(
             if (response.successful) {
                 Resource.Success(
                     data = response.data?.map { it.toComment() },
-                    uiText = null
+                    uiText = null,
                 )
             } else {
                 response.message?.let { msg ->
@@ -139,23 +139,23 @@ class PostRepositoryImpl(
             }
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
 
     override suspend fun createComment(
         comment: String,
-        postId: String
+        postId: String,
     ): CreateCommentResource {
         return try {
             val request = CreateCommentRequest(
                 comment = comment,
-                postId = postId
+                postId = postId,
             )
             val response = api.createComment(request)
             if (response.successful) {
@@ -167,23 +167,23 @@ class PostRepositoryImpl(
             }
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
 
     override suspend fun likeParent(
         parentId: String,
-        parentType: Int
+        parentType: Int,
     ): LikeUpdateResource {
         return try {
             val request = LikeUpdateRequest(
                 parentId = parentId,
-                parentType = parentType
+                parentType = parentType,
             )
             val response = api.likeParent(request)
             if (response.successful) {
@@ -195,23 +195,23 @@ class PostRepositoryImpl(
             }
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
 
     override suspend fun unlikeParent(
         parentId: String,
-        parentType: Int
+        parentType: Int,
     ): LikeUpdateResource {
         return try {
             val response = api.unlikeParent(
                 parentId = parentId,
-                parentType = parentType
+                parentType = parentType,
             )
             if (response.successful) {
                 Resource.Success(uiText = null)
@@ -222,11 +222,11 @@ class PostRepositoryImpl(
             }
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
@@ -235,15 +235,15 @@ class PostRepositoryImpl(
         return try {
             Resource.Success(
                 data = api.getLikedUsers(parentId).data?.map { it.toUserItem() },
-                uiText = null
+                uiText = null,
             )
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }
@@ -254,11 +254,11 @@ class PostRepositoryImpl(
             Resource.Success(uiText = null)
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect)
+                uiText = UiText.StringResource(R.string.fail_to_connect),
             )
         }
     }

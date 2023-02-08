@@ -7,7 +7,7 @@ data class UserItemDto(
     val username: String,
     val profileImageUrl: String,
     val bio: String,
-    val isFollowing: Boolean
+    val isFollowing: Boolean,
 ) {
     fun toUserItem(): UserItem {
         return UserItem(
@@ -15,7 +15,7 @@ data class UserItemDto(
             username = username,
             profileImageUrl = profileImageUrl,
             bio = bio,
-            isFollowing = isFollowing
+            isFollowing = isFollowing,
         )
     }
 }

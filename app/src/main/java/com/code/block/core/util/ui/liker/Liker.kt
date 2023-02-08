@@ -8,6 +8,6 @@ interface Liker {
         posts: List<Post>,
         parentId: String,
         onRequest: suspend (isLiked: Boolean) -> Resource<Unit>,
-        onStateUpdate: (List<Post>) -> Unit
+        onStateUpdate: (List<Post>) -> Unit,
     )
 }

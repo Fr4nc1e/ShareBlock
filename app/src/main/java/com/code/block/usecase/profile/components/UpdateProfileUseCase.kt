@@ -9,22 +9,22 @@ import com.code.block.feature.profile.domain.model.UpdateProfileData
 import com.code.block.feature.profile.domain.repository.ProfileRepository
 
 class UpdateProfileUseCase(
-    private val repository: ProfileRepository
+    private val repository: ProfileRepository,
 ) {
     suspend operator fun invoke(
         updateProfileData: UpdateProfileData,
         profilePictureUri: Uri?,
-        bannerUri: Uri?
+        bannerUri: Uri?,
     ): UpdateProfileResource {
         if (updateProfileData.username.isBlank()) {
             return Resource.Error(
-                uiText = UiText.StringResource(R.string.error_username_empty)
+                uiText = UiText.StringResource(R.string.error_username_empty),
             )
         }
         return repository.updateProfile(
             updateProfileData = updateProfileData,
             profilePictureUri = profilePictureUri,
-            bannerImageUri = bannerUri
+            bannerImageUri = bannerUri,
         )
     }
 }

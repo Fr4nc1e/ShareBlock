@@ -12,7 +12,7 @@ interface ChatRepository {
     suspend fun getMessagesForChat(
         chatId: String,
         page: Int,
-        pageSize: Int
+        pageSize: Int,
     ): Resource<List<Message>>
 
     fun observeChatEvent(): Flow<WebSocket.Event>
@@ -22,7 +22,7 @@ interface ChatRepository {
     fun sendMessage(
         toId: String,
         text: String,
-        chatId: String?
+        chatId: String?,
     )
 
     fun initialize()

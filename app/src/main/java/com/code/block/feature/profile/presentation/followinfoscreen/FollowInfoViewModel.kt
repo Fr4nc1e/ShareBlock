@@ -23,7 +23,7 @@ class FollowInfoViewModel @Inject constructor(
     private val profileUseCases: ProfileUseCases,
     private val followUserUseCase: FollowUserUseCase,
     private val getOwnUserIdUseCase: GetOwnUserIdUseCase,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _state = mutableStateOf(FollowInfoState())
     val state: State<FollowInfoState> = _state
@@ -65,24 +65,24 @@ class FollowInfoViewModel @Inject constructor(
     private fun getFollowers(userId: String) {
         viewModelScope.launch {
             _state.value = _state.value.copy(
-                isLoading = true
+                isLoading = true,
             )
             profileUseCases.getFollowersUseCase(userId).apply {
                 when (this) {
                     is Resource.Error -> {
                         _state.value = _state.value.copy(
-                            isLoading = false
+                            isLoading = false,
                         )
                         _eventFlow.emit(
                             UiEvent.SnackBarEvent(
-                                uiText = this.uiText ?: UiText.unknownError()
-                            )
+                                uiText = this.uiText ?: UiText.unknownError(),
+                            ),
                         )
                     }
                     is Resource.Success -> {
                         _state.value = _state.value.copy(
                             users = this.data ?: emptyList(),
-                            isLoading = false
+                            isLoading = false,
                         )
                     }
                 }
@@ -93,24 +93,24 @@ class FollowInfoViewModel @Inject constructor(
     private fun getFollowings(userId: String) {
         viewModelScope.launch {
             _state.value = _state.value.copy(
-                isLoading = true
+                isLoading = true,
             )
             profileUseCases.getFollowingsUseCase(userId).apply {
                 when (this) {
                     is Resource.Error -> {
                         _state.value = _state.value.copy(
-                            isLoading = false
+                            isLoading = false,
                         )
                         _eventFlow.emit(
                             UiEvent.SnackBarEvent(
-                                uiText = this.uiText ?: UiText.unknownError()
-                            )
+                                uiText = this.uiText ?: UiText.unknownError(),
+                            ),
                         )
                     }
                     is Resource.Success -> {
                         _state.value = _state.value.copy(
                             users = this.data ?: emptyList(),
-                            isLoading = false
+                            isLoading = false,
                         )
                     }
                 }
@@ -128,13 +128,15 @@ class FollowInfoViewModel @Inject constructor(
                 users = state.value.users.map {
                     if (it.userId == userId) {
                         it.copy(isFollowing = !it.isFollowing)
-                    } else it
-                }
+                    } else {
+                        it
+                    }
+                },
             )
 
             val result = followUserUseCase(
                 userId = userId,
-                isFollowing = isFollowing
+                isFollowing = isFollowing,
             )
             when (result) {
                 is Resource.Success -> Unit
@@ -143,13 +145,15 @@ class FollowInfoViewModel @Inject constructor(
                         users = state.value.users.map {
                             if (it.userId == userId) {
                                 it.copy(isFollowing = isFollowing)
-                            } else it
-                        }
+                            } else {
+                                it
+                            }
+                        },
                     )
                     _eventFlow.emit(
                         UiEvent.SnackBarEvent(
-                            uiText = result.uiText ?: UiText.unknownError()
-                        )
+                            uiText = result.uiText ?: UiText.unknownError(),
+                        ),
                     )
                 }
             }

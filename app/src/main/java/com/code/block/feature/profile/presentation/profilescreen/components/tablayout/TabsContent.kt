@@ -25,7 +25,7 @@ fun TabsContent(
     ownPagingState: PageState<Post>,
     likedPagingState: PageState<Post>,
     commentPagingState: PageState<Comment>,
-    onNavigate: (String) -> Unit = {}
+    onNavigate: (String) -> Unit = {},
 ) {
     HorizontalPager(
         state = pagerState,
@@ -36,33 +36,33 @@ fun TabsContent(
                     object : NestedScrollConnection {
                         override fun onPreScroll(
                             available: Offset,
-                            source: NestedScrollSource
+                            source: NestedScrollSource,
                         ): Offset {
                             return if (available.y > 0) {
                                 Offset.Zero
                             } else {
                                 Offset(
                                     x = 0f,
-                                    y = -scrollState.dispatchRawDelta(-available.y)
+                                    y = -scrollState.dispatchRawDelta(-available.y),
                                 )
                             }
                         }
                     }
-                }
-            )
+                },
+            ),
     ) { page ->
         when (page) {
             0 -> ProfileOwnPostsScreen(
                 ownPagingState = ownPagingState,
-                onNavigate = onNavigate
+                onNavigate = onNavigate,
             )
             1 -> ProfileCommentPostsScreen(
                 commentPagingState = commentPagingState,
-                onNavigate = onNavigate
+                onNavigate = onNavigate,
             )
             2 -> ProfileLikedPostsScreen(
                 likedPagingState = likedPagingState,
-                onNavigate = onNavigate
+                onNavigate = onNavigate,
             )
         }
     }

@@ -36,7 +36,7 @@ import java.util.*
 fun ChatItem(
     chatItem: Chat,
     modifier: Modifier = Modifier,
-    onItemClick: (Chat) -> Unit
+    onItemClick: (Chat) -> Unit,
 ) {
     Card(
         modifier = modifier,
@@ -44,29 +44,29 @@ fun ChatItem(
             onItemClick(chatItem)
         },
         shape = RoundedCornerShape(16.dp),
-        elevation = 5.dp
+        elevation = 5.dp,
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
                     vertical = SpaceSmall,
-                    horizontal = SpaceMedium
+                    horizontal = SpaceMedium,
                 ),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Image(
                 painter = rememberAsyncImagePainter(
                     ImageRequest.Builder(LocalContext.current)
                         .data(
-                            data = chatItem.remoteUserProfilePictureUrl
+                            data = chatItem.remoteUserProfilePictureUrl,
                         )
                         .apply(
                             block = fun ImageRequest.Builder.() {
                                 crossfade(true)
-                            }
-                        ).build()
+                            },
+                        ).build(),
                 ),
                 contentDescription = stringResource(R.string.profile_pic),
                 contentScale = ContentScale.Crop,
@@ -84,34 +84,34 @@ fun ChatItem(
                                 Color(0xFFFFF176),
                                 Color(0xFFAED581),
                                 Color(0xFF4DD0E1),
-                                Color(0xFF9575CD)
-                            )
+                                Color(0xFF9575CD),
+                            ),
                         ),
-                        shape = CircleShape
-                    )
+                        shape = CircleShape,
+                    ),
             )
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
                     .padding(horizontal = SpaceSmall)
-                    .weight(1f)
+                    .weight(1f),
             ) {
                 Row(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 ) {
                     Text(
                         text = chatItem.remoteUsername,
                         style = MaterialTheme.typography.body1.copy(
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colors.onSurface
+                            color = MaterialTheme.colors.onSurface,
                         ),
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
                     )
                     Spacer(modifier = Modifier.width(SpaceSmall))
                     Text(
                         text = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault())
                             .format(chatItem.timestamp),
-                        color = MaterialTheme.colors.onSurface
+                        color = MaterialTheme.colors.onSurface,
                     )
                 }
                 Spacer(modifier = Modifier.height(SpaceSmall))
@@ -122,8 +122,8 @@ fun ChatItem(
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 2,
                     modifier = Modifier.heightIn(
-                        min = MaterialTheme.typography.body2.fontSize.value.dp * 2.5f
-                    )
+                        min = MaterialTheme.typography.body2.fontSize.value.dp * 2.5f,
+                    ),
                 )
             }
         }

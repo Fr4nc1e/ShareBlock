@@ -40,15 +40,15 @@ fun InteractiveButtons(
     onLikeClick: () -> Unit = {},
     onCommentClick: () -> Unit = {},
     onShareClick: () -> Unit = {},
-    onDeleteClick: () -> Unit = {}
+    onDeleteClick: () -> Unit = {},
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = CenterVertically,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     ) {
         Row(
-            verticalAlignment = CenterVertically
+            verticalAlignment = CenterVertically,
         ) {
             HeartSwitch(
                 checked = isLiked,
@@ -59,17 +59,17 @@ fun InteractiveButtons(
                 colors = HeartSwitchColors(
                     checkedTrackColor = Color(0xFFE91E63),
                     checkedTrackBorderColor = Color(0xFFC2185B),
-                    uncheckedTrackBorderColor = Color(0xFFBDBDBD)
+                    uncheckedTrackBorderColor = Color(0xFFBDBDBD),
                 ),
                 thumb = { modifier, color ->
                     Box(
                         modifier = modifier
                             .shadow(12.dp, CircleShape)
-                            .background(color.value, CircleShape)
+                            .background(color.value, CircleShape),
                     )
                 },
                 enabled = true,
-                interactionSource = remember { MutableInteractionSource() }
+                interactionSource = remember { MutableInteractionSource() },
             )
 
             Spacer(modifier = Modifier.width(SpaceSmall))
@@ -79,14 +79,14 @@ fun InteractiveButtons(
                 transitionSpec = {
                     if (targetState > initialState) {
                         slideInVertically(initialOffsetY = { it }) + fadeIn() with slideOutVertically(
-                            targetOffsetY = { -it }
+                            targetOffsetY = { -it },
                         ) + fadeOut()
                     } else {
                         slideInVertically(initialOffsetY = { -it }) + fadeIn() with slideOutVertically(
-                            targetOffsetY = { it }
+                            targetOffsetY = { it },
                         ) + fadeOut()
                     }.using(SizeTransform(clip = false))
-                }
+                },
             ) {
                 Text(
                     text = "$it",
@@ -94,23 +94,23 @@ fun InteractiveButtons(
                     color = MaterialTheme.colors.onSurface,
                     modifier = Modifier.clickable {
                         onNavigate(Screen.PersonListScreen.route + "/${post.id}")
-                    }
+                    },
                 )
             }
         }
 
         Row(
-            verticalAlignment = CenterVertically
+            verticalAlignment = CenterVertically,
         ) {
             IconButton(
                 onClick = {
                     onCommentClick()
                 },
-                modifier = Modifier.size(IconSizeMedium)
+                modifier = Modifier.size(IconSizeMedium),
             ) {
                 Icon(
                     imageVector = Icons.Filled.Comment,
-                    contentDescription = stringResource(R.string.comment)
+                    contentDescription = stringResource(R.string.comment),
                 )
             }
 
@@ -119,7 +119,7 @@ fun InteractiveButtons(
             Text(
                 text = "${post.commentCount}",
                 style = MaterialTheme.typography.h2,
-                color = MaterialTheme.colors.onSurface
+                color = MaterialTheme.colors.onSurface,
             )
         }
 
@@ -128,11 +128,11 @@ fun InteractiveButtons(
                 onShareClick()
             },
             modifier = Modifier.size(IconSizeMedium)
-                .align(CenterVertically)
+                .align(CenterVertically),
         ) {
             Icon(
                 imageVector = Icons.Filled.Share,
-                contentDescription = stringResource(R.string.share)
+                contentDescription = stringResource(R.string.share),
             )
         }
 
@@ -142,11 +142,11 @@ fun InteractiveButtons(
                     onDeleteClick()
                 },
                 modifier = Modifier.size(IconSizeMedium)
-                    .align(CenterVertically)
+                    .align(CenterVertically),
             ) {
                 Icon(
                     imageVector = Icons.Filled.Delete,
-                    contentDescription = stringResource(R.string.delete)
+                    contentDescription = stringResource(R.string.delete),
                 )
             }
         }

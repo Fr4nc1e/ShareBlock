@@ -6,12 +6,12 @@ import com.code.block.core.domain.resource.* // ktlint-disable no-wildcard-impor
 interface PostRepository {
     suspend fun getHomePosts(
         page: Int,
-        pageSize: Int
+        pageSize: Int,
     ): HomePostsResource
 
     suspend fun createPost(
         description: String,
-        contentUri: Uri
+        contentUri: Uri,
     ): CreatePostResource
 
     suspend fun getPostDetail(postId: String): PostDetailResource
@@ -20,21 +20,21 @@ interface PostRepository {
 
     suspend fun createComment(
         comment: String,
-        postId: String
+        postId: String,
     ): CreateCommentResource
 
     suspend fun likeParent(
         parentId: String,
-        parentType: Int
+        parentType: Int,
     ): LikeUpdateResource
 
     suspend fun unlikeParent(
         parentId: String,
-        parentType: Int
+        parentType: Int,
     ): LikeUpdateResource
 
     suspend fun getLikedUsers(
-        parentId: String
+        parentId: String,
     ): LikedUsersResource
 
     suspend fun deletePost(postId: String): DeleteResource

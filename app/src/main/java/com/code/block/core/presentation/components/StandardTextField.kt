@@ -44,7 +44,9 @@ fun StandardTextField(
         keyboardType = keyboardType,
         imeAction = if (keyboardType == KeyboardType.Password) {
             ImeAction.Done
-        } else ImeAction.Next
+        } else {
+            ImeAction.Next
+        },
     ),
     keyboardActions: KeyboardActions = KeyboardActions(
         onNext = {
@@ -55,17 +57,17 @@ fun StandardTextField(
         },
         onDone = {
             focusManager.clearFocus()
-        }
+        },
     ),
     isRegisterPage: Boolean = Constants.LOGIN_PAGE,
     isPasswordToggleDisplayed: Boolean = keyboardType == KeyboardType.Password,
     isPasswordVisible: Boolean = false,
     onPasswordToggleClick: (Boolean) -> Unit = {},
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
     ) {
         OutlinedTextField(
             value = text,
@@ -79,7 +81,7 @@ fun StandardTextField(
                 Text(
                     text = hint,
                     style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.onSurface
+                    color = MaterialTheme.colors.onSurface,
                 )
             },
             maxLines = maxLines,
@@ -100,7 +102,7 @@ fun StandardTextField(
                     IconButton(
                         onClick = {
                             onPasswordToggleClick(!isPasswordVisible)
-                        }
+                        },
                     ) {
                         Icon(
                             imageVector = if (isPasswordVisible) {
@@ -113,13 +115,15 @@ fun StandardTextField(
                                 stringResource(R.string.password_visible_content_description)
                             } else {
                                 stringResource(R.string.password_hidden_content_description)
-                            }
+                            },
                         )
                     }
                 }
                 icon
-            } else trailingIcon,
-            modifier = modifier.fillMaxWidth()
+            } else {
+                trailingIcon
+            },
+            modifier = modifier.fillMaxWidth(),
         )
 
         if (isRegisterPage) {
@@ -128,7 +132,7 @@ fun StandardTextField(
                 textAlign = TextAlign.End,
                 color = MaterialTheme.colors.onBackground,
                 style = MaterialTheme.typography.body2,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
 
@@ -138,7 +142,7 @@ fun StandardTextField(
                 style = MaterialTheme.typography.body2,
                 color = MaterialTheme.colors.error,
                 textAlign = TextAlign.Start,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
     }

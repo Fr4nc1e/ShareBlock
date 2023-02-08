@@ -17,7 +17,7 @@ import com.code.block.feature.chat.domain.model.Message
 fun MessageItem(
     message: Message,
     modifier: Modifier = Modifier,
-    isOwnMessage: Boolean = true
+    isOwnMessage: Boolean = true,
 ) {
     Column(
         modifier = modifier
@@ -41,23 +41,23 @@ fun MessageItem(
                 }
                 drawPath(
                     path = trianglePath,
-                    color = if (isOwnMessage) Color.Green else Color.DarkGray
+                    color = if (isOwnMessage) Color.Green else Color.DarkGray,
                 )
             }
             .background(
                 color = if (isOwnMessage) Color.Green else Color.DarkGray,
-                shape = RoundedCornerShape(10.dp)
+                shape = RoundedCornerShape(10.dp),
             )
-            .padding(8.dp)
+            .padding(8.dp),
     ) {
         Text(
             text = message.text,
-            color = Color.White
+            color = Color.White,
         )
         Text(
             text = message.formattedTime,
             color = Color.White,
-            modifier = Modifier.align(Alignment.End)
+            modifier = Modifier.align(Alignment.End),
         )
     }
 }

@@ -9,5 +9,5 @@ data class MultiFabItem(
     val srcIconColor: Color = Color.White,
     val labelTextColor: Color = Color.White,
     val labelBackgroundColor: Color = Color.Black.copy(alpha = 0.6F),
-    val fabBackgroundColor: Color = Color.Unspecified
+    val fabBackgroundColor: Color = Color.Unspecified,
 )

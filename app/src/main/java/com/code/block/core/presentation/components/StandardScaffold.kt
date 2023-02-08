@@ -17,24 +17,24 @@ fun StandardScaffold(
     showBottomBar: Boolean = true,
     state: ScaffoldState,
     onFabClick: () -> Unit = {},
-    content: @Composable (PaddingValues) -> Unit
+    content: @Composable (PaddingValues) -> Unit,
 ) {
     Scaffold(
         bottomBar = {
             StandardBottomBar(
                 navController = navController,
-                showBottomBar = showBottomBar
+                showBottomBar = showBottomBar,
             )
         },
         floatingActionButton = {
             if (showBottomBar) {
                 FloatingActionButton(
                     onClick = onFabClick,
-                    backgroundColor = MaterialTheme.colors.primary
+                    backgroundColor = MaterialTheme.colors.primary,
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = stringResource(R.string.make_post)
+                        contentDescription = stringResource(R.string.make_post),
                     )
                 }
             }
@@ -42,7 +42,7 @@ fun StandardScaffold(
         scaffoldState = state,
         isFloatingActionButtonDocked = true,
         floatingActionButtonPosition = FabPosition.Center,
-        modifier = modifier
+        modifier = modifier,
     ) {
         content(it)
     }

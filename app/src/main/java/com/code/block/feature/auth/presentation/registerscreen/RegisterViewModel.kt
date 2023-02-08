@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val registerUseCase: RegisterUseCase
+    private val registerUseCase: RegisterUseCase,
 ) : ViewModel() {
 
     private val _emailState = mutableStateOf(TextFieldState())
@@ -41,17 +41,17 @@ class RegisterViewModel @Inject constructor(
         when (event) {
             is RegisterEvent.EnteredUsername -> {
                 _usernameState.value = _usernameState.value.copy(
-                    text = event.username
+                    text = event.username,
                 )
             }
             is RegisterEvent.EnteredEmail -> {
                 _emailState.value = _emailState.value.copy(
-                    text = event.email
+                    text = event.email,
                 )
             }
             is RegisterEvent.EnteredPassword -> {
                 _passwordState.value = _passwordState.value.copy(
-                    text = event.password
+                    text = event.password,
                 )
             }
             is RegisterEvent.ClearUsername -> {
@@ -62,7 +62,7 @@ class RegisterViewModel @Inject constructor(
             }
             is RegisterEvent.TogglePasswordVisibility -> {
                 _passwordState.value = _passwordState.value.copy(
-                    isPasswordVisible = !passwordState.value.isPasswordVisible
+                    isPasswordVisible = !passwordState.value.isPasswordVisible,
                 )
             }
             is RegisterEvent.Register -> {
@@ -78,37 +78,37 @@ class RegisterViewModel @Inject constructor(
             registerUseCase(
                 email = emailState.value.text,
                 username = usernameState.value.text,
-                password = passwordState.value.text
+                password = passwordState.value.text,
             ).also { registerResult ->
                 registerResult.registerError?.let {
                     it.emailError?.let {
                         _emailState.value = emailState.value.copy(
-                            error = registerResult.registerError.emailError
+                            error = registerResult.registerError.emailError,
                         )
                     }
                     it.usernameError?.let {
                         _usernameState.value = _usernameState.value.copy(
-                            error = registerResult.registerError.usernameError
+                            error = registerResult.registerError.usernameError,
                         )
                     }
                     it.passwordError?.let {
                         _passwordState.value = _passwordState.value.copy(
-                            error = registerResult.registerError.passwordError
+                            error = registerResult.registerError.passwordError,
                         )
                     }
                 }
                 when (registerResult.result) {
                     is Resource.Success -> {
                         _eventFlow.emit(
-                            UiEvent.Navigate(Screen.LoginScreen.route)
+                            UiEvent.Navigate(Screen.LoginScreen.route),
                         )
                         initial()
                     }
                     is Resource.Error -> {
                         _eventFlow.emit(
                             UiEvent.SnackBarEvent(
-                                uiText = registerResult.result.uiText ?: UiText.unknownError()
-                            )
+                                uiText = registerResult.result.uiText ?: UiText.unknownError(),
+                            ),
                         )
                         _registerState.value = _registerState.value
                             .copy(isLoading = false)

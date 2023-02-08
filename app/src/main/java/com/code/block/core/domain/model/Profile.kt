@@ -13,5 +13,5 @@ data class Profile(
     val qqUrl: String?,
     val weChatUrl: String?,
     val isOwnProfile: Boolean,
-    val isFollowing: Boolean
+    val isFollowing: Boolean,
 )

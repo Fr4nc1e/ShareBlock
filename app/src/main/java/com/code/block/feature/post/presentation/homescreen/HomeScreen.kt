@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun HomeScreen(
     onNavigate: (String) -> Unit = {},
     scaffoldState: ScaffoldState,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val pagingState = viewModel.pagingState.value
     val context = LocalContext.current
@@ -46,7 +46,7 @@ fun HomeScreen(
         refreshing = refreshing,
         onRefresh = {
             viewModel.onEvent(HomeEvent.Refresh)
-        }
+        },
     )
 
     LaunchedEffect(key1 = true) {
@@ -54,7 +54,7 @@ fun HomeScreen(
             when (event) {
                 is UiEvent.SnackBarEvent -> {
                     scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.uiText.asString(context)
+                        message = event.uiText.asString(context),
                     )
                 }
                 else -> Unit
@@ -65,27 +65,27 @@ fun HomeScreen(
     Surface(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.surface)
+            .background(MaterialTheme.colors.surface),
     ) {
         Box(
             Modifier
                 .fillMaxSize()
                 .padding(SpaceSmall)
-                .pullRefresh(state = pullRefreshState)
+                .pullRefresh(state = pullRefreshState),
         ) {
             if (pagingState.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Center))
             }
 
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             ) {
                 StandardTopBar(
                     title = {
                         Text(
                             text = stringResource(R.string.home),
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colors.onSurface
+                            color = MaterialTheme.colors.onSurface,
                         )
                     },
                     modifier = Modifier.fillMaxWidth(),
@@ -93,21 +93,21 @@ fun HomeScreen(
                         IconButton(
                             onClick = {
                                 onNavigate(Screen.SearchScreen.route)
-                            }
+                            },
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Search,
                                 contentDescription = stringResource(R.string.search),
-                                tint = MaterialTheme.colors.onSurface
+                                tint = MaterialTheme.colors.onSurface,
                             )
                         }
-                    }
+                    },
                 )
 
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize(),
-                    state = listState
+                    state = listState,
                 ) {
                     items(pagingState.items.size) { i ->
                         val post = pagingState.items[i]
@@ -139,7 +139,7 @@ fun HomeScreen(
                             },
                             onDeleteClick = {
                                 viewModel.onEvent(HomeEvent.DeletePost(post = post))
-                            }
+                            },
                         )
                     }
 
@@ -149,7 +149,7 @@ fun HomeScreen(
             PullRefreshIndicator(
                 refreshing = refreshing,
                 state = pullRefreshState,
-                modifier = Modifier.align(Alignment.TopCenter)
+                modifier = Modifier.align(Alignment.TopCenter),
             )
         }
     }

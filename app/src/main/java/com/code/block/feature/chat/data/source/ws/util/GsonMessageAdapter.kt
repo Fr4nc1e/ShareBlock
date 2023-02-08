@@ -8,7 +8,7 @@ import com.tinder.scarlet.MessageAdapter
 import java.lang.reflect.Type
 
 class GsonMessageAdapter<T> private constructor(
-    private val gson: Gson
+    private val gson: Gson,
 ) : MessageAdapter<T> {
 
     override fun fromMessage(message: Message): T {
@@ -47,7 +47,7 @@ class GsonMessageAdapter<T> private constructor(
     }
 
     class Factory(
-        private val gson: Gson = DEFAULT_GSON
+        private val gson: Gson = DEFAULT_GSON,
     ) : MessageAdapter.Factory {
 
         override fun create(type: Type, annotations: Array<Annotation>): MessageAdapter<*> {

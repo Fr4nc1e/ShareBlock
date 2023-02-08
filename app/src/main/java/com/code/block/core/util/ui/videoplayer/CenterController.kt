@@ -22,7 +22,7 @@ fun CenterController(
     playbackState: () -> Int,
     onReplayClick: () -> Unit,
     onPauseToggle: () -> Unit,
-    onForwardClick: () -> Unit
+    onForwardClick: () -> Unit,
 ) {
     val isVideoPlaying = remember(isPlaying()) { isPlaying() }
 
@@ -31,19 +31,19 @@ fun CenterController(
     Row(modifier = modifier, horizontalArrangement = Arrangement.SpaceEvenly) {
         IconButton(
             modifier = Modifier.size(40.dp),
-            onClick = onReplayClick
+            onClick = onReplayClick,
         ) {
             Icon(
                 modifier = Modifier.fillMaxSize(),
                 imageVector = Icons.Default.Replay5,
                 tint = MaterialTheme.colors.primary,
-                contentDescription = "Replay 5 seconds"
+                contentDescription = "Replay 5 seconds",
             )
         }
 
         IconButton(
             modifier = Modifier.size(40.dp),
-            onClick = onPauseToggle
+            onClick = onPauseToggle,
         ) {
             Icon(
                 modifier = Modifier.fillMaxSize(),
@@ -60,19 +60,19 @@ fun CenterController(
                         Icons.Default.PlayArrow
                     }
                 },
-                contentDescription = "Play/Pause"
+                contentDescription = "Play/Pause",
             )
         }
 
         IconButton(
             modifier = Modifier.size(40.dp),
-            onClick = onForwardClick
+            onClick = onForwardClick,
         ) {
             Icon(
                 modifier = Modifier.fillMaxSize(),
                 tint = MaterialTheme.colors.primary,
                 imageVector = Icons.Default.Forward10,
-                contentDescription = "Forward 10 seconds"
+                contentDescription = "Forward 10 seconds",
             )
         }
     }

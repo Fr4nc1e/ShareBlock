@@ -8,5 +8,5 @@ data class ChatUseCases(
     val observeChatEvents: ObserveChatEvents,
     val observeMessages: ObserveMessages,
     val sendMessage: SendMessage,
-    val initRepositoryUseCase: InitRepositoryUseCase
+    val initRepositoryUseCase: InitRepositoryUseCase,
 )

@@ -32,7 +32,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun PersonListScreen(
     onNavigate: (String) -> Unit = {},
     scaffoldState: ScaffoldState,
-    viewModel: PersonListViewModel = hiltViewModel()
+    viewModel: PersonListViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.value
     val context = LocalContext.current
@@ -41,7 +41,7 @@ fun PersonListScreen(
             when (event) {
                 is UiEvent.SnackBarEvent -> {
                     scaffoldState.snackbarHostState.showSnackbar(
-                        event.uiText.asString(context)
+                        event.uiText.asString(context),
                     )
                 }
                 else -> Unit
@@ -50,20 +50,20 @@ fun PersonListScreen(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         StandardTopBar(
             title = {
                 Text(
                     text = stringResource(id = R.string.liked_by),
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.onBackground
+                    color = MaterialTheme.colors.onBackground,
                 )
-            }
+            },
         )
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(SpaceLarge)
+            contentPadding = PaddingValues(SpaceLarge),
         ) {
             items(state.users) {
                 UserProfileItem(
@@ -73,10 +73,12 @@ fun PersonListScreen(
                         Icon(
                             imageVector = if (it.isFollowing) {
                                 Icons.Default.PersonRemove
-                            } else Icons.Default.PersonAdd,
+                            } else {
+                                Icons.Default.PersonAdd
+                            },
                             contentDescription = null,
                             tint = MaterialTheme.colors.onBackground,
-                            modifier = Modifier.size(IconSizeMedium)
+                            modifier = Modifier.size(IconSizeMedium),
                         )
                     },
                     onItemClick = {
@@ -84,7 +86,7 @@ fun PersonListScreen(
                     },
                     onActionItemClick = {
                         viewModel.onEvent(PersonListEvent.FollowUser(it.userId))
-                    }
+                    },
                 )
                 Spacer(modifier = Modifier.height(SpaceMedium))
             }

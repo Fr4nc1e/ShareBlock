@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PostDetailViewModel @Inject constructor(
     private val postUseCases: PostUseCases,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _state = mutableStateOf(PostDetailState())
     val state: State<PostDetailState> = _state
@@ -51,13 +51,13 @@ class PostDetailViewModel @Inject constructor(
                 likeParent(
                     parentId = state.value.post?.id ?: return,
                     parentType = ParentType.Post.type,
-                    isLiked = isLiked
+                    isLiked = isLiked,
                 )
             }
             is PostDetailEvent.Comment -> {
                 createComment(
                     postId = savedStateHandle.get<String>("postId") ?: "",
-                    comment = commentTextState.value.text
+                    comment = commentTextState.value.text,
                 )
             }
             is PostDetailEvent.LikeComment -> {
@@ -67,7 +67,7 @@ class PostDetailViewModel @Inject constructor(
                 likeParent(
                     parentId = event.commentId,
                     parentType = ParentType.Comment.type,
-                    isLiked = isLiked
+                    isLiked = isLiked,
                 )
             }
             is PostDetailEvent.SharePost -> {
@@ -75,7 +75,7 @@ class PostDetailViewModel @Inject constructor(
             is PostDetailEvent.EnteredComment -> {
                 _commentTextState.value = _commentTextState.value.copy(
                     text = event.comment,
-                    error = if (event.comment.isBlank()) CommentError.FieldEmpty else null
+                    error = if (event.comment.isBlank()) CommentError.FieldEmpty else null,
                 )
             }
         }
@@ -84,7 +84,7 @@ class PostDetailViewModel @Inject constructor(
     private fun likeParent(
         parentId: String,
         parentType: Int,
-        isLiked: Boolean
+        isLiked: Boolean,
     ) {
         viewModelScope.launch {
             val currentLikeCount = state.value.post?.likeCount ?: 0
@@ -96,8 +96,10 @@ class PostDetailViewModel @Inject constructor(
                             isLiked = !isLiked,
                             likeCount = if (isLiked) {
                                 post?.likeCount?.minus(1) ?: 0
-                            } else post?.likeCount?.plus(1) ?: 0
-                        )
+                            } else {
+                                post?.likeCount?.plus(1) ?: 0
+                            },
+                        ),
                     )
                 }
                 ParentType.Comment.type -> {
@@ -108,17 +110,21 @@ class PostDetailViewModel @Inject constructor(
                                     isLiked = !isLiked,
                                     likeCount = if (isLiked) {
                                         comment.likeCount - 1
-                                    } else comment.likeCount + 1
+                                    } else {
+                                        comment.likeCount + 1
+                                    },
                                 )
-                            } else comment
-                        }
+                            } else {
+                                comment
+                            }
+                        },
                     )
                 }
             }
             val result = postUseCases.likeParentUseCase(
                 parentId = parentId,
                 parentType = parentType,
-                isLiked = isLiked
+                isLiked = isLiked,
             )
             when (result) {
                 is Resource.Success -> Unit
@@ -128,8 +134,8 @@ class PostDetailViewModel @Inject constructor(
                             _state.value = state.value.copy(
                                 post = state.value.post?.copy(
                                     isLiked = isLiked,
-                                    likeCount = currentLikeCount
-                                )
+                                    likeCount = currentLikeCount,
+                                ),
                             )
                         }
                         ParentType.Comment.type -> {
@@ -140,10 +146,14 @@ class PostDetailViewModel @Inject constructor(
                                             isLiked = isLiked,
                                             likeCount = if (comment.isLiked) {
                                                 comment.likeCount - 1
-                                            } else comment.likeCount + 1
+                                            } else {
+                                                comment.likeCount + 1
+                                            },
                                         )
-                                    } else comment
-                                }
+                                    } else {
+                                        comment
+                                    }
+                                },
                             )
                         }
                     }
@@ -155,27 +165,27 @@ class PostDetailViewModel @Inject constructor(
     private fun createComment(postId: String, comment: String) {
         viewModelScope.launch {
             _commentState.value = _commentState.value.copy(
-                isLoading = true
+                isLoading = true,
             )
             postUseCases.createCommentUseCase(
                 postId = postId,
-                comment = comment
+                comment = comment,
             ).apply {
                 when (this) {
                     is Resource.Error -> {
                         _eventFlow.emit(
-                            UiEvent.SnackBarEvent(uiText = this.uiText ?: UiText.unknownError())
+                            UiEvent.SnackBarEvent(uiText = this.uiText ?: UiText.unknownError()),
                         )
                         _commentState.value = _commentState.value.copy(
-                            isLoading = false
+                            isLoading = false,
                         )
                     }
                     is Resource.Success -> {
                         _eventFlow.emit(
-                            UiEvent.SnackBarEvent(uiText = UiText.StringResource(R.string.comment_created))
+                            UiEvent.SnackBarEvent(uiText = UiText.StringResource(R.string.comment_created)),
                         )
                         _commentState.value = _commentState.value.copy(
-                            isLoading = false
+                            isLoading = false,
                         )
                         _commentTextState.value = TextFieldState()
                         loadCommentsForPost(postId)
@@ -188,23 +198,23 @@ class PostDetailViewModel @Inject constructor(
     private fun loadPostDetails(postId: String) {
         viewModelScope.launch {
             _state.value = state.value.copy(
-                isLoadingPost = true
+                isLoadingPost = true,
             )
             when (val result = postUseCases.getPostDetailUseCase(postId)) {
                 is Resource.Success -> {
                     _state.value = state.value.copy(
                         post = result.data,
-                        isLoadingPost = false
+                        isLoadingPost = false,
                     )
                 }
                 is Resource.Error -> {
                     _state.value = state.value.copy(
-                        isLoadingPost = false
+                        isLoadingPost = false,
                     )
                     _eventFlow.emit(
                         UiEvent.SnackBarEvent(
-                            result.uiText ?: UiText.unknownError()
-                        )
+                            result.uiText ?: UiText.unknownError(),
+                        ),
                     )
                 }
             }
@@ -214,18 +224,18 @@ class PostDetailViewModel @Inject constructor(
     private fun loadCommentsForPost(postId: String) {
         viewModelScope.launch {
             _state.value = state.value.copy(
-                isLoadingComments = true
+                isLoadingComments = true,
             )
             when (val result = postUseCases.getCommentsForPostUseCase(postId)) {
                 is Resource.Success -> {
                     _state.value = state.value.copy(
                         comments = result.data ?: emptyList(),
-                        isLoadingComments = false
+                        isLoadingComments = false,
                     )
                 }
                 is Resource.Error -> {
                     _state.value = state.value.copy(
-                        isLoadingComments = false
+                        isLoadingComments = false,
                     )
                 }
             }
