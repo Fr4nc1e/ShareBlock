@@ -17,13 +17,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.palette.graphics.Palette
 import coil.compose.rememberAsyncImagePainter
 import com.code.block.R
 import com.code.block.core.domain.model.Profile
 import com.code.block.core.domain.model.User
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeLarge
 import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.core.util.PaletteGenerator
 import com.code.block.core.util.ui.innerShadow
 
 @Composable
@@ -46,9 +46,7 @@ fun ProfileHeadSection(
             .padding(SpaceSmall)
             .clip(RoundedCornerShape(16.dp)),
     ) {
-        val palette = bitmap?.let { Palette.from(it).generate() }
-        val color = palette?.dominantSwatch?.rgb?.let { Color(it) }
-        val textColor = palette?.vibrantSwatch?.bodyTextColor?.let { Color(it) }
+        val colors = PaletteGenerator.generateDominateColor(bitmap = bitmap)
 
         Image(
             painter = rememberAsyncImagePainter(profile.bannerUrl),
@@ -58,7 +56,7 @@ fun ProfileHeadSection(
                 .fillMaxSize()
                 .innerShadow(
                     blur = 20.dp,
-                    color = color ?: MaterialTheme.colors.surface,
+                    color = colors.first() ?: MaterialTheme.colors.surface,
                     offsetX = 0.5.dp,
                     offsetY = 0.5.dp,
                 )
@@ -101,7 +99,7 @@ fun ProfileHeadSection(
                     text = user.username,
                     style = MaterialTheme.typography.h1
                         .copy(
-                            color = textColor ?: MaterialTheme.colors.onSurface,
+                            color = colors.last() ?: MaterialTheme.colors.onSurface,
                         ),
                 )
 
@@ -111,7 +109,7 @@ fun ProfileHeadSection(
                     Text(
                         text = user.description,
                         style = MaterialTheme.typography.body2
-                            .copy(color = textColor ?: MaterialTheme.colors.onSurface),
+                            .copy(color = colors.last() ?: MaterialTheme.colors.onSurface),
                     )
                 }
 
@@ -119,7 +117,7 @@ fun ProfileHeadSection(
 
                 ProfileInteract(
                     user = user,
-                    color = textColor ?: MaterialTheme.colors.onSurface,
+                    color = colors.last() ?: MaterialTheme.colors.onSurface,
                     isOwnProfile = isOwnProfile,
                     isFollowing = isFollowing,
                     onFollowingClick = onFollowingClick,

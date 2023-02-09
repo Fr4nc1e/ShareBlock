@@ -1,5 +1,6 @@
 package com.code.block.feature.chat.presentation.messagescreen
 
+import android.graphics.Bitmap
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -8,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.code.block.core.domain.resource.Resource
 import com.code.block.core.domain.state.PageState
 import com.code.block.core.domain.state.TextFieldState
+import com.code.block.core.usecase.GetOwnUserIdUseCase
+import com.code.block.core.util.BitmapTransformer
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
 import com.code.block.core.util.ui.paging.PaginatorImpl
@@ -15,19 +18,21 @@ import com.code.block.feature.chat.domain.model.Message
 import com.code.block.feature.chat.presentation.messagescreen.event.MessageEvent
 import com.code.block.feature.chat.presentation.messagescreen.event.MessageUpdateEvent
 import com.code.block.usecase.chat.ChatUseCases
+import com.code.block.usecase.profile.ProfileUseCases
 import com.tinder.scarlet.WebSocket
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.* // ktlint-disable no-wildcard-imports
 import kotlinx.coroutines.launch
+import okio.ByteString.Companion.decodeBase64
+import java.nio.charset.Charset
 import javax.inject.Inject
 
 @HiltViewModel
 class MessageViewModel @Inject constructor(
     private val chatUseCases: ChatUseCases,
     private val savedStateHandle: SavedStateHandle,
+    private val profileUseCases: ProfileUseCases,
+    private val getOwnUserIdUseCase: GetOwnUserIdUseCase,
 ) : ViewModel() {
 
     private val _messageTextFieldState = mutableStateOf(TextFieldState())
@@ -44,6 +49,18 @@ class MessageViewModel @Inject constructor(
 
     private val _state = mutableStateOf(MessageState())
     val state: State<MessageState> = _state
+
+    private val _ownProfilePicture = MutableStateFlow<String?>(null)
+    val ownProfilePicture = _ownProfilePicture.asStateFlow()
+
+    val ownUserId
+        get() = getOwnUserIdUseCase()
+
+    private val _ownBitmap = MutableStateFlow<Bitmap?>(null)
+    val ownBitmap = _ownBitmap.asStateFlow()
+
+    private val _remoteBitmap = MutableStateFlow<Bitmap?>(null)
+    val remoteBitmap = _remoteBitmap.asStateFlow()
 
     private val paginator = PaginatorImpl(
         onLoadUpdated = { isLoading ->
@@ -95,6 +112,7 @@ class MessageViewModel @Inject constructor(
         loadNextMessages()
         observeChatEvents()
         observeChatMessages()
+        getOwnProfilePicture()
     }
 
     private fun observeChatMessages() {
@@ -137,6 +155,24 @@ class MessageViewModel @Inject constructor(
         )
         viewModelScope.launch {
             _messageUpdatedEvent.emit(MessageUpdateEvent.MessageSent)
+        }
+    }
+
+    private fun getOwnProfilePicture() {
+        viewModelScope.launch {
+            _ownProfilePicture.value = profileUseCases
+                .getProfileUseCase(
+                    getOwnUserIdUseCase(),
+                )
+                .data
+                ?.profilePictureUrl
+            _ownBitmap.value = BitmapTransformer.getBitmapFromUrl(_ownProfilePicture.value)
+            _remoteBitmap.value = BitmapTransformer.getBitmapFromUrl(
+                savedStateHandle
+                    .get<String>("remoteUserProfilePictureUrl")
+                    ?.decodeBase64()
+                    ?.string(Charset.defaultCharset()),
+            )
         }
     }
 

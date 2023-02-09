@@ -34,7 +34,7 @@ import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
 import com.code.block.core.presentation.ui.theme.quicksand
-import com.code.block.core.util.BitMapTransformer
+import com.code.block.core.util.BitmapTransformer
 import com.code.block.core.util.ui.ContentPreviewer
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.asString
@@ -95,12 +95,12 @@ fun CreatePostScreen(
                 scope.launch(Dispatchers.IO) {
                     val cropOptions = CropImageContractOptions(
                         uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            BitMapTransformer.saveImageQ(
+                            BitmapTransformer.saveImageQ(
                                 bitmap = it,
                                 context = context,
                             )
                         } else {
-                            BitMapTransformer.getImageUriFromBitmap(
+                            BitmapTransformer.getImageUriFromBitmap(
                                 context = context,
                                 bitmap = it,
                             )

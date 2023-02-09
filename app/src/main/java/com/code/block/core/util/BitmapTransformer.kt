@@ -3,14 +3,43 @@ package com.code.block.core.util
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.annotation.RequiresApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import java.io.BufferedInputStream
 import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
-object BitMapTransformer {
+object BitmapTransformer {
+    suspend fun getBitmapFromUrl(inputUrl: String?): Bitmap? {
+        return try {
+            val url = URL(inputUrl)
+            val inputStream: InputStream = withContext(Dispatchers.IO) {
+                (url.openConnection() as HttpURLConnection).run {
+                    connect()
+                    inputStream
+                }
+            }
+            val bufferedInputStream = BufferedInputStream(inputStream)
+            BitmapFactory.decodeStream(bufferedInputStream)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        } catch (e: HttpException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
     fun getImageUriFromBitmap(context: Context, bitmap: Bitmap): Uri {
         val bytes = ByteArrayOutputStream()
         bitmap.compress(

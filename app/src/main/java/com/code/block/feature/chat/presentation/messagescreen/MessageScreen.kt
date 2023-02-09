@@ -1,18 +1,16 @@
 package com.code.block.feature.chat.presentation.messagescreen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.* // ktlint-disable no-wildcard-imports
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -20,8 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,10 +29,9 @@ import com.code.block.R
 import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.components.StandardTopBar
-import com.code.block.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
-import com.code.block.core.util.ui.ImageLoader
+import com.code.block.core.util.PaletteGenerator
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.feature.chat.presentation.messagescreen.components.MessageItem
 import com.code.block.feature.chat.presentation.messagescreen.event.MessageEvent
@@ -57,8 +52,14 @@ fun MessageScreen(
     val decodedRemoteUserProfilePictureUrl = remember {
         encodedRemoteUserProfilePictureUrl.decodeBase64()?.string(Charset.defaultCharset())
     }
+    val ownProfilePicture = viewModel.ownProfilePicture.collectAsState(initial = null)
+    val ownUserId = viewModel.ownUserId
     val pagingState = viewModel.pagingState.value
     val state = viewModel.state.value
+    val ownBitmap = viewModel.ownBitmap.collectAsState()
+    val ownPalette = PaletteGenerator.generateDominateColor(bitmap = ownBitmap.value)
+    val remoteBitmap = viewModel.remoteBitmap.collectAsState()
+    val remotePalette = PaletteGenerator.generateDominateColor(bitmap = remoteBitmap.value)
     val focusRequester = remember { FocusRequester() }
     val messageTextFiledState = viewModel.messageTextFieldState.value
     val lazyListState = rememberLazyListState()
@@ -96,32 +97,6 @@ fun MessageScreen(
         Column(modifier = Modifier.fillMaxSize()) {
             StandardTopBar(
                 title = {
-                    ImageLoader(
-                        url = decodedRemoteUserProfilePictureUrl,
-                        modifier = Modifier
-                            .size(ProfilePictureSizeSmall)
-                            .clip(CircleShape)
-                            .border(
-                                width = 1.dp,
-                                brush = Brush.sweepGradient(
-                                    listOf(
-                                        Color(0xFF9575CD),
-                                        Color(0xFFBA68C8),
-                                        Color(0xFFE57373),
-                                        Color(0xFFFFB74D),
-                                        Color(0xFFFFF176),
-                                        Color(0xFFAED581),
-                                        Color(0xFF4DD0E1),
-                                        Color(0xFF9575CD),
-                                    ),
-                                ),
-                                shape = CircleShape,
-                            )
-                            .clickable {
-                                onNavigate(Screen.ProfileScreen.route + "?userId=$remoteUserId")
-                            },
-                    )
-                    Spacer(modifier = Modifier.width(SpaceMedium))
                     Text(
                         text = remoteUsername,
                         fontWeight = FontWeight.Bold,
@@ -159,7 +134,17 @@ fun MessageScreen(
                     ) {
                         MessageItem(
                             message = message,
+                            remoteProfileUrl = decodedRemoteUserProfilePictureUrl,
+                            ownProfilePictureUrl = ownProfilePicture.value,
+                            ownColor = ownPalette,
+                            remoteColor = remotePalette,
                             isOwnMessage = isOwnMessage,
+                            onOwnUserClick = {
+                                onNavigate(Screen.ProfileScreen.route + "?userId=$ownUserId")
+                            },
+                            onRemoteUserClick = {
+                                onNavigate(Screen.ProfileScreen.route + "?userId=$remoteUserId")
+                            },
                         )
                     }
 

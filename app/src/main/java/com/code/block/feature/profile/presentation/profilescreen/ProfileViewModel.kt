@@ -1,6 +1,5 @@
 package com.code.block.feature.profile.presentation.profilescreen
 
-import android.graphics.BitmapFactory
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -14,6 +13,7 @@ import com.code.block.core.domain.state.PageState
 import com.code.block.core.domain.type.ParentType
 import com.code.block.core.presentation.components.Screen
 import com.code.block.core.usecase.GetOwnUserIdUseCase
+import com.code.block.core.util.BitmapTransformer
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
 import com.code.block.core.util.ui.liker.Liker
@@ -22,18 +22,11 @@ import com.code.block.usecase.chat.ChatUseCases
 import com.code.block.usecase.post.PostUseCases
 import com.code.block.usecase.profile.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
-import java.io.BufferedInputStream
-import java.io.IOException
-import java.io.InputStream
-import java.net.HttpURLConnection
-import java.net.URL
 import javax.inject.Inject
 
 @HiltViewModel
@@ -62,7 +55,7 @@ class ProfileViewModel @Inject constructor(
     val commentPagingState: State<PageState<Comment>> = _commentPagingState
 
     private val _chatChannelId = MutableStateFlow<String?>(null)
-    val chatChannelId = _chatChannelId.asSharedFlow()
+    val chatChannelId = _chatChannelId.asStateFlow()
 
     private val commentPaginator = PaginatorImpl(
         onLoadUpdated = { isLoading ->
@@ -365,23 +358,7 @@ class ProfileViewModel @Inject constructor(
             ).apply {
                 when (this) {
                     is Resource.Success -> {
-                        val bitmap = try {
-                            val url = URL(this.data?.bannerUrl)
-                            val inputStream: InputStream = withContext(Dispatchers.IO) {
-                                (url.openConnection() as HttpURLConnection).run {
-                                    connect()
-                                    inputStream
-                                }
-                            }
-                            val bufferedInputStream = BufferedInputStream(inputStream)
-                            BitmapFactory.decodeStream(bufferedInputStream)
-                        } catch (e: IOException) {
-                            e.printStackTrace()
-                            null
-                        } catch (e: HttpException) {
-                            e.printStackTrace()
-                            null
-                        }
+                        val bitmap = BitmapTransformer.getBitmapFromUrl(this.data?.bannerUrl)
                         _state.value = _state.value.copy(
                             profile = this.data,
                             bitmap = bitmap,
