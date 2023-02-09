@@ -24,3 +24,4 @@ typealias LikeUpdateResponse = BasicApiResponse<Unit>
 typealias LikedUsersResponse = BasicApiResponse<List<UserItemDto>>
 typealias FollowingUsersResponse = BasicApiResponse<List<UserItemDto>>
 typealias FollowedUsersResponse = BasicApiResponse<List<UserItemDto>>
+typealias ChannelIdResponse = BasicApiResponse<String>

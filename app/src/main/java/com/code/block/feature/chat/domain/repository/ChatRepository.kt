@@ -1,5 +1,6 @@
 package com.code.block.feature.chat.domain.repository
 
+import com.code.block.core.domain.resource.ChannelIdResource
 import com.code.block.core.domain.resource.Resource
 import com.code.block.feature.chat.domain.model.Chat
 import com.code.block.feature.chat.domain.model.Message
@@ -8,6 +9,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface ChatRepository {
     suspend fun getChatsForUser(): Resource<List<Chat>>
+
+    suspend fun getChannelId(userId: String): ChannelIdResource
 
     suspend fun getMessagesForChat(
         chatId: String,

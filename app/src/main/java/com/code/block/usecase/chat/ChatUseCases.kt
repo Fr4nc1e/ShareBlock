@@ -1,6 +1,6 @@
-package com.code.block.feature.chat.domain.usecase
+package com.code.block.usecase.chat
 
-import com.code.block.feature.chat.domain.usecase.component.* // ktlint-disable no-wildcard-imports
+import com.code.block.usecase.chat.component.* // ktlint-disable no-wildcard-imports
 
 data class ChatUseCases(
     val getMessagesForChatUseCase: GetMessagesForChatUseCase,
@@ -9,4 +9,5 @@ data class ChatUseCases(
     val observeMessages: ObserveMessages,
     val sendMessage: SendMessage,
     val initRepositoryUseCase: InitRepositoryUseCase,
+    val getChannelIdUseCase: GetChannelIdUseCase,
 )

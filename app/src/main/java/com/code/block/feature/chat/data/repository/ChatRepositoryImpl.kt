@@ -1,6 +1,7 @@
 package com.code.block.feature.chat.data.repository
 
 import com.code.block.R
+import com.code.block.core.domain.resource.ChannelIdResource
 import com.code.block.core.domain.resource.Resource
 import com.code.block.core.util.ui.UiText
 import com.code.block.feature.chat.data.source.ChatApi
@@ -24,6 +25,23 @@ class ChatRepositoryImpl(
 
     override fun initialize() {
         chatService = ScarletInstance.getNewInstance(okHttpClient)
+    }
+
+    override suspend fun getChannelId(userId: String): ChannelIdResource {
+        return try {
+            Resource.Success(
+                data = chatApi.getChannelId(userId).data,
+                uiText = null,
+            )
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect),
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect),
+            )
+        }
     }
 
     override suspend fun getChatsForUser(): Resource<List<Chat>> {

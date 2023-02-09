@@ -49,6 +49,7 @@ fun ProfileScreen(
     val ownPagingState = viewModel.ownPagingState.value
     val likePagingState = viewModel.likePagingState.value
     val commentPagingState = viewModel.commentPagingState.value
+    val chatChannelId by viewModel.chatChannelId.collectAsState(initial = null)
     val pagerState = rememberPagerState(
         initialPage = 0,
         pageCount = 3,
@@ -168,12 +169,21 @@ fun ProfileScreen(
                             viewModel.onEvent(ProfileEvent.Followers(profile.userId))
                         },
                         onMessageClick = {
-                            onNavigate(
-                                Screen.MessageScreen.route +
-                                    "/${profile.userId}" +
-                                    "/${profile.username}" +
-                                    "/$encodedProfilePictureUrl",
-                            )
+                            if (chatChannelId == null) {
+                                onNavigate(
+                                    Screen.MessageScreen.route +
+                                        "/${profile.userId}" +
+                                        "/${profile.username}" +
+                                        "/$encodedProfilePictureUrl",
+                                )
+                            } else {
+                                onNavigate(
+                                    Screen.MessageScreen.route +
+                                        "/${profile.userId}" +
+                                        "/${profile.username}" +
+                                        "/$encodedProfilePictureUrl?chatId=$chatChannelId",
+                                )
+                            }
                         },
                     )
                 }

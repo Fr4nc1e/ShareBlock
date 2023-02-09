@@ -4,8 +4,8 @@ import com.code.block.core.util.Constants.BASE_URL
 import com.code.block.feature.chat.data.repository.ChatRepositoryImpl
 import com.code.block.feature.chat.data.source.ChatApi
 import com.code.block.feature.chat.domain.repository.ChatRepository
-import com.code.block.feature.chat.domain.usecase.ChatUseCases
-import com.code.block.feature.chat.domain.usecase.component.* // ktlint-disable no-wildcard-imports
+import com.code.block.usecase.chat.ChatUseCases
+import com.code.block.usecase.chat.component.* // ktlint-disable no-wildcard-imports
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,6 +27,7 @@ object ChatModule {
             observeMessages = ObserveMessages(repository),
             sendMessage = SendMessage(repository),
             initRepositoryUseCase = InitRepositoryUseCase(repository),
+            getChannelIdUseCase = GetChannelIdUseCase(repository),
         )
     }
 

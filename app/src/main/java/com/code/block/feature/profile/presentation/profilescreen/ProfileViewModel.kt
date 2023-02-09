@@ -18,11 +18,13 @@ import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
 import com.code.block.core.util.ui.liker.Liker
 import com.code.block.core.util.ui.paging.PaginatorImpl
+import com.code.block.usecase.chat.ChatUseCases
 import com.code.block.usecase.post.PostUseCases
 import com.code.block.usecase.profile.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -38,6 +40,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val profileUseCases: ProfileUseCases,
     private val postUseCases: PostUseCases,
+    private val chatUseCases: ChatUseCases,
     private val getOwnUserIdUseCase: GetOwnUserIdUseCase,
     private val savedStateHandle: SavedStateHandle,
     private val liker: Liker,
@@ -57,6 +60,9 @@ class ProfileViewModel @Inject constructor(
 
     private val _commentPagingState = mutableStateOf<PageState<Comment>>(PageState())
     val commentPagingState: State<PageState<Comment>> = _commentPagingState
+
+    private val _chatChannelId = MutableStateFlow<String?>(null)
+    val chatChannelId = _chatChannelId.asSharedFlow()
 
     private val commentPaginator = PaginatorImpl(
         onLoadUpdated = { isLoading ->
@@ -137,6 +143,7 @@ class ProfileViewModel @Inject constructor(
         loadOwnPosts()
         loadLikedPosts()
         loadComments()
+        getChatChannelId()
     }
 
     fun loadOwnPosts() {
@@ -416,6 +423,14 @@ class ProfileViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun getChatChannelId() {
+        viewModelScope.launch {
+            _chatChannelId.value = chatUseCases.getChannelIdUseCase(
+                savedStateHandle.get<String>("userId") ?: getOwnUserIdUseCase(),
+            ).data
         }
     }
 }

@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.code.block.core.domain.resource.Resource
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
-import com.code.block.feature.chat.domain.usecase.ChatUseCases
+import com.code.block.usecase.chat.ChatUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

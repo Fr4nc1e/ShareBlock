@@ -34,3 +34,4 @@ typealias HomePostsResource = Resource<List<Post>>
 typealias DeleteResource = Resource<Unit>
 typealias FollowingUsersResource = Resource<List<UserItem>>
 typealias FollowedUsersResource = Resource<List<UserItem>>
+typealias ChannelIdResource = Resource<String>

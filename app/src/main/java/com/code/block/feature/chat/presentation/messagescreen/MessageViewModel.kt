@@ -12,9 +12,9 @@ import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
 import com.code.block.core.util.ui.paging.PaginatorImpl
 import com.code.block.feature.chat.domain.model.Message
-import com.code.block.feature.chat.domain.usecase.ChatUseCases
 import com.code.block.feature.chat.presentation.messagescreen.event.MessageEvent
 import com.code.block.feature.chat.presentation.messagescreen.event.MessageUpdateEvent
+import com.code.block.usecase.chat.ChatUseCases
 import com.tinder.scarlet.WebSocket
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

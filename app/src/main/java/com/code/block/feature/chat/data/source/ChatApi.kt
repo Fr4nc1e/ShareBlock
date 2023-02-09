@@ -1,5 +1,6 @@
 package com.code.block.feature.chat.data.source
 
+import com.code.block.core.data.source.response.ChannelIdResponse
 import com.code.block.feature.chat.data.source.response.ChatDto
 import com.code.block.feature.chat.data.source.response.MessageDto
 import retrofit2.http.GET
@@ -16,4 +17,9 @@ interface ChatApi {
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
     ): List<MessageDto>
+
+    @GET("/api/chat/channel")
+    suspend fun getChannelId(
+        @Query("userId") userId: String,
+    ): ChannelIdResponse
 }

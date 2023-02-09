@@ -1,6 +1,5 @@
 package com.code.block.feature.chat.presentation.messagescreen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -23,8 +22,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,8 +29,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
 import com.code.block.R
 import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTextField
@@ -41,6 +36,7 @@ import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
+import com.code.block.core.util.ui.ImageLoader
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.feature.chat.presentation.messagescreen.components.MessageItem
 import com.code.block.feature.chat.presentation.messagescreen.event.MessageEvent
@@ -100,18 +96,8 @@ fun MessageScreen(
         Column(modifier = Modifier.fillMaxSize()) {
             StandardTopBar(
                 title = {
-                    Image(
-                        painter = rememberAsyncImagePainter(
-                            ImageRequest.Builder(LocalContext.current)
-                                .data(data = decodedRemoteUserProfilePictureUrl)
-                                .apply(
-                                    block = fun ImageRequest.Builder.() {
-                                        crossfade(true)
-                                    },
-                                ).build(),
-                        ),
-                        contentDescription = stringResource(R.string.profile_pic),
-                        contentScale = ContentScale.Crop,
+                    ImageLoader(
+                        url = decodedRemoteUserProfilePictureUrl,
                         modifier = Modifier
                             .size(ProfilePictureSizeSmall)
                             .clip(CircleShape)

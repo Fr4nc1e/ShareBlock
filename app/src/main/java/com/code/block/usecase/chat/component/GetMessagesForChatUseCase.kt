@@ -1,4 +1,4 @@
-package com.code.block.feature.chat.domain.usecase.component
+package com.code.block.usecase.chat.component
 
 import com.code.block.core.domain.resource.Resource
 import com.code.block.core.util.Constants

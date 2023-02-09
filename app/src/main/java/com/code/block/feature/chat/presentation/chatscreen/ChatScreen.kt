@@ -4,9 +4,11 @@ import android.util.Base64
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,43 +28,52 @@ fun ChatScreen(
     val chats = viewModel.state.value.chats
     val isLoading = viewModel.state.value.isLoading
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-    ) {
-        StandardTopBar(
-            title = {
-                Text(
-                    text = stringResource(R.string.chat),
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.onBackground,
-                )
-            },
-            modifier = Modifier.fillMaxWidth(),
-        )
-
-        LazyColumn(
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
             modifier = Modifier.fillMaxSize(),
         ) {
-            items(chats) { chat ->
-                ChatItem(
-                    modifier = Modifier.padding(SpaceSmall),
-                    chatItem = chat,
-                    onItemClick = {
-                        onNavigate(
-                            Screen.MessageScreen.route +
-                                "/${chat.remoteUserId}" +
-                                "/${chat.remoteUsername}" +
-                                "/${Base64.encodeToString(
-                                    /* input = */ chat.remoteUserProfilePictureUrl.encodeToByteArray(),
-                                    /* flags = */ 0,
-                                )}?chatId=${chat.chatId}",
-                        )
-                    },
-                )
+            StandardTopBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.chat),
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colors.onBackground,
+                    )
+                },
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                items(chats) { chat ->
+                    ChatItem(
+                        modifier = Modifier.padding(SpaceSmall),
+                        chatItem = chat,
+                        onItemClick = {
+                            onNavigate(
+                                Screen.MessageScreen.route +
+                                    "/${chat.remoteUserId}" +
+                                    "/${chat.remoteUsername}" +
+                                    "/${Base64.encodeToString(
+                                        /* input = */ chat.remoteUserProfilePictureUrl.encodeToByteArray(),
+                                        /* flags = */ 0,
+                                    )}?chatId=${chat.chatId}",
+                            )
+                        },
+                    )
+                }
+                item {
+                    Spacer(modifier = Modifier.height(SpaceLarge))
+                }
             }
-            item {
-                Spacer(modifier = Modifier.height(SpaceLarge))
-            }
+        }
+
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center),
+                color = MaterialTheme.colors.primary,
+            )
         }
     }
 }
