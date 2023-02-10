@@ -30,7 +30,6 @@ import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
-import com.code.block.core.util.PaletteGenerator
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.feature.chat.presentation.messagescreen.components.MessageItem
 import com.code.block.feature.chat.presentation.messagescreen.event.MessageEvent
@@ -55,10 +54,6 @@ fun MessageScreen(
     val ownUserId = viewModel.ownUserId
     val pagingState = viewModel.pagingState.value
     val state = viewModel.state.value
-    val ownBitmap = viewModel.ownBitmap.collectAsState()
-    val ownPalette = PaletteGenerator.generateDominateColor(bitmap = ownBitmap.value)
-    val remoteBitmap = viewModel.remoteBitmap.collectAsState()
-    val remotePalette = PaletteGenerator.generateDominateColor(bitmap = remoteBitmap.value)
     val focusRequester = remember { FocusRequester() }
     val messageTextFiledState = viewModel.messageTextFieldState.value
     val lazyListState = rememberLazyListState()
@@ -137,8 +132,6 @@ fun MessageScreen(
                             message = message,
                             remoteProfileUrl = decodedRemoteUserProfilePictureUrl,
                             ownProfilePictureUrl = ownProfilePicture.value,
-                            ownColor = ownPalette,
-                            remoteColor = remotePalette,
                             isOwnMessage = isOwnMessage,
                             onOwnUserClick = {
                                 onNavigate(Screen.ProfileScreen.route + "?userId=$ownUserId")

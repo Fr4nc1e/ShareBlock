@@ -27,8 +27,6 @@ fun MessageItem(
     message: Message,
     remoteProfileUrl: String?,
     ownProfilePictureUrl: String?,
-    ownColor: List<Color?> = listOf(),
-    remoteColor: List<Color?> = listOf(),
     isOwnMessage: Boolean = true,
     onRemoteUserClick: () -> Unit = {},
     onOwnUserClick: () -> Unit = {},
@@ -69,8 +67,8 @@ fun MessageItem(
                     .width(200.dp)
                     .background(
                         color = if (isOwnMessage) {
-                            ownColor.first() ?: MaterialTheme.colors.primary
-                        } else { remoteColor.first() ?: Color.DarkGray },
+                            MaterialTheme.colors.primary
+                        } else { Color.DarkGray },
                         shape = RoundedCornerShape(10.dp),
                     )
                     .padding(8.dp),
@@ -81,15 +79,15 @@ fun MessageItem(
                         fontSize = 14.sp,
                     ),
                     color = if (isOwnMessage) {
-                        ownColor.last() ?: MaterialTheme.colors.primary
-                    } else { remoteColor.last() ?: Color.White },
+                        MaterialTheme.colors.onPrimary
+                    } else { Color.White },
                 )
                 Text(
                     text = message.formattedTime,
                     style = MaterialTheme.typography.body2,
                     color = if (isOwnMessage) {
-                        ownColor.last() ?: MaterialTheme.colors.primary
-                    } else { remoteColor.last() ?: Color.White },
+                        MaterialTheme.colors.onPrimary
+                    } else { Color.White },
                     modifier = Modifier.align(Alignment.End),
                 )
             }

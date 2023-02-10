@@ -10,7 +10,6 @@ import com.code.block.core.domain.resource.Resource
 import com.code.block.core.domain.state.PageState
 import com.code.block.core.domain.state.TextFieldState
 import com.code.block.core.usecase.GetOwnUserIdUseCase
-import com.code.block.core.util.BitmapTransformer
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
 import com.code.block.core.util.ui.paging.PaginatorImpl
@@ -23,8 +22,6 @@ import com.tinder.scarlet.WebSocket
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.* // ktlint-disable no-wildcard-imports
 import kotlinx.coroutines.launch
-import okio.ByteString.Companion.decodeBase64
-import java.nio.charset.Charset
 import javax.inject.Inject
 
 @HiltViewModel
@@ -166,13 +163,6 @@ class MessageViewModel @Inject constructor(
                 )
                 .data
                 ?.profilePictureUrl
-            _ownBitmap.value = BitmapTransformer.getBitmapFromUrl(_ownProfilePicture.value)
-            _remoteBitmap.value = BitmapTransformer.getBitmapFromUrl(
-                savedStateHandle
-                    .get<String>("remoteUserProfilePictureUrl")
-                    ?.decodeBase64()
-                    ?.string(Charset.defaultCharset()),
-            )
         }
     }
 
