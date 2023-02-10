@@ -5,7 +5,6 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.core.app.NotificationCompat
 import com.onesignal.OSNotificationReceivedEvent
 import com.onesignal.OneSignal.OSRemoteNotificationReceivedHandler
 
@@ -22,7 +21,7 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
                 color = Color.White.toArgb()
                 val spannableTitle = SpannableString(notification.title).apply {
                     setSpan(
-                        /* what = */ ForegroundColorSpan(Color.Blue.toArgb()),
+                        /* what = */ ForegroundColorSpan(Color.Black.toArgb()),
                         /* start = */ 0,
                         /* end = */ notification.title.length,
                         /* flags = */ 0,
@@ -39,7 +38,6 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
                 }
                 setContentText(spannableBody)
                 setTimeoutAfter(30000)
-                setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             }
         }
         val data = notification?.additionalData
