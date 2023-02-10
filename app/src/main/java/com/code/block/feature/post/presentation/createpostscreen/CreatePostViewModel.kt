@@ -8,9 +8,14 @@ import androidx.lifecycle.viewModelScope
 import com.code.block.R
 import com.code.block.core.domain.resource.Resource
 import com.code.block.core.domain.state.TextFieldState
+import com.code.block.core.usecase.GetOwnUserIdUseCase
+import com.code.block.core.usecase.notification.NotificationUseCases
+import com.code.block.core.util.UserInfoProvider
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
+import com.code.block.feature.post.presentation.postdetailscreen.state.UserInfoState
 import com.code.block.usecase.post.PostUseCases
+import com.code.block.usecase.profile.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,6 +26,9 @@ import javax.inject.Inject
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
     private val postUseCases: PostUseCases,
+    private val profileUseCases: ProfileUseCases,
+    private val notificationUseCases: NotificationUseCases,
+    private val getOwnUserIdUseCase: GetOwnUserIdUseCase,
 ) : ViewModel() {
 
     private val _descriptionState = mutableStateOf(TextFieldState())
@@ -34,6 +42,13 @@ class CreatePostViewModel @Inject constructor(
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
+
+    private val _userInfoState = mutableStateOf(UserInfoState())
+    val userIndoState: State<UserInfoState> = _userInfoState
+
+    init {
+        getUserInfo()
+    }
 
     fun onEvent(event: CreatePostEvent) {
         when (event) {
@@ -60,6 +75,21 @@ class CreatePostViewModel @Inject constructor(
                                         uiText = UiText.StringResource(R.string.post_created),
                                     ),
                                 )
+                                notificationUseCases.sendPostNotificationUseCase(
+                                    title = userIndoState.value.username,
+                                    description = descriptionState.value.text,
+                                ).also {
+                                    when (it) {
+                                        is Resource.Error -> {
+                                            _eventFlow.emit(
+                                                UiEvent.SnackBarEvent(
+                                                    result.uiText ?: UiText.unknownError(),
+                                                ),
+                                            )
+                                        }
+                                        is Resource.Success -> Unit
+                                    }
+                                }
                                 delay(1_000L)
                                 _eventFlow.emit(UiEvent.NavigateUp)
                             }
@@ -75,6 +105,15 @@ class CreatePostViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun getUserInfo() {
+        viewModelScope.launch {
+            UserInfoProvider(profileUseCases = profileUseCases).provideUserInfo(
+                userId = getOwnUserIdUseCase(),
+                _userInfoState = _userInfoState,
+            )
         }
     }
 }

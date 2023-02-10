@@ -26,18 +26,15 @@
             android:theme="@style/Theme.Block">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
-                    android:scheme="https"
+                    android:scheme="myapp"
                     android:host="block.com" />
             </intent-filter>
 
@@ -53,6 +50,11 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="fullSensor"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <meta-data
+            android:name="com.onesignal.NotificationServiceExtension"
+            android:value="com.code.block.core.util.NotificationServiceExtension"
+            />
     </application>
 
     <queries>

@@ -38,4 +38,9 @@ interface PostRepository {
     ): LikedUsersResource
 
     suspend fun deletePost(postId: String): DeleteResource
+
+    suspend fun sendPostNotification(
+        title: String,
+        description: String,
+    ): SendPostNotificationResource
 }

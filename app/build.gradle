@@ -58,8 +58,6 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.compose.ui:ui-text-google-fonts:1.3.3'
     def composeBom = platform('androidx.compose:compose-bom:2022.12.00')
     implementation composeBom
     androidTestImplementation composeBom
@@ -73,13 +71,8 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended"
     debugImplementation "androidx.compose.ui:ui-tooling"
     implementation "androidx.compose.ui:ui-tooling-preview"
-
-    // Compose dependencies
-    def nav_version = "2.5.3"
-
-    implementation "androidx.navigation:navigation-compose:$nav_version"
+    implementation "androidx.navigation:navigation-compose:2.5.3"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
-    implementation "androidx.compose.material:material-icons-extended:1.3.1"
     implementation "com.google.accompanist:accompanist-flowlayout:0.17.0"
     implementation "androidx.paging:paging-runtime:3.1.1"
     implementation 'androidx.paging:paging-compose:1.0.0-alpha17'
@@ -87,9 +80,6 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.0'
     implementation "com.google.accompanist:accompanist-pager:0.13.0"
     implementation "com.google.accompanist:accompanist-pager-indicators:0.13.0"
-
-    // Timber
-    implementation 'com.jakewharton.timber:timber:4.7.1'
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.2.2")
@@ -124,6 +114,9 @@ dependencies {
     implementation "io.ktor:ktor-client-logging:1.6.5"
     implementation "ch.qos.logback:logback-classic:1.2.11"
 
+    // oneSignal
+    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
+
     implementation 'com.google.android.exoplayer:exoplayer:2.18.2'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.18.2'
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.18.2'
@@ -136,5 +129,5 @@ dependencies {
     implementation "com.github.popovanton0:heart-switch:1.2.0"
     implementation 'com.github.SimformSolutionsPvtLtd:SSJetPackComposeProgressButton:1.0.7'
 
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.2"
 }

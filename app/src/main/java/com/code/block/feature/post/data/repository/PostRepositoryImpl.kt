@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import com.code.block.R
+import com.code.block.core.data.source.OneSignalService
 import com.code.block.core.domain.resource.* // ktlint-disable no-wildcard-imports
 import com.code.block.core.domain.util.* // ktlint-disable no-wildcard-imports
 import com.code.block.core.util.FileNameReader.getFileName
@@ -25,7 +26,8 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 class PostRepositoryImpl(
-    private val api: PostApi,
+    private val postApi: PostApi,
+    private val oneSignalService: OneSignalService,
     private val gson: Gson,
     private val appContext: Context,
 ) : PostRepository {
@@ -35,7 +37,7 @@ class PostRepositoryImpl(
         pageSize: Int,
     ): HomePostsResource {
         return try {
-            val posts = api.getHomePosts(
+            val posts = postApi.getHomePosts(
                 page = page,
                 pageSize = pageSize,
             ).map { it.toPost() }
@@ -74,7 +76,7 @@ class PostRepositoryImpl(
         )
 
         return try {
-            val response = api.createPost(
+            val response = postApi.createPost(
                 postData = MultipartBody.Part.createFormData(
                     "post_data",
                     gson.toJson(request),
@@ -102,7 +104,7 @@ class PostRepositoryImpl(
 
     override suspend fun getPostDetail(postId: String): PostDetailResource {
         return try {
-            val response = api.getPostDetails(postId = postId)
+            val response = postApi.getPostDetails(postId = postId)
             if (response.successful) {
                 Resource.Success(
                     data = response.data?.toPost(),
@@ -126,7 +128,7 @@ class PostRepositoryImpl(
 
     override suspend fun getCommentsForPost(postId: String): CommentsForPostResource {
         return try {
-            val response = api.getCommentsForPost(postId = postId)
+            val response = postApi.getCommentsForPost(postId = postId)
             if (response.successful) {
                 Resource.Success(
                     data = response.data?.map { it.toComment() },
@@ -157,7 +159,7 @@ class PostRepositoryImpl(
                 comment = comment,
                 postId = postId,
             )
-            val response = api.createComment(request)
+            val response = postApi.createComment(request)
             if (response.successful) {
                 Resource.Success(uiText = null)
             } else {
@@ -185,7 +187,7 @@ class PostRepositoryImpl(
                 parentId = parentId,
                 parentType = parentType,
             )
-            val response = api.likeParent(request)
+            val response = postApi.likeParent(request)
             if (response.successful) {
                 Resource.Success(uiText = null)
             } else {
@@ -209,7 +211,7 @@ class PostRepositoryImpl(
         parentType: Int,
     ): LikeUpdateResource {
         return try {
-            val response = api.unlikeParent(
+            val response = postApi.unlikeParent(
                 parentId = parentId,
                 parentType = parentType,
             )
@@ -234,7 +236,7 @@ class PostRepositoryImpl(
     override suspend fun getLikedUsers(parentId: String): LikedUsersResource {
         return try {
             Resource.Success(
-                data = api.getLikedUsers(parentId).data?.map { it.toUserItem() },
+                data = postApi.getLikedUsers(parentId).data?.map { it.toUserItem() },
                 uiText = null,
             )
         } catch (e: IOException) {
@@ -250,7 +252,28 @@ class PostRepositoryImpl(
 
     override suspend fun deletePost(postId: String): DeleteResource {
         return try {
-            api.deletePost(postId)
+            postApi.deletePost(postId)
+            Resource.Success(uiText = null)
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect),
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.fail_to_connect),
+            )
+        }
+    }
+
+    override suspend fun sendPostNotification(
+        title: String,
+        description: String,
+    ): SendPostNotificationResource {
+        return try {
+            oneSignalService.sendPostNotification(
+                title = title,
+                description = description,
+            )
             Resource.Success(uiText = null)
         } catch (e: IOException) {
             Resource.Error(

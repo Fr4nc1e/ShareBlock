@@ -1,4 +1,4 @@
-package com.code.block.feature.post.presentation.postdetailscreen
+package com.code.block.feature.post.presentation.postdetailscreen.state
 
 import com.code.block.core.domain.model.Comment
 import com.code.block.core.domain.model.Post

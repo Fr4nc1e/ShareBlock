@@ -196,7 +196,7 @@ fun Hub() {
                 deepLinks = listOf(
                     navDeepLink {
                         action = Intent.ACTION_VIEW
-                        uriPattern = "https://block.com/{postId}"
+                        uriPattern = "myapp://block.com/{postId}"
                     },
                 ),
             ) { it1 ->

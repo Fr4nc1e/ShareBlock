@@ -1,6 +1,7 @@
 package com.code.block.di
 
 import android.content.Context
+import com.code.block.core.data.source.OneSignalService
 import com.code.block.core.util.Constants.BASE_URL
 import com.code.block.feature.post.data.repository.PostRepositoryImpl
 import com.code.block.feature.post.data.source.PostApi
@@ -36,12 +37,14 @@ object PostModule {
     @Provides
     @Singleton
     fun providePostRepository(
-        api: PostApi,
+        postApi: PostApi,
+        oneSignalService: OneSignalService,
         gson: Gson,
         @ApplicationContext appContext: Context,
     ): PostRepository {
         return PostRepositoryImpl(
-            api = api,
+            postApi = postApi,
+            oneSignalService = oneSignalService,
             gson = gson,
             appContext = appContext,
         )

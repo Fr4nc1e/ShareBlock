@@ -13,6 +13,7 @@ import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
 import com.code.block.feature.post.presentation.postdetailscreen.components.CommentError
 import com.code.block.feature.post.presentation.postdetailscreen.components.CommentState
+import com.code.block.feature.post.presentation.postdetailscreen.state.PostDetailState
 import com.code.block.usecase.post.PostUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow

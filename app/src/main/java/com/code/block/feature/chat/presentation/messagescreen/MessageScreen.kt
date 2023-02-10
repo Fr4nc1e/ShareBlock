@@ -1,6 +1,5 @@
 package com.code.block.feature.chat.presentation.messagescreen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -93,7 +92,9 @@ fun MessageScreen(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+    ) {
         Column(modifier = Modifier.fillMaxSize()) {
             StandardTopBar(
                 title = {
@@ -160,8 +161,7 @@ fun MessageScreen(
                 modifier = Modifier
                     .padding(SpaceMedium)
                     .focusRequester(focusRequester = focusRequester)
-                    .clip(MaterialTheme.shapes.medium)
-                    .background(color = MaterialTheme.colors.background),
+                    .clip(MaterialTheme.shapes.medium),
                 hint = stringResource(id = R.string.chat),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
