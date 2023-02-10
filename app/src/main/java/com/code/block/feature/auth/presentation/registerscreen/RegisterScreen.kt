@@ -1,7 +1,21 @@
 package com.code.block.feature.auth.presentation.registerscreen
 
-import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
-import androidx.compose.material.* // ktlint-disable no-wildcard-imports
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.Button
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.SnackbarDuration
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -24,7 +38,6 @@ import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
-import com.code.block.core.util.Constants
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.asString
 import com.code.block.feature.auth.domain.error.AuthError
@@ -93,7 +106,6 @@ fun RegisterScreen(
                 onValueChange = {
                     viewModel.onEvent(RegisterEvent.EnteredEmail(it))
                 },
-                hint = stringResource(id = R.string.email_hint),
                 label = {
                     Text(
                         text = stringResource(id = R.string.email_label),
@@ -135,7 +147,6 @@ fun RegisterScreen(
                         }
                     }
                 },
-                isRegisterPage = Constants.REGISTER_PAGE,
             )
 
             // Username input
@@ -144,7 +155,6 @@ fun RegisterScreen(
                 onValueChange = {
                     viewModel.onEvent(RegisterEvent.EnteredUsername(it))
                 },
-                hint = stringResource(id = R.string.username_hint),
                 label = {
                     Text(
                         text = stringResource(id = R.string.username_label),
@@ -185,7 +195,6 @@ fun RegisterScreen(
                         }
                     }
                 },
-                isRegisterPage = Constants.REGISTER_PAGE,
             )
 
             // Password input
@@ -194,7 +203,6 @@ fun RegisterScreen(
                 onValueChange = {
                     viewModel.onEvent(RegisterEvent.EnteredPassword(it))
                 },
-                hint = stringResource(id = R.string.password_hint),
                 label = {
                     Text(
                         text = stringResource(id = R.string.password_label),
@@ -227,7 +235,6 @@ fun RegisterScreen(
                 onPasswordToggleClick = {
                     viewModel.onEvent(RegisterEvent.TogglePasswordVisibility)
                 },
-                isRegisterPage = Constants.REGISTER_PAGE,
             )
 
             Spacer(modifier = Modifier.height(SpaceMedium))

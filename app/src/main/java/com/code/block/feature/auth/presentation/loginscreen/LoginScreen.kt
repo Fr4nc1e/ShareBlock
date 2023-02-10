@@ -91,7 +91,6 @@ fun LoginScreen(
                 onValueChange = {
                     viewModel.onEvent(LoginEvent.EnteredEmail(it))
                 },
-                hint = stringResource(id = R.string.email_hint),
                 label = {
                     Text(
                         text = stringResource(id = R.string.email_label),
@@ -140,7 +139,6 @@ fun LoginScreen(
                 onValueChange = {
                     viewModel.onEvent(LoginEvent.EnteredPassword(it))
                 },
-                hint = stringResource(id = R.string.password_hint),
                 label = {
                     Text(
                         text = stringResource(id = R.string.password_label),

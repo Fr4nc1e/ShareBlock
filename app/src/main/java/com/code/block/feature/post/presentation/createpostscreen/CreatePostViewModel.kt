@@ -44,7 +44,7 @@ class CreatePostViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     private val _userInfoState = mutableStateOf(UserInfoState())
-    val userIndoState: State<UserInfoState> = _userInfoState
+    val userInfoState: State<UserInfoState> = _userInfoState
 
     init {
         getUserInfo()
@@ -76,8 +76,8 @@ class CreatePostViewModel @Inject constructor(
                                     ),
                                 )
                                 notificationUseCases.sendPostNotificationUseCase(
-                                    title = userIndoState.value.username,
-                                    description = descriptionState.value.text,
+                                    title = _userInfoState.value.username,
+                                    description = _descriptionState.value.text,
                                 ).also {
                                     when (it) {
                                         is Resource.Error -> {

@@ -5,7 +5,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.* // ktlint-disable no-wildcard-imports
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -23,7 +27,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.code.block.R
-import com.code.block.core.util.Constants
 
 @Composable
 fun StandardTextField(
@@ -33,7 +36,7 @@ fun StandardTextField(
     label: @Composable (() -> Unit)? = null,
     maxLength: Int = 32,
     error: String = "",
-    style: TextStyle = TextStyle(color = MaterialTheme.colors.onBackground),
+    style: TextStyle = TextStyle(color = MaterialTheme.colors.onSurface),
     singleLine: Boolean = true,
     maxLines: Int = 1,
     focusManager: FocusManager = LocalFocusManager.current,
@@ -59,7 +62,6 @@ fun StandardTextField(
             focusManager.clearFocus()
         },
     ),
-    isRegisterPage: Boolean = Constants.LOGIN_PAGE,
     isPasswordToggleDisplayed: Boolean = keyboardType == KeyboardType.Password,
     isPasswordVisible: Boolean = false,
     onPasswordToggleClick: (Boolean) -> Unit = {},
@@ -125,16 +127,6 @@ fun StandardTextField(
             },
             modifier = modifier.fillMaxWidth(),
         )
-
-        if (isRegisterPage) {
-            Text(
-                text = "${text.length} / $maxLength",
-                textAlign = TextAlign.End,
-                color = MaterialTheme.colors.onBackground,
-                style = MaterialTheme.typography.body2,
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
 
         if (error.isNotEmpty()) {
             Text(
