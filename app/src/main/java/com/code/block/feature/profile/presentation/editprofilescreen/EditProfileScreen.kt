@@ -19,11 +19,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.code.block.R
-import com.code.block.core.domain.util.CropActivityResultContract
 import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.SpaceLarge
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.core.presentation.ui.theme.SpaceSmall
+import com.code.block.core.util.CropActivityResultContract
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.asString
 import com.code.block.feature.profile.presentation.editprofilescreen.components.BannerEditSection

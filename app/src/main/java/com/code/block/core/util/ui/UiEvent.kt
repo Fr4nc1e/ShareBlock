@@ -7,5 +7,6 @@ sealed class UiEvent : Event() {
     data class SnackBarEvent(val uiText: UiText) : UiEvent()
     object NavigateUp : UiEvent()
     object OnLogin : UiEvent()
+    object OnRegister : UiEvent()
     object SendMessage : UiEvent()
 }

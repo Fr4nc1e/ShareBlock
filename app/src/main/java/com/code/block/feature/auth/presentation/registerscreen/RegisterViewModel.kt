@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.code.block.core.domain.resource.Resource
 import com.code.block.core.domain.state.PasswordTextFieldState
 import com.code.block.core.domain.state.TextFieldState
-import com.code.block.core.presentation.components.Screen
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
 import com.code.block.usecase.auth.RegisterUseCase
@@ -100,7 +99,7 @@ class RegisterViewModel @Inject constructor(
                 when (registerResult.result) {
                     is Resource.Success -> {
                         _eventFlow.emit(
-                            UiEvent.Navigate(Screen.LoginScreen.route),
+                            UiEvent.OnRegister,
                         )
                         initial()
                     }

@@ -17,7 +17,7 @@ import com.code.block.core.util.BitmapTransformer
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
 import com.code.block.core.util.ui.liker.Liker
-import com.code.block.core.util.ui.paging.PaginatorImpl
+import com.code.block.core.util.ui.paging.PaginationImpl
 import com.code.block.usecase.chat.ChatUseCases
 import com.code.block.usecase.post.PostUseCases
 import com.code.block.usecase.profile.ProfileUseCases
@@ -57,7 +57,7 @@ class ProfileViewModel @Inject constructor(
     private val _chatChannelId = MutableStateFlow<String?>(null)
     val chatChannelId = _chatChannelId.asStateFlow()
 
-    private val commentPaginator = PaginatorImpl(
+    private val commentPaginator = PaginationImpl(
         onLoadUpdated = { isLoading ->
             _commentPagingState.value = commentPagingState.value.copy(
                 isLoading = isLoading,
@@ -82,7 +82,7 @@ class ProfileViewModel @Inject constructor(
         },
     )
 
-    private val ownPaginator = PaginatorImpl(
+    private val ownPaginator = PaginationImpl(
         onLoadUpdated = { isLoading ->
             _ownPagingState.value = ownPagingState.value.copy(
                 isLoading = isLoading,
@@ -107,7 +107,7 @@ class ProfileViewModel @Inject constructor(
         },
     )
 
-    private val likePaginator = PaginatorImpl(
+    private val likePaginator = PaginationImpl(
         onLoadUpdated = { isLoading ->
             _likePagingState.value = likePagingState.value.copy(
                 isLoading = isLoading,

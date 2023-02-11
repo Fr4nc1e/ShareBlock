@@ -5,7 +5,7 @@ import com.code.block.core.domain.type.ActivityType
 import java.text.SimpleDateFormat
 import java.util.*
 
-data class ActivityDto(
+data class ActivityResponse(
     val timestamp: Long,
     val userId: String,
     val parentId: String,

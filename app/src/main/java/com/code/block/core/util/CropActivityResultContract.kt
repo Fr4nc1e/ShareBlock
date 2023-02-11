@@ -1,4 +1,4 @@
-package com.code.block.core.domain.util
+package com.code.block.core.util
 
 import android.content.Context
 import android.content.Intent

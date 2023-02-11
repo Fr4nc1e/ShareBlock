@@ -1,10 +1,20 @@
 package com.code.block.feature.profile.presentation.searchscreen
 
-import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.* // ktlint-disable no-wildcard-imports
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material.icons.filled.PersonRemove
@@ -61,18 +71,12 @@ fun SearchScreen(
                         imeAction = ImeAction.Search,
                     ),
                     leadingIcon = {
-                        IconButton(
-                            onClick = {
-                                viewModel.onEvent(SearchEvent.Search)
-                            },
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Search,
-                                contentDescription = stringResource(R.string.search_icon),
-                                tint = MaterialTheme.colors.onBackground,
-                                modifier = Modifier.size(IconSizeMedium),
-                            )
-                        }
+                        Icon(
+                            imageVector = Icons.Rounded.Search,
+                            contentDescription = stringResource(R.string.search_icon),
+                            tint = MaterialTheme.colors.onBackground,
+                            modifier = Modifier.size(IconSizeMedium),
+                        )
                     },
                     trailingIcon = {
                         if (viewModel.searchTextFieldState.value.text.isNotEmpty()) {
@@ -92,6 +96,7 @@ fun SearchScreen(
                     },
                     onValueChange = {
                         viewModel.onEvent(SearchEvent.EnteredSearchText(it))
+                        viewModel.onEvent(SearchEvent.Search)
                     },
                 )
 

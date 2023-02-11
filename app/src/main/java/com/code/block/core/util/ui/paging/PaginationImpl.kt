@@ -3,12 +3,12 @@ package com.code.block.core.util.ui.paging
 import com.code.block.core.domain.resource.Resource
 import com.code.block.core.util.ui.UiText
 
-class PaginatorImpl<T>(
+class PaginationImpl<T>(
     private val onLoadUpdated: (Boolean) -> Unit,
     private val onRequest: suspend (nextPage: Int) -> Resource<List<T>>,
     private val onError: suspend (UiText) -> Unit,
     private val onSuccess: (items: List<T>) -> Unit,
-) : Paginator<T> {
+) : Pagination<T> {
     var page = 0
 
     override suspend fun loadNextItems() {

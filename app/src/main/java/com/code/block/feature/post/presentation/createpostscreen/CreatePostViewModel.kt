@@ -112,7 +112,7 @@ class CreatePostViewModel @Inject constructor(
         viewModelScope.launch {
             UserInfoProvider(profileUseCases = profileUseCases).provideUserInfo(
                 userId = getOwnUserIdUseCase(),
-                _userInfoState = _userInfoState,
+                userInfoState = _userInfoState,
             )
         }
     }

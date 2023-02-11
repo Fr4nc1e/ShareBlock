@@ -31,9 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.code.block.R
-import com.code.block.core.presentation.components.Screen
 import com.code.block.core.presentation.components.StandardTextField
 import com.code.block.core.presentation.ui.theme.IconSizeMedium
 import com.code.block.core.presentation.ui.theme.SpaceLarge
@@ -45,7 +43,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RegisterScreen(
-    navController: NavController,
+    onRegister: () -> Unit = {},
     scaffoldState: ScaffoldState,
     viewModel: RegisterViewModel = hiltViewModel(),
 ) {
@@ -64,12 +62,8 @@ fun RegisterScreen(
                         duration = SnackbarDuration.Long,
                     )
                 }
-                is UiEvent.Navigate -> {
-                    navController.navigate(event.route) {
-                        popUpTo(Screen.RegisterScreen.route) {
-                            inclusive = true
-                        }
-                    }
+                is UiEvent.OnRegister -> {
+                    onRegister()
                 }
                 else -> Unit
             }
@@ -87,6 +81,7 @@ fun RegisterScreen(
             ),
     ) {
         Column(
+            horizontalAlignment = CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()

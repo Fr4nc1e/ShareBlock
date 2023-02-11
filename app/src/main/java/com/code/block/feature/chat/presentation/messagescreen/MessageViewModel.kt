@@ -1,6 +1,5 @@
 package com.code.block.feature.chat.presentation.messagescreen
 
-import android.graphics.Bitmap
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -12,7 +11,7 @@ import com.code.block.core.domain.state.TextFieldState
 import com.code.block.core.usecase.GetOwnUserIdUseCase
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
-import com.code.block.core.util.ui.paging.PaginatorImpl
+import com.code.block.core.util.ui.paging.PaginationImpl
 import com.code.block.feature.chat.domain.model.Message
 import com.code.block.feature.chat.presentation.messagescreen.event.MessageEvent
 import com.code.block.feature.chat.presentation.messagescreen.event.MessageUpdateEvent
@@ -53,13 +52,7 @@ class MessageViewModel @Inject constructor(
     val ownUserId
         get() = getOwnUserIdUseCase()
 
-    private val _ownBitmap = MutableStateFlow<Bitmap?>(null)
-    val ownBitmap = _ownBitmap.asStateFlow()
-
-    private val _remoteBitmap = MutableStateFlow<Bitmap?>(null)
-    val remoteBitmap = _remoteBitmap.asStateFlow()
-
-    private val paginator = PaginatorImpl(
+    private val pagination = PaginationImpl(
         onLoadUpdated = { isLoading ->
             _pagingState.value = pagingState.value.copy(isLoading = isLoading)
         },
@@ -168,7 +161,7 @@ class MessageViewModel @Inject constructor(
 
     fun loadNextMessages() {
         viewModelScope.launch {
-            paginator.loadNextItems()
+            pagination.loadNextItems()
         }
     }
 }

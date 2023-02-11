@@ -75,7 +75,13 @@ fun Hub() {
 
             composable(Screen.RegisterScreen.route) {
                 RegisterScreen(
-                    navController = navController,
+                    onRegister = {
+                        navController.popBackStack(
+                            route = Screen.RegisterScreen.route,
+                            inclusive = true,
+                        )
+                        navController.navigate(route = Screen.LoginScreen.route)
+                    },
                     scaffoldState = scaffoldState,
                 )
             }

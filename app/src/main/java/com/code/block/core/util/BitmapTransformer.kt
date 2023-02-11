@@ -40,6 +40,7 @@ object BitmapTransformer {
         }
     }
 
+    @Suppress("DEPRECATION")
     fun getImageUriFromBitmap(context: Context, bitmap: Bitmap): Uri {
         val bytes = ByteArrayOutputStream()
         bitmap.compress(

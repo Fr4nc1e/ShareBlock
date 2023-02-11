@@ -10,12 +10,12 @@ class UserInfoProvider(
 
     suspend fun provideUserInfo(
         userId: String,
-        _userInfoState: MutableState<UserInfoState>,
+        userInfoState: MutableState<UserInfoState>,
     ) {
         profileUseCases.getProfileUseCase(
             userId,
         ).data?.toUserInfoState()?.apply {
-            _userInfoState.value = _userInfoState.value.copy(
+            userInfoState.value = userInfoState.value.copy(
                 username = this.username,
                 profilePictureUrl = this.profilePictureUrl,
             )

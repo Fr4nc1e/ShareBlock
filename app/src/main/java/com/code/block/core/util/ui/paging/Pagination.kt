@@ -1,6 +1,6 @@
 package com.code.block.core.util.ui.paging
 
-interface Paginator<T> {
+interface Pagination<T> {
 
     suspend fun loadNextItems()
 }

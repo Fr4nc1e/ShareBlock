@@ -12,7 +12,7 @@ import com.code.block.core.domain.type.ParentType
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
 import com.code.block.core.util.ui.liker.Liker
-import com.code.block.core.util.ui.paging.PaginatorImpl
+import com.code.block.core.util.ui.paging.PaginationImpl
 import com.code.block.usecase.post.PostUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -38,7 +38,7 @@ class HomeViewModel @Inject constructor(
     val isRefreshing: StateFlow<Boolean>
         get() = _isRefreshing.asStateFlow()
 
-    private val paginator = PaginatorImpl(
+    private val paginator = PaginationImpl(
         onLoadUpdated = { isLoading ->
             _pagingState.value = _pagingState.value.copy(
                 isLoading = isLoading,
