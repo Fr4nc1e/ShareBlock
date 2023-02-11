@@ -6,7 +6,6 @@ import android.net.Uri
 import com.code.block.R
 import com.code.block.core.data.source.OneSignalService
 import com.code.block.core.domain.resource.* // ktlint-disable no-wildcard-imports
-import com.code.block.core.domain.util.* // ktlint-disable no-wildcard-imports
 import com.code.block.core.util.FileNameReader.getFileName
 import com.code.block.core.util.ui.UiText
 import com.code.block.feature.post.data.source.PostApi

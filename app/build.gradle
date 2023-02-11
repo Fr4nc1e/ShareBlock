@@ -35,6 +35,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        benchmark {
+            signingConfig signingConfigs.debug
+            matchingFallbacks = ['release']
+            debuggable false
+        }
     }
     compileOptions {
         coreLibraryDesugaringEnabled true
@@ -80,6 +85,7 @@ dependencies {
     implementation 'androidx.core:core-splashscreen:1.0.0'
     implementation "com.google.accompanist:accompanist-pager:0.13.0"
     implementation "com.google.accompanist:accompanist-pager-indicators:0.13.0"
+    implementation 'androidx.profileinstaller:profileinstaller:1.2.2'
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.2.2")
