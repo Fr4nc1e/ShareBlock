@@ -1,5 +1,5 @@
 # Share Block
-Jecpack Compose
+Jetpack Compose
 
 Backend: Ktor(Websocket, Jwt Token)
 ### Scan the QR code below to download the app
