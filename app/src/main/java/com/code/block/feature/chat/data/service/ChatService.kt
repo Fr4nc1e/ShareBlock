@@ -1,4 +1,4 @@
-package com.code.block.feature.chat.data.source
+package com.code.block.feature.chat.data.service
 
 import com.code.block.feature.chat.data.source.ws.model.WsClientMessage
 import com.code.block.feature.chat.data.source.ws.model.WsServerMessage

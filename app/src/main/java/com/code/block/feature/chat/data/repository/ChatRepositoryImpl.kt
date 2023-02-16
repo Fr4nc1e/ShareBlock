@@ -4,8 +4,8 @@ import com.code.block.R
 import com.code.block.core.domain.resource.ChannelIdResource
 import com.code.block.core.domain.resource.Resource
 import com.code.block.core.util.ui.UiText
-import com.code.block.feature.chat.data.source.ChatApi
-import com.code.block.feature.chat.data.source.ChatService
+import com.code.block.feature.chat.data.api.ChatApi
+import com.code.block.feature.chat.data.service.ChatService
 import com.code.block.feature.chat.data.source.ws.model.WsClientMessage
 import com.code.block.feature.chat.di.ScarletInstance
 import com.code.block.feature.chat.domain.model.Chat

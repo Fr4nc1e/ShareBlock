@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.code.block.core.domain.model.Activity
 import com.code.block.core.util.Constants
-import com.code.block.feature.activity.data.source.ActivityApi
+import com.code.block.feature.activity.data.source.api.ActivityApi
 import com.code.block.feature.activity.data.source.paging.ActivitySource
 import com.code.block.feature.activity.domain.repository.ActivityRepository
 import kotlinx.coroutines.flow.Flow

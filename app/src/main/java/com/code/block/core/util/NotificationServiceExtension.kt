@@ -40,7 +40,6 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
                 setTimeoutAfter(30000)
             }
         }
-        val data = notification?.additionalData
         p1?.complete(mutableNotification)
     }
 }

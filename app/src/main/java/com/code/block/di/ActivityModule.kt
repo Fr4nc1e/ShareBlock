@@ -2,7 +2,7 @@ package com.code.block.di
 
 import com.code.block.core.util.Constants.BASE_URL
 import com.code.block.feature.activity.data.repository.ActivityRepositoryImpl
-import com.code.block.feature.activity.data.source.ActivityApi
+import com.code.block.feature.activity.data.source.api.ActivityApi
 import com.code.block.feature.activity.domain.repository.ActivityRepository
 import com.code.block.usecase.activity.GetActivitiesUseCase
 import dagger.Module

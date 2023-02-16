@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.code.block.core.domain.model.Activity
 import com.code.block.core.util.Constants
-import com.code.block.feature.activity.data.source.ActivityApi
+import com.code.block.feature.activity.data.source.api.ActivityApi
 import retrofit2.HttpException
 import java.io.IOException
 

@@ -1,9 +1,9 @@
-package com.code.block.feature.profile.data.source
+package com.code.block.feature.profile.data.api
 
 import com.code.block.core.data.source.response.* // ktlint-disable no-wildcard-imports
 import com.code.block.feature.profile.data.source.request.FollowUpdateRequest
 import com.code.block.feature.profile.data.source.response.ProfileResponse
-import com.code.block.feature.profile.data.source.response.UserItemDto
+import com.code.block.feature.profile.data.source.response.UserItemResponse
 import okhttp3.MultipartBody
 import retrofit2.http.* // ktlint-disable no-wildcard-imports
 
@@ -25,7 +25,7 @@ interface ProfileApi {
     @GET("/api/user/search")
     suspend fun searchUser(
         @Query("query") query: String,
-    ): List<UserItemDto>
+    ): List<UserItemResponse>
 
     @POST("/api/following/follow")
     suspend fun followUser(

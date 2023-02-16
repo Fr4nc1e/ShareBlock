@@ -2,7 +2,7 @@ package com.code.block.feature.profile.data.source.response
 
 import com.code.block.feature.profile.domain.model.UserItem
 
-data class UserItemDto(
+data class UserItemResponse(
     val userId: String,
     val username: String,
     val profileImageUrl: String,

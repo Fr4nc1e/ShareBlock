@@ -1,9 +1,17 @@
 package com.code.block.feature.profile.presentation.profilescreen.components
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -23,7 +31,6 @@ import com.code.block.core.domain.model.Profile
 import com.code.block.core.domain.model.User
 import com.code.block.core.presentation.ui.theme.ProfilePictureSizeLarge
 import com.code.block.core.presentation.ui.theme.SpaceSmall
-import com.code.block.core.util.PaletteGenerator
 import com.code.block.core.util.ui.innerShadow
 
 @Composable
@@ -31,7 +38,6 @@ fun ProfileHeadSection(
     modifier: Modifier = Modifier,
     profile: Profile,
     user: User,
-    bitmap: Bitmap?,
     imageModifier: Modifier = Modifier,
     isOwnProfile: Boolean = true,
     isFollowing: Boolean = true,
@@ -46,8 +52,6 @@ fun ProfileHeadSection(
             .padding(SpaceSmall)
             .clip(RoundedCornerShape(16.dp)),
     ) {
-        val colors = PaletteGenerator.generateDominateColor(bitmap = bitmap)
-
         Image(
             painter = rememberAsyncImagePainter(profile.bannerUrl),
             contentDescription = stringResource(R.string.banner_image),
@@ -56,7 +60,7 @@ fun ProfileHeadSection(
                 .fillMaxSize()
                 .innerShadow(
                     blur = 20.dp,
-                    color = colors.first() ?: MaterialTheme.colors.surface,
+                    color = MaterialTheme.colors.surface,
                     offsetX = 0.5.dp,
                     offsetY = 0.5.dp,
                 )
@@ -99,7 +103,7 @@ fun ProfileHeadSection(
                     text = user.username,
                     style = MaterialTheme.typography.h1
                         .copy(
-                            color = colors.last() ?: MaterialTheme.colors.onSurface,
+                            color = MaterialTheme.colors.onSurface,
                         ),
                 )
 
@@ -109,7 +113,7 @@ fun ProfileHeadSection(
                     Text(
                         text = user.description,
                         style = MaterialTheme.typography.body2
-                            .copy(color = colors.last() ?: MaterialTheme.colors.onSurface),
+                            .copy(color = MaterialTheme.colors.onSurface),
                     )
                 }
 
@@ -117,7 +121,7 @@ fun ProfileHeadSection(
 
                 ProfileInteract(
                     user = user,
-                    color = colors.last() ?: MaterialTheme.colors.onSurface,
+                    color = MaterialTheme.colors.onSurface,
                     isOwnProfile = isOwnProfile,
                     isFollowing = isFollowing,
                     onFollowingClick = onFollowingClick,

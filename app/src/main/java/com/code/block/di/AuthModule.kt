@@ -3,7 +3,7 @@ package com.code.block.di
 import android.content.SharedPreferences
 import com.code.block.core.util.Constants.BASE_URL
 import com.code.block.feature.auth.data.repository.AuthRepositoryImpl
-import com.code.block.feature.auth.data.source.remote.AuthApi
+import com.code.block.feature.auth.data.source.api.AuthApi
 import com.code.block.feature.auth.domain.repository.AuthRepository
 import com.code.block.usecase.auth.AuthenticateUseCase
 import com.code.block.usecase.auth.LoginUseCase

@@ -8,7 +8,7 @@ import com.code.block.core.domain.resource.RegisterResource
 import com.code.block.core.domain.resource.Resource
 import com.code.block.core.util.* // ktlint-disable no-wildcard-imports
 import com.code.block.core.util.ui.UiText
-import com.code.block.feature.auth.data.source.remote.AuthApi
+import com.code.block.feature.auth.data.source.api.AuthApi
 import com.code.block.feature.auth.data.source.remote.request.CreateAccountRequest
 import com.code.block.feature.auth.data.source.remote.request.LoginRequest
 import com.code.block.feature.auth.domain.repository.AuthRepository

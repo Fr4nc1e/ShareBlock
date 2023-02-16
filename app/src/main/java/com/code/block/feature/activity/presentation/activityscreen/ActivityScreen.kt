@@ -25,7 +25,6 @@ import com.code.block.core.presentation.components.StandardTopBar
 import com.code.block.core.presentation.ui.theme.SpaceMedium
 import com.code.block.feature.activity.presentation.activityscreen.components.ActivityItem
 
-@Suppress("OPT_IN_IS_NOT_ENABLED")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ActivityScreen(

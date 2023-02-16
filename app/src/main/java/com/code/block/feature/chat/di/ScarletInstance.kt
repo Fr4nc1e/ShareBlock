@@ -1,7 +1,7 @@
 package com.code.block.feature.chat.di
 
 import com.code.block.core.util.Constants
-import com.code.block.feature.chat.data.source.ChatService
+import com.code.block.feature.chat.data.service.ChatService
 import com.code.block.feature.chat.data.source.ws.util.GsonMessageAdapter
 import com.google.gson.Gson
 import com.tinder.scarlet.Scarlet

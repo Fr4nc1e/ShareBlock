@@ -1,18 +1,17 @@
 package com.code.block.feature.profile.presentation.profilescreen
 
-import android.content.res.Resources.* // ktlint-disable no-wildcard-imports
-import android.graphics.BitmapFactory
+import android.content.res.Resources.*
 import android.util.Base64
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.* // ktlint-disable no-wildcard-imports
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.* // ktlint-disable no-wildcard-imports
-import androidx.compose.runtime.* // ktlint-disable no-wildcard-imports
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,7 +35,6 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.flow.collectLatest
 
-@Suppress("OPT_IN_IS_NOT_ENABLED")
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun ProfileScreen(
@@ -155,7 +153,6 @@ fun ProfileScreen(
                             followingCount = profile.followingCount,
                             postCount = profile.postCount,
                         ),
-                        bitmap = state.bitmap ?: BitmapFactory.decodeResource(getSystem(), R.drawable.bot),
                         isOwnProfile = profile.isOwnProfile,
                         isFollowing = profile.isFollowing,
                         modifier = Modifier,

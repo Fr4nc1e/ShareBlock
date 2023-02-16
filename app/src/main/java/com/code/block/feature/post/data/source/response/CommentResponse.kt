@@ -4,7 +4,7 @@ import com.code.block.core.domain.model.Comment
 import java.text.SimpleDateFormat
 import java.util.*
 
-data class CommentDto(
+data class CommentResponse(
     val id: String,
     val userId: String,
     val postId: String,

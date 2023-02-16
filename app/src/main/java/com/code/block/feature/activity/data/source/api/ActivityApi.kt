@@ -1,4 +1,4 @@
-package com.code.block.feature.activity.data.source
+package com.code.block.feature.activity.data.source.api
 
 import com.code.block.core.util.Constants
 import com.code.block.feature.activity.data.source.response.ActivityResponse

@@ -7,6 +7,7 @@ import com.tinder.scarlet.Message
 import com.tinder.scarlet.MessageAdapter
 import java.lang.reflect.Type
 
+@Suppress("UNCHECKED_CAST")
 class GsonMessageAdapter<T> private constructor(
     private val gson: Gson,
 ) : MessageAdapter<T> {

@@ -1,9 +1,9 @@
-package com.code.block.feature.post.data.source
+package com.code.block.feature.post.data.api
 
 import com.code.block.core.data.source.response.* // ktlint-disable no-wildcard-imports
 import com.code.block.feature.post.data.source.request.CreateCommentRequest
 import com.code.block.feature.post.data.source.request.LikeUpdateRequest
-import com.code.block.feature.post.data.source.response.PostDto
+import com.code.block.feature.post.data.source.response.PostResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -19,21 +19,21 @@ interface PostApi {
     suspend fun getHomePosts(
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
-    ): List<PostDto>
+    ): List<PostResponse>
 
     @GET("/api/user/post")
     suspend fun getPostsForProfile(
         @Query("userId") userId: String,
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
-    ): List<PostDto>
+    ): List<PostResponse>
 
     @GET("/api/post/like/get")
     suspend fun getPostsForLike(
         @Query("userId") userId: String,
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
-    ): List<PostDto>
+    ): List<PostResponse>
 
     @Multipart
     @POST("/api/post/create")

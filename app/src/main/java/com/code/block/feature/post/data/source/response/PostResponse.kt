@@ -4,7 +4,7 @@ import com.code.block.core.domain.model.Post
 import java.text.SimpleDateFormat
 import java.util.*
 
-data class PostDto(
+data class PostResponse(
     val id: String,
     val userId: String,
     val username: String,

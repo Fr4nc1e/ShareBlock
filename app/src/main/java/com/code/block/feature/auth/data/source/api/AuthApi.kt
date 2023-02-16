@@ -1,4 +1,4 @@
-package com.code.block.feature.auth.data.source.remote
+package com.code.block.feature.auth.data.source.api
 
 import com.code.block.core.data.source.response.LoginResponse
 import com.code.block.core.data.source.response.RegisterResponse

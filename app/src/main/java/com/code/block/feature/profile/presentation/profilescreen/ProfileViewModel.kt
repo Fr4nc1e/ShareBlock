@@ -13,7 +13,6 @@ import com.code.block.core.domain.state.PageState
 import com.code.block.core.domain.type.ParentType
 import com.code.block.core.presentation.components.Screen
 import com.code.block.core.usecase.GetOwnUserIdUseCase
-import com.code.block.core.util.BitmapTransformer
 import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
 import com.code.block.core.util.ui.liker.Liker
@@ -57,7 +56,7 @@ class ProfileViewModel @Inject constructor(
     private val _chatChannelId = MutableStateFlow<String?>(null)
     val chatChannelId = _chatChannelId.asStateFlow()
 
-    private val commentPaginator = PaginationImpl(
+    private val commentPagination = PaginationImpl(
         onLoadUpdated = { isLoading ->
             _commentPagingState.value = commentPagingState.value.copy(
                 isLoading = isLoading,
@@ -82,7 +81,7 @@ class ProfileViewModel @Inject constructor(
         },
     )
 
-    private val ownPaginator = PaginationImpl(
+    private val ownPagination = PaginationImpl(
         onLoadUpdated = { isLoading ->
             _ownPagingState.value = ownPagingState.value.copy(
                 isLoading = isLoading,
@@ -107,7 +106,7 @@ class ProfileViewModel @Inject constructor(
         },
     )
 
-    private val likePaginator = PaginationImpl(
+    private val likePagination = PaginationImpl(
         onLoadUpdated = { isLoading ->
             _likePagingState.value = likePagingState.value.copy(
                 isLoading = isLoading,
@@ -141,19 +140,19 @@ class ProfileViewModel @Inject constructor(
 
     fun loadOwnPosts() {
         viewModelScope.launch {
-            ownPaginator.loadNextItems()
+            ownPagination.loadNextItems()
         }
     }
 
     fun loadLikedPosts() {
         viewModelScope.launch {
-            likePaginator.loadNextItems()
+            likePagination.loadNextItems()
         }
     }
 
     fun loadComments() {
         viewModelScope.launch {
-            commentPaginator.loadNextItems()
+            commentPagination.loadNextItems()
         }
     }
 
@@ -358,10 +357,8 @@ class ProfileViewModel @Inject constructor(
             ).apply {
                 when (this) {
                     is Resource.Success -> {
-                        val bitmap = BitmapTransformer.getBitmapFromUrl(this.data?.bannerUrl)
                         _state.value = _state.value.copy(
                             profile = this.data,
-                            bitmap = bitmap,
                             isLoading = false,
                         )
                     }

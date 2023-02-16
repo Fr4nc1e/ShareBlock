@@ -8,7 +8,7 @@ import com.code.block.core.data.source.OneSignalService
 import com.code.block.core.domain.resource.* // ktlint-disable no-wildcard-imports
 import com.code.block.core.util.FileNameReader.getFileName
 import com.code.block.core.util.ui.UiText
-import com.code.block.feature.post.data.source.PostApi
+import com.code.block.feature.post.data.api.PostApi
 import com.code.block.feature.post.data.source.request.CreateCommentRequest
 import com.code.block.feature.post.data.source.request.CreatePostRequest
 import com.code.block.feature.post.data.source.request.LikeUpdateRequest
