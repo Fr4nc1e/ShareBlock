@@ -2,9 +2,9 @@ package com.code.block.di
 
 import android.content.SharedPreferences
 import com.code.block.core.util.Constants.BASE_URL
-import com.code.block.feature.post.data.api.PostApi
+import com.code.block.feature.post.data.source.api.PostApi
 import com.code.block.feature.profile.data.repository.ProfileRepositoryImpl
-import com.code.block.feature.profile.data.api.ProfileApi
+import com.code.block.feature.profile.data.source.api.ProfileApi
 import com.code.block.feature.profile.domain.repository.ProfileRepository
 import com.code.block.usecase.profile.* // ktlint-disable no-wildcard-imports
 import com.code.block.usecase.profile.components.* // ktlint-disable no-wildcard-imports

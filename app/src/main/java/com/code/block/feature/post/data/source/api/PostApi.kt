@@ -1,4 +1,4 @@
-package com.code.block.feature.post.data.api
+package com.code.block.feature.post.data.source.api
 
 import com.code.block.core.data.source.response.* // ktlint-disable no-wildcard-imports
 import com.code.block.feature.post.data.source.request.CreateCommentRequest

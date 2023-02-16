@@ -7,8 +7,8 @@ import com.code.block.R
 import com.code.block.core.domain.resource.* // ktlint-disable no-wildcard-imports
 import com.code.block.core.util.Constants
 import com.code.block.core.util.ui.UiText
-import com.code.block.feature.post.data.api.PostApi
-import com.code.block.feature.profile.data.api.ProfileApi
+import com.code.block.feature.post.data.source.api.PostApi
+import com.code.block.feature.profile.data.source.api.ProfileApi
 import com.code.block.feature.profile.data.source.request.FollowUpdateRequest
 import com.code.block.feature.profile.domain.model.UpdateProfileData
 import com.code.block.feature.profile.domain.repository.ProfileRepository

@@ -1,4 +1,4 @@
-package com.code.block.feature.chat.data.api
+package com.code.block.feature.chat.data.source.api
 
 import com.code.block.core.data.source.response.ChannelIdResponse
 import com.code.block.feature.chat.data.source.response.ChatDto

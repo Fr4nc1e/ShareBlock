@@ -1,4 +1,4 @@
-package com.code.block.feature.profile.data.api
+package com.code.block.feature.profile.data.source.api
 
 import com.code.block.core.data.source.response.* // ktlint-disable no-wildcard-imports
 import com.code.block.feature.profile.data.source.request.FollowUpdateRequest
