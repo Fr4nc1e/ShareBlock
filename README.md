@@ -69,6 +69,3 @@ The last icon in the navigation bar, you will see the profile. On this page, you
 your profile. Just click the menu in the top bar or log out. The tab layout allows you to see the 
 posts you have created and the comments you have made. Also, you can see the posts you 
 have liked.
-
-### Scan the QR code below to download the app
-### ![QR code](/app/src/main/res/drawable/share_block_qr.png)
