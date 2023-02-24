@@ -22,12 +22,12 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun Tabs(
-    pagerState: PagerState,
+    pagerState: PagerState
 ) {
     val tabList = listOf(
         "Post" to Icons.Outlined.Newspaper,
         "Comment" to Icons.Outlined.Comment,
-        "Favorite" to Icons.Outlined.Favorite,
+        "Favorite" to Icons.Outlined.Favorite
     )
 
     val scope = rememberCoroutineScope()
@@ -39,11 +39,11 @@ fun Tabs(
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colors.primary,
-                shape = RoundedCornerShape(50),
+                shape = RoundedCornerShape(50)
             ),
         selectedTabIndex = pagerState.currentPage,
         backgroundColor = MaterialTheme.colors.primary,
-        indicator = { Box {} },
+        indicator = { Box {} }
     ) {
         tabList.forEachIndexed { index, _ ->
             val selected = pagerState.currentPage == index
@@ -52,13 +52,13 @@ fun Tabs(
                     Modifier
                         .clip(RoundedCornerShape(50))
                         .background(
-                            MaterialTheme.colors.onPrimary,
+                            MaterialTheme.colors.onPrimary
                         )
                 } else {
                     Modifier
                         .clip(RoundedCornerShape(50))
                         .background(
-                            MaterialTheme.colors.primary,
+                            MaterialTheme.colors.primary
                         )
                 },
                 selected = selected,
@@ -72,9 +72,9 @@ fun Tabs(
                 icon = {
                     Icon(
                         imageVector = tabList[index].second,
-                        contentDescription = null,
+                        contentDescription = null
                     )
-                },
+                }
             )
         }
     }

@@ -19,7 +19,7 @@ private val DarkColorScheme = darkColors(
     background = Grey10,
     onBackground = Grey90,
     surface = Grey10,
-    onSurface = Grey80,
+    onSurface = Grey80
 )
 
 private val LightColorScheme = lightColors(
@@ -32,13 +32,13 @@ private val LightColorScheme = lightColors(
     background = Grey99,
     onBackground = Grey10,
     surface = Grey99,
-    onSurface = Grey10,
+    onSurface = Grey10
 )
 
 @Composable
 fun BlockTheme(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     val myColorScheme = when {
         isDarkTheme -> DarkColorScheme
@@ -49,6 +49,6 @@ fun BlockTheme(
         colors = myColorScheme,
         typography = Typography,
         shapes = Shapes,
-        content = content,
+        content = content
     )
 }

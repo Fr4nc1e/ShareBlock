@@ -54,7 +54,7 @@ import kotlinx.coroutines.launch
 fun CreatePostScreen(
     onNavigateUp: () -> Unit = {},
     scaffoldState: ScaffoldState,
-    viewModel: CreatePostViewModel = hiltViewModel(),
+    viewModel: CreatePostViewModel = hiltViewModel()
 ) {
     val contentUri = viewModel.chosenContentUri.value
     val context = LocalContext.current
@@ -65,7 +65,7 @@ fun CreatePostScreen(
             contract = CropImageContract(),
             onResult = {
                 viewModel.onEvent(CreatePostEvent.InputContent(it.uriContent))
-            },
+            }
         )
     val imageLauncher =
         rememberLauncherForActivityResult(
@@ -76,17 +76,17 @@ fun CreatePostScreen(
                     cropImageOptions = CropImageOptions().apply {
                         showIntentChooser = true
                         activityBackgroundColor = Color.rgb(0, 0, 0)
-                    },
+                    }
                 )
                 cropActivityLauncher.launch(cropOptions)
-            },
+            }
         )
     val videoLauncher =
         rememberLauncherForActivityResult(
             contract = ActivityResultContracts.PickVisualMedia(),
             onResult = {
                 viewModel.onEvent(CreatePostEvent.InputContent(it))
-            },
+            }
         )
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicturePreview(),
@@ -97,23 +97,23 @@ fun CreatePostScreen(
                         uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                             BitmapTransformer.saveImageQ(
                                 bitmap = it,
-                                context = context,
+                                context = context
                             )
                         } else {
                             BitmapTransformer.getImageUriFromBitmap(
                                 context = context,
-                                bitmap = it,
+                                bitmap = it
                             )
                         },
                         cropImageOptions = CropImageOptions().apply {
                             showIntentChooser = true
                             activityBackgroundColor = Color.rgb(0, 0, 0)
-                        },
+                        }
                     )
                     cropActivityLauncher.launch(cropOptions)
                 }
             }
-        },
+        }
     )
     val cameraPermissionResultLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
@@ -123,11 +123,11 @@ fun CreatePostScreen(
             } else {
                 scope.launch {
                     scaffoldState.snackbarHostState.showSnackbar(
-                        message = "No camera permission.",
+                        message = "No camera permission."
                     )
                 }
             }
-        },
+        }
     )
 
     LaunchedEffect(
@@ -138,20 +138,20 @@ fun CreatePostScreen(
                     is UiEvent.NavigateUp -> onNavigateUp()
                     is UiEvent.SnackBarEvent -> scope.launch {
                         scaffoldState.snackbarHostState.showSnackbar(
-                            message = it.uiText.asString(context),
+                            message = it.uiText.asString(context)
                         )
                     }
                     else -> Unit
                 }
             }
-        },
+        }
     )
 
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.surface)
-            .padding(SpaceSmall),
+            .padding(SpaceSmall)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             MultiFloatingActionButton(
@@ -164,33 +164,33 @@ fun CreatePostScreen(
                         "photo" -> {
                             imageLauncher.launch(
                                 PickVisualMediaRequest(
-                                    ActivityResultContracts.PickVisualMedia.ImageOnly,
-                                ),
+                                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                                )
                             )
                         }
                         "video" -> {
                             videoLauncher.launch(
                                 PickVisualMediaRequest(
-                                    ActivityResultContracts.PickVisualMedia.VideoOnly,
-                                ),
+                                    ActivityResultContracts.PickVisualMedia.VideoOnly
+                                )
                             )
                         }
                         "camera" -> {
                             cameraPermissionResultLauncher.launch(Manifest.permission.CAMERA)
                         }
                     }
-                },
+                }
             )
 
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize()
             ) {
                 StandardTopBar(
                     title = {
                         Text(
                             text = stringResource(R.string.make_post),
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colors.onBackground,
+                            color = MaterialTheme.colors.onBackground
                         )
                     },
                     navActions = {
@@ -211,10 +211,10 @@ fun CreatePostScreen(
                             assetColor = MaterialTheme.colors.onPrimary,
                             buttonState = submitButtonState,
                             text = stringResource(id = R.string.post),
-                            textModifier = Modifier.padding(ten.dp).align(CenterVertically),
+                            textModifier = Modifier.padding(ten.dp).align(CenterVertically)
                         )
                     },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 OutlinedTextField(
@@ -228,27 +228,27 @@ fun CreatePostScreen(
                         Text(
                             text = stringResource(R.string.description_hint),
                             style = MaterialTheme.typography.body1,
-                            color = MaterialTheme.colors.onSurface,
+                            color = MaterialTheme.colors.onSurface
                         )
                     },
                     textStyle = TextStyle(
                         color = MaterialTheme.colors.onSurface,
                         fontWeight = FontWeight.Bold,
                         fontFamily = quicksand,
-                        fontSize = 20.sp,
+                        fontSize = 20.sp
                     ),
                     maxLines = 5,
                     singleLine = false,
                     keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Done,
+                        imeAction = ImeAction.Done
                     ),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
                         backgroundColor = MaterialTheme.colors.background,
                         textColor = MaterialTheme.colors.onBackground,
                         focusedBorderColor = MaterialTheme.colors.background,
-                        unfocusedBorderColor = MaterialTheme.colors.background,
+                        unfocusedBorderColor = MaterialTheme.colors.background
                     ),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.height(SpaceLarge))

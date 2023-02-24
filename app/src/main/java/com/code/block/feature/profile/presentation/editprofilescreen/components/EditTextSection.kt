@@ -30,7 +30,7 @@ import com.code.block.feature.profile.presentation.editprofilescreen.EditProfile
 
 @Composable
 fun EditTextSection(
-    viewModel: EditProfileViewModel = hiltViewModel(),
+    viewModel: EditProfileViewModel = hiltViewModel()
 ) {
     val usernameState = viewModel.usernameState.value
     val qqTextState = viewModel.qqTextFieldState.value
@@ -46,7 +46,7 @@ fun EditTextSection(
         label = {
             Text(
                 text = stringResource(id = R.string.username_label),
-                color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colors.onSurface
             )
         },
         error = when (viewModel.usernameState.value.error) {
@@ -58,7 +58,7 @@ fun EditTextSection(
                 imageVector = Icons.Default.Person,
                 contentDescription = stringResource(R.string.user_icon),
                 tint = MaterialTheme.colors.onBackground,
-                modifier = Modifier.size(IconSizeMedium),
+                modifier = Modifier.size(IconSizeMedium)
             )
         },
         trailingIcon = {
@@ -66,20 +66,20 @@ fun EditTextSection(
                 IconButton(
                     onClick = {
                         viewModel.onEvent(EditProfileEvent.ClearUsername)
-                    },
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Close,
                         contentDescription = stringResource(id = R.string.clear_text),
                         tint = MaterialTheme.colors.onBackground,
-                        modifier = Modifier.size(IconSizeMedium),
+                        modifier = Modifier.size(IconSizeMedium)
                     )
                 }
             }
         },
         onValueChange = {
             viewModel.onEvent(EditProfileEvent.EnteredUsername(it))
-        },
+        }
     )
 
     Spacer(modifier = Modifier.height(SpaceSmall))
@@ -92,7 +92,7 @@ fun EditTextSection(
         label = {
             Text(
                 text = stringResource(id = R.string.qq_label),
-                color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colors.onSurface
             )
         },
         error = when (qqTextState.error) {
@@ -106,7 +106,7 @@ fun EditTextSection(
                 painter = painterResource(id = R.drawable.qq_penguin_shape),
                 contentDescription = stringResource(R.string.qq_icon),
                 tint = MaterialTheme.colors.onBackground,
-                modifier = Modifier.size(IconSizeSmall),
+                modifier = Modifier.size(IconSizeSmall)
             )
         },
         trailingIcon = {
@@ -114,20 +114,20 @@ fun EditTextSection(
                 IconButton(
                     onClick = {
                         viewModel.onEvent(EditProfileEvent.ClearQq)
-                    },
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Close,
                         contentDescription = stringResource(id = R.string.clear_text),
                         tint = MaterialTheme.colors.onBackground,
-                        modifier = Modifier.size(IconSizeMedium),
+                        modifier = Modifier.size(IconSizeMedium)
                     )
                 }
             }
         },
         onValueChange = {
             viewModel.onEvent(EditProfileEvent.EnteredQq(it))
-        },
+        }
     )
 
     Spacer(modifier = Modifier.height(SpaceSmall))
@@ -140,7 +140,7 @@ fun EditTextSection(
         label = {
             Text(
                 text = stringResource(id = R.string.wechat_label),
-                color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colors.onSurface
             )
         },
         error = when (weChatTextState.error) {
@@ -154,7 +154,7 @@ fun EditTextSection(
                 painter = painterResource(id = R.drawable.wechat),
                 contentDescription = stringResource(R.string.wechat_icon),
                 tint = MaterialTheme.colors.onBackground,
-                modifier = Modifier.size(IconSizeSmall),
+                modifier = Modifier.size(IconSizeSmall)
             )
         },
         trailingIcon = {
@@ -162,20 +162,20 @@ fun EditTextSection(
                 IconButton(
                     onClick = {
                         viewModel.onEvent(EditProfileEvent.ClearWeChat)
-                    },
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Close,
                         contentDescription = stringResource(id = R.string.clear_text),
                         tint = MaterialTheme.colors.onBackground,
-                        modifier = Modifier.size(IconSizeMedium),
+                        modifier = Modifier.size(IconSizeMedium)
                     )
                 }
             }
         },
         onValueChange = {
             viewModel.onEvent(EditProfileEvent.EnteredWeChat(it))
-        },
+        }
     )
 
     Spacer(modifier = Modifier.height(SpaceSmall))
@@ -188,7 +188,7 @@ fun EditTextSection(
         label = {
             Text(
                 text = stringResource(id = R.string.github_label),
-                color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colors.onSurface
             )
         },
         error = when (gitHubTextState.error) {
@@ -202,7 +202,7 @@ fun EditTextSection(
                 painter = painterResource(id = R.drawable.github),
                 contentDescription = stringResource(R.string.github_icon),
                 tint = MaterialTheme.colors.onBackground,
-                modifier = Modifier.size(IconSizeSmall),
+                modifier = Modifier.size(IconSizeSmall)
             )
         },
         trailingIcon = {
@@ -210,20 +210,20 @@ fun EditTextSection(
                 IconButton(
                     onClick = {
                         viewModel.onEvent(EditProfileEvent.ClearGitHub)
-                    },
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Close,
                         contentDescription = stringResource(id = R.string.clear_text),
                         tint = MaterialTheme.colors.onBackground,
-                        modifier = Modifier.size(IconSizeMedium),
+                        modifier = Modifier.size(IconSizeMedium)
                     )
                 }
             }
         },
         onValueChange = {
             viewModel.onEvent(EditProfileEvent.EnteredGitHub(it))
-        },
+        }
     )
 
     Spacer(modifier = Modifier.height(SpaceSmall))
@@ -236,13 +236,13 @@ fun EditTextSection(
         maxLines = 3,
         singleLine = false,
         keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Done,
+            imeAction = ImeAction.Done
         ),
         hint = stringResource(id = R.string.bio_hint),
         label = {
             Text(
                 text = stringResource(id = R.string.bio_label),
-                color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colors.onSurface
             )
         },
         error = when (bioState.error) {
@@ -256,7 +256,7 @@ fun EditTextSection(
                 imageVector = Icons.Default.Description,
                 contentDescription = stringResource(R.string.bio_icon),
                 tint = MaterialTheme.colors.onBackground,
-                modifier = Modifier.size(IconSizeMedium),
+                modifier = Modifier.size(IconSizeMedium)
             )
         },
         trailingIcon = {
@@ -264,19 +264,19 @@ fun EditTextSection(
                 IconButton(
                     onClick = {
                         viewModel.onEvent(EditProfileEvent.ClearBio)
-                    },
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Close,
                         contentDescription = stringResource(id = R.string.clear_text),
                         tint = MaterialTheme.colors.onBackground,
-                        modifier = Modifier.size(IconSizeMedium),
+                        modifier = Modifier.size(IconSizeMedium)
                     )
                 }
             }
         },
         onValueChange = {
             viewModel.onEvent(EditProfileEvent.EnteredBio(it))
-        },
+        }
     )
 }

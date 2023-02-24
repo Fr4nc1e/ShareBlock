@@ -4,5 +4,5 @@ import com.code.block.feature.profile.domain.model.UserItem
 
 data class FollowInfoState(
     val users: List<UserItem> = emptyList(),
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = false
 )

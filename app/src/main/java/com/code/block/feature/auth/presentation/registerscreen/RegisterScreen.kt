@@ -45,7 +45,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun RegisterScreen(
     onRegister: () -> Unit = {},
     scaffoldState: ScaffoldState,
-    viewModel: RegisterViewModel = hiltViewModel(),
+    viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val usernameState = viewModel.usernameState.value
     val emailState = viewModel.emailState.value
@@ -59,7 +59,7 @@ fun RegisterScreen(
                 is UiEvent.SnackBarEvent -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         event.uiText.asString(context),
-                        duration = SnackbarDuration.Long,
+                        duration = SnackbarDuration.Long
                     )
                 }
                 is UiEvent.OnRegister -> {
@@ -77,20 +77,20 @@ fun RegisterScreen(
                 start = SpaceLarge,
                 end = SpaceLarge,
                 top = SpaceLarge,
-                bottom = 50.dp,
-            ),
+                bottom = 50.dp
+            )
     ) {
         Column(
             horizontalAlignment = CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .align(Alignment.Center),
+                .align(Alignment.Center)
         ) {
             Text(
                 text = stringResource(id = R.string.register),
                 style = MaterialTheme.typography.h1,
-                color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colors.onSurface
             )
 
             Spacer(modifier = Modifier.height(SpaceMedium))
@@ -105,7 +105,7 @@ fun RegisterScreen(
                     Text(
                         text = stringResource(id = R.string.email_label),
                         style = MaterialTheme.typography.body1,
-                        color = MaterialTheme.colors.onSurface,
+                        color = MaterialTheme.colors.onSurface
                     )
                 },
                 error = when (emailState.error) {
@@ -123,7 +123,7 @@ fun RegisterScreen(
                         imageVector = Icons.Default.Email,
                         contentDescription = stringResource(R.string.email_icon),
                         tint = MaterialTheme.colors.onBackground,
-                        modifier = Modifier.size(IconSizeMedium),
+                        modifier = Modifier.size(IconSizeMedium)
                     )
                 },
                 trailingIcon = {
@@ -131,17 +131,17 @@ fun RegisterScreen(
                         IconButton(
                             onClick = {
                                 viewModel.onEvent(RegisterEvent.ClearEmail)
-                            },
+                            }
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Close,
                                 contentDescription = stringResource(id = R.string.clear_text),
                                 tint = MaterialTheme.colors.onBackground,
-                                modifier = Modifier.size(IconSizeMedium),
+                                modifier = Modifier.size(IconSizeMedium)
                             )
                         }
                     }
-                },
+                }
             )
 
             // Username input
@@ -154,7 +154,7 @@ fun RegisterScreen(
                     Text(
                         text = stringResource(id = R.string.username_label),
                         style = MaterialTheme.typography.body1,
-                        color = MaterialTheme.colors.onSurface,
+                        color = MaterialTheme.colors.onSurface
                     )
                 },
                 error = when (usernameState.error) {
@@ -171,7 +171,7 @@ fun RegisterScreen(
                         imageVector = Icons.Default.Person,
                         contentDescription = stringResource(R.string.user_icon),
                         tint = MaterialTheme.colors.onBackground,
-                        modifier = Modifier.size(IconSizeMedium),
+                        modifier = Modifier.size(IconSizeMedium)
                     )
                 },
                 trailingIcon = {
@@ -179,17 +179,17 @@ fun RegisterScreen(
                         IconButton(
                             onClick = {
                                 viewModel.onEvent(RegisterEvent.ClearUsername)
-                            },
+                            }
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Close,
                                 contentDescription = stringResource(id = R.string.clear_text),
                                 tint = MaterialTheme.colors.onBackground,
-                                modifier = Modifier.size(IconSizeMedium),
+                                modifier = Modifier.size(IconSizeMedium)
                             )
                         }
                     }
-                },
+                }
             )
 
             // Password input
@@ -202,7 +202,7 @@ fun RegisterScreen(
                     Text(
                         text = stringResource(id = R.string.password_label),
                         style = MaterialTheme.typography.body1,
-                        color = MaterialTheme.colors.onSurface,
+                        color = MaterialTheme.colors.onSurface
                     )
                 },
                 error = when (passwordState.error) {
@@ -223,13 +223,13 @@ fun RegisterScreen(
                         imageVector = Icons.Default.Lock,
                         contentDescription = stringResource(R.string.password_icon),
                         tint = MaterialTheme.colors.onBackground,
-                        modifier = Modifier.size(IconSizeMedium),
+                        modifier = Modifier.size(IconSizeMedium)
                     )
                 },
                 isPasswordVisible = passwordState.isPasswordVisible,
                 onPasswordToggleClick = {
                     viewModel.onEvent(RegisterEvent.TogglePasswordVisibility)
-                },
+                }
             )
 
             Spacer(modifier = Modifier.height(SpaceMedium))
@@ -240,17 +240,17 @@ fun RegisterScreen(
                 },
                 enabled = !registerState.isLoading,
                 modifier = Modifier
-                    .align(Alignment.End),
+                    .align(Alignment.End)
             ) {
                 Text(
                     text = stringResource(id = R.string.register),
-                    color = MaterialTheme.colors.onPrimary,
+                    color = MaterialTheme.colors.onPrimary
                 )
             }
 
             if (registerState.isLoading) {
                 CircularProgressIndicator(
-                    modifier = Modifier.align(CenterHorizontally),
+                    modifier = Modifier.align(CenterHorizontally)
                 )
             }
         }

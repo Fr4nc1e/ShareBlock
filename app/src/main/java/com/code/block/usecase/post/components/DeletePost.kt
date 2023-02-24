@@ -4,7 +4,7 @@ import com.code.block.core.domain.resource.DeleteResource
 import com.code.block.feature.post.domain.repository.PostRepository
 
 class DeletePost(
-    private val repository: PostRepository,
+    private val repository: PostRepository
 ) {
 
     suspend operator fun invoke(postId: String): DeleteResource {

@@ -13,7 +13,7 @@ import com.code.block.R
 @Composable
 fun ImageLoader(
     modifier: Modifier = Modifier,
-    url: String?,
+    url: String?
 ) {
     Image(
         painter = rememberAsyncImagePainter(
@@ -22,11 +22,11 @@ fun ImageLoader(
                 .apply(
                     block = fun ImageRequest.Builder.() {
                         crossfade(true)
-                    },
-                ).build(),
+                    }
+                ).build()
         ),
         contentDescription = stringResource(R.string.profile_pic),
         contentScale = ContentScale.Crop,
-        modifier = modifier,
+        modifier = modifier
     )
 }

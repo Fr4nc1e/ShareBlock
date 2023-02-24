@@ -15,12 +15,12 @@ data class Profile(
     val qqUrl: String?,
     val weChatUrl: String?,
     val isOwnProfile: Boolean,
-    val isFollowing: Boolean,
+    val isFollowing: Boolean
 ) {
     fun toUserInfoState(): UserInfoState {
         return UserInfoState(
             username = username,
-            profilePictureUrl = profilePictureUrl,
+            profilePictureUrl = profilePictureUrl
         )
     }
 }

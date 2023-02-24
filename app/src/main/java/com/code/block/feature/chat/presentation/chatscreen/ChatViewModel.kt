@@ -9,14 +9,14 @@ import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
 import com.code.block.usecase.chat.ChatUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-    private val chatUseCases: ChatUseCases,
+    private val chatUseCases: ChatUseCases
 ) : ViewModel() {
     private val _state = mutableStateOf(ChatState())
     val state: State<ChatState> = _state
@@ -35,14 +35,14 @@ class ChatViewModel @Inject constructor(
                 is Resource.Success -> {
                     _state.value = state.value.copy(
                         chats = result.data ?: emptyList(),
-                        isLoading = false,
+                        isLoading = false
                     )
                 }
                 is Resource.Error -> {
                     _eventFlow.emit(
                         UiEvent.SnackBarEvent(
-                            result.uiText ?: UiText.unknownError(),
-                        ),
+                            result.uiText ?: UiText.unknownError()
+                        )
                     )
                     _state.value = state.value.copy(isLoading = false)
                 }

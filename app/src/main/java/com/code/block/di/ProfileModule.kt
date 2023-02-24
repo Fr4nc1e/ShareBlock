@@ -13,10 +13,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -38,13 +38,13 @@ object ProfileModule {
         profileApi: ProfileApi,
         postApi: PostApi,
         gson: Gson,
-        sharedPreferences: SharedPreferences,
+        sharedPreferences: SharedPreferences
     ): ProfileRepository {
         return ProfileRepositoryImpl(
             profileApi = profileApi,
             postApi = postApi,
             gson = gson,
-            sharedPreferences = sharedPreferences,
+            sharedPreferences = sharedPreferences
         )
     }
 
@@ -61,7 +61,7 @@ object ProfileModule {
             commentsUseCase = GetCommentsUseCase(repository),
             logoutUseCase = LogoutUseCase(repository),
             getFollowersUseCase = GetFollowersUseCase(repository),
-            getFollowingsUseCase = GetFollowingsUseCase(repository),
+            getFollowingsUseCase = GetFollowingsUseCase(repository)
         )
     }
 

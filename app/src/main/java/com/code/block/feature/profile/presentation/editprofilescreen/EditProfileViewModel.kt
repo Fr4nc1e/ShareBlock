@@ -15,15 +15,15 @@ import com.code.block.feature.profile.domain.state.EditTextState
 import com.code.block.feature.profile.presentation.profilescreen.ProfileState
 import com.code.block.usecase.profile.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
     private val profileUseCases: ProfileUseCases,
-    savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
@@ -67,29 +67,29 @@ class EditProfileViewModel @Inject constructor(
                     val profile = result.data ?: kotlin.run {
                         _eventFlow.emit(
                             UiEvent.SnackBarEvent(
-                                UiText.StringResource(R.string.error_couldnt_load_profile),
-                            ),
+                                UiText.StringResource(R.string.error_couldnt_load_profile)
+                            )
                         )
                         return@launch
                     }
                     _usernameState.value = usernameState.value.copy(
-                        text = profile.username,
+                        text = profile.username
                     )
                     _githubTextFieldState.value = _githubTextFieldState.value.copy(
-                        text = profile.gitHubUrl ?: "",
+                        text = profile.gitHubUrl ?: ""
                     )
                     _weChatTextFieldState.value = _weChatTextFieldState.value.copy(
-                        text = profile.weChatUrl ?: "",
+                        text = profile.weChatUrl ?: ""
                     )
                     _qqTextFieldState.value = _qqTextFieldState.value.copy(
-                        text = profile.qqUrl ?: "",
+                        text = profile.qqUrl ?: ""
                     )
                     _bioState.value = bioState.value.copy(
-                        text = profile.bio,
+                        text = profile.bio
                     )
                     _profileState.value = profileState.value.copy(
                         profile = profile,
-                        isLoading = false,
+                        isLoading = false
                     )
                 }
                 is Resource.Error -> {
@@ -108,10 +108,10 @@ class EditProfileViewModel @Inject constructor(
                     bio = bioState.value.text,
                     gitHubUrl = githubTextFieldState.value.text,
                     weChatUrl = weChatTextFieldState.value.text,
-                    qqUrl = qqTextFieldState.value.text,
+                    qqUrl = qqTextFieldState.value.text
                 ),
                 profilePictureUri = profilePictureUri.value,
-                bannerUri = bannerUri.value,
+                bannerUri = bannerUri.value
             )
             when (result) {
                 is Resource.Success -> {
@@ -131,27 +131,27 @@ class EditProfileViewModel @Inject constructor(
         when (event) {
             is EditProfileEvent.EnteredUsername -> {
                 _usernameState.value = usernameState.value.copy(
-                    text = event.username,
+                    text = event.username
                 )
             }
             is EditProfileEvent.EnteredGitHub -> {
                 _githubTextFieldState.value = _githubTextFieldState.value.copy(
-                    text = event.gitHub,
+                    text = event.gitHub
                 )
             }
             is EditProfileEvent.EnteredWeChat -> {
                 _weChatTextFieldState.value = _weChatTextFieldState.value.copy(
-                    text = event.weChat,
+                    text = event.weChat
                 )
             }
             is EditProfileEvent.EnteredQq -> {
                 _qqTextFieldState.value = _qqTextFieldState.value.copy(
-                    text = event.qq,
+                    text = event.qq
                 )
             }
             is EditProfileEvent.EnteredBio -> {
                 _bioState.value = _bioState.value.copy(
-                    text = event.bio,
+                    text = event.bio
                 )
             }
             is EditProfileEvent.CropProfilePicture -> {

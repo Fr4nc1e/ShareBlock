@@ -26,7 +26,7 @@ import kotlinx.coroutines.withContext
 fun SplashScreen(
     onPopBackStack: () -> Unit = {},
     onNavigate: (String) -> Unit = {},
-    viewModel: SplashScreenViewModel = hiltViewModel(),
+    viewModel: SplashScreenViewModel = hiltViewModel()
 ) {
     val scale = remember {
         Animatable(0f)
@@ -44,8 +44,8 @@ fun SplashScreen(
                     durationMillis = 1000,
                     easing = {
                         overshootInterpolator.getInterpolation(it)
-                    },
-                ),
+                    }
+                )
             )
         }
     }
@@ -62,13 +62,13 @@ fun SplashScreen(
     }
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
+        contentAlignment = Alignment.Center
     ) {
         Image(
             painter = painterResource(id = R.drawable.share),
             contentDescription = "Logo",
             modifier = Modifier.scale(scale.value)
-                .size(200.dp),
+                .size(200.dp)
         )
     }
 }

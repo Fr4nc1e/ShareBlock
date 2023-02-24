@@ -20,7 +20,7 @@ fun BottomController(
     isMute: () -> Boolean,
     bufferedPercentage: () -> Int,
     onSeekChanged: (timeMs: Float) -> Unit,
-    onMuteClick: () -> Unit,
+    onMuteClick: () -> Unit
 ) {
     val duration = remember(totalDuration()) { totalDuration() }
 
@@ -40,8 +40,8 @@ fun BottomController(
                 colors =
                 SliderDefaults.colors(
                     disabledThumbColor = Color.Transparent,
-                    disabledActiveTrackColor = Color.Gray,
-                ),
+                    disabledActiveTrackColor = Color.Gray
+                )
             )
 
             Slider(
@@ -52,38 +52,38 @@ fun BottomController(
                 colors =
                 SliderDefaults.colors(
                     thumbColor = MaterialTheme.colors.primary,
-                    activeTickColor = MaterialTheme.colors.primary,
-                ),
+                    activeTickColor = MaterialTheme.colors.primary
+                )
             )
         }
 
         Row(
             modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 text = duration.formatMinSec(),
-                color = MaterialTheme.colors.primary,
+                color = MaterialTheme.colors.primary
             )
 
             IconButton(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 onClick = {
                     onMuteClick()
-                },
+                }
             ) {
                 if (muteState) {
                     Icon(
                         imageVector = Icons.Default.VolumeMute,
                         tint = MaterialTheme.colors.primary,
-                        contentDescription = "Mute",
+                        contentDescription = "Mute"
                     )
                 } else {
                     Icon(
                         imageVector = Icons.Default.VolumeOff,
                         tint = MaterialTheme.colors.primary,
-                        contentDescription = "Mute off",
+                        contentDescription = "Mute off"
                     )
                 }
             }
@@ -100,8 +100,8 @@ fun Long.formatMinSec(): String {
             TimeUnit.MILLISECONDS.toMinutes(this),
             TimeUnit.MILLISECONDS.toSeconds(this) -
                 TimeUnit.MINUTES.toSeconds(
-                    TimeUnit.MILLISECONDS.toMinutes(this),
-                ),
+                    TimeUnit.MILLISECONDS.toMinutes(this)
+                )
         )
     }
 }

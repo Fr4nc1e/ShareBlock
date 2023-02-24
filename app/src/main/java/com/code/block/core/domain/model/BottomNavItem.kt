@@ -11,30 +11,30 @@ enum class BottomNavItem(
     val route: String,
     val icon: ImageVector? = null,
     @StringRes val contentDescription: Int,
-    val alertCount: Int? = null,
+    val alertCount: Int? = null
 ) {
     Home(
         route = Screen.HomeScreen.route,
         icon = Icons.Outlined.Home,
-        contentDescription = R.string.home,
+        contentDescription = R.string.home
     ),
     Chat(
         route = Screen.ChatScreen.route,
         icon = Icons.Outlined.Chat,
-        contentDescription = R.string.message,
+        contentDescription = R.string.message
     ),
     Empty(
         route = Screen.SplashScreen.route,
-        contentDescription = R.string.empty_nav_item,
+        contentDescription = R.string.empty_nav_item
     ),
     Activity(
         route = Screen.ActivityScreen.route,
         icon = Icons.Outlined.Notifications,
-        contentDescription = R.string.activity,
+        contentDescription = R.string.activity
     ),
     Profile(
         route = Screen.ProfileScreen.route,
         icon = Icons.Outlined.Person,
-        contentDescription = R.string.profile,
-    ),
+        contentDescription = R.string.profile
+    )
 }

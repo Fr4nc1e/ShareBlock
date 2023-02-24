@@ -9,15 +9,15 @@ import com.code.block.core.util.ui.UiEvent
 import com.code.block.usecase.auth.AuthenticateUseCase
 import com.onesignal.OneSignal
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class SplashScreenViewModel @Inject constructor(
     private val authenticateUseCase: AuthenticateUseCase,
-    getOwnUserIdUseCase: GetOwnUserIdUseCase,
+    getOwnUserIdUseCase: GetOwnUserIdUseCase
 ) : ViewModel() {
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
@@ -29,12 +29,12 @@ class SplashScreenViewModel @Inject constructor(
             when (authenticateUseCase()) {
                 is Resource.Success -> {
                     _eventFlow.emit(
-                        UiEvent.Navigate(Screen.HomeScreen.route),
+                        UiEvent.Navigate(Screen.HomeScreen.route)
                     )
                 }
                 is Resource.Error -> {
                     _eventFlow.emit(
-                        UiEvent.Navigate(Screen.LoginScreen.route),
+                        UiEvent.Navigate(Screen.LoginScreen.route)
                     )
                 }
             }

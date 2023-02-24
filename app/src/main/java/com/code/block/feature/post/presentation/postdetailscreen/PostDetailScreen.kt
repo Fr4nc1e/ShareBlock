@@ -43,7 +43,7 @@ fun PostDetailScreen(
     scaffoldState: ScaffoldState,
     onNavigate: (String) -> Unit = {},
     shouldShowKeyboard: Boolean = false,
-    viewModel: PostDetailViewModel = hiltViewModel(),
+    viewModel: PostDetailViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
     val commentTextFieldState = viewModel.commentTextState.value
@@ -55,7 +55,7 @@ fun PostDetailScreen(
             when (it) {
                 is UiEvent.SnackBarEvent -> {
                     scaffoldState.snackbarHostState.showSnackbar(
-                        message = it.uiText.asString(context),
+                        message = it.uiText.asString(context)
                     )
                 }
                 else -> Unit
@@ -73,52 +73,52 @@ fun PostDetailScreen(
     Surface(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.onSurface),
+            .background(MaterialTheme.colors.onSurface)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(SpaceSmall),
+                .padding(SpaceSmall)
         ) {
             StandardTopBar(
                 title = {
                     Text(
                         text = stringResource(R.string.home),
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.onBackground,
+                        color = MaterialTheme.colors.onBackground
                     )
                 },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
             )
 
             LazyColumn(
                 modifier = Modifier
-                    .weight(1f),
+                    .weight(1f)
             ) {
                 item {
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(SpaceSmall),
+                            .padding(SpaceSmall)
                     ) {
                         state.post?.let { it ->
                             ActionRow(
                                 post = it,
                                 imageSize = ProfilePictureSizeSmall,
                                 modifier = Modifier.fillMaxWidth(),
-                                onUserClick = onNavigate,
+                                onUserClick = onNavigate
                             )
 
                             Column(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .clip(MaterialTheme.shapes.medium),
+                                    .clip(MaterialTheme.shapes.medium)
                             ) {
                                 Text(
                                     text = it.description,
                                     style = MaterialTheme.typography.body1,
                                     fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colors.onSurface,
+                                    color = MaterialTheme.colors.onSurface
                                 )
 
                                 Spacer(modifier = Modifier.height(SpaceMedium))
@@ -140,7 +140,7 @@ fun PostDetailScreen(
                                     },
                                     onShareClick = {
                                         context.sharePost(postId = it.id)
-                                    },
+                                    }
                                 )
 
                                 Spacer(modifier = Modifier.height(SpaceSmall))
@@ -155,13 +155,13 @@ fun PostDetailScreen(
                             .fillMaxWidth()
                             .padding(
                                 horizontal = SpaceLarge,
-                                vertical = SpaceSmall,
+                                vertical = SpaceSmall
                             ),
                         comment = comment,
                         onUserClick = onNavigate,
                         onLikeClick = {
                             viewModel.onEvent(PostDetailEvent.LikeComment(commentId = comment.id))
-                        },
+                        }
                     )
                 }
             }
@@ -179,14 +179,14 @@ fun PostDetailScreen(
                 hint = stringResource(id = R.string.comment),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
-                    imeAction = Done,
+                    imeAction = Done
                 ),
                 trailingIcon = {
                     IconButton(
                         onClick = {
                             viewModel.onEvent(PostDetailEvent.Comment)
                         },
-                        enabled = commentTextFieldState.error == null,
+                        enabled = commentTextFieldState.error == null
                     ) {
                         Icon(
                             imageVector = Icons.Default.Send,
@@ -195,10 +195,10 @@ fun PostDetailScreen(
                             } else {
                                 MaterialTheme.colors.background
                             },
-                            contentDescription = stringResource(id = R.string.send_comment),
+                            contentDescription = stringResource(id = R.string.send_comment)
                         )
                     }
-                },
+                }
             )
         }
     }

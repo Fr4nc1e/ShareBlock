@@ -10,17 +10,17 @@ interface ProfileRepository {
     suspend fun getOwnPagedPosts(
         userId: String,
         page: Int,
-        pageSize: Int = Constants.PAGE_SIZE_POSTS,
+        pageSize: Int = Constants.PAGE_SIZE_POSTS
     ): ProfileOwnPostResource
     suspend fun getLikedPosts(
         userId: String,
         page: Int,
-        pageSize: Int = Constants.PAGE_SIZE_POSTS,
+        pageSize: Int = Constants.PAGE_SIZE_POSTS
     ): ProfileLikedPostResource
     suspend fun updateProfile(
         updateProfileData: UpdateProfileData,
         bannerImageUri: Uri?,
-        profilePictureUri: Uri?,
+        profilePictureUri: Uri?
     ): UpdateProfileResource
     suspend fun searchUser(query: String): SearchResource
     suspend fun followUser(userId: String): FollowUpdateResource
@@ -28,7 +28,7 @@ interface ProfileRepository {
     suspend fun getComments(
         userId: String,
         page: Int,
-        pageSize: Int = Constants.PAGE_SIZE_POSTS,
+        pageSize: Int = Constants.PAGE_SIZE_POSTS
     ): CommentsForUserResource
     fun logout()
     suspend fun getFollowers(userId: String): FollowingUsersResource

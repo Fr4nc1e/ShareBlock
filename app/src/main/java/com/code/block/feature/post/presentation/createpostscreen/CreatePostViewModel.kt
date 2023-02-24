@@ -17,18 +17,18 @@ import com.code.block.feature.post.presentation.postdetailscreen.state.UserInfoS
 import com.code.block.usecase.post.PostUseCases
 import com.code.block.usecase.profile.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class CreatePostViewModel @Inject constructor(
     private val postUseCases: PostUseCases,
     private val profileUseCases: ProfileUseCases,
     private val notificationUseCases: NotificationUseCases,
-    private val getOwnUserIdUseCase: GetOwnUserIdUseCase,
+    private val getOwnUserIdUseCase: GetOwnUserIdUseCase
 ) : ViewModel() {
 
     private val _descriptionState = mutableStateOf(TextFieldState())
@@ -54,7 +54,7 @@ class CreatePostViewModel @Inject constructor(
         when (event) {
             is CreatePostEvent.EnteredDescription -> {
                 _descriptionState.value = _descriptionState.value.copy(
-                    text = event.description,
+                    text = event.description
                 )
             }
             is CreatePostEvent.InputContent -> {
@@ -66,25 +66,25 @@ class CreatePostViewModel @Inject constructor(
                         _isLoading.value = true
                         val result = postUseCases.createPostUseCase(
                             description = descriptionState.value.text,
-                            contentUri = chosenContentUri.value,
+                            contentUri = chosenContentUri.value
                         )
                         when (result) {
                             is Resource.Success -> {
                                 _eventFlow.emit(
                                     UiEvent.SnackBarEvent(
-                                        uiText = UiText.StringResource(R.string.post_created),
-                                    ),
+                                        uiText = UiText.StringResource(R.string.post_created)
+                                    )
                                 )
                                 notificationUseCases.sendPostNotificationUseCase(
                                     title = _userInfoState.value.username,
-                                    description = _descriptionState.value.text,
+                                    description = _descriptionState.value.text
                                 ).also {
                                     when (it) {
                                         is Resource.Error -> {
                                             _eventFlow.emit(
                                                 UiEvent.SnackBarEvent(
-                                                    result.uiText ?: UiText.unknownError(),
-                                                ),
+                                                    result.uiText ?: UiText.unknownError()
+                                                )
                                             )
                                         }
                                         is Resource.Success -> Unit
@@ -96,8 +96,8 @@ class CreatePostViewModel @Inject constructor(
                             is Resource.Error -> {
                                 _eventFlow.emit(
                                     UiEvent.SnackBarEvent(
-                                        result.uiText ?: UiText.unknownError(),
-                                    ),
+                                        result.uiText ?: UiText.unknownError()
+                                    )
                                 )
                             }
                         }
@@ -112,7 +112,7 @@ class CreatePostViewModel @Inject constructor(
         viewModelScope.launch {
             UserInfoProvider(profileUseCases = profileUseCases).provideUserInfo(
                 userId = getOwnUserIdUseCase(),
-                userInfoState = _userInfoState,
+                userInfoState = _userInfoState
             )
         }
     }

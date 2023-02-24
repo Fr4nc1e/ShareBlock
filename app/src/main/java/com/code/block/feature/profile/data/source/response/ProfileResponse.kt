@@ -15,7 +15,7 @@ data class ProfileResponse(
     val qqUrl: String?,
     val weChatUrl: String?,
     val isOwnProfile: Boolean,
-    val isFollowing: Boolean,
+    val isFollowing: Boolean
 ) {
     fun toProfile(): Profile {
         return Profile(
@@ -31,7 +31,7 @@ data class ProfileResponse(
             qqUrl = qqUrl,
             weChatUrl = weChatUrl,
             isOwnProfile = isOwnProfile,
-            isFollowing = isFollowing,
+            isFollowing = isFollowing
         )
     }
 }

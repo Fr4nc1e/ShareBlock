@@ -10,7 +10,7 @@ object Validation {
     fun checkRegister(
         email: String,
         username: String,
-        password: String,
+        password: String
     ): RegisterError {
         val usernameError = validateUsername(username)
         val emailError = validateEmail(email)
@@ -19,20 +19,20 @@ object Validation {
         return RegisterError(
             emailError = emailError,
             usernameError = usernameError,
-            passwordError = passwordError,
+            passwordError = passwordError
         )
     }
 
     fun checkLogin(
         email: String,
-        password: String,
+        password: String
     ): LoginError {
         val emailError = validateEmail(email)
         val passwordError = validatePassword(password)
 
         return LoginError(
             emailError = emailError,
-            passwordError = passwordError,
+            passwordError = passwordError
         )
     }
 

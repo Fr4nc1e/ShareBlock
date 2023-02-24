@@ -35,7 +35,7 @@ fun LoginScreen(
     onNavigate: (String) -> Unit = {},
     onLogin: () -> Unit = {},
     scaffoldState: ScaffoldState,
-    viewModel: LoginViewModel = hiltViewModel(),
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
     val loginState = viewModel.loginState
     val emailState = viewModel.emailState
@@ -47,7 +47,7 @@ fun LoginScreen(
             when (event) {
                 is UiEvent.SnackBarEvent -> {
                     scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.uiText.asString(context),
+                        message = event.uiText.asString(context)
                     )
                 }
                 is UiEvent.Navigate -> {
@@ -68,19 +68,19 @@ fun LoginScreen(
                 start = SpaceLarge,
                 end = SpaceLarge,
                 top = SpaceLarge,
-                bottom = 50.dp,
-            ),
+                bottom = 50.dp
+            )
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .align(Alignment.Center),
+                .align(Alignment.Center)
         ) {
             Text(
                 text = stringResource(R.string.login),
                 style = MaterialTheme.typography.h1,
-                color = MaterialTheme.colors.onSurface,
+                color = MaterialTheme.colors.onSurface
             )
 
             Spacer(modifier = Modifier.height(SpaceMedium))
@@ -95,7 +95,7 @@ fun LoginScreen(
                     Text(
                         text = stringResource(id = R.string.email_label),
                         style = MaterialTheme.typography.body1,
-                        color = MaterialTheme.colors.onSurface,
+                        color = MaterialTheme.colors.onSurface
                     )
                 },
                 error = when (emailState.value.error) {
@@ -110,7 +110,7 @@ fun LoginScreen(
                         imageVector = Icons.Default.Email,
                         contentDescription = stringResource(R.string.email_icon),
                         tint = MaterialTheme.colors.onBackground,
-                        modifier = Modifier.size(IconSizeMedium),
+                        modifier = Modifier.size(IconSizeMedium)
                     )
                 },
                 trailingIcon = {
@@ -118,17 +118,17 @@ fun LoginScreen(
                         IconButton(
                             onClick = {
                                 viewModel.onEvent(LoginEvent.ClearEmail)
-                            },
+                            }
                         ) {
                             Icon(
                                 imageVector = Icons.Outlined.Close,
                                 contentDescription = stringResource(id = R.string.clear_text),
                                 tint = MaterialTheme.colors.onBackground,
-                                modifier = Modifier.size(IconSizeMedium),
+                                modifier = Modifier.size(IconSizeMedium)
                             )
                         }
                     }
-                },
+                }
             )
 
             Spacer(modifier = Modifier.height(SpaceMedium))
@@ -143,7 +143,7 @@ fun LoginScreen(
                     Text(
                         text = stringResource(id = R.string.password_label),
                         style = MaterialTheme.typography.body1,
-                        color = MaterialTheme.colors.onSurface,
+                        color = MaterialTheme.colors.onSurface
                     )
                 },
                 error = when (passwordState.value.error) {
@@ -161,13 +161,13 @@ fun LoginScreen(
                         imageVector = Icons.Default.Lock,
                         contentDescription = stringResource(R.string.password_icon),
                         tint = MaterialTheme.colors.onBackground,
-                        modifier = Modifier.size(IconSizeMedium),
+                        modifier = Modifier.size(IconSizeMedium)
                     )
                 },
                 isPasswordVisible = passwordState.value.isPasswordVisible,
                 onPasswordToggleClick = {
                     viewModel.onEvent(LoginEvent.TogglePasswordVisibility)
-                },
+                }
             )
 
             Spacer(modifier = Modifier.height(SpaceMedium))
@@ -177,11 +177,11 @@ fun LoginScreen(
                     .align(Alignment.End),
                 onClick = {
                     viewModel.onEvent(LoginEvent.Login)
-                },
+                }
             ) {
                 Text(
                     text = stringResource(id = R.string.login),
-                    color = MaterialTheme.colors.onPrimary,
+                    color = MaterialTheme.colors.onPrimary
                 )
                 if (loginState.value.isLoading) {
                     CircularProgressIndicator()
@@ -195,8 +195,8 @@ fun LoginScreen(
                 val signUpText = stringResource(id = R.string.sign_up)
                 withStyle(
                     style = SpanStyle(
-                        color = MaterialTheme.colors.primary,
-                    ),
+                        color = MaterialTheme.colors.primary
+                    )
                 ) {
                     append(signUpText)
                 }
@@ -207,7 +207,7 @@ fun LoginScreen(
                 .align(Alignment.BottomCenter)
                 .clickable {
                     onNavigate(Screen.RegisterScreen.route)
-                },
+                }
         )
     }
 }

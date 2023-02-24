@@ -15,11 +15,11 @@ interface ChatApi {
     suspend fun getMessagesForChat(
         @Query("chatId") chatId: String,
         @Query("page") page: Int,
-        @Query("pageSize") pageSize: Int,
+        @Query("pageSize") pageSize: Int
     ): List<MessageDto>
 
     @GET("/api/chat/channel")
     suspend fun getChannelId(
-        @Query("userId") userId: String,
+        @Query("userId") userId: String
     ): ChannelIdResponse
 }

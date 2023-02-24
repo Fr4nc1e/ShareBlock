@@ -22,13 +22,13 @@ import com.code.block.feature.profile.presentation.profilescreen.ProfileViewMode
 @Composable
 fun ProfileOwnPostsScreen(
     ownPagingState: PageState<Post>,
-    onNavigate: (String) -> Unit = {},
+    onNavigate: (String) -> Unit = {}
 ) {
     val profileViewModel = hiltViewModel<ProfileViewModel>()
     val context = LocalContext.current
 
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
     ) {
         items(ownPagingState.items.size) { i ->
             val post = ownPagingState.items[i]
@@ -47,14 +47,16 @@ fun ProfileOwnPostsScreen(
                     profileViewModel.onEvent(ProfileEvent.OwnPageLikePost(postId = post.id))
                 },
                 onCommentClick = {
-                    onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
+                    onNavigate(
+                        Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true"
+                    )
                 },
                 onShareClick = {
                     context.sharePost(postId = post.id)
                 },
                 onDeleteClick = {
                     profileViewModel.onEvent(ProfileEvent.DeletePost(post = post))
-                },
+                }
             )
         }
         item {

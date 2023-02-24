@@ -12,10 +12,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -36,11 +36,11 @@ object AuthModule {
     @Singleton
     fun provideAuthRepository(
         api: AuthApi,
-        sharedPreferences: SharedPreferences,
+        sharedPreferences: SharedPreferences
     ): AuthRepository {
         return AuthRepositoryImpl(
             api,
-            sharedPreferences,
+            sharedPreferences
         )
     }
 

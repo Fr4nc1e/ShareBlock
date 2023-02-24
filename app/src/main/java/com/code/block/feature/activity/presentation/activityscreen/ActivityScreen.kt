@@ -29,7 +29,7 @@ import com.code.block.feature.activity.presentation.activityscreen.components.Ac
 @Composable
 fun ActivityScreen(
     onNavigate: (String) -> Unit = {},
-    viewModel: ActivityViewModel = hiltViewModel(),
+    viewModel: ActivityViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
     val activities = viewModel.activities.collectAsLazyPagingItems()
@@ -40,32 +40,32 @@ fun ActivityScreen(
             viewModel.refresh {
                 activities.refresh()
             }
-        },
+        }
     )
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .pullRefresh(pullRefreshState),
+            .pullRefresh(pullRefreshState)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
         ) {
             StandardTopBar(
                 title = {
                     Text(
                         text = stringResource(R.string.activity),
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.onBackground,
+                        color = MaterialTheme.colors.onBackground
                     )
                 },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
             )
 
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize(),
-                contentPadding = PaddingValues(SpaceMedium),
+                contentPadding = PaddingValues(SpaceMedium)
             ) {
                 items(activities) { activity ->
                     activity?.let {
@@ -76,10 +76,10 @@ fun ActivityScreen(
                                 profileImageUrl = activity.profileImageUrl,
                                 activityType = activity.activityType,
                                 parentId = activity.parentId,
-                                formattedTime = activity.formattedTime,
+                                formattedTime = activity.formattedTime
                             ),
                             onUserClick = onNavigate,
-                            onActivityClick = onNavigate,
+                            onActivityClick = onNavigate
                         )
                     }
                 }
@@ -87,14 +87,14 @@ fun ActivityScreen(
         }
         if (state.isLoading) {
             CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center),
+                modifier = Modifier.align(Alignment.Center)
             )
         }
 
         PullRefreshIndicator(
             refreshing = refreshing,
             state = pullRefreshState,
-            modifier = Modifier.align(Alignment.TopCenter),
+            modifier = Modifier.align(Alignment.TopCenter)
         )
     }
 }

@@ -41,33 +41,33 @@ fun CommentItem(
     comment: Comment,
     onLikeClick: (Boolean) -> Unit = {},
     onUserClick: (String) -> Unit = {},
-    onItemClick: () -> Unit = {},
+    onItemClick: () -> Unit = {}
 ) {
     Card(
         modifier = modifier.clickable { onItemClick() },
         elevation = 5.dp,
         shape = RoundedCornerShape(10.dp),
-        backgroundColor = MaterialTheme.colors.surface,
+        backgroundColor = MaterialTheme.colors.surface
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(SpaceSmall),
+                .padding(SpaceSmall)
         ) {
             Box(
                 modifier = Modifier
                     .align(Alignment.Top)
                     .clickable {
                         onUserClick(Screen.ProfileScreen.route + "?userId=${comment.userId}")
-                    },
+                    }
             ) {
                 Image(
                     painter = rememberAsyncImagePainter(
                         ImageRequest.Builder(LocalContext.current)
                             .data(data = comment.profilePictureUrl)
                             .apply(
-                                block = fun ImageRequest.Builder.() { crossfade(true) },
-                            ).build(),
+                                block = fun ImageRequest.Builder.() { crossfade(true) }
+                            ).build()
                     ),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
@@ -85,12 +85,12 @@ fun CommentItem(
                                     Color(0xFFFFF176),
                                     Color(0xFFAED581),
                                     Color(0xFF4DD0E1),
-                                    Color(0xFF9575CD),
-                                ),
+                                    Color(0xFF9575CD)
+                                )
                             ),
-                            shape = CircleShape,
+                            shape = CircleShape
                         )
-                        .align(Center),
+                        .align(Center)
                 )
             }
 
@@ -104,8 +104,8 @@ fun CommentItem(
                                 fontFamily = quicksand,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp,
-                                color = MaterialTheme.colors.primary,
-                            ),
+                                color = MaterialTheme.colors.primary
+                            )
                         ) {
                             append(comment.username)
                         }
@@ -113,7 +113,7 @@ fun CommentItem(
                     },
                     style = MaterialTheme.typography.body1,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.onSurface,
+                    color = MaterialTheme.colors.onSurface
                 )
 
                 Spacer(modifier = Modifier.height(SpaceSmall))
@@ -121,16 +121,16 @@ fun CommentItem(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = CenterVertically,
+                    verticalAlignment = CenterVertically
                 ) {
                     Row(
-                        verticalAlignment = CenterVertically,
+                        verticalAlignment = CenterVertically
                     ) {
                         IconButton(
                             onClick = {
                                 onLikeClick(comment.isLiked)
                             },
-                            modifier = Modifier.size(IconSizeSmall),
+                            modifier = Modifier.size(IconSizeSmall)
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.Favorite,
@@ -143,7 +143,7 @@ fun CommentItem(
                                     MaterialTheme.colors.primary
                                 } else {
                                     MaterialTheme.colors.onSurface
-                                },
+                                }
                             )
                         }
 
@@ -153,14 +153,14 @@ fun CommentItem(
                             text = "${comment.likeCount}",
                             fontWeight = FontWeight.Bold,
                             style = MaterialTheme.typography.body2,
-                            color = MaterialTheme.colors.onSurface,
+                            color = MaterialTheme.colors.onSurface
                         )
                     }
 
                     Text(
                         text = comment.formattedTime,
                         style = MaterialTheme.typography.body2,
-                        color = MaterialTheme.colors.onSurface,
+                        color = MaterialTheme.colors.onSurface
                     )
                 }
             }

@@ -10,16 +10,16 @@ import com.code.block.core.util.ui.UiEvent
 import com.code.block.core.util.ui.UiText
 import com.code.block.usecase.profile.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class SearchScreeViewModel @Inject constructor(
-    private val profileUseCases: ProfileUseCases,
+    private val profileUseCases: ProfileUseCases
 ) : ViewModel() {
 
     private val _searchState = mutableStateOf(SearchState())
@@ -37,7 +37,7 @@ class SearchScreeViewModel @Inject constructor(
         when (event) {
             is SearchEvent.EnteredSearchText -> {
                 _searchTextFiledState.value = _searchTextFiledState.value.copy(
-                    text = event.searchText,
+                    text = event.searchText
                 )
             }
             is SearchEvent.ClearSearchText -> {
@@ -65,12 +65,12 @@ class SearchScreeViewModel @Inject constructor(
                     } else {
                         it
                     }
-                },
+                }
             )
 
             profileUseCases.followUserUseCase(
                 userId = userId,
-                isFollowing = isFollowing,
+                isFollowing = isFollowing
             ).apply {
                 when (this) {
                     is Resource.Success -> Unit
@@ -82,10 +82,10 @@ class SearchScreeViewModel @Inject constructor(
                                 } else {
                                     it
                                 }
-                            },
+                            }
                         )
                         _eventFlow.emit(
-                            UiEvent.SnackBarEvent(uiText = this.uiText ?: UiText.unknownError()),
+                            UiEvent.SnackBarEvent(uiText = this.uiText ?: UiText.unknownError())
                         )
                     }
                 }
@@ -98,7 +98,7 @@ class SearchScreeViewModel @Inject constructor(
         searchJob = viewModelScope.launch {
             delay(1000L)
             _searchState.value = _searchState.value.copy(
-                isLoading = true,
+                isLoading = true
             )
             profileUseCases.searchUseCase(query)
                 .apply {
@@ -106,17 +106,17 @@ class SearchScreeViewModel @Inject constructor(
                         is Resource.Success -> {
                             _searchState.value = _searchState.value.copy(
                                 userItems = this.data ?: emptyList(),
-                                isLoading = false,
+                                isLoading = false
                             )
                         }
                         is Resource.Error -> {
                             _searchTextFiledState.value = _searchTextFiledState.value.copy(
                                 error = SearchError(
-                                    message = this.uiText ?: UiText.unknownError(),
-                                ),
+                                    message = this.uiText ?: UiText.unknownError()
+                                )
                             )
                             _searchState.value = _searchState.value.copy(
-                                isLoading = false,
+                                isLoading = false
                             )
                         }
                     }

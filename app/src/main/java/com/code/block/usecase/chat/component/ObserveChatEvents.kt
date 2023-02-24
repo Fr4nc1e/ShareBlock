@@ -5,7 +5,7 @@ import com.tinder.scarlet.WebSocket
 import kotlinx.coroutines.flow.Flow
 
 class ObserveChatEvents(
-    private val repository: ChatRepository,
+    private val repository: ChatRepository
 ) {
     operator fun invoke(): Flow<WebSocket.Event> {
         return repository.observeChatEvent()

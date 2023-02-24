@@ -6,5 +6,5 @@ data class Chat(
     val remoteUsername: String,
     val remoteUserProfilePictureUrl: String,
     val lastMessage: String,
-    val timestamp: Long,
+    val timestamp: Long
 )

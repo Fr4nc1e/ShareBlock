@@ -16,11 +16,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -30,7 +30,7 @@ object AppModule {
     fun provideSharedPref(app: Application): SharedPreferences {
         return app.getSharedPreferences(
             Constants.SHARED_PREF_NAME,
-            MODE_PRIVATE,
+            MODE_PRIVATE
         )
     }
 
@@ -43,7 +43,7 @@ object AppModule {
                 val modifiedRequest = it.request().newBuilder()
                     .addHeader(
                         "Authorization",
-                        "Bearer $token",
+                        "Bearer $token"
                     )
                     .build()
                 it.proceed(modifiedRequest)
@@ -51,7 +51,7 @@ object AppModule {
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
-                },
+                }
             )
             .build()
     }
@@ -83,7 +83,7 @@ object AppModule {
     @Singleton
     fun provideNotificationUseCase(repository: PostRepository): NotificationUseCases {
         return NotificationUseCases(
-            sendPostNotificationUseCase = SendPostNotificationUseCase(repository),
+            sendPostNotificationUseCase = SendPostNotificationUseCase(repository)
         )
     }
 

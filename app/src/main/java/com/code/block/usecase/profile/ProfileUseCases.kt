@@ -12,5 +12,5 @@ data class ProfileUseCases(
     val commentsUseCase: GetCommentsUseCase,
     val logoutUseCase: LogoutUseCase,
     val getFollowersUseCase: GetFollowersUseCase,
-    val getFollowingsUseCase: GetFollowingsUseCase,
+    val getFollowingsUseCase: GetFollowingsUseCase
 )

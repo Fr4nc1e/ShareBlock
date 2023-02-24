@@ -31,30 +31,30 @@ fun ActionRow(
     modifier: Modifier = Modifier,
     post: Post,
     imageSize: Dp = ProfilePictureSizeExtraSmall,
-    onUserClick: (String) -> Unit = {},
+    onUserClick: (String) -> Unit = {}
 ) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = CenterVertically,
+        verticalAlignment = CenterVertically
     ) {
         Row(
             modifier = Modifier
                 .clickable {
                     onUserClick(Screen.ProfileScreen.route + "?userId=${post.userId}")
-                },
+                }
         ) {
             Image(
                 painter = rememberAsyncImagePainter(
                     ImageRequest.Builder(LocalContext.current)
                         .data(
-                            data = post.profilePictureUrl,
+                            data = post.profilePictureUrl
                         )
                         .apply(
                             block = fun ImageRequest.Builder.() {
                                 crossfade(true)
-                            },
-                        ).build(),
+                            }
+                        ).build()
                 ),
                 contentDescription = stringResource(R.string.profile_pic),
                 contentScale = ContentScale.Crop,
@@ -72,12 +72,12 @@ fun ActionRow(
                                 Color(0xFFFFF176),
                                 Color(0xFFAED581),
                                 Color(0xFF4DD0E1),
-                                Color(0xFF9575CD),
-                            ),
+                                Color(0xFF9575CD)
+                            )
                         ),
-                        shape = CircleShape,
+                        shape = CircleShape
                     )
-                    .align(CenterVertically),
+                    .align(CenterVertically)
             )
             Spacer(modifier = Modifier.width(SpaceSmall))
             Text(
@@ -85,7 +85,7 @@ fun ActionRow(
                 style = MaterialTheme.typography.body1,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colors.onSurface,
-                modifier = Modifier.align(CenterVertically),
+                modifier = Modifier.align(CenterVertically)
             )
         }
 
@@ -93,7 +93,7 @@ fun ActionRow(
             text = post.timestamp,
             style = MaterialTheme.typography.body2,
             color = MaterialTheme.colors.onSurface,
-            modifier = Modifier.align(CenterVertically),
+            modifier = Modifier.align(CenterVertically)
         )
     }
 }

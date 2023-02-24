@@ -9,15 +9,15 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.annotation.RequiresApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import java.io.BufferedInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 
 object BitmapTransformer {
     suspend fun getBitmapFromUrl(inputUrl: String?): Bitmap? {
@@ -40,20 +40,19 @@ object BitmapTransformer {
         }
     }
 
-    @Suppress("DEPRECATION")
     fun getImageUriFromBitmap(context: Context, bitmap: Bitmap): Uri {
-        val bytes = ByteArrayOutputStream()
+        val bytes = ByteArrayOutputStream(bitmap.width * bitmap.height)
         bitmap.compress(
-            /* format = */ Bitmap.CompressFormat.JPEG,
+            /* format = */ Bitmap.CompressFormat.PNG,
             /* quality = */ 100,
-            /* stream = */ bytes,
+            /* stream = */ bytes
         )
         val path = MediaStore.Images.Media
             .insertImage(
                 /* cr = */ context.contentResolver,
                 /* source = */ bitmap,
                 /* title = */ "Title",
-                /* description = */ null,
+                /* description = */ null
             )
         return Uri.parse(path.toString())
     }
@@ -61,7 +60,7 @@ object BitmapTransformer {
     @RequiresApi(Build.VERSION_CODES.Q)
     fun saveImageQ(
         bitmap: Bitmap,
-        context: Context,
+        context: Context
     ): Uri {
         val filename = "IMG_${System.currentTimeMillis()}.jpg"
         val values = ContentValues().apply {
@@ -74,7 +73,7 @@ object BitmapTransformer {
         val resolver = context.contentResolver
         val uri = resolver.insert(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            values,
+            values
         )
 
         uri?.let {
@@ -82,7 +81,7 @@ object BitmapTransformer {
                 bitmap.compress(
                     /* format = */ Bitmap.CompressFormat.JPEG,
                     /* quality = */ 100,
-                    /* stream = */ outputStream,
+                    /* stream = */ outputStream
                 )
             }
 
@@ -92,7 +91,7 @@ object BitmapTransformer {
                 /* uri = */ uri,
                 /* values = */ values,
                 /* where = */ null,
-                /* selectionArgs = */ null,
+                /* selectionArgs = */ null
             )
         } ?: throw RuntimeException("MediaStore failed for some reason")
         return uri

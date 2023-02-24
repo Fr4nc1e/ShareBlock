@@ -34,24 +34,24 @@ import kotlinx.coroutines.flow.collectLatest
 fun EditProfileScreen(
     onNavigateUp: () -> Unit = {},
     scaffoldState: ScaffoldState,
-    viewModel: EditProfileViewModel = hiltViewModel(),
+    viewModel: EditProfileViewModel = hiltViewModel()
 ) {
     val profileState = viewModel.profileState.value
     val bannerUri = viewModel.bannerUri.value
     val profilePicUri = viewModel.profilePictureUri.value
 
     val cropProfilePictureLauncher = rememberLauncherForActivityResult(
-        contract = CropActivityResultContract(1f, 1f),
+        contract = CropActivityResultContract(1f, 1f)
     ) {
         viewModel.onEvent(EditProfileEvent.CropProfilePicture(it))
     }
     val cropBannerImageLauncher = rememberLauncherForActivityResult(
-        contract = CropActivityResultContract(5f, 2f),
+        contract = CropActivityResultContract(5f, 2f)
     ) {
         viewModel.onEvent(EditProfileEvent.CropBannerImage(it))
     }
     val profilePictureGalleryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
+        contract = ActivityResultContracts.PickVisualMedia()
     ) {
         if (it == null) {
             return@rememberLauncherForActivityResult
@@ -59,7 +59,7 @@ fun EditProfileScreen(
         cropProfilePictureLauncher.launch(it)
     }
     val bannerImageGalleryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
+        contract = ActivityResultContracts.PickVisualMedia()
     ) {
         if (it == null) {
             return@rememberLauncherForActivityResult
@@ -73,7 +73,7 @@ fun EditProfileScreen(
             when (event) {
                 is UiEvent.SnackBarEvent -> {
                     scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.uiText.asString(context),
+                        message = event.uiText.asString(context)
                     )
                 }
                 is UiEvent.NavigateUp -> {
@@ -85,19 +85,19 @@ fun EditProfileScreen(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
     ) {
         StandardTopBar(
             navActions = {
                 IconButton(
                     onClick = {
                         viewModel.onEvent(EditProfileEvent.EditionCompleted)
-                    },
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Default.Check,
                         contentDescription = stringResource(id = R.string.save_changes),
-                        tint = MaterialTheme.colors.onBackground,
+                        tint = MaterialTheme.colors.onBackground
                     )
                 }
             },
@@ -105,59 +105,59 @@ fun EditProfileScreen(
                 Text(
                     text = stringResource(id = R.string.edit_your_profile),
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.onBackground,
+                    color = MaterialTheme.colors.onBackground
                 )
-            },
+            }
         )
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState())
         ) {
             BannerEditSection(
                 bannerImage = rememberAsyncImagePainter(
                     ImageRequest.Builder(LocalContext.current)
                         .data(
-                            data = bannerUri ?: profileState.profile?.bannerUrl,
+                            data = bannerUri ?: profileState.profile?.bannerUrl
                         )
                         .apply(
                             block = fun ImageRequest.Builder.() {
                                 crossfade(true)
-                            },
-                        ).build(),
+                            }
+                        ).build()
                 ),
                 profileImage = rememberAsyncImagePainter(
                     ImageRequest.Builder(LocalContext.current)
                         .data(
-                            data = profilePicUri ?: profileState.profile?.profilePictureUrl,
+                            data = profilePicUri ?: profileState.profile?.profilePictureUrl
                         )
                         .apply(
                             block = fun ImageRequest.Builder.() {
                                 crossfade(true)
-                            },
-                        ).build(),
+                            }
+                        ).build()
                 ),
                 onBannerClick = {
                     bannerImageGalleryLauncher.launch(
                         PickVisualMediaRequest(
-                            ActivityResultContracts.PickVisualMedia.ImageOnly,
-                        ),
+                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                        )
                     )
                 },
                 onProfileImageClick = {
                     profilePictureGalleryLauncher.launch(
                         PickVisualMediaRequest(
-                            ActivityResultContracts.PickVisualMedia.ImageOnly,
-                        ),
+                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                        )
                     )
-                },
+                }
             )
 
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(SpaceLarge),
+                    .padding(SpaceLarge)
             ) {
                 Spacer(modifier = Modifier.height(SpaceSmall))
 

@@ -4,22 +4,22 @@ import com.code.block.R
 import com.code.block.core.domain.resource.ChannelIdResource
 import com.code.block.core.domain.resource.Resource
 import com.code.block.core.util.ui.UiText
-import com.code.block.feature.chat.data.source.api.ChatApi
 import com.code.block.feature.chat.data.service.ChatService
+import com.code.block.feature.chat.data.source.api.ChatApi
 import com.code.block.feature.chat.data.source.ws.model.WsClientMessage
 import com.code.block.feature.chat.di.ScarletInstance
 import com.code.block.feature.chat.domain.model.Chat
 import com.code.block.feature.chat.domain.model.Message
 import com.code.block.feature.chat.domain.repository.ChatRepository
 import com.tinder.scarlet.WebSocket
+import java.io.IOException
 import kotlinx.coroutines.flow.* // ktlint-disable no-wildcard-imports
 import okhttp3.OkHttpClient
 import retrofit2.HttpException
-import java.io.IOException
 
 class ChatRepositoryImpl(
     private val chatApi: ChatApi,
-    private val okHttpClient: OkHttpClient,
+    private val okHttpClient: OkHttpClient
 ) : ChatRepository {
     private var chatService: ChatService? = null
 
@@ -31,15 +31,15 @@ class ChatRepositoryImpl(
         return try {
             Resource.Success(
                 data = chatApi.getChannelId(userId).data,
-                uiText = null,
+                uiText = null
             )
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect),
+                uiText = UiText.StringResource(R.string.fail_to_connect)
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect),
+                uiText = UiText.StringResource(R.string.fail_to_connect)
             )
         }
     }
@@ -53,11 +53,11 @@ class ChatRepositoryImpl(
             Resource.Success(data = chats, uiText = null)
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect),
+                uiText = UiText.StringResource(R.string.fail_to_connect)
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect),
+                uiText = UiText.StringResource(R.string.fail_to_connect)
             )
         }
     }
@@ -65,7 +65,7 @@ class ChatRepositoryImpl(
     override suspend fun getMessagesForChat(
         chatId: String,
         page: Int,
-        pageSize: Int,
+        pageSize: Int
     ): Resource<List<Message>> {
         return try {
             val messages = chatApi
@@ -74,11 +74,11 @@ class ChatRepositoryImpl(
             Resource.Success(data = messages, uiText = null)
         } catch (e: IOException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect),
+                uiText = UiText.StringResource(R.string.fail_to_connect)
             )
         } catch (e: HttpException) {
             Resource.Error(
-                uiText = UiText.StringResource(R.string.fail_to_connect),
+                uiText = UiText.StringResource(R.string.fail_to_connect)
             )
         }
     }
@@ -100,8 +100,8 @@ class ChatRepositoryImpl(
             WsClientMessage(
                 toId = toId,
                 text = text,
-                chatId = chatId,
-            ),
+                chatId = chatId
+            )
         )
     }
 }

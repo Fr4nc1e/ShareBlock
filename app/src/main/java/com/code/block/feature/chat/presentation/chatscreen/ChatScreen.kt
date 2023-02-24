@@ -23,28 +23,28 @@ import com.code.block.feature.chat.presentation.chatscreen.component.ChatItem
 @Composable
 fun ChatScreen(
     onNavigate: (String) -> Unit = {},
-    viewModel: ChatViewModel = hiltViewModel(),
+    viewModel: ChatViewModel = hiltViewModel()
 ) {
     val chats = viewModel.state.value.chats
     val isLoading = viewModel.state.value.isLoading
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
         ) {
             StandardTopBar(
                 title = {
                     Text(
                         text = stringResource(R.string.chat),
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.onBackground,
+                        color = MaterialTheme.colors.onBackground
                     )
                 },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
             )
 
             LazyColumn(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize()
             ) {
                 items(chats) { chat ->
                     ChatItem(
@@ -57,10 +57,10 @@ fun ChatScreen(
                                     "/${chat.remoteUsername}" +
                                     "/${Base64.encodeToString(
                                         /* input = */ chat.remoteUserProfilePictureUrl.encodeToByteArray(),
-                                        /* flags = */ 0,
-                                    )}?chatId=${chat.chatId}",
+                                        /* flags = */ 0
+                                    )}?chatId=${chat.chatId}"
                             )
-                        },
+                        }
                     )
                 }
                 item {
@@ -72,7 +72,7 @@ fun ChatScreen(
         if (isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
-                color = MaterialTheme.colors.primary,
+                color = MaterialTheme.colors.primary
             )
         }
     }

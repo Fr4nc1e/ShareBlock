@@ -20,12 +20,12 @@ import com.code.block.feature.profile.presentation.profilescreen.ProfileViewMode
 @Composable
 fun ProfileCommentPostsScreen(
     commentPagingState: PageState<Comment>,
-    onNavigate: (String) -> Unit = {},
+    onNavigate: (String) -> Unit = {}
 ) {
     val profileViewModel = hiltViewModel<ProfileViewModel>()
 
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
     ) {
         items(commentPagingState.items.size) { i ->
             val comment = commentPagingState.items[i]
@@ -44,7 +44,7 @@ fun ProfileCommentPostsScreen(
                 },
                 onItemClick = {
                     onNavigate(Screen.PostDetailScreen.route + "/${comment.postId}")
-                },
+                }
             )
         }
         item {

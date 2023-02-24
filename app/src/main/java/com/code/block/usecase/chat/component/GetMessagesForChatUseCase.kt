@@ -6,17 +6,17 @@ import com.code.block.feature.chat.domain.model.Message
 import com.code.block.feature.chat.domain.repository.ChatRepository
 
 class GetMessagesForChatUseCase(
-    private val repository: ChatRepository,
+    private val repository: ChatRepository
 ) {
     suspend operator fun invoke(
         chatId: String,
         page: Int,
-        pageSize: Int = Constants.PAGE_SIZE_POSTS,
+        pageSize: Int = Constants.PAGE_SIZE_POSTS
     ): Resource<List<Message>> {
         return repository.getMessagesForChat(
             chatId = chatId,
             page = page,
-            pageSize = pageSize,
+            pageSize = pageSize
         )
     }
 }

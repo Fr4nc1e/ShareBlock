@@ -15,15 +15,15 @@ import com.code.block.core.util.ui.liker.Liker
 import com.code.block.core.util.ui.paging.PaginationImpl
 import com.code.block.usecase.post.PostUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.* // ktlint-disable no-wildcard-imports
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val postUseCases: PostUseCases,
-    private val liker: Liker,
+    private val liker: Liker
 ) : ViewModel() {
     private val _state = mutableStateOf(HomeState())
     val state: State<HomeState> = _state
@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
     private val paginator = PaginationImpl(
         onLoadUpdated = { isLoading ->
             _pagingState.value = _pagingState.value.copy(
-                isLoading = isLoading,
+                isLoading = isLoading
             )
         },
         onRequest = { page ->
@@ -51,12 +51,12 @@ class HomeViewModel @Inject constructor(
             _pagingState.value = _pagingState.value.copy(
                 items = pagingState.value.items + posts,
                 endReached = posts.isEmpty(),
-                isLoading = false,
+                isLoading = false
             )
         },
         onError = { uiText ->
             _eventFlow.emit(UiEvent.SnackBarEvent(uiText = uiText))
-        },
+        }
     )
 
     init {
@@ -90,19 +90,19 @@ class HomeViewModel @Inject constructor(
                     _pagingState.value = pagingState.value.copy(
                         items = pagingState.value.items.filter {
                             it.id != postId
-                        },
+                        }
                     )
                     _eventFlow.emit(
                         UiEvent.SnackBarEvent(
                             UiText.StringResource(
-                                R.string.successfully_deleted_post,
-                            ),
-                        ),
+                                R.string.successfully_deleted_post
+                            )
+                        )
                     )
                 }
                 is Resource.Error -> {
                     _eventFlow.emit(
-                        UiEvent.SnackBarEvent(result.uiText ?: UiText.unknownError()),
+                        UiEvent.SnackBarEvent(result.uiText ?: UiText.unknownError())
                     )
                 }
             }
@@ -110,7 +110,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun likeParent(
-        parentId: String,
+        parentId: String
     ) {
         viewModelScope.launch {
             liker.clickLike(
@@ -120,14 +120,14 @@ class HomeViewModel @Inject constructor(
                     postUseCases.likeParentUseCase(
                         parentId = parentId,
                         parentType = ParentType.Post.type,
-                        isLiked = isLiked,
+                        isLiked = isLiked
                     )
                 },
                 onStateUpdate = { posts ->
                     _pagingState.value = _pagingState.value.copy(
-                        items = posts,
+                        items = posts
                     )
-                },
+                }
             )
         }
     }
@@ -138,7 +138,7 @@ class HomeViewModel @Inject constructor(
             delay(500L)
             paginator.page = 0
             _pagingState.value = _pagingState.value.copy(
-                items = emptyList(),
+                items = emptyList()
             )
             loadNextPosts()
             _isRefreshing.emit(false)

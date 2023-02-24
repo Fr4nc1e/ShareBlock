@@ -12,7 +12,7 @@ import com.onesignal.OneSignal.OSRemoteNotificationReceivedHandler
 class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
     override fun remoteNotificationReceived(
         p0: Context?,
-        p1: OSNotificationReceivedEvent?,
+        p1: OSNotificationReceivedEvent?
     ) {
         val notification = p1?.notification
         val mutableNotification = notification?.mutableCopy()
@@ -24,7 +24,7 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
                         /* what = */ ForegroundColorSpan(Color.Black.toArgb()),
                         /* start = */ 0,
                         /* end = */ notification.title.length,
-                        /* flags = */ 0,
+                        /* flags = */ 0
                     )
                 }
                 setContentTitle(spannableTitle)
@@ -33,7 +33,7 @@ class NotificationServiceExtension : OSRemoteNotificationReceivedHandler {
                         /* what = */ ForegroundColorSpan(Color.Black.toArgb()),
                         /* start = */ 0,
                         /* end = */ notification.body.length,
-                        /* flags = */ 0,
+                        /* flags = */ 0
                     )
                 }
                 setContentText(spannableBody)

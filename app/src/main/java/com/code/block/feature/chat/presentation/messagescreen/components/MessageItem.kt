@@ -29,11 +29,11 @@ fun MessageItem(
     ownProfilePictureUrl: String?,
     isOwnMessage: Boolean = true,
     onRemoteUserClick: () -> Unit = {},
-    onOwnUserClick: () -> Unit = {},
+    onOwnUserClick: () -> Unit = {}
 ) {
     Box(modifier = Modifier.wrapContentSize()) {
         Row(
-            modifier = Modifier.wrapContentSize(),
+            modifier = Modifier.wrapContentSize()
         ) {
             if (!isOwnMessage) {
                 ImageLoader(
@@ -52,12 +52,12 @@ fun MessageItem(
                                     Color(0xFFFFF176),
                                     Color(0xFFAED581),
                                     Color(0xFF4DD0E1),
-                                    Color(0xFF9575CD),
-                                ),
+                                    Color(0xFF9575CD)
+                                )
                             ),
-                            shape = CircleShape,
+                            shape = CircleShape
                         )
-                        .clickable { onRemoteUserClick() },
+                        .clickable { onRemoteUserClick() }
                 )
                 Spacer(modifier = Modifier.width(SpaceSmall))
             }
@@ -69,18 +69,18 @@ fun MessageItem(
                         color = if (isOwnMessage) {
                             MaterialTheme.colors.primary
                         } else { Color.DarkGray },
-                        shape = RoundedCornerShape(10.dp),
+                        shape = RoundedCornerShape(10.dp)
                     )
-                    .padding(8.dp),
+                    .padding(8.dp)
             ) {
                 Text(
                     text = message.text,
                     style = MaterialTheme.typography.body1.copy(
-                        fontSize = 14.sp,
+                        fontSize = 14.sp
                     ),
                     color = if (isOwnMessage) {
                         MaterialTheme.colors.onPrimary
-                    } else { Color.White },
+                    } else { Color.White }
                 )
                 Text(
                     text = message.formattedTime,
@@ -88,7 +88,7 @@ fun MessageItem(
                     color = if (isOwnMessage) {
                         MaterialTheme.colors.onPrimary
                     } else { Color.White },
-                    modifier = Modifier.align(Alignment.End),
+                    modifier = Modifier.align(Alignment.End)
                 )
             }
 
@@ -110,11 +110,11 @@ fun MessageItem(
                                     Color(0xFFFFF176),
                                     Color(0xFFAED581),
                                     Color(0xFF4DD0E1),
-                                    Color(0xFF9575CD),
-                                ),
+                                    Color(0xFF9575CD)
+                                )
                             ),
-                            shape = CircleShape,
-                        ).clickable { onOwnUserClick() },
+                            shape = CircleShape
+                        ).clickable { onOwnUserClick() }
                 )
             }
         }

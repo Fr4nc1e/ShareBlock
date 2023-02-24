@@ -6,7 +6,7 @@ import com.code.block.feature.activity.domain.repository.ActivityRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetActivitiesUseCase(
-    private val repository: ActivityRepository,
+    private val repository: ActivityRepository
 ) {
     operator fun invoke(): Flow<PagingData<Activity>> {
         return repository.activities

@@ -18,15 +18,15 @@ fun ProfileFollowInfo(
     user: User,
     color: Color?,
     onFollowingClick: () -> Unit = {},
-    onFollowerClick: () -> Unit = {},
+    onFollowerClick: () -> Unit = {}
 ) {
     Row(
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = user.followingCount.toString(),
@@ -36,12 +36,12 @@ fun ProfileFollowInfo(
                 modifier = Modifier
                     .clickable {
                         onFollowingClick()
-                    },
+                    }
             )
             Text(
                 text = "  following",
                 style = MaterialTheme.typography.body2,
-                color = color ?: MaterialTheme.colors.onSurface,
+                color = color ?: MaterialTheme.colors.onSurface
             )
         }
 
@@ -49,7 +49,7 @@ fun ProfileFollowInfo(
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = user.followerCount.toString(),
@@ -59,12 +59,12 @@ fun ProfileFollowInfo(
                 modifier = Modifier
                     .clickable {
                         onFollowerClick()
-                    },
+                    }
             )
             Text(
                 text = "  follower(s)",
                 style = MaterialTheme.typography.body2,
-                color = color ?: MaterialTheme.colors.onSurface,
+                color = color ?: MaterialTheme.colors.onSurface
             )
         }
     }

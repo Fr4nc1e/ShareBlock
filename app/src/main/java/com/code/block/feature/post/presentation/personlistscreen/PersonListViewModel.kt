@@ -12,17 +12,17 @@ import com.code.block.core.util.ui.UiText
 import com.code.block.usecase.post.PostUseCases
 import com.code.block.usecase.profile.components.FollowUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class PersonListViewModel @Inject constructor(
     private val postUseCases: PostUseCases,
     private val followUserUseCase: FollowUserUseCase,
     private val getOwnUserIdUseCase: GetOwnUserIdUseCase,
-    savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _state = mutableStateOf(PersonListState())
     val state: State<PersonListState> = _state
@@ -51,24 +51,24 @@ class PersonListViewModel @Inject constructor(
     private fun getLikedUsers(parentId: String) {
         viewModelScope.launch {
             _state.value = _state.value.copy(
-                isLoading = true,
+                isLoading = true
             )
             postUseCases.getLikedUsersForParent(parentId).apply {
                 when (this) {
                     is Resource.Error -> {
                         _state.value = _state.value.copy(
-                            isLoading = false,
+                            isLoading = false
                         )
                         _eventFlow.emit(
                             UiEvent.SnackBarEvent(
-                                uiText = this.uiText ?: UiText.unknownError(),
-                            ),
+                                uiText = this.uiText ?: UiText.unknownError()
+                            )
                         )
                     }
                     is Resource.Success -> {
                         _state.value = _state.value.copy(
                             users = this.data ?: emptyList(),
-                            isLoading = false,
+                            isLoading = false
                         )
                     }
                 }
@@ -89,12 +89,12 @@ class PersonListViewModel @Inject constructor(
                     } else {
                         it
                     }
-                },
+                }
             )
 
             val result = followUserUseCase(
                 userId = userId,
-                isFollowing = isFollowing,
+                isFollowing = isFollowing
             )
             when (result) {
                 is Resource.Success -> Unit
@@ -106,12 +106,12 @@ class PersonListViewModel @Inject constructor(
                             } else {
                                 it
                             }
-                        },
+                        }
                     )
                     _eventFlow.emit(
                         UiEvent.SnackBarEvent(
-                            uiText = result.uiText ?: UiText.unknownError(),
-                        ),
+                            uiText = result.uiText ?: UiText.unknownError()
+                        )
                     )
                 }
             }

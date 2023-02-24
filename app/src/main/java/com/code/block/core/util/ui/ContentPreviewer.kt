@@ -24,7 +24,7 @@ fun ContentPreviewer(contentUri: Uri?) {
             .aspectRatio(1f)
             .fillMaxSize()
             .padding(SpaceSmall)
-            .clip(MaterialTheme.shapes.medium),
+            .clip(MaterialTheme.shapes.medium)
     ) {
         contentUri?.let { uri ->
             val fileExtension = MimeTypeMap
@@ -38,10 +38,10 @@ fun ContentPreviewer(contentUri: Uri?) {
                     painter = rememberAsyncImagePainter(
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(uri)
-                            .build(),
+                            .build()
                     ),
                     contentDescription = null,
-                    modifier = Modifier.matchParentSize(),
+                    modifier = Modifier.matchParentSize()
                 )
             } else {
                 NewVideoPlayer(uri = contentUri)

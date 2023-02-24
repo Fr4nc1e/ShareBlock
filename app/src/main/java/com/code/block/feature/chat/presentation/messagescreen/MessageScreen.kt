@@ -34,9 +34,9 @@ import com.code.block.core.util.ui.UiEvent
 import com.code.block.feature.chat.presentation.messagescreen.components.MessageItem
 import com.code.block.feature.chat.presentation.messagescreen.event.MessageEvent
 import com.code.block.feature.chat.presentation.messagescreen.event.MessageUpdateEvent
+import java.nio.charset.Charset
 import kotlinx.coroutines.flow.collectLatest
 import okio.ByteString.Companion.decodeBase64
-import java.nio.charset.Charset
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -45,7 +45,7 @@ fun MessageScreen(
     remoteUsername: String,
     encodedRemoteUserProfilePictureUrl: String,
     onNavigate: (String) -> Unit = {},
-    viewModel: MessageViewModel = hiltViewModel(),
+    viewModel: MessageViewModel = hiltViewModel()
 ) {
     val decodedRemoteUserProfilePictureUrl = remember {
         encodedRemoteUserProfilePictureUrl.decodeBase64()?.string(Charset.defaultCharset())
@@ -73,7 +73,7 @@ fun MessageScreen(
         viewModel.messageReceived.collect { event ->
             when (event) {
                 is MessageUpdateEvent.SingleMessageUpdate,
-                is MessageUpdateEvent.MessagePageLoaded,
+                is MessageUpdateEvent.MessagePageLoaded
                 -> {
                     if (pagingState.items.isEmpty()) {
                         return@collect
@@ -88,7 +88,7 @@ fun MessageScreen(
     }
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             StandardTopBar(
@@ -96,9 +96,9 @@ fun MessageScreen(
                     Text(
                         text = remoteUsername,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.onBackground,
+                        color = MaterialTheme.colors.onBackground
                     )
-                },
+                }
             )
 
             LazyColumn(
@@ -107,7 +107,7 @@ fun MessageScreen(
                     .weight(1f)
                     .fillMaxWidth(),
                 state = lazyListState,
-                contentPadding = PaddingValues(vertical = SpaceLarge),
+                contentPadding = PaddingValues(vertical = SpaceLarge)
             ) {
                 item { Spacer(modifier = Modifier.height(32.dp)) }
 
@@ -126,7 +126,7 @@ fun MessageScreen(
                             Alignment.CenterEnd
                         } else {
                             Alignment.CenterStart
-                        },
+                        }
                     ) {
                         MessageItem(
                             message = message,
@@ -138,7 +138,7 @@ fun MessageScreen(
                             },
                             onRemoteUserClick = {
                                 onNavigate(Screen.ProfileScreen.route + "?userId=$remoteUserId")
-                            },
+                            }
                         )
                     }
 
@@ -158,14 +158,14 @@ fun MessageScreen(
                 hint = stringResource(id = R.string.chat),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Done,
+                    imeAction = ImeAction.Done
                 ),
                 trailingIcon = {
                     IconButton(
                         onClick = {
                             viewModel.onEvent(MessageEvent.SendMessage)
                         },
-                        enabled = messageTextFiledState.error == null || !state.canSendMessage,
+                        enabled = messageTextFiledState.error == null || !state.canSendMessage
                     ) {
                         Icon(
                             imageVector = Icons.Default.Send,
@@ -174,10 +174,10 @@ fun MessageScreen(
                             } else {
                                 MaterialTheme.colors.background
                             },
-                            contentDescription = stringResource(id = R.string.send_comment),
+                            contentDescription = stringResource(id = R.string.send_comment)
                         )
                     }
-                },
+                }
             )
         }
         if (state.isLoading) {

@@ -8,14 +8,14 @@ import androidx.compose.material.icons.filled.VideoFile
 val fabItems = listOf(
     MultiFabItem(
         icon = Icons.Default.Photo,
-        label = "photo",
+        label = "photo"
     ),
     MultiFabItem(
         icon = Icons.Default.VideoFile,
-        label = "video",
+        label = "video"
     ),
     MultiFabItem(
         icon = Icons.Default.Camera,
-        label = "camera",
-    ),
+        label = "camera"
+    )
 )

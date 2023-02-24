@@ -5,5 +5,5 @@ data class UpdateProfileData(
     val bio: String,
     val gitHubUrl: String,
     val weChatUrl: String,
-    val qqUrl: String,
+    val qqUrl: String
 )

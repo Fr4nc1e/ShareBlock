@@ -10,6 +10,6 @@ interface ActivityApi {
     @GET("/api/activity/get")
     suspend fun getActivities(
         @Query("page") page: Int = 0,
-        @Query("pageSize") pageSize: Int = Constants.PAGE_SIZE_POSTS,
+        @Query("pageSize") pageSize: Int = Constants.PAGE_SIZE_POSTS
     ): List<ActivityResponse>
 }

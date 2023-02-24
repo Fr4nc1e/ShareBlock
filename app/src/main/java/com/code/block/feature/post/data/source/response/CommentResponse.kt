@@ -13,7 +13,7 @@ data class CommentResponse(
     val timestamp: Long,
     val comment: String,
     val isLiked: Boolean,
-    val likeCount: Int,
+    val likeCount: Int
 ) {
     fun toComment(): Comment {
         return Comment(
@@ -24,13 +24,13 @@ data class CommentResponse(
             profilePictureUrl = profilePictureUrl,
             formattedTime = SimpleDateFormat(
                 "MMM dd, HH:mm",
-                Locale.getDefault(),
+                Locale.getDefault()
             ).run {
                 format(timestamp)
             },
             comment = comment,
             isLiked = isLiked,
-            likeCount = likeCount,
+            likeCount = likeCount
         )
     }
 }

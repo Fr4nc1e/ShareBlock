@@ -12,13 +12,13 @@ object ShareManager {
             action = Intent.ACTION_SEND
             putExtra(
                 Intent.EXTRA_TEXT,
-                "myapp://block.com/$postId",
+                "myapp://block.com/$postId"
             )
             type = "text/plain"
         }
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(
-                createChooser(intent, "Choose an app."),
+                createChooser(intent, "Choose an app.")
             )
         }
     }

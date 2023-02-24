@@ -44,13 +44,13 @@ fun ProfileHeadSection(
     onFollowClick: () -> Unit = {},
     onFollowingClick: () -> Unit = {},
     onFollowerClick: () -> Unit = {},
-    onMessageClick: () -> Unit = {},
+    onMessageClick: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
             .wrapContentSize()
             .padding(SpaceSmall)
-            .clip(RoundedCornerShape(16.dp)),
+            .clip(RoundedCornerShape(16.dp))
     ) {
         Image(
             painter = rememberAsyncImagePainter(profile.bannerUrl),
@@ -62,17 +62,17 @@ fun ProfileHeadSection(
                     blur = 20.dp,
                     color = MaterialTheme.colors.surface,
                     offsetX = 0.5.dp,
-                    offsetY = 0.5.dp,
+                    offsetY = 0.5.dp
                 )
-                .aspectRatio(1f),
+                .aspectRatio(1f)
         )
         Box(
             modifier = Modifier.align(Alignment.Center),
-            contentAlignment = Alignment.Center,
+            contentAlignment = Alignment.Center
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
+                verticalArrangement = Arrangement.Center
             ) {
                 Image(
                     painter = rememberAsyncImagePainter(user.profilePictureUrl),
@@ -92,19 +92,19 @@ fun ProfileHeadSection(
                                     Color(0xFFFFF176),
                                     Color(0xFFAED581),
                                     Color(0xFF4DD0E1),
-                                    Color(0xFF9575CD),
-                                ),
+                                    Color(0xFF9575CD)
+                                )
                             ),
-                            shape = CircleShape,
-                        ),
+                            shape = CircleShape
+                        )
                 )
 
                 Text(
                     text = user.username,
                     style = MaterialTheme.typography.h1
                         .copy(
-                            color = MaterialTheme.colors.onSurface,
-                        ),
+                            color = MaterialTheme.colors.onSurface
+                        )
                 )
 
                 Spacer(modifier = Modifier.height(SpaceSmall))
@@ -113,7 +113,7 @@ fun ProfileHeadSection(
                     Text(
                         text = user.description,
                         style = MaterialTheme.typography.body2
-                            .copy(color = MaterialTheme.colors.onSurface),
+                            .copy(color = MaterialTheme.colors.onSurface)
                     )
                 }
 
@@ -127,7 +127,7 @@ fun ProfileHeadSection(
                     onFollowingClick = onFollowingClick,
                     onFollowerClick = onFollowerClick,
                     onFollowClick = onFollowClick,
-                    onMessageClick = onMessageClick,
+                    onMessageClick = onMessageClick
                 )
             }
         }

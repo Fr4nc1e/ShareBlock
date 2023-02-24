@@ -5,5 +5,5 @@ data class Message(
     val toId: String,
     val text: String,
     val formattedTime: String,
-    val chatId: String?,
+    val chatId: String?
 )

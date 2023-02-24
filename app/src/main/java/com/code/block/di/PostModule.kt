@@ -14,10 +14,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -40,13 +40,13 @@ object PostModule {
         postApi: PostApi,
         oneSignalService: OneSignalService,
         gson: Gson,
-        @ApplicationContext appContext: Context,
+        @ApplicationContext appContext: Context
     ): PostRepository {
         return PostRepositoryImpl(
             postApi = postApi,
             oneSignalService = oneSignalService,
             gson = gson,
-            appContext = appContext,
+            appContext = appContext
         )
     }
 
@@ -55,29 +55,29 @@ object PostModule {
     fun providePostUseCases(repository: PostRepository): PostUseCases {
         return PostUseCases(
             getPostsForFollowUseCase = GetPostsForFollowUseCase(
-                repository = repository,
+                repository = repository
             ),
             createPostUseCase = CreatePostUseCase(
-                repository = repository,
+                repository = repository
             ),
             getCommentsForPostUseCase = GetCommentsForPostUseCase(
-                repository = repository,
+                repository = repository
             ),
             getPostDetailUseCase = GetPostDetailUseCase(
-                repository = repository,
+                repository = repository
             ),
             createCommentUseCase = CreateCommentUseCase(
-                repository = repository,
+                repository = repository
             ),
             likeParentUseCase = LikeParentUseCase(
-                repository = repository,
+                repository = repository
             ),
             getLikedUsersForParent = GetLikedUsersForParent(
-                repository = repository,
+                repository = repository
             ),
             deletePost = DeletePost(
-                repository = repository,
-            ),
+                repository = repository
+            )
         )
     }
 }

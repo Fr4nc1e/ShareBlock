@@ -10,7 +10,7 @@ data class MessageDto(
     val text: String,
     val timestamp: Long,
     val chatId: String?,
-    val id: String,
+    val id: String
 ) {
     fun toMessage(): Message {
         return Message(
@@ -19,9 +19,9 @@ data class MessageDto(
             text = text,
             formattedTime = SimpleDateFormat(
                 "MMM dd, HH:mm",
-                Locale.getDefault(),
+                Locale.getDefault()
             ).format(timestamp),
-            chatId = chatId,
+            chatId = chatId
         )
     }
 }

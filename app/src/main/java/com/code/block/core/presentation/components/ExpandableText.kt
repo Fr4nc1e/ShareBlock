@@ -18,7 +18,7 @@ import com.code.block.core.util.Constants
 fun ExpandableText(
     text: String,
     modifier: Modifier = Modifier,
-    collapsedMaxLine: Int = Constants.MAX_POST_DESCRIPTION_LINES,
+    collapsedMaxLine: Int = Constants.MAX_POST_DESCRIPTION_LINES
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     var clickable by remember { mutableStateOf(false) }
@@ -28,7 +28,7 @@ fun ExpandableText(
         modifier = modifier
             .clickable(clickable) {
                 isExpanded = !isExpanded
-            },
+            }
     ) {
         Text(
             text = buildAnnotatedString {
@@ -39,8 +39,8 @@ fun ExpandableText(
                         append(text)
                         withStyle(
                             SpanStyle(
-                                color = MaterialTheme.colors.onPrimary,
-                            ),
+                                color = MaterialTheme.colors.onPrimary
+                            )
                         ) {
                             append(" ")
                             append(showLessText)
@@ -49,15 +49,15 @@ fun ExpandableText(
                         val adjustText = text
                             .substring(
                                 startIndex = 0,
-                                endIndex = lastCharIndex,
+                                endIndex = lastCharIndex
                             )
                             .dropLast(showMoreText.length)
                             .dropLastWhile { Character.isWhitespace(it) || it == '.' }
                         append(adjustText)
                         withStyle(
                             SpanStyle(
-                                color = MaterialTheme.colors.onPrimary,
-                            ),
+                                color = MaterialTheme.colors.onPrimary
+                            )
                         ) {
                             append(showMoreText)
                         }
@@ -75,7 +75,7 @@ fun ExpandableText(
                     clickable = true
                     lastCharIndex = it.getLineEnd(collapsedMaxLine - 1)
                 }
-            },
+            }
         )
     }
 }

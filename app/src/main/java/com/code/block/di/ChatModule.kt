@@ -10,10 +10,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -27,7 +27,7 @@ object ChatModule {
             observeMessages = ObserveMessages(repository),
             sendMessage = SendMessage(repository),
             initRepositoryUseCase = InitRepositoryUseCase(repository),
-            getChannelIdUseCase = GetChannelIdUseCase(repository),
+            getChannelIdUseCase = GetChannelIdUseCase(repository)
         )
     }
 
@@ -46,7 +46,7 @@ object ChatModule {
     fun provideChatRepository(client: OkHttpClient, chatApi: ChatApi): ChatRepository {
         return ChatRepositoryImpl(
             chatApi = chatApi,
-            okHttpClient = client,
+            okHttpClient = client
         )
     }
 }

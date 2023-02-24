@@ -19,16 +19,16 @@ import com.code.block.usecase.chat.ChatUseCases
 import com.code.block.usecase.profile.ProfileUseCases
 import com.tinder.scarlet.WebSocket
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.* // ktlint-disable no-wildcard-imports
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class MessageViewModel @Inject constructor(
     private val chatUseCases: ChatUseCases,
     private val savedStateHandle: SavedStateHandle,
     private val profileUseCases: ProfileUseCases,
-    private val getOwnUserIdUseCase: GetOwnUserIdUseCase,
+    private val getOwnUserIdUseCase: GetOwnUserIdUseCase
 ) : ViewModel() {
 
     private val _messageTextFieldState = mutableStateOf(TextFieldState())
@@ -60,7 +60,7 @@ class MessageViewModel @Inject constructor(
             savedStateHandle.get<String>("chatId")?.let { chatId ->
                 chatUseCases.getMessagesForChatUseCase(
                     chatId,
-                    nextPage,
+                    nextPage
                 )
             } ?: Resource.Error(uiText = UiText.unknownError())
         },
@@ -71,22 +71,22 @@ class MessageViewModel @Inject constructor(
             _pagingState.value = pagingState.value.copy(
                 items = pagingState.value.items + messages,
                 endReached = messages.isEmpty(),
-                isLoading = false,
+                isLoading = false
             )
             viewModelScope.launch {
                 _messageUpdatedEvent.emit(MessageUpdateEvent.MessagePageLoaded)
             }
-        },
+        }
     )
 
     fun onEvent(event: MessageEvent) {
         when (event) {
             is MessageEvent.EnteredMessage -> {
                 _messageTextFieldState.value = _messageTextFieldState.value.copy(
-                    text = event.messageText,
+                    text = event.messageText
                 )
                 _state.value = state.value.copy(
-                    canSendMessage = event.messageText.isNotBlank(),
+                    canSendMessage = event.messageText.isNotBlank()
                 )
             }
             MessageEvent.SendMessage -> {
@@ -110,7 +110,7 @@ class MessageViewModel @Inject constructor(
             chatUseCases.observeMessages()
                 .collect { message ->
                     _pagingState.value = pagingState.value.copy(
-                        items = pagingState.value.items + message,
+                        items = pagingState.value.items + message
                     )
                     _messageUpdatedEvent.emit(MessageUpdateEvent.SingleMessageUpdate)
                 }
@@ -141,7 +141,7 @@ class MessageViewModel @Inject constructor(
         chatUseCases.sendMessage(toId, messageTextFieldState.value.text, chatId)
         _messageTextFieldState.value = TextFieldState()
         _state.value = state.value.copy(
-            canSendMessage = false,
+            canSendMessage = false
         )
         viewModelScope.launch {
             _messageUpdatedEvent.emit(MessageUpdateEvent.MessageSent)
@@ -152,7 +152,7 @@ class MessageViewModel @Inject constructor(
         viewModelScope.launch {
             _ownProfilePicture.value = profileUseCases
                 .getProfileUseCase(
-                    getOwnUserIdUseCase(),
+                    getOwnUserIdUseCase()
                 )
                 .data
                 ?.profilePictureUrl

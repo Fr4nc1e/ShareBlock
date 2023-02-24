@@ -19,7 +19,7 @@ fun Modifier.innerShadow(
     spread: Dp = 0.dp,
     blur: Dp = 0.dp,
     offsetY: Dp = 0.dp,
-    offsetX: Dp = 0.dp,
+    offsetX: Dp = 0.dp
 ) = drawWithContent {
     drawContent()
 
@@ -37,7 +37,7 @@ fun Modifier.innerShadow(
             bottom = rect.bottom,
             cornersRadius.toPx(),
             cornersRadius.toPx(),
-            paint,
+            paint
         )
         val frameworkPaint = paint.asFrameworkPaint()
         frameworkPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
@@ -72,7 +72,7 @@ fun Modifier.innerShadow(
             bottom = bottom - spread.toPx() / 2,
             cornersRadius.toPx(),
             cornersRadius.toPx(),
-            paint,
+            paint
         )
         frameworkPaint.xfermode = null
         frameworkPaint.maskFilter = null

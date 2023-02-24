@@ -5,19 +5,19 @@ import com.code.block.feature.post.presentation.postdetailscreen.state.UserInfoS
 import com.code.block.usecase.profile.ProfileUseCases
 
 class UserInfoProvider(
-    private val profileUseCases: ProfileUseCases,
+    private val profileUseCases: ProfileUseCases
 ) {
 
     suspend fun provideUserInfo(
         userId: String,
-        userInfoState: MutableState<UserInfoState>,
+        userInfoState: MutableState<UserInfoState>
     ) {
         profileUseCases.getProfileUseCase(
-            userId,
+            userId
         ).data?.toUserInfoState()?.apply {
             userInfoState.value = userInfoState.value.copy(
                 username = this.username,
-                profilePictureUrl = this.profilePictureUrl,
+                profilePictureUrl = this.profilePictureUrl
             )
         }
     }

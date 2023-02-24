@@ -27,7 +27,7 @@ fun PostCard(
     onLikeClick: () -> Unit = {},
     onCommentClick: () -> Unit = {},
     onShareClick: () -> Unit = {},
-    onDeleteClick: () -> Unit = {},
+    onDeleteClick: () -> Unit = {}
 ) {
     var transitionState by remember {
         mutableStateOf(MutableTransitionState(LikedStates.Disappeared))
@@ -36,27 +36,27 @@ fun PostCard(
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
-        elevation = 5.dp,
+        elevation = 5.dp
     ) {
         Box {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(SpaceSmall)
-                    .clickable { onPostClick() },
+                    .clickable { onPostClick() }
             ) {
                 ActionRow(
                     post = post,
                     modifier = Modifier.fillMaxWidth(),
                     imageSize = ProfilePictureSizeSmall,
-                    onUserClick = onNavigate,
+                    onUserClick = onNavigate
                 )
 
                 Spacer(modifier = Modifier.height(SpaceSmall))
 
                 ExpandableText(
                     text = post.description,
-                    modifier = Modifier.padding(horizontal = SpaceSmall),
+                    modifier = Modifier.padding(horizontal = SpaceSmall)
                 )
 
                 Spacer(modifier = Modifier.height(SpaceSmall))
@@ -70,10 +70,10 @@ fun PostCard(
                             onDoubleTap = {
                                 transitionState = MutableTransitionState(LikedStates.Initial)
                                 onLikeClick()
-                            },
+                            }
                         )
                     },
-                    contentUrl = post.contentUrl,
+                    contentUrl = post.contentUrl
                 )
 
                 Spacer(modifier = Modifier.height(SpaceSmall))
@@ -86,12 +86,12 @@ fun PostCard(
                     onLikeClick = onLikeClick,
                     onCommentClick = onCommentClick,
                     onShareClick = onShareClick,
-                    onDeleteClick = onDeleteClick,
+                    onDeleteClick = onDeleteClick
                 )
             }
             DoubleTapToLike(
                 modifier = Modifier.align(Alignment.Center),
-                transitionState = transitionState,
+                transitionState = transitionState
             )
         }
     }

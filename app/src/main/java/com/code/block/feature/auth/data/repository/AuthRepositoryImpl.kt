@@ -12,24 +12,24 @@ import com.code.block.feature.auth.data.source.api.AuthApi
 import com.code.block.feature.auth.data.source.remote.request.CreateAccountRequest
 import com.code.block.feature.auth.data.source.remote.request.LoginRequest
 import com.code.block.feature.auth.domain.repository.AuthRepository
-import retrofit2.HttpException
 import java.io.IOException
+import retrofit2.HttpException
 
 class AuthRepositoryImpl(
     private val api: AuthApi,
-    private val sharedPreferences: SharedPreferences,
+    private val sharedPreferences: SharedPreferences
 ) : AuthRepository {
 
     // Register
     override suspend fun register(
         email: String,
         username: String,
-        password: String,
+        password: String
     ): RegisterResource {
         val request = CreateAccountRequest(
             email = email,
             username = username,
-            password = password,
+            password = password
         )
 
         return try {
@@ -37,7 +37,9 @@ class AuthRepositoryImpl(
             if (response.successful) {
                 response.message?.let {
                     Resource.Success(uiText = UiText.CallResponseText(it))
-                } ?: Resource.Success(uiText = UiText.StringResource(R.string.register_successfully))
+                } ?: Resource.Success(
+                    uiText = UiText.StringResource(R.string.register_successfully)
+                )
             } else {
                 response.message?.let {
                     Resource.Error(uiText = UiText.CallResponseText(it))
@@ -53,11 +55,11 @@ class AuthRepositoryImpl(
     // Login
     override suspend fun login(
         email: String,
-        password: String,
+        password: String
     ): LoginResource {
         val request = LoginRequest(
             email = email,
-            password = password,
+            password = password
         )
         return try {
             val response = api.login(request)

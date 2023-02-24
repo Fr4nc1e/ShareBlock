@@ -27,18 +27,18 @@ fun ProfileInteract(
     onFollowClick: () -> Unit = {},
     onFollowingClick: () -> Unit = {},
     onFollowerClick: () -> Unit = {},
-    onMessageClick: () -> Unit = {},
+    onMessageClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         ProfileFollowInfo(
             user = user,
             color = color,
             onFollowerClick = onFollowerClick,
-            onFollowingClick = onFollowingClick,
+            onFollowingClick = onFollowingClick
         )
 
         Spacer(modifier = Modifier.height(SpaceSmall))
@@ -46,7 +46,7 @@ fun ProfileInteract(
         if (!isOwnProfile) {
             Row(
                 horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 OutlinedButton(
                     onClick = {
@@ -57,9 +57,9 @@ fun ProfileInteract(
                             MaterialTheme.colors.onSurface
                         } else {
                             MaterialTheme.colors.primary
-                        },
+                        }
                     ),
-                    shape = RoundedCornerShape(50),
+                    shape = RoundedCornerShape(50)
                 ) {
                     Text(
                         text = if (isFollowing) {
@@ -72,7 +72,7 @@ fun ProfileInteract(
                         } else {
                             MaterialTheme.colors.onPrimary
                         },
-                        modifier = Modifier.padding(2.dp),
+                        modifier = Modifier.padding(2.dp)
                     )
                 }
 
@@ -83,13 +83,13 @@ fun ProfileInteract(
                         onMessageClick()
                     },
                     colors = ButtonDefaults.buttonColors(
-                        backgroundColor = MaterialTheme.colors.primary,
+                        backgroundColor = MaterialTheme.colors.primary
                     ),
-                    shape = RoundedCornerShape(50),
+                    shape = RoundedCornerShape(50)
                 ) {
                     Text(
                         text = stringResource(R.string.message),
-                        modifier = Modifier.padding(2.dp),
+                        modifier = Modifier.padding(2.dp)
                     )
                 }
             }

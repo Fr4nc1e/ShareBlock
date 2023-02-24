@@ -1,10 +1,10 @@
 package com.code.block.feature.profile.presentation.profilescreen
 
-import android.content.res.Resources.*
+import android.content.res.Resources.* // ktlint-disable no-wildcard-imports
 import android.util.Base64
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -42,7 +42,7 @@ fun ProfileScreen(
     onNavigate: (String) -> Unit = {},
     scaffoldState: ScaffoldState,
     onLogout: () -> Unit = {},
-    viewModel: ProfileViewModel = hiltViewModel(),
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val ownPagingState = viewModel.ownPagingState.value
     val likePagingState = viewModel.likePagingState.value
@@ -50,7 +50,7 @@ fun ProfileScreen(
     val chatChannelId by viewModel.chatChannelId.collectAsState(initial = null)
     val pagerState = rememberPagerState(
         initialPage = 0,
-        pageCount = 3,
+        pageCount = 3
     )
     val state = viewModel.state.value
     val context = LocalContext.current
@@ -61,7 +61,7 @@ fun ProfileScreen(
             when (it) {
                 is UiEvent.SnackBarEvent -> {
                     scaffoldState.snackbarHostState.showSnackbar(
-                        message = it.uiText.asString(context),
+                        message = it.uiText.asString(context)
                     )
                 }
                 is UiEvent.Navigate -> {
@@ -79,53 +79,62 @@ fun ProfileScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(state = scrollState),
+                .verticalScroll(state = scrollState)
         ) {
             StandardTopBar(
                 title = {
                     Text(
                         text = stringResource(R.string.profile),
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.onBackground,
+                        color = MaterialTheme.colors.onBackground
                     )
                 },
                 navActions = {
                     state.profile?.let {
                         if (it.isOwnProfile) {
                             IconButton(onClick = { viewModel.onEvent(ProfileEvent.ShowMenu) }) {
-                                Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
+                                Icon(
+                                    imageVector = Icons.Default.MoreVert,
+                                    contentDescription = null
+                                )
                             }
                             MaterialTheme(
-                                shapes = MaterialTheme.shapes.copy(medium = RoundedCornerShape(16.dp)),
+                                shapes = MaterialTheme.shapes.copy(
+                                    medium = RoundedCornerShape(16.dp)
+                                )
                             ) {
                                 DropdownMenu(
                                     expanded = state.showMenu,
-                                    onDismissRequest = { viewModel.onEvent(ProfileEvent.ShowMenu) },
+                                    onDismissRequest = { viewModel.onEvent(ProfileEvent.ShowMenu) }
                                 ) {
                                     DropdownMenuItem(
                                         onClick = {
-                                            onNavigate(Screen.EditProfileScreen.route + "/${it.userId}")
-                                        },
+                                            onNavigate(
+                                                Screen.EditProfileScreen.route + "/${it.userId}"
+                                            )
+                                        }
                                     ) {
                                         Icon(
                                             imageVector = Icons.Default.Edit,
-                                            contentDescription = null,
+                                            contentDescription = null
                                         )
                                         Text(
                                             text = "Edit profile",
-                                            color = MaterialTheme.colors.onSurface,
+                                            color = MaterialTheme.colors.onSurface
                                         )
                                     }
                                     DropdownMenuItem(
-                                        onClick = { viewModel.onEvent(ProfileEvent.ShowLogoutDialog) },
+                                        onClick = {
+                                            viewModel.onEvent(ProfileEvent.ShowLogoutDialog)
+                                        }
                                     ) {
                                         Icon(
                                             imageVector = Icons.Default.Logout,
-                                            contentDescription = null,
+                                            contentDescription = null
                                         )
                                         Text(
                                             text = "Log out",
-                                            color = MaterialTheme.colors.onSurface,
+                                            color = MaterialTheme.colors.onSurface
                                         )
                                     }
                                 }
@@ -133,14 +142,14 @@ fun ProfileScreen(
                         }
                     }
                 },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
             )
 
             Column(modifier = Modifier.fillMaxSize()) {
                 state.profile?.let { profile ->
                     val encodedProfilePictureUrl = Base64.encodeToString(
                         /* input = */ profile.profilePictureUrl.encodeToByteArray(),
-                        /* flags = */ 0,
+                        /* flags = */ 0
                     )
                     ProfileHeadSection(
                         profile = profile,
@@ -151,7 +160,7 @@ fun ProfileScreen(
                             description = profile.bio,
                             followerCount = profile.followerCount,
                             followingCount = profile.followingCount,
-                            postCount = profile.postCount,
+                            postCount = profile.postCount
                         ),
                         isOwnProfile = profile.isOwnProfile,
                         isFollowing = profile.isFollowing,
@@ -171,17 +180,17 @@ fun ProfileScreen(
                                     Screen.MessageScreen.route +
                                         "/${profile.userId}" +
                                         "/${profile.username}" +
-                                        "/$encodedProfilePictureUrl",
+                                        "/$encodedProfilePictureUrl"
                                 )
                             } else {
                                 onNavigate(
                                     Screen.MessageScreen.route +
                                         "/${profile.userId}" +
                                         "/${profile.username}" +
-                                        "/$encodedProfilePictureUrl?chatId=$chatChannelId",
+                                        "/$encodedProfilePictureUrl?chatId=$chatChannelId"
                                 )
                             }
-                        },
+                        }
                     )
                 }
 
@@ -193,7 +202,7 @@ fun ProfileScreen(
                         ownPagingState = ownPagingState,
                         likedPagingState = likePagingState,
                         commentPagingState = commentPagingState,
-                        onNavigate = onNavigate,
+                        onNavigate = onNavigate
                     )
                 }
             }
@@ -204,29 +213,29 @@ fun ProfileScreen(
         Dialog(
             onDismissRequest = {
                 viewModel.onEvent(ProfileEvent.DismissLogoutDialog)
-            },
+            }
         ) {
             Card(
                 modifier = Modifier
                     .background(
                         color = MaterialTheme.colors.surface,
-                        shape = MaterialTheme.shapes.medium,
+                        shape = MaterialTheme.shapes.medium
                     )
                     .padding(SpaceMedium)
-                    .clip(RoundedCornerShape(16.dp)),
+                    .clip(RoundedCornerShape(16.dp))
             ) {
             }
             Column(
-                modifier = Modifier.padding(SpaceMedium),
+                modifier = Modifier.padding(SpaceMedium)
             ) {
                 Text(
                     text = stringResource(id = R.string.logout),
-                    color = MaterialTheme.colors.onBackground,
+                    color = MaterialTheme.colors.onBackground
                 )
                 Spacer(modifier = Modifier.height(SpaceMedium))
                 Row(
                     horizontalArrangement = Arrangement.End,
-                    modifier = Modifier.align(End),
+                    modifier = Modifier.align(End)
                 ) {
                     Text(
                         text = stringResource(id = R.string.no).uppercase(),
@@ -234,7 +243,7 @@ fun ProfileScreen(
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.clickable {
                             viewModel.onEvent(ProfileEvent.DismissLogoutDialog)
-                        },
+                        }
                     )
                     Spacer(modifier = Modifier.width(SpaceMedium))
                     Text(
@@ -245,7 +254,7 @@ fun ProfileScreen(
                             viewModel.onEvent(ProfileEvent.Logout)
                             viewModel.onEvent(ProfileEvent.DismissLogoutDialog)
                             onLogout()
-                        },
+                        }
                     )
                 }
             }

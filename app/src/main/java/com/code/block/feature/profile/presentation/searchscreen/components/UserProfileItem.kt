@@ -30,23 +30,23 @@ fun UserProfileItem(
     ownUserId: String = "",
     actionIcon: @Composable () -> Unit = {},
     onItemClick: () -> Unit = {},
-    onActionItemClick: () -> Unit = {},
+    onActionItemClick: () -> Unit = {}
 ) {
     Card(
         modifier = modifier,
         shape = MaterialTheme.shapes.medium,
         onClick = onItemClick,
-        elevation = 5.dp,
+        elevation = 5.dp
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(
                     vertical = SpaceSmall,
-                    horizontal = SpaceMedium,
+                    horizontal = SpaceMedium
                 ),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Image(
                 painter = rememberAsyncImagePainter(user.profileImageUrl),
@@ -66,23 +66,23 @@ fun UserProfileItem(
                                 Color(0xFFFFF176),
                                 Color(0xFFAED581),
                                 Color(0xFF4DD0E1),
-                                Color(0xFF9575CD),
-                            ),
+                                Color(0xFF9575CD)
+                            )
                         ),
-                        shape = CircleShape,
-                    ),
+                        shape = CircleShape
+                    )
             )
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
                     .fillMaxWidth(0.8f)
-                    .padding(horizontal = SpaceSmall),
+                    .padding(horizontal = SpaceSmall)
             ) {
                 Text(
                     text = user.username,
                     style = MaterialTheme.typography.body1.copy(
-                        color = MaterialTheme.colors.onSurface,
-                    ),
+                        color = MaterialTheme.colors.onSurface
+                    )
                 )
 
                 Spacer(modifier = Modifier.height(SpaceSmall))
@@ -95,15 +95,15 @@ fun UserProfileItem(
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 2,
                         modifier = Modifier.heightIn(
-                            min = MaterialTheme.typography.body2.fontSize.value.dp * 3f,
-                        ),
+                            min = MaterialTheme.typography.body2.fontSize.value.dp * 3f
+                        )
                     )
                 }
             }
             if (ownUserId != user.userId) {
                 IconButton(
                     onClick = onActionItemClick,
-                    modifier = Modifier.size(IconSizeMedium),
+                    modifier = Modifier.size(IconSizeMedium)
                 ) {
                     actionIcon()
                 }

@@ -9,6 +9,6 @@ interface OneSignalService {
     @GET("/api/post/notification")
     suspend fun sendPostNotification(
         @Query("title") title: String,
-        @Query("description") description: String,
+        @Query("description") description: String
     ): SendPostNotificationResponse
 }

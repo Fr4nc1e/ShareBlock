@@ -5,11 +5,11 @@ import androidx.paging.PagingState
 import com.code.block.core.domain.model.Activity
 import com.code.block.core.util.Constants
 import com.code.block.feature.activity.data.source.api.ActivityApi
-import retrofit2.HttpException
 import java.io.IOException
+import retrofit2.HttpException
 
 class ActivitySource(
-    private val api: ActivityApi,
+    private val api: ActivityApi
 ) : PagingSource<Int, Activity>() {
 
     private var currentPage = 0
@@ -19,12 +19,12 @@ class ActivitySource(
             val nextPage = params.key ?: currentPage
             val activities = api.getActivities(
                 page = nextPage,
-                pageSize = Constants.PAGE_SIZE_POSTS,
+                pageSize = Constants.PAGE_SIZE_POSTS
             )
             LoadResult.Page(
                 data = activities.map { it.toActivity() },
                 prevKey = if (nextPage == 0) null else nextPage - 1,
-                nextKey = if (activities.isEmpty()) null else currentPage + 1,
+                nextKey = if (activities.isEmpty()) null else currentPage + 1
             ).also { currentPage++ }
         } catch (exception: IOException) {
             return LoadResult.Error(exception)

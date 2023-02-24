@@ -41,7 +41,7 @@ import com.code.block.feature.profile.presentation.searchscreen.components.UserP
 @Composable
 fun SearchScreen(
     onNavigate: (String) -> Unit = {},
-    viewModel: SearchScreeViewModel = hiltViewModel(),
+    viewModel: SearchScreeViewModel = hiltViewModel()
 ) {
     val state = viewModel.searchState
     val focusRequester = remember { FocusRequester() }
@@ -52,12 +52,12 @@ fun SearchScreen(
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize()
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(SpaceMedium),
+                    .padding(SpaceMedium)
             ) {
                 StandardTextField(
                     modifier = Modifier
@@ -68,14 +68,14 @@ fun SearchScreen(
                     error = "",
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Search,
+                        imeAction = ImeAction.Search
                     ),
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Rounded.Search,
                             contentDescription = stringResource(R.string.search_icon),
                             tint = MaterialTheme.colors.onBackground,
-                            modifier = Modifier.size(IconSizeMedium),
+                            modifier = Modifier.size(IconSizeMedium)
                         )
                     },
                     trailingIcon = {
@@ -83,13 +83,13 @@ fun SearchScreen(
                             IconButton(
                                 onClick = {
                                     viewModel.onEvent(SearchEvent.ClearSearchText)
-                                },
+                                }
                             ) {
                                 Icon(
                                     imageVector = Icons.Outlined.Close,
                                     contentDescription = stringResource(id = R.string.clear_text),
                                     tint = MaterialTheme.colors.onBackground,
-                                    modifier = Modifier.size(IconSizeMedium),
+                                    modifier = Modifier.size(IconSizeMedium)
                                 )
                             }
                         }
@@ -97,13 +97,13 @@ fun SearchScreen(
                     onValueChange = {
                         viewModel.onEvent(SearchEvent.EnteredSearchText(it))
                         viewModel.onEvent(SearchEvent.Search)
-                    },
+                    }
                 )
 
                 Spacer(modifier = Modifier.height(SpaceMedium))
 
                 LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     items(state.value.userItems) {
                         UserProfileItem(
@@ -111,22 +111,24 @@ fun SearchScreen(
                             actionIcon = {
                                 IconButton(
                                     onClick = {
-                                        viewModel.onEvent(SearchEvent.FollowMotion(userId = it.userId))
+                                        viewModel.onEvent(
+                                            SearchEvent.FollowMotion(userId = it.userId)
+                                        )
                                     },
-                                    modifier = Modifier.size(IconSizeMedium),
+                                    modifier = Modifier.size(IconSizeMedium)
                                 ) {
                                     Icon(
                                         imageVector = if (it.isFollowing) {
                                             Icons.Default.PersonRemove
                                         } else { Icons.Default.PersonAdd },
                                         contentDescription = null,
-                                        tint = MaterialTheme.colors.onBackground,
+                                        tint = MaterialTheme.colors.onBackground
                                     )
                                 }
                             },
                             onItemClick = {
                                 onNavigate(Screen.ProfileScreen.route + "?userId=${it.userId}")
-                            },
+                            }
                         )
                         Spacer(modifier = Modifier.height(SpaceMedium))
                     }
@@ -135,7 +137,7 @@ fun SearchScreen(
         }
         if (state.value.isLoading) {
             CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center),
+                modifier = Modifier.align(Alignment.Center)
             )
         }
     }

@@ -45,17 +45,17 @@ fun Hub() {
         modifier = Modifier.fillMaxSize(),
         onFabClick = {
             navController.navigate(Screen.CreatePostScreen.route)
-        },
+        }
     ) {
         NavHost(
             navController = navController,
             startDestination = Screen.SplashScreen.route,
-            modifier = Modifier.padding(it),
+            modifier = Modifier.padding(it)
         ) {
             composable(Screen.SplashScreen.route) {
                 SplashScreen(
                     onPopBackStack = navController::popBackStack,
-                    onNavigate = navController::navigate,
+                    onNavigate = navController::navigate
                 )
             }
 
@@ -65,11 +65,11 @@ fun Hub() {
                     onLogin = {
                         navController.popBackStack(
                             route = Screen.LoginScreen.route,
-                            inclusive = true,
+                            inclusive = true
                         )
                         navController.navigate(route = Screen.HomeScreen.route)
                     },
-                    scaffoldState = scaffoldState,
+                    scaffoldState = scaffoldState
                 )
             }
 
@@ -78,30 +78,33 @@ fun Hub() {
                     onRegister = {
                         navController.popBackStack(
                             route = Screen.RegisterScreen.route,
-                            inclusive = true,
+                            inclusive = true
                         )
                         navController.navigate(route = Screen.LoginScreen.route)
                     },
-                    scaffoldState = scaffoldState,
+                    scaffoldState = scaffoldState
                 )
             }
 
             composable(Screen.HomeScreen.route) {
                 HomeScreen(
                     onNavigate = navController::navigate,
-                    scaffoldState = scaffoldState,
+                    scaffoldState = scaffoldState
                 )
             }
 
             composable(Screen.ChatScreen.route) {
                 ChatScreen(
-                    onNavigate = navController::navigate,
+                    onNavigate = navController::navigate
                 )
             }
 
             composable(
                 route = Screen.MessageScreen.route +
-                    "/{remoteUserId}/{remoteUsername}/{remoteUserProfilePictureUrl}?chatId={chatId}",
+                    "/{remoteUserId}" +
+                    "/{remoteUsername}" +
+                    "/{remoteUserProfilePictureUrl}" +
+                    "?chatId={chatId}",
                 arguments = listOf(
                     navArgument("chatId") {
                         type = NavType.StringType
@@ -115,8 +118,8 @@ fun Hub() {
                     },
                     navArgument("remoteUserProfilePictureUrl") {
                         type = NavType.StringType
-                    },
-                ),
+                    }
+                )
             ) { navBackStackEntry ->
                 val remoteUserId = navBackStackEntry
                     .arguments?.getString("remoteUserId")!!
@@ -128,13 +131,13 @@ fun Hub() {
                     remoteUserId = remoteUserId,
                     remoteUsername = remoteUsername,
                     encodedRemoteUserProfilePictureUrl = remoteUserProfilePictureUrl,
-                    onNavigate = navController::navigate,
+                    onNavigate = navController::navigate
                 )
             }
 
             composable(Screen.ActivityScreen.route) {
                 ActivityScreen(
-                    onNavigate = navController::navigate,
+                    onNavigate = navController::navigate
                 )
             }
 
@@ -145,8 +148,8 @@ fun Hub() {
                         type = NavType.StringType
                         nullable = true
                         defaultValue = null
-                    },
-                ),
+                    }
+                )
             ) { backStackEntry ->
                 ProfileScreen(
                     userId = backStackEntry.arguments?.getString("userId"),
@@ -155,7 +158,7 @@ fun Hub() {
                         navController.popBackStack()
                         navController.navigate(route = Screen.LoginScreen.route)
                     },
-                    scaffoldState = scaffoldState,
+                    scaffoldState = scaffoldState
                 )
             }
 
@@ -164,19 +167,19 @@ fun Hub() {
                 arguments = listOf(
                     navArgument(name = "userId") {
                         type = NavType.StringType
-                    },
-                ),
+                    }
+                )
             ) {
                 EditProfileScreen(
                     onNavigateUp = navController::navigateUp,
-                    scaffoldState = scaffoldState,
+                    scaffoldState = scaffoldState
                 )
             }
 
             composable(Screen.CreatePostScreen.route) {
                 CreatePostScreen(
                     onNavigateUp = navController::navigateUp,
-                    scaffoldState = scaffoldState,
+                    scaffoldState = scaffoldState
                 )
             }
 
@@ -185,32 +188,33 @@ fun Hub() {
             }
 
             composable(
-                route = Screen.PostDetailScreen.route + "/{postId}?shouldShowKeyboard={shouldShowKeyboard}",
+                route = Screen.PostDetailScreen.route + "/{postId}" +
+                    "?shouldShowKeyboard={shouldShowKeyboard}",
                 arguments = listOf(
                     navArgument(
-                        name = "postId",
+                        name = "postId"
                     ) {
                         type = NavType.StringType
                     },
                     navArgument(
-                        name = "shouldShowKeyboard",
+                        name = "shouldShowKeyboard"
                     ) {
                         type = NavType.BoolType
                         defaultValue = false
-                    },
+                    }
                 ),
                 deepLinks = listOf(
                     navDeepLink {
                         action = Intent.ACTION_VIEW
                         uriPattern = "myapp://block.com/{postId}"
-                    },
-                ),
+                    }
+                )
             ) { it1 ->
                 val shouldShowKeyboard = it1.arguments?.getBoolean("showShowKeyboard") ?: false
                 PostDetailScreen(
                     onNavigate = navController::navigate,
                     scaffoldState = scaffoldState,
-                    shouldShowKeyboard = shouldShowKeyboard,
+                    shouldShowKeyboard = shouldShowKeyboard
                 )
             }
 
@@ -219,12 +223,12 @@ fun Hub() {
                 arguments = listOf(
                     navArgument("parentId") {
                         type = NavType.StringType
-                    },
-                ),
+                    }
+                )
             ) {
                 PersonListScreen(
                     onNavigate = navController::navigate,
-                    scaffoldState = scaffoldState,
+                    scaffoldState = scaffoldState
                 )
             }
 
@@ -236,12 +240,12 @@ fun Hub() {
                     },
                     navArgument("followType") {
                         type = NavType.StringType
-                    },
-                ),
+                    }
+                )
             ) {
                 FollowInfoScreen(
                     onNavigate = navController::navigate,
-                    scaffoldState = scaffoldState,
+                    scaffoldState = scaffoldState
                 )
             }
         }
@@ -252,9 +256,11 @@ fun shouldShowBottomBar(backStackEntry: NavBackStackEntry?): Boolean {
     val doesRouteMatch = backStackEntry?.destination?.route in listOf(
         Screen.HomeScreen.route,
         Screen.ChatScreen.route,
-        Screen.ActivityScreen.route,
+        Screen.ActivityScreen.route
     )
-    val isOwnProfile = backStackEntry?.destination?.route == "${Screen.ProfileScreen.route}?userId={userId}" &&
+    val isOwnProfile = backStackEntry
+        ?.destination
+        ?.route == "${Screen.ProfileScreen.route}?userId={userId}" &&
         backStackEntry.arguments?.getString("userId") == null
     return doesRouteMatch || isOwnProfile
 }

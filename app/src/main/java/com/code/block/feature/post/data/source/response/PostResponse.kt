@@ -15,7 +15,7 @@ data class PostResponse(
     val likeCount: Int,
     val commentCount: Int,
     val isLiked: Boolean,
-    val isOwnPost: Boolean,
+    val isOwnPost: Boolean
 ) {
     fun toPost(): Post {
         return Post(
@@ -26,7 +26,7 @@ data class PostResponse(
             profilePictureUrl = profilePictureUrl,
             timestamp = SimpleDateFormat(
                 "MMM dd, HH:mm",
-                Locale.getDefault(),
+                Locale.getDefault()
             ).run {
                 format(timestamp)
             },
@@ -34,7 +34,7 @@ data class PostResponse(
             likeCount = likeCount,
             commentCount = commentCount,
             isLiked = isLiked,
-            isOwnPost = isOwnPost,
+            isOwnPost = isOwnPost
         )
     }
 }

@@ -9,5 +9,5 @@ data class ChatUseCases(
     val observeMessages: ObserveMessages,
     val sendMessage: SendMessage,
     val initRepositoryUseCase: InitRepositoryUseCase,
-    val getChannelIdUseCase: GetChannelIdUseCase,
+    val getChannelIdUseCase: GetChannelIdUseCase
 )

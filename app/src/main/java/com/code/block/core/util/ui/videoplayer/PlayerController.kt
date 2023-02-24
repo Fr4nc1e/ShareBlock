@@ -25,7 +25,7 @@ fun PlayerController(
     bufferedPercentage: () -> Int,
     playbackState: () -> Int,
     onSeekChanged: (timeMs: Float) -> Unit,
-    onMuteClick: () -> Unit,
+    onMuteClick: () -> Unit
 ) {
     val visible = remember(isVisible()) { isVisible() }
 
@@ -33,7 +33,7 @@ fun PlayerController(
         modifier = modifier,
         visible = visible,
         enter = fadeIn(),
-        exit = fadeOut(),
+        exit = fadeOut()
     ) {
         Box(modifier = Modifier.background(Color.Black.copy(alpha = 0.6f))) {
             CenterController(
@@ -42,7 +42,7 @@ fun PlayerController(
                 onReplayClick = onReplayClick,
                 onForwardClick = onForwardClick,
                 onPauseToggle = onPauseToggle,
-                playbackState = playbackState,
+                playbackState = playbackState
             )
 
             BottomController(
@@ -54,21 +54,21 @@ fun PlayerController(
                         slideInVertically(
                             initialOffsetY = { fullHeight: Int ->
                                 fullHeight
-                            },
+                            }
                         ),
                         exit =
                         slideOutVertically(
                             targetOffsetY = { fullHeight: Int ->
                                 fullHeight
-                            },
-                        ),
+                            }
+                        )
                     ),
                 totalDuration = totalDuration,
                 currentTime = currentTime,
                 isMute = isMute,
                 bufferedPercentage = bufferedPercentage,
                 onSeekChanged = onSeekChanged,
-                onMuteClick = onMuteClick,
+                onMuteClick = onMuteClick
             )
         }
     }

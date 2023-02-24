@@ -7,14 +7,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.code.block.usecase.activity.GetActivitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.* // ktlint-disable no-wildcard-imports
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class ActivityViewModel @Inject constructor(
-    getActivitiesUseCase: GetActivitiesUseCase,
+    getActivitiesUseCase: GetActivitiesUseCase
 ) : ViewModel() {
 
     val activities = getActivitiesUseCase()
@@ -36,7 +36,7 @@ class ActivityViewModel @Inject constructor(
     }
 
     fun refresh(
-        onRefresh: () -> Unit = {},
+        onRefresh: () -> Unit = {}
     ) {
         viewModelScope.launch {
             _isRefreshing.emit(true)

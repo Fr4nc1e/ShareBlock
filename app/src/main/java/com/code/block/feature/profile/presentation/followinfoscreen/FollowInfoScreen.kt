@@ -32,7 +32,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun FollowInfoScreen(
     onNavigate: (String) -> Unit = {},
     scaffoldState: ScaffoldState,
-    viewModel: FollowInfoViewModel = hiltViewModel(),
+    viewModel: FollowInfoViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
     val context = LocalContext.current
@@ -41,7 +41,7 @@ fun FollowInfoScreen(
             when (event) {
                 is UiEvent.SnackBarEvent -> {
                     scaffoldState.snackbarHostState.showSnackbar(
-                        event.uiText.asString(context),
+                        event.uiText.asString(context)
                     )
                 }
                 else -> Unit
@@ -50,20 +50,20 @@ fun FollowInfoScreen(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
     ) {
         StandardTopBar(
             title = {
                 Text(
                     text = stringResource(id = R.string.follow_info),
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.onBackground,
+                    color = MaterialTheme.colors.onBackground
                 )
-            },
+            }
         )
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(SpaceLarge),
+            contentPadding = PaddingValues(SpaceLarge)
         ) {
             items(state.users) {
                 UserProfileItem(
@@ -78,7 +78,7 @@ fun FollowInfoScreen(
                             },
                             contentDescription = null,
                             tint = MaterialTheme.colors.onBackground,
-                            modifier = Modifier.size(IconSizeMedium),
+                            modifier = Modifier.size(IconSizeMedium)
                         )
                     },
                     onItemClick = {
@@ -86,7 +86,7 @@ fun FollowInfoScreen(
                     },
                     onActionItemClick = {
                         viewModel.onEvent(FollowInfoEvent.FollowUser(it.userId))
-                    },
+                    }
                 )
                 Spacer(modifier = Modifier.height(SpaceMedium))
             }
