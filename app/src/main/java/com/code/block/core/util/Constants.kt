@@ -10,9 +10,6 @@ object Constants {
     const val PAGE_SIZE_POSTS = 20
     const val RECONNECT_INTERVAL = 5000L
     const val ONESIGNAL_APP_ID = "ec3c3755-1b13-4565-a0ab-40190f974b80"
-    const val BASE_URL = "http://172.28.188.188:8081/"
-    const val WS_URL = "ws://172.28.188.188:8081/"
-
-//    const val WS_URL = "ws://47.115.229.205:8081/"
-//    const val BASE_URL = "http://47.115.229.205:8081/"
+    const val BASE_URL = "http://172.28.140.196:8081/"
+    const val WS_URL = "ws://172.28.140.196:8081/"
 }

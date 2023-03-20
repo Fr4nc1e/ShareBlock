@@ -2,15 +2,12 @@ package com.code.block.core.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.code.block.core.domain.model.BottomNavItem
 
@@ -21,19 +18,9 @@ fun StandardBottomBar(
 ) {
     if (showBottomBar) {
         BottomAppBar(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(
-                    RoundedCornerShape(
-                        200.dp,
-                        200.dp,
-                        0.dp,
-                        0.dp
-                    )
-                ),
+            modifier = Modifier.fillMaxWidth(),
             backgroundColor = MaterialTheme.colors.surface,
-            cutoutShape = CircleShape,
-            elevation = 5.dp
+            cutoutShape = CircleShape
         ) {
             BottomNavigation {
                 BottomNavItem.values().forEachIndexed { _, bottomNavItem ->

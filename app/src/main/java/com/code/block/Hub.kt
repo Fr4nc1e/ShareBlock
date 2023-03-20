@@ -1,8 +1,6 @@
 package com.code.block
 
 import android.content.Intent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,7 +31,9 @@ import com.code.block.feature.profile.presentation.profilescreen.ProfileScreen
 import com.code.block.feature.profile.presentation.searchscreen.SearchScreen
 
 @Composable
-fun Hub() {
+fun Hub(
+    modifier: Modifier
+) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val scaffoldState = rememberScaffoldState()
@@ -42,15 +42,14 @@ fun Hub() {
         navController = navController,
         showBottomBar = shouldShowBottomBar(navBackStackEntry),
         state = scaffoldState,
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier,
         onFabClick = {
             navController.navigate(Screen.CreatePostScreen.route)
         }
     ) {
         NavHost(
             navController = navController,
-            startDestination = Screen.SplashScreen.route,
-            modifier = Modifier.padding(it)
+            startDestination = Screen.SplashScreen.route
         ) {
             composable(Screen.SplashScreen.route) {
                 SplashScreen(

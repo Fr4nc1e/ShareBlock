@@ -31,7 +31,6 @@ import com.code.block.core.util.ui.asString
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterialApi::class)
-@Suppress("OPT_IN_IS_NOT_ENABLED")
 @Composable
 fun HomeScreen(
     onNavigate: (String) -> Unit = {},
@@ -133,7 +132,8 @@ fun HomeScreen(
                             },
                             onCommentClick = {
                                 onNavigate(
-                                    Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true"
+                                    Screen.PostDetailScreen.route +
+                                        "/${post.id}?shouldShowKeyboard=true"
                                 )
                             },
                             onShareClick = {
